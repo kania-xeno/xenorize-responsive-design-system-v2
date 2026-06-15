@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Button — Large — QA Preview</title>
+<link rel="stylesheet" href="../../design-tokens/tokens.css" />
+<link rel="stylesheet" href="./Button.css" />
+<style>
+  body {
+    font-family: var(--font-family-body);
+    padding: 24px;
+    background: #ffffff;
+  }
+  .qa-grid {
+    display: grid;
+    grid-template-columns: repeat(8, max-content);
+    gap: 12px 24px;
+    align-items: center;
+  }
+  .qa-block {
+    margin-bottom: 32px;
+  }
+  .qa-block h3 {
+    font-family: var(--font-family-body);
+    font-size: 14px;
+    color: #888;
+    margin: 0 0 12px;
+  }
+
+  /* ---- QA-only state simulation classes (mirror hover/focus rules) ---- */
+  /* Filled */
+  .qa-hover.button--filled.button--primary { background: var(--button-fill-primary-bg-hover); }
+  .qa-hover.button--filled.button--error { background: var(--button-fill-destructive-bg-hover); }
+  .qa-hover.button--filled.button--neutral { background: var(--button-fill-neutral-bg-hover); }
+  /* Stroke */
+  .qa-hover.button--stroke.button--primary { background: var(--button-stroke-primary-bg-hover); border-color: var(--button-stroke-primary-border-hover); }
+  .qa-hover.button--stroke.button--error { background: var(--button-stroke-error-bg-hover); border-color: var(--button-stroke-error-border-hover); }
+  .qa-hover.button--stroke.button--neutral { background: var(--button-stroke-neutral-bg-hover); border-color: var(--button-stroke-neutral-border-hover); }
+  /* Lighter */
+  .qa-hover.button--lighter.button--primary { background: var(--button-lighter-primary-bg-hover); }
+  .qa-hover.button--lighter.button--error { background: var(--button-lighter-error-bg-hover); }
+  .qa-hover.button--lighter.button--neutral { background: var(--button-lighter-neutral-bg-hover); }
+  /* Ghost */
+  .qa-hover.button--ghost.button--primary { background: var(--button-ghost-primary-bg-hover); }
+  .qa-hover.button--ghost.button--error { background: var(--button-ghost-error-bg-hover); }
+  .qa-hover.button--ghost.button--neutral { background: var(--button-ghost-neutral-bg-hover); }
+
+  /* Focus ring simulation (same as :focus-visible) */
+  .qa-focus.button--primary { border-color: var(--button-focus-ring-primary); box-shadow: var(--shadow-focus-ring-primary); }
+  .qa-focus.button--error { border-color: var(--button-focus-ring-error); box-shadow: var(--shadow-focus-ring-error); }
+  .qa-focus.button--neutral { border-color: var(--button-focus-ring-neutral); box-shadow: var(--shadow-focus-ring-neutral); }
+</style>
+</head>
+<body>
+
+<!-- ============ PRIMARY ============ -->
+<div class="qa-block">
+  <h3>Primary</h3>
+  <div class="qa-grid">
+    <!-- Default row -->
+    <button class="button button--filled button--primary">Button</button>
+    <button class="button button--filled button--primary button--onlyIcon" aria-label="icon">▢</button>
+    <button class="button button--stroke button--primary">Button</button>
+    <button class="button button--stroke button--primary button--onlyIcon" aria-label="icon">▢</button>
+    <button class="button button--lighter button--primary">Button</button>
+    <button class="button button--lighter button--primary button--onlyIcon" aria-label="icon">▢</button>
+    <button class="button button--ghost button--primary">Button</button>
+    <button class="button button--ghost button--primary button--onlyIcon" aria-label="icon">▢</button>
+
+    <!-- Hover row -->
+    <button class="button button--filled button--primary qa-hover">Button</button>
+    <button class="button button--filled button--primary button--onlyIcon qa-hover" aria-label="icon">▢</button>
+    <button class="button button--stroke button--primary qa-hover">Button</button>
+    <button class="button button--stroke button--primary button--onlyIcon qa-hover" aria-label="icon">▢</button>
+    <button class="button button--lighter button--primary qa-hover">Button</button>
+    <button class="button button--lighter button--primary button--onlyIcon qa-hover" aria-label="icon">▢</button>
+    <button class="button button--ghost button--primary qa-hover">Button</button>
+    <button class="button button--ghost button--primary button--onlyIcon qa-hover" aria-label="icon">▢</button>
+
+    <!-- Focus row -->
+    <button class="button button--filled button--primary qa-focus">Button</button>
+    <button class="button button--filled button--primary button--onlyIcon qa-focus" aria-label="icon">▢</button>
+    <button class="button button--stroke button--primary qa-focus">Button</button>
+    <button class="button button--stroke button--primary button--onlyIcon qa-focus" aria-label="icon">▢</button>
+    <button class="button button--lighter button--primary qa-focus">Button</button>
+    <button class="button button--lighter button--primary button--onlyIcon qa-focus" aria-label="icon">▢</button>
+    <button class="button button--ghost button--primary qa-focus">Button</button>
+    <button class="button button--ghost button--primary button--onlyIcon qa-focus" aria-label="icon">▢</button>
+
+    <!-- Disabled row -->
+    <button class="button button--filled button--primary" disabled>Button</button>
+    <button class="button button--filled button--primary button--onlyIcon" disabled aria-label="icon">▢</button>
+    <button class="button button--stroke button--primary" disabled>Button</button>
+    <button class="button button--stroke button--primary button--onlyIcon" disabled aria-label="icon">▢</button>
+    <button class="button button--lighter button--primary" disabled>Button</button>
+    <button class="button button--lighter button--primary button--onlyIcon" disabled aria-label="icon">▢</button>
+    <button class="button button--ghost button--primary" disabled>Button</button>
+    <button class="button button--ghost button--primary button--onlyIcon" disabled aria-label="icon">▢</button>
+  </div>
+</div>
+
+<!-- ============ NEUTRAL ============ -->
+<div class="qa-block">
+  <h3>Neutral</h3>
+  <div class="qa-grid">
+    <button class="button button--filled button--neutral">Button</button>
+    <button class="button button--filled button--neutral button--onlyIcon" aria-label="icon">▢</button>
+    <button class="button button--stroke button--neutral">Button</button>
+    <button class="button button--stroke button--neutral button--onlyIcon" aria-label="icon">▢</button>
+    <button class="button button--lighter button--neutral">Button</button>
+    <button class="button button--lighter button--neutral button--onlyIcon" aria-label="icon">▢</button>
+    <button class="button button--ghost button--neutral">Button</button>
+    <button class="button button--ghost button--neutral button--onlyIcon" aria-label="icon">▢</button>
+
+    <button class="button button--filled button--neutral qa-hover">Button</button>
+    <button class="button button--filled button--neutral button--onlyIcon qa-hover" aria-label="icon">▢</button>
+    <button class="button button--stroke button--neutral qa-hover">Button</button>
+    <button class="button button--stroke button--neutral button--onlyIcon qa-hover" aria-label="icon">▢</button>
+    <button class="button button--lighter button--neutral qa-hover">Button</button>
+    <button class="button button--lighter button--neutral button--onlyIcon qa-hover" aria-label="icon">▢</button>
+    <button class="button button--ghost button--neutral qa-hover">Button</button>
+    <button class="button button--ghost button--neutral button--onlyIcon qa-hover" aria-label="icon">▢</button>
+
+    <button class="button button--filled button--neutral qa-focus">Button</button>
+    <button class="button button--filled button--neutral button--onlyIcon qa-focus" aria-label="icon">▢</button>
+    <button class="button button--stroke button--neutral qa-focus">Button</button>
+    <button class="button button--stroke button--neutral button--onlyIcon qa-focus" aria-label="icon">▢</button>
+    <button class="button button--lighter button--neutral qa-focus">Button</button>
+    <button class="button button--lighter button--neutral button--onlyIcon qa-focus" aria-label="icon">▢</button>
+    <button class="button button--ghost button--neutral qa-focus">Button</button>
+    <button class="button button--ghost button--neutral button--onlyIcon qa-focus" aria-label="icon">▢</button>
+
+    <button class="button button--filled button--neutral" disabled>Button</button>
+    <button class="button button--filled button--neutral button--onlyIcon" disabled aria-label="icon">▢</button>
+    <button class="button button--stroke button--neutral" disabled>Button</button>
+    <button class="button button--stroke button--neutral button--onlyIcon" disabled aria-label="icon">▢</button>
+    <button class="button button--lighter button--neutral" disabled>Button</button>
+    <button class="button button--lighter button--neutral button--onlyIcon" disabled aria-label="icon">▢</button>
+    <button class="button button--ghost button--neutral" disabled>Button</button>
+    <button class="button button--ghost button--neutral button--onlyIcon" disabled aria-label="icon">▢</button>
+  </div>
+</div>
+
+<!-- ============ ERROR ============ -->
+<div class="qa-block">
+  <h3>Error</h3>
+  <div class="qa-grid">
+    <button class="button button--filled button--error">Button</button>
+    <button class="button button--filled button--error button--onlyIcon" aria-label="icon">▢</button>
+    <button class="button button--stroke button--error">Button</button>
+    <button class="button button--stroke button--error button--onlyIcon" aria-label="icon">▢</button>
+    <button class="button button--lighter button--error">Button</button>
+    <button class="button button--lighter button--error button--onlyIcon" aria-label="icon">▢</button>
+    <button class="button button--ghost button--error">Button</button>
+    <button class="button button--ghost button--error button--onlyIcon" aria-label="icon">▢</button>
+
+    <button class="button button--filled button--error qa-hover">Button</button>
+    <button class="button button--filled button--error button--onlyIcon qa-hover" aria-label="icon">▢</button>
+    <button class="button button--stroke button--error qa-hover">Button</button>
+    <button class="button button--stroke button--error button--onlyIcon qa-hover" aria-label="icon">▢</button>
+    <button class="button button--lighter button--error qa-hover">Button</button>
+    <button class="button button--lighter button--error button--onlyIcon qa-hover" aria-label="icon">▢</button>
+    <button class="button button--ghost button--error qa-hover">Button</button>
+    <button class="button button--ghost button--error button--onlyIcon qa-hover" aria-label="icon">▢</button>
+
+    <button class="button button--filled button--error qa-focus">Button</button>
+    <button class="button button--filled button--error button--onlyIcon qa-focus" aria-label="icon">▢</button>
+    <button class="button button--stroke button--error qa-focus">Button</button>
+    <button class="button button--stroke button--error button--onlyIcon qa-focus" aria-label="icon">▢</button>
+    <button class="button button--lighter button--error qa-focus">Button</button>
+    <button class="button button--lighter button--error button--onlyIcon qa-focus" aria-label="icon">▢</button>
+    <button class="button button--ghost button--error qa-focus">Button</button>
+    <button class="button button--ghost button--error button--onlyIcon qa-focus" aria-label="icon">▢</button>
+
+    <button class="button button--filled button--error" disabled>Button</button>
+    <button class="button button--filled button--error button--onlyIcon" disabled aria-label="icon">▢</button>
+    <button class="button button--stroke button--error" disabled>Button</button>
+    <button class="button button--stroke button--error button--onlyIcon" disabled aria-label="icon">▢</button>
+    <button class="button button--lighter button--error" disabled>Button</button>
+    <button class="button button--lighter button--error button--onlyIcon" disabled aria-label="icon">▢</button>
+    <button class="button button--ghost button--error" disabled>Button</button>
+    <button class="button button--ghost button--error button--onlyIcon" disabled aria-label="icon">▢</button>
+  </div>
+</div>
+
+</body>
+</html>

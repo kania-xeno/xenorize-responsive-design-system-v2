@@ -1,0 +1,7 @@
+@import "./design-tokens/tokens.css";
+
+body {
+  margin: 0;
+  background: #ffffff;
+  font-family: var(--font-family-body);
+}
