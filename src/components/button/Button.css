@@ -1,5 +1,8 @@
 /* Button — Large
-   Source of truth: design-tokens/tokens.css (import it once at app root) */
+   Source of truth: design-tokens/tokens.css (import it once at app root)
+   Variants (match Figma "🏵️ Style"): filled | outline | lighter | ghost
+   Types   (match Figma "🧩 Type"):    primary | neutral | error
+   States  (match Figma "📌 State"):   default | hover | focus | disabled  */
 
 .button {
   display: inline-flex;
@@ -62,28 +65,12 @@
 .button--filled.button--primary:hover:not(:disabled) {
   background: var(--button-fill-primary-bg-hover);
 }
-.button--filled.button--primary:active:not(:disabled) {
-  background: var(--button-fill-primary-bg-active);
-}
-.button--filled.button--secondary {
-  background: var(--button-fill-secondary-bg);
-  color: var(--button-fill-secondary-text);
-}
-.button--filled.button--secondary:hover:not(:disabled) {
-  background: var(--button-fill-secondary-bg-hover);
-}
-.button--filled.button--secondary:active:not(:disabled) {
-  background: var(--button-fill-secondary-bg-active);
-}
 .button--filled.button--error {
   background: var(--button-fill-destructive-bg);
   color: var(--button-fill-destructive-text);
 }
 .button--filled.button--error:hover:not(:disabled) {
   background: var(--button-fill-destructive-bg-hover);
-}
-.button--filled.button--error:active:not(:disabled) {
-  background: var(--button-fill-destructive-bg-active);
 }
 .button--filled.button--neutral {
   background: var(--button-fill-neutral-bg);
@@ -92,40 +79,38 @@
 .button--filled.button--neutral:hover:not(:disabled) {
   background: var(--button-fill-neutral-bg-hover);
 }
-.button--filled.button--neutral:active:not(:disabled) {
-  background: var(--button-fill-neutral-bg-active);
-}
 
-/* ---------- Stroke ---------- */
-.button--stroke {
+/* ---------- Outline (transparent bg, 1px border) ----------
+   Maps to Figma "Stroke" style. Uses --button-stroke-* tokens.  */
+.button--outline {
   background: transparent;
 }
-.button--stroke.button--primary {
+.button--outline.button--primary {
   border-color: var(--button-stroke-primary-border);
   color: var(--button-stroke-primary-text);
 }
-.button--stroke.button--primary:hover:not(:disabled) {
+.button--outline.button--primary:hover:not(:disabled) {
   background: var(--button-stroke-primary-bg-hover);
   border-color: var(--button-stroke-primary-border-hover);
 }
-.button--stroke.button--error {
+.button--outline.button--error {
   border-color: var(--button-stroke-error-border);
   color: var(--button-stroke-error-text);
 }
-.button--stroke.button--error:hover:not(:disabled) {
+.button--outline.button--error:hover:not(:disabled) {
   background: var(--button-stroke-error-bg-hover);
   border-color: var(--button-stroke-error-border-hover);
 }
-.button--stroke.button--neutral {
+.button--outline.button--neutral {
   border-color: var(--button-stroke-neutral-border);
   color: var(--button-stroke-neutral-text);
 }
-.button--stroke.button--neutral:hover:not(:disabled) {
+.button--outline.button--neutral:hover:not(:disabled) {
   background: var(--button-stroke-neutral-bg-hover);
   border-color: var(--button-stroke-neutral-border-hover);
 }
 
-/* ---------- Lighter ---------- */
+/* ---------- Lighter (tinted bg, no border) ---------- */
 .button--lighter.button--primary {
   background: var(--button-lighter-primary-bg);
   color: var(--button-lighter-primary-text);
@@ -148,50 +133,7 @@
   background: var(--button-lighter-neutral-bg-hover);
 }
 
-/* ---------- Outline (transparent bg, border, primary + secondary only) ---------- */
-.button--outline {
-  background: transparent;
-}
-.button--outline.button--primary {
-  border-color: var(--button-outline-primary-border);
-  color: var(--button-outline-primary-text);
-}
-.button--outline.button--primary:hover:not(:disabled) {
-  background: var(--button-outline-primary-bg-hover);
-  border-color: var(--button-outline-primary-border-hover);
-}
-.button--outline.button--secondary {
-  border-color: var(--button-outline-secondary-border);
-  color: var(--button-outline-secondary-text);
-}
-.button--outline.button--secondary:hover:not(:disabled) {
-  background: var(--button-outline-secondary-bg-hover);
-  border-color: var(--button-outline-secondary-border-hover);
-}
-
-/* ---------- Tonal (tinted bg + active state, primary + secondary only) ---------- */
-.button--tonal.button--primary {
-  background: var(--button-tonal-primary-bg);
-  color: var(--button-tonal-primary-text);
-}
-.button--tonal.button--primary:hover:not(:disabled) {
-  background: var(--button-tonal-primary-bg-hover);
-}
-.button--tonal.button--primary:active:not(:disabled) {
-  background: var(--button-tonal-primary-bg-active);
-}
-.button--tonal.button--secondary {
-  background: var(--button-tonal-secondary-bg);
-  color: var(--button-tonal-secondary-text);
-}
-.button--tonal.button--secondary:hover:not(:disabled) {
-  background: var(--button-tonal-secondary-bg-hover);
-}
-.button--tonal.button--secondary:active:not(:disabled) {
-  background: var(--button-tonal-secondary-bg-active);
-}
-
-/* ---------- Ghost ---------- */
+/* ---------- Ghost (transparent, no border) ---------- */
 .button--ghost {
   background: transparent;
 }
@@ -200,12 +142,6 @@
 }
 .button--ghost.button--primary:hover:not(:disabled) {
   background: var(--button-ghost-primary-bg-hover);
-}
-.button--ghost.button--secondary {
-  color: var(--button-ghost-secondary-text);
-}
-.button--ghost.button--secondary:hover:not(:disabled) {
-  background: var(--button-ghost-secondary-bg-hover);
 }
 .button--ghost.button--error {
   color: var(--button-ghost-error-text);
@@ -220,14 +156,10 @@
   background: var(--button-ghost-neutral-bg-hover);
 }
 
-/* ---------- Focus ring (keyboard nav) ---------- */
+/* ---------- Focus ring (keyboard :focus-visible) ---------- */
 .button--primary:focus-visible {
   border-color: var(--button-focus-ring-primary);
   box-shadow: var(--shadow-focus-ring-primary);
-}
-.button--secondary:focus-visible {
-  border-color: var(--button-focus-ring-secondary);
-  box-shadow: var(--shadow-focus-ring-secondary);
 }
 .button--error:focus-visible {
   border-color: var(--button-focus-ring-error);

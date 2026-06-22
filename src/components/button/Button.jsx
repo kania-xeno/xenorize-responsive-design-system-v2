@@ -4,33 +4,47 @@ import "./Button.css";
 /**
  * Button — Large
  * Spec: components/button/button-large-spec.md
+ * Source: Figma "Design System Scalable V.2.1.0 → ↳buttons-large" (node 1897:1592)
  *
- * @param {"primary"|"secondary"|"error"|"neutral"} [type="primary"]
- * @param {"filled"|"stroke"|"outline"|"lighter"|"tonal"|"ghost"} [variant="filled"]
+ * @param {"primary"|"neutral"|"error"} [type="primary"]
+ *   Maps to Figma "🧩 Type". "secondary" is built but hidden until a use-case is confirmed.
+ *
+ * @param {"filled"|"outline"|"lighter"|"ghost"} [variant="filled"]
+ *   Maps to Figma "🏵️ Style". "outline" = Figma "Stroke".
+ *
  * @param {"large"} [size="large"]
- * @param {React.ReactNode} [leftIcon]
- * @param {React.ReactNode} [rightIcon]
+ *
+ * @param {React.ReactNode} [icon]
+ *   The icon to display. Use `iconPosition` to place it left or right.
+ *   Only ONE icon is allowed per button (Figma rule).
+ *
+ * @param {"left"|"right"} [iconPosition="left"]
+ *   Where the icon appears. Ignored when `onlyIcon` is true or `badge` is set.
+ *
  * @param {boolean} [onlyIcon=false]
+ *   Renders a standalone 40×40 icon button with no label or badge.
+ *   Requires `icon` and `aria-label`.
+ *
  * @param {number|string} [badge]
+ *   Pill counter shown to the right of the label. Not allowed when an icon is shown.
+ *
  * @param {boolean} [disabled=false]
- * @param {React.ReactNode} [children]
+ * @param {React.ReactNode} [children]  Label text.
  * @param {(e: React.MouseEvent) => void} [onClick]
  * @param {string} [className]
- * @param {string} [aria-label]
+ * @param {string} [aria-label]  Required for `onlyIcon` buttons.
  *
- * Content slot precedence (see "Content slot rules" in button-large-spec.md):
- * 1. `onlyIcon` — renders a single 40x40 icon (leftIcon ?? rightIcon) only.
- *    `badge` and `children` are ignored.
- * 2. `badge` (when not onlyIcon) — renders label text + badge only.
- *    `leftIcon`/`rightIcon` are ignored.
- * 3. Otherwise — renders leftIcon? + label text + rightIcon?.
+ * Content slot precedence (matches Figma):
+ * 1. `onlyIcon` true  → icon only (40×40). `badge` and `children` are ignored.
+ * 2. `badge` set      → label + badge only. `icon` is ignored.
+ * 3. Otherwise        → icon? (left or right) + label.
  */
 export default function Button({
   type = "primary",
   variant = "filled",
   size = "large",
-  leftIcon,
-  rightIcon,
+  icon,
+  iconPosition = "left",
   onlyIcon = false,
   badge,
   disabled = false,
@@ -38,39 +52,38 @@ export default function Button({
   onClick,
   className = "",
   "aria-label": ariaLabel,
+  // Legacy props — kept for backward compat but mapped internally
+  leftIcon,
+  rightIcon,
+  showLeftIcon,
+  showRightIcon,
   ...rest
 }) {
-  const hasLeftIcon = Boolean(leftIcon);
-  const hasRightIcon = Boolean(rightIcon);
+  // Legacy prop support: map leftIcon/rightIcon → icon + iconPosition
+  if (!icon) {
+    if (leftIcon) { icon = leftIcon; iconPosition = "left"; }
+    else if (rightIcon) { icon = rightIcon; iconPosition = "right"; }
+  }
+
+  const hasIcon = Boolean(icon);
   const hasBadge = badge !== undefined && badge !== null && badge !== "";
   const hasLabel = Boolean(children);
 
   if (process.env.NODE_ENV !== "production") {
-    if (onlyIcon && !ariaLabel && !children) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        "Button: icon-only buttons require an `aria-label` for accessibility."
-      );
+    if (onlyIcon && !ariaLabel) {
+      console.warn("Button: icon-only buttons require an `aria-label` for accessibility.");
     }
-    if (onlyIcon && hasBadge) {
-      // eslint-disable-next-line no-console
-      console.warn("Button: `badge` is ignored when `onlyIcon` is true.");
+    if (onlyIcon && !hasIcon) {
+      console.warn("Button: `onlyIcon` is true but no `icon` was provided.");
     }
-    if (!onlyIcon && hasBadge && (hasLeftIcon || hasRightIcon)) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        "Button: `leftIcon`/`rightIcon` are ignored when `badge` is set — badge buttons render label text + badge only."
-      );
+    if (!onlyIcon && hasBadge && hasIcon) {
+      console.warn("Button: `badge` and `icon` cannot appear together — badge wins and the icon is hidden.");
     }
-    if (!onlyIcon && hasBadge && !hasLabel) {
-      // eslint-disable-next-line no-console
-      console.warn("Button: a badge requires visible label text (`children`) — badge-only buttons are not supported.");
+    if (!onlyIcon && !hasBadge && hasIcon && !hasLabel) {
+      console.warn("Button: an icon requires label text (`children`) — use `onlyIcon` for an icon with no label.");
     }
-    if (!onlyIcon && !hasBadge && (hasLeftIcon || hasRightIcon) && !hasLabel) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        "Button: icons require visible label text (`children`) — use `onlyIcon` for an icon with no label."
-      );
+    if (leftIcon && rightIcon) {
+      console.warn("Button: only one icon is allowed. `leftIcon` takes priority — `rightIcon` is ignored.");
     }
   }
 
@@ -86,13 +99,12 @@ export default function Button({
     .join(" ");
 
   let content;
+
   if (onlyIcon) {
-    // Icon only: a single 40x40 icon, nothing else.
-    content = (hasLeftIcon || hasRightIcon) && (
-      <span className="button__icon">{leftIcon ?? rightIcon}</span>
-    );
+    // Standalone icon-only button (Figma "🔳 Only Icon = On")
+    content = hasIcon && <span className="button__icon">{icon}</span>;
   } else if (hasBadge) {
-    // Badge active: label + badge only — icons are not shown alongside a badge.
+    // Label + badge (icon not shown alongside badge per Figma rules)
     content = (
       <>
         {hasLabel && <span className="button__label">{children}</span>}
@@ -100,12 +112,16 @@ export default function Button({
       </>
     );
   } else {
-    // Default: optional left/right icons alongside the label.
+    // Text only, or text + one icon (left or right)
     content = (
       <>
-        {hasLeftIcon && <span className="button__icon button__icon--left">{leftIcon}</span>}
+        {hasIcon && iconPosition === "left" && (
+          <span className="button__icon button__icon--left">{icon}</span>
+        )}
         {hasLabel && <span className="button__label">{children}</span>}
-        {hasRightIcon && <span className="button__icon button__icon--right">{rightIcon}</span>}
+        {hasIcon && iconPosition === "right" && (
+          <span className="button__icon button__icon--right">{icon}</span>
+        )}
       </>
     );
   }
