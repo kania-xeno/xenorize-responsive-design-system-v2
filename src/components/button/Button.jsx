@@ -5,8 +5,8 @@ import "./Button.css";
  * Button — Large
  * Spec: components/button/button-large-spec.md
  *
- * @param {"primary"|"error"|"neutral"} [type="primary"]
- * @param {"filled"|"stroke"|"lighter"|"ghost"} [variant="filled"]
+ * @param {"primary"|"secondary"|"error"|"neutral"} [type="primary"]
+ * @param {"filled"|"stroke"|"outline"|"lighter"|"tonal"|"ghost"} [variant="filled"]
  * @param {"large"} [size="large"]
  * @param {React.ReactNode} [leftIcon]
  * @param {React.ReactNode} [rightIcon]

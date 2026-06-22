@@ -62,6 +62,19 @@
 .button--filled.button--primary:hover:not(:disabled) {
   background: var(--button-fill-primary-bg-hover);
 }
+.button--filled.button--primary:active:not(:disabled) {
+  background: var(--button-fill-primary-bg-active);
+}
+.button--filled.button--secondary {
+  background: var(--button-fill-secondary-bg);
+  color: var(--button-fill-secondary-text);
+}
+.button--filled.button--secondary:hover:not(:disabled) {
+  background: var(--button-fill-secondary-bg-hover);
+}
+.button--filled.button--secondary:active:not(:disabled) {
+  background: var(--button-fill-secondary-bg-active);
+}
 .button--filled.button--error {
   background: var(--button-fill-destructive-bg);
   color: var(--button-fill-destructive-text);
@@ -69,12 +82,18 @@
 .button--filled.button--error:hover:not(:disabled) {
   background: var(--button-fill-destructive-bg-hover);
 }
+.button--filled.button--error:active:not(:disabled) {
+  background: var(--button-fill-destructive-bg-active);
+}
 .button--filled.button--neutral {
   background: var(--button-fill-neutral-bg);
   color: var(--button-fill-neutral-text);
 }
 .button--filled.button--neutral:hover:not(:disabled) {
   background: var(--button-fill-neutral-bg-hover);
+}
+.button--filled.button--neutral:active:not(:disabled) {
+  background: var(--button-fill-neutral-bg-active);
 }
 
 /* ---------- Stroke ---------- */
@@ -129,6 +148,49 @@
   background: var(--button-lighter-neutral-bg-hover);
 }
 
+/* ---------- Outline (transparent bg, border, primary + secondary only) ---------- */
+.button--outline {
+  background: transparent;
+}
+.button--outline.button--primary {
+  border-color: var(--button-outline-primary-border);
+  color: var(--button-outline-primary-text);
+}
+.button--outline.button--primary:hover:not(:disabled) {
+  background: var(--button-outline-primary-bg-hover);
+  border-color: var(--button-outline-primary-border-hover);
+}
+.button--outline.button--secondary {
+  border-color: var(--button-outline-secondary-border);
+  color: var(--button-outline-secondary-text);
+}
+.button--outline.button--secondary:hover:not(:disabled) {
+  background: var(--button-outline-secondary-bg-hover);
+  border-color: var(--button-outline-secondary-border-hover);
+}
+
+/* ---------- Tonal (tinted bg + active state, primary + secondary only) ---------- */
+.button--tonal.button--primary {
+  background: var(--button-tonal-primary-bg);
+  color: var(--button-tonal-primary-text);
+}
+.button--tonal.button--primary:hover:not(:disabled) {
+  background: var(--button-tonal-primary-bg-hover);
+}
+.button--tonal.button--primary:active:not(:disabled) {
+  background: var(--button-tonal-primary-bg-active);
+}
+.button--tonal.button--secondary {
+  background: var(--button-tonal-secondary-bg);
+  color: var(--button-tonal-secondary-text);
+}
+.button--tonal.button--secondary:hover:not(:disabled) {
+  background: var(--button-tonal-secondary-bg-hover);
+}
+.button--tonal.button--secondary:active:not(:disabled) {
+  background: var(--button-tonal-secondary-bg-active);
+}
+
 /* ---------- Ghost ---------- */
 .button--ghost {
   background: transparent;
@@ -138,6 +200,12 @@
 }
 .button--ghost.button--primary:hover:not(:disabled) {
   background: var(--button-ghost-primary-bg-hover);
+}
+.button--ghost.button--secondary {
+  color: var(--button-ghost-secondary-text);
+}
+.button--ghost.button--secondary:hover:not(:disabled) {
+  background: var(--button-ghost-secondary-bg-hover);
 }
 .button--ghost.button--error {
   color: var(--button-ghost-error-text);
@@ -157,6 +225,10 @@
   border-color: var(--button-focus-ring-primary);
   box-shadow: var(--shadow-focus-ring-primary);
 }
+.button--secondary:focus-visible {
+  border-color: var(--button-focus-ring-secondary);
+  box-shadow: var(--shadow-focus-ring-secondary);
+}
 .button--error:focus-visible {
   border-color: var(--button-focus-ring-error);
   box-shadow: var(--shadow-focus-ring-error);
@@ -170,7 +242,7 @@
 .button:disabled {
   background: var(--button-disabled-bg) !important;
   color: var(--button-disabled-text) !important;
-  border-color: transparent !important;
+  border-color: var(--button-disabled-border) !important;
   box-shadow: none !important;
   cursor: not-allowed;
   pointer-events: none;

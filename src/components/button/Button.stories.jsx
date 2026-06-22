@@ -7,11 +7,11 @@ export default {
   argTypes: {
     type: {
       control: "select",
-      options: ["primary", "error", "neutral"],
+      options: ["primary", "secondary", "error", "neutral"],
     },
     variant: {
       control: "select",
-      options: ["filled", "stroke", "lighter", "ghost"],
+      options: ["filled", "stroke", "outline", "lighter", "tonal", "ghost"],
     },
     size: {
       control: "select",
@@ -83,25 +83,17 @@ export const Playground = {
   )
 };
 
-const TYPES = ["primary", "neutral", "error"];
-const VARIANTS = ["filled", "stroke", "lighter", "ghost"];
+// Variant → which types it supports
+const VARIANT_TYPES = {
+  filled:  ["primary", "secondary", "error", "neutral"],
+  stroke:  ["primary", "error", "neutral"],
+  outline: ["primary", "secondary"],
+  lighter: ["primary", "error", "neutral"],
+  tonal:   ["primary", "secondary"],
+  ghost:   ["primary", "secondary", "error", "neutral"],
+};
 
-// One row per `type`, one button per `variant` — `render(type, variant)`
-// returns the Button for that cell.
-function MatrixRow({ render }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-      {TYPES.map((type) => (
-        <div key={type} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-          <span style={{ width: 70, fontFamily: "var(--font-family-body)", fontSize: 12, color: "#888" }}>
-            {type}
-          </span>
-          {VARIANTS.map((variant) => render(type, variant))}
-        </div>
-      ))}
-    </div>
-  );
-}
+const ALL_VARIANTS = Object.keys(VARIANT_TYPES);
 
 function SectionTitle({ children }) {
   return (
@@ -121,35 +113,47 @@ function SectionTitle({ children }) {
   );
 }
 
-// Comprehensive visual reference: every Type x Style combination, across
-// every supported state/configuration (default, disabled, icon-only,
-// with icons, with badge). This is the canonical page for design QA —
-// if a state isn't represented here, add a section rather than a new story.
+// One row per variant — columns are the applicable types for that variant.
+function VariantMatrix({ renderBtn }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      {ALL_VARIANTS.map((variant) => (
+        <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
+          <span style={{ width: 64, fontFamily: "var(--font-family-body)", fontSize: 12, color: "#888", flexShrink: 0 }}>
+            {variant}
+          </span>
+          {VARIANT_TYPES[variant].map((type) => renderBtn(variant, type))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// Comprehensive visual reference: every Variant × Type combination across
+// all supported states. Variant-first layout makes it easy to see which
+// types exist per variant (not all combos are valid in the design system).
 export const AllVariants = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
+
       <section>
         <SectionTitle>Default</SectionTitle>
-        <MatrixRow render={(type, variant) => (
-          <Button key={variant} type={type} variant={variant}>
-            Button
-          </Button>
+        <VariantMatrix renderBtn={(variant, type) => (
+          <Button key={type} type={type} variant={variant}>Button</Button>
         )} />
       </section>
 
       <section>
         <SectionTitle>Disabled</SectionTitle>
-        <MatrixRow render={(type, variant) => (
-          <Button key={variant} type={type} variant={variant} disabled>
-            Button
-          </Button>
+        <VariantMatrix renderBtn={(variant, type) => (
+          <Button key={type} type={type} variant={variant} disabled>Button</Button>
         )} />
       </section>
 
       <section>
         <SectionTitle>With left + right icons</SectionTitle>
-        <MatrixRow render={(type, variant) => (
-          <Button key={variant} type={type} variant={variant} leftIcon={<CopyIcon />} rightIcon={<CopyIcon />}>
+        <VariantMatrix renderBtn={(variant, type) => (
+          <Button key={type} type={type} variant={variant} leftIcon={<CopyIcon />} rightIcon={<CopyIcon />}>
             Button
           </Button>
         )} />
@@ -157,40 +161,18 @@ export const AllVariants = {
 
       <section>
         <SectionTitle>With badge</SectionTitle>
-        <MatrixRow render={(type, variant) => (
-          <Button key={variant} type={type} variant={variant} badge={2}>
-            Button
-          </Button>
+        <VariantMatrix renderBtn={(variant, type) => (
+          <Button key={type} type={type} variant={variant} badge={2}>Button</Button>
         )} />
       </section>
 
       <section>
-        <SectionTitle>Icon only — left slot</SectionTitle>
-        <MatrixRow render={(type, variant) => (
-          <Button
-            key={variant}
-            type={type}
-            variant={variant}
-            onlyIcon
-            leftIcon={<CopyIcon />}
-            aria-label="Icon button"
-          />
+        <SectionTitle>Icon only</SectionTitle>
+        <VariantMatrix renderBtn={(variant, type) => (
+          <Button key={type} type={type} variant={variant} onlyIcon leftIcon={<CopyIcon />} aria-label="Icon button" />
         )} />
       </section>
 
-      <section>
-        <SectionTitle>Icon only — right slot</SectionTitle>
-        <MatrixRow render={(type, variant) => (
-          <Button
-            key={variant}
-            type={type}
-            variant={variant}
-            onlyIcon
-            rightIcon={<CopyIcon />}
-            aria-label="Icon button"
-          />
-        )} />
-      </section>
     </div>
   ),
 };
