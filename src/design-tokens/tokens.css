@@ -170,16 +170,26 @@
   --status-feature-dark: #302571;
 
   /* ================= COLOR — BUTTON ================= */
+
+  /* — Fill — */
   --button-fill-primary-bg: #302571;
   --button-fill-primary-bg-hover: #403297;
+  --button-fill-primary-bg-active: #513ebe;
   --button-fill-primary-text: #ffffff;
+  --button-fill-secondary-bg: #178c7d;
+  --button-fill-secondary-bg-hover: #1daf9c;
+  --button-fill-secondary-bg-active: #22d3bb;
+  --button-fill-secondary-text: #ffffff;
   --button-fill-destructive-bg: #cb1515;
   --button-fill-destructive-bg-hover: #b91313;
+  --button-fill-destructive-bg-active: #941010;
   --button-fill-destructive-text: #ffffff;
   --button-fill-neutral-bg: #262626;
   --button-fill-neutral-bg-hover: #1c1c1c;
+  --button-fill-neutral-bg-active: #161616;
   --button-fill-neutral-text: #ffffff;
 
+  /* — Stroke (transparent bg, 1px border) — */
   --button-stroke-primary-text: #302571;
   --button-stroke-primary-border: #7263cc;
   --button-stroke-primary-bg-hover: #eceaf8;
@@ -193,6 +203,17 @@
   --button-stroke-neutral-bg-hover: #f4f4f6;
   --button-stroke-neutral-border-hover: #262626;
 
+  /* — Outline (border only, no filled bg — primary + secondary) — */
+  --button-outline-primary-text: #302571;
+  --button-outline-primary-border: #7263cc;
+  --button-outline-primary-bg-hover: #eceaf8;
+  --button-outline-primary-border-hover: #302571;
+  --button-outline-secondary-text: #178c7d;
+  --button-outline-secondary-border: #1daf9c;
+  --button-outline-secondary-bg-hover: #e4fbf7;
+  --button-outline-secondary-border-hover: #178c7d;
+
+  /* — Lighter (tinted bg, no border) — */
   --button-lighter-primary-text: #302571;
   --button-lighter-primary-bg: #eceaf8;
   --button-lighter-primary-bg-hover: #dad6f2;
@@ -203,17 +224,34 @@
   --button-lighter-neutral-bg: #f4f4f6;
   --button-lighter-neutral-bg-hover: #ebecef;
 
+  /* — Tonal (tinted bg with active state — primary + secondary) — */
+  --button-tonal-primary-text: #302571;
+  --button-tonal-primary-bg: #eceaf8;
+  --button-tonal-primary-bg-hover: #dad6f2;
+  --button-tonal-primary-bg-active: #b8b0e5;
+  --button-tonal-secondary-text: #178c7d;
+  --button-tonal-secondary-bg: #e4fbf7;
+  --button-tonal-secondary-bg-hover: #cffbf5;
+  --button-tonal-secondary-bg-active: #c2f5ee;
+
+  /* — Ghost (transparent, no border) — */
   --button-ghost-primary-text: #302571;
   --button-ghost-primary-bg-hover: #eceaf8;
+  --button-ghost-secondary-text: #178c7d;
+  --button-ghost-secondary-bg-hover: #e4fbf7;
   --button-ghost-error-text: #cb1515;
   --button-ghost-error-bg-hover: #fcdfdf;
   --button-ghost-neutral-text: #333333;
   --button-ghost-neutral-bg-hover: #f4f4f6;
 
+  /* — Disabled — */
   --button-disabled-bg: #f5f5f5;
   --button-disabled-text: #7b7b7b;
+  --button-disabled-border: #eaeaea;
 
-  --button-focus-ring-primary: #7963ba3d;
+  /* — Focus rings — */
+  --button-focus-ring-primary: #513ebe3d;
+  --button-focus-ring-secondary: #22d3bb3d;
   --button-focus-ring-error: #ea34343d;
   --button-focus-ring-neutral: #82879c3d;
 
@@ -362,6 +400,105 @@
   --input-phone-number-icon-default: #403297;
   --input-phone-number-bg: #ffffff;
   --input-phone-number-border-default: #eaeaea;
+}
+
+/* =====================================================================
+   DARK MODE — [data-theme="dark"]
+   Values sourced directly from the Figma "theme" variable collection
+   (Light/Dark modes) — Design System Scalable V.2.1.0, synced 22/06/2026.
+   ===================================================================== */
+[data-theme="dark"] {
+  /* Base surfaces (used for page bg + badge + focus-ring offset) */
+  --color-surface-neutral-soft: #2d2f39;
+  --color-text-neutral-strong: #ffffff;
+
+  /* ---------- Button — Fill ---------- */
+  --button-fill-primary-bg: #9589d9;
+  --button-fill-primary-bg-hover: #9589d9;
+  --button-fill-primary-bg-active: #7263cc;
+  --button-fill-primary-text: #ffffff;
+  --button-fill-secondary-bg: #22d3bb;
+  --button-fill-secondary-bg-hover: #84ebdd;
+  --button-fill-secondary-bg-active: #3fdec9;
+  --button-fill-secondary-text: #1b1c22;
+  --button-fill-destructive-bg: #ea3434;
+  --button-fill-destructive-bg-hover: #f17e7e;
+  --button-fill-destructive-bg-active: #f8bfbf;
+  --button-fill-destructive-text: #1b1c22;
+  --button-fill-neutral-bg: #515567;
+  --button-fill-neutral-bg-hover: #6b7189;
+  --button-fill-neutral-bg-active: #989dae;
+  --button-fill-neutral-text: #ffffff;
+
+  /* ---------- Button — Stroke ---------- */
+  --button-stroke-primary-text: #9589d9;
+  --button-stroke-primary-border: #b8b0e5;
+  --button-stroke-primary-bg-hover: #0f0c24;
+  --button-stroke-primary-border-hover: #9589d9;
+  --button-stroke-error-text: #ea3434;
+  --button-stroke-error-border: #ea3434;
+  --button-stroke-error-bg-hover: #6f0c0c;
+  --button-stroke-error-border-hover: #f17e7e;
+  --button-stroke-neutral-text: #ccced7;
+  --button-stroke-neutral-border: #515567;
+  --button-stroke-neutral-bg-hover: #2d2f39;
+  --button-stroke-neutral-border-hover: #515567;
+
+  /* ---------- Button — Outline ---------- */
+  --button-outline-primary-text: #9589d9;
+  --button-outline-primary-border: #b8b0e5;
+  --button-outline-primary-bg-hover: #0f0c24;
+  --button-outline-primary-border-hover: #9589d9;
+  --button-outline-secondary-text: #84ebdd;
+  --button-outline-secondary-border: #84ebdd;
+  --button-outline-secondary-bg-hover: #16645a;
+  --button-outline-secondary-border-hover: #22d3bb;
+
+  /* ---------- Button — Lighter ---------- */
+  --button-lighter-primary-text: #9589d9;
+  --button-lighter-primary-bg: #0f0c24;
+  --button-lighter-primary-bg-hover: #20184b;
+  --button-lighter-error-text: #f17e7e;
+  --button-lighter-error-bg: #6f0c0c;
+  --button-lighter-error-bg-hover: #941010;
+  --button-lighter-neutral-text: #ccced7;
+  --button-lighter-neutral-bg: #2d2f39;
+  --button-lighter-neutral-bg-hover: #515567;
+
+  /* ---------- Button — Tonal ---------- */
+  --button-tonal-primary-text: #9589d9;
+  --button-tonal-primary-bg: #0f0c24;
+  --button-tonal-primary-bg-hover: #20184b;
+  --button-tonal-primary-bg-active: #302571;
+  --button-tonal-secondary-text: #84ebdd;
+  --button-tonal-secondary-bg: #16645a;
+  --button-tonal-secondary-bg-hover: #1a7569;
+  --button-tonal-secondary-bg-active: #178c7d;
+
+  /* ---------- Button — Ghost ---------- */
+  --button-ghost-primary-text: #9589d9;
+  --button-ghost-primary-bg-hover: #0f0c24;
+  --button-ghost-secondary-text: #84ebdd;
+  --button-ghost-secondary-bg-hover: #16645a;
+  --button-ghost-error-text: #ea3434;
+  --button-ghost-error-bg-hover: #6f0c0c;
+  --button-ghost-neutral-text: #ccced7;
+  --button-ghost-neutral-bg-hover: #2d2f39;
+
+  /* ---------- Button — Disabled ---------- */
+  --button-disabled-bg: #2d2f39;
+  --button-disabled-text: #a3a3a3;
+  --button-disabled-border: #5c5c5c;
+
+  /* ---------- Button — Focus rings (same values in both modes) ---------- */
+  --button-focus-ring-primary: #513ebe3d;
+  --button-focus-ring-secondary: #22d3bb3d;
+  --button-focus-ring-error: #ea34343d;
+  --button-focus-ring-neutral: #82879c3d;
+  /* Shadow offset uses dark page bg instead of #ffffff */
+  --shadow-focus-ring-primary: 0 0 0 4px rgba(81,62,190,0.24), 0 0 0 2px #1b1c22;
+  --shadow-focus-ring-neutral: 0 0 0 4px rgba(130,135,156,0.24), 0 0 0 2px #1b1c22;
+  --shadow-focus-ring-error: 0 0 0 4px rgba(234,52,52,0.24), 0 0 0 2px #1b1c22;
 }
 
 /* ================= RESPONSIVE TYPOGRAPHY OVERRIDES ================= */

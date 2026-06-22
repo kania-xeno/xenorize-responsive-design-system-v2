@@ -19,9 +19,11 @@
 }
 
 .button--onlyIcon {
+  box-sizing: border-box;
   min-width: 0;
   width: 40px;
   height: 40px;
+  padding: 0;
 }
 
 .button__icon {

@@ -103,6 +103,25 @@ Applies a 1px border + double box-shadow ring, color keyed to `type`:
 - font: 10px (`--font-size-micro`), weight 600, letter-spacing 0.05px
 - padding: 4px 3px, `border-radius: --radius-full`
 
+## Content slot precedence
+
+`onlyIcon`, `badge`, icons (`leftIcon`/`rightIcon`), and label text (`children`) are not freely combinable. Exactly one of the following three states applies, in priority order:
+
+| # | Condition | Renders | Ignored |
+|---|---|---|---|
+| 1 | `onlyIcon` is true | A single 40×40 icon (`leftIcon ?? rightIcon`) | `badge`, `children`, the unused icon slot |
+| 2 | `onlyIcon` is false and `badge` is set | Label text + badge | `leftIcon`, `rightIcon` |
+| 3 | Otherwise | `leftIcon`? + label text + `rightIcon`? | — |
+
+Rules of thumb:
+
+- A badge always requires visible label text — there is no badge-only state.
+- Icons never render without visible label text — an icon with no label must use `onlyIcon`.
+- Icons and a badge never render together; `badge` wins and the icons are dropped.
+- Both icons may render together alongside the label (left + right + text is valid).
+
+The component logs a `console.warn` in development for any prop combination that violates these rules (e.g. passing both `badge` and `leftIcon`), so invalid combinations are caught early without silently breaking the UI. Storybook's Playground hides controls that would produce an invalid combination (e.g. the icon toggles disappear once a badge is set; the badge field disappears when `onlyIcon` is on).
+
 ## Accessibility
 
 - Renders as a native `<button>` element
