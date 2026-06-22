@@ -24,9 +24,9 @@ export default {
     // Icon — single slot (left OR right, not both)
     icon: { table: { disable: true } },
     iconPosition: {
-      control: "select",
+      control: "inline-radio",
       options: ["none", "left", "right"],
-      description: "Position of the single icon. 'none' = no icon. Hidden when badge is shown or onlyIcon is on.",
+      description: "Icon position. 'none' = no icon. Only one icon allowed per button.",
       if: { arg: "onlyIcon", truthy: false },
     },
     onlyIcon: {
@@ -37,19 +37,21 @@ export default {
     badge: { table: { disable: true } },
     showBadge: {
       control: "boolean",
-      description: "Show a badge alongside the label. Not available when an icon is shown or onlyIcon is on.",
+      description: "Show a badge alongside the label. Not available when onlyIcon is on.",
       if: { arg: "onlyIcon", truthy: false },
     },
     badgeValue: {
       control: "text",
-      description: "Badge content.",
+      description: "Badge content (shown when showBadge is on).",
       if: { arg: "showBadge", truthy: true },
     },
     children: { control: "text", description: "Label text." },
     disabled: { control: "boolean" },
     // hide internal/legacy props
-    leftIcon:  { table: { disable: true } },
-    rightIcon: { table: { disable: true } },
+    leftIcon:   { table: { disable: true } },
+    rightIcon:  { table: { disable: true } },
+    className:  { table: { disable: true } },
+    icon:       { table: { disable: true } },
   },
   args: {
     type: "primary",
@@ -58,7 +60,7 @@ export default {
     children: "Button",
     disabled: false,
     onlyIcon: false,
-    iconPosition: "left",
+    iconPosition: "none",
     showBadge: false,
     badgeValue: "2",
   },
