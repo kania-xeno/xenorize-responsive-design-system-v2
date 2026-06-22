@@ -7,18 +7,18 @@ export default {
   argTypes: {
     // Figma: "🧩 Type"
     type: {
-      control: "select",
+      control: "inline-radio",
       options: ["primary", "neutral", "error"],
       description: "Color theme. Maps to Figma '🧩 Type'.",
     },
     // Figma: "🏵️ Style"
     variant: {
-      control: "select",
+      control: "inline-radio",
       options: ["filled", "outline", "lighter", "ghost"],
       description: "Visual style. Maps to Figma '🏵️ Style'. 'outline' = Figma 'Stroke'.",
     },
     size: {
-      control: "select",
+      control: "inline-radio",
       options: ["large"],
     },
     // Icon — single slot (left OR right, not both)
