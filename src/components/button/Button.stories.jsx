@@ -26,8 +26,7 @@ export default {
     iconPosition: {
       control: "inline-radio",
       options: ["none", "left", "right"],
-      description: "Icon position. 'none' = no icon. Only one icon allowed per button.",
-      if: { arg: "onlyIcon", truthy: false },
+      description: "Icon position. Ignored when onlyIcon is on.",
     },
     onlyIcon: {
       control: "boolean",
@@ -37,12 +36,11 @@ export default {
     badge: { table: { disable: true } },
     showBadge: {
       control: "boolean",
-      description: "Show a badge alongside the label. Not available when onlyIcon is on.",
-      if: { arg: "onlyIcon", truthy: false },
+      description: "Show a badge alongside the label. Ignored when onlyIcon is on.",
     },
     badgeValue: {
       control: "text",
-      description: "Badge content (shown when showBadge is on).",
+      description: "Badge content.",
       if: { arg: "showBadge", truthy: true },
     },
     children: { control: "text", description: "Label text." },
