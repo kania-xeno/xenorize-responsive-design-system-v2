@@ -7,7 +7,9 @@ export default {
   argTypes: {
     type: {
       control: "select",
-      options: ["primary", "secondary", "error", "neutral"],
+      options: ["primary", "error", "neutral"],
+      // "secondary" (teal) is built and tokenised but hidden until
+      // a product use-case is confirmed — re-add to options to enable.
     },
     variant: {
       control: "select",
@@ -84,13 +86,14 @@ export const Playground = {
 };
 
 // Variant → which types it supports
+// "secondary" is hidden until a product use-case is confirmed.
 const VARIANT_TYPES = {
-  filled:  ["primary", "secondary", "error", "neutral"],
+  filled:  ["primary", "error", "neutral"],
   stroke:  ["primary", "error", "neutral"],
-  outline: ["primary", "secondary"],
+  outline: ["primary"],
   lighter: ["primary", "error", "neutral"],
-  tonal:   ["primary", "secondary"],
-  ghost:   ["primary", "secondary", "error", "neutral"],
+  tonal:   ["primary"],
+  ghost:   ["primary", "error", "neutral"],
 };
 
 const ALL_VARIANTS = Object.keys(VARIANT_TYPES);
