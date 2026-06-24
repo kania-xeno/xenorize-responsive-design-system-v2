@@ -1,8 +1,8 @@
-# Button — Large — Implementation Spec
+# Button — Large + Medium + Small — Implementation Spec
 
 Source: Figma "Design System Scalable - All Platform V.2.1.0 → General Components → Button".  
 All values reference `design-tokens/tokens.css`.  
-Last updated: 22/06/2026
+Last updated: 24/06/2026 (spec cleanup — stale prop/variant names removed, size coverage expanded)
 
 ---
 
@@ -40,38 +40,39 @@ type ButtonType    = "primary" | "error" | "neutral";
 // "secondary" (teal) is built and tokenised — hidden from Storybook
 // until a product use-case is confirmed. Re-add to options to enable.
 
-type ButtonVariant = "filled" | "stroke" | "outline" | "lighter" | "tonal" | "ghost";
+type ButtonVariant = "filled" | "outline" | "lighter" | "ghost";
+// "outline" = Figma "Stroke". "lighter" = approved soft/tinted style.
+// "tonal" is not a public variant — use "lighter" instead.
 
 interface ButtonProps {
-  type?:      ButtonType;      // default "primary"
-  variant?:   ButtonVariant;   // default "filled"
-  size?:      "large";         // only "large" implemented so far
-  leftIcon?:  React.ReactNode;
-  rightIcon?: React.ReactNode;
-  onlyIcon?:  boolean;         // renders icon-only 40×40 square
-  badge?:     number | string; // renders pill counter (replaces icons)
-  disabled?:  boolean;
-  children?:  React.ReactNode; // label text
-  onClick?:   (e: React.MouseEvent) => void;
-  className?: string;
-  "aria-label"?: string;       // required for onlyIcon buttons
+  type?:          ButtonType;         // default "primary"
+  variant?:       ButtonVariant;      // default "filled"
+  size?:          "large" | "medium" | "small"; // all three sizes implemented
+  icon?:          React.ReactNode;    // single icon — use iconPosition to place left or right
+  iconPosition?:  "left" | "right";  // default "left". Ignored when onlyIcon is true.
+  onlyIcon?:      boolean;            // renders icon-only square (40/36/28px per size)
+  badge?:         number | string;    // pill counter — Large and Medium only, not Small
+  disabled?:      boolean;
+  children?:      React.ReactNode;    // label text
+  onClick?:       (e: React.MouseEvent) => void;
+  className?:     string;
+  "aria-label"?:  string;             // required for onlyIcon buttons
 }
 ```
 
 ### Valid type × variant combinations
 
-Not all combos exist in the design system. The table below shows what's currently tokenised and active:
+Approved combinations per DS Auditor handoff (2026-06-24):
 
-| variant | primary | error | neutral | secondary* |
-|---|:---:|:---:|:---:|:---:|
-| filled | ✓ | ✓ | ✓ | ✓* |
-| stroke | ✓ | ✓ | ✓ | — |
-| outline | ✓ | — | — | ✓* |
-| lighter | ✓ | ✓ | ✓ | — |
-| tonal | ✓ | — | — | ✓* |
-| ghost | ✓ | ✓ | ✓ | ✓* |
+| variant | primary | error | neutral |
+|---|:---:|:---:|:---:|
+| filled | ✓ | ✓ | ✓ |
+| outline | ✓ | ✓ | ✓ |
+| lighter | ✓ | ✓ | ✓ |
+| ghost | ✓ | ✓ | ✓ |
 
-\* Secondary is tokenised and CSS-ready but hidden from Storybook until a product use-case is confirmed.
+`secondary` type is tokenised but hidden from Storybook until DS/product decision is made.
+`tonal` is not a public variant — `lighter` is the approved soft/tinted style.
 
 ---
 
@@ -85,21 +86,15 @@ Not all combos exist in the design system. The table below shows what's currentl
 | error | `--button-fill-destructive-bg` #cb1515 | `--button-fill-destructive-bg-hover` #b91313 | `--button-fill-destructive-bg-active` #941010 | `--button-fill-destructive-text` #fff |
 | neutral | `--button-fill-neutral-bg` #262626 | `--button-fill-neutral-bg-hover` #1c1c1c | `--button-fill-neutral-bg-active` #161616 | `--button-fill-neutral-text` #fff |
 
-### Stroke (transparent bg, 1px border)
+### Outline (transparent bg, 1px border)
+
+Maps to Figma "Stroke" style. Code uses `variant="outline"`. Token namespace is `--button-stroke-*`.
 
 | Type | text | border | border:hover | bg:hover |
 |---|---|---|---|---|
 | primary | `--button-stroke-primary-text` #302571 | `--button-stroke-primary-border` #7263cc | `--button-stroke-primary-border-hover` #302571 | `--button-stroke-primary-bg-hover` #eceaf8 |
 | error | `--button-stroke-error-text` #cb1515 | `--button-stroke-error-border` #cb1515 | `--button-stroke-error-border-hover` #b91313 | `--button-stroke-error-bg-hover` #fcdfdf |
 | neutral | `--button-stroke-neutral-text` #333 | `--button-stroke-neutral-border` #eaeaea | `--button-stroke-neutral-border-hover` #262626 | `--button-stroke-neutral-bg-hover` #f4f4f6 |
-
-### Outline (transparent bg, 1px border — primary + secondary only)
-
-Same visual as stroke but a separate token namespace in Figma.
-
-| Type | text | border | border:hover | bg:hover |
-|---|---|---|---|---|
-| primary | `--button-outline-primary-text` #302571 | `--button-outline-primary-border` #7263cc | `--button-outline-primary-border-hover` #302571 | `--button-outline-primary-bg-hover` #eceaf8 |
 
 ### Lighter (tinted bg, no border)
 
@@ -109,13 +104,6 @@ Same visual as stroke but a separate token namespace in Figma.
 | error | `--button-lighter-error-text` #941010 | `--button-lighter-error-bg` #fcdfdf | `--button-lighter-error-bg-hover` #fcdfdf |
 | neutral | `--button-lighter-neutral-text` #333 | `--button-lighter-neutral-bg` #f4f4f6 | `--button-lighter-neutral-bg-hover` #ebecef |
 
-### Tonal (tinted bg + active state — primary + secondary only)
-
-Like lighter but includes an active/pressed state.
-
-| Type | text | bg | bg:hover | bg:active |
-|---|---|---|---|---|
-| primary | `--button-tonal-primary-text` #302571 | `--button-tonal-primary-bg` #eceaf8 | `--button-tonal-primary-bg-hover` #dad6f2 | `--button-tonal-primary-bg-active` #b8b0e5 |
 
 ### Ghost (transparent, no border)
 
@@ -162,19 +150,19 @@ Dark mode is handled via `[data-theme="dark"]` overrides in `tokens.css`. The sa
 
 ## Content slot rules
 
-`onlyIcon`, `badge`, `leftIcon`/`rightIcon`, and `children` are not freely combinable. Priority order:
+`onlyIcon`, `badge`, `icon`, and `children` are not freely combinable. Priority order:
 
 | Priority | Condition | Renders | Ignored |
 |---|---|---|---|
-| 1 | `onlyIcon` is true | Single icon (leftIcon ?? rightIcon) in a 40×40 square | badge, children, unused icon slot |
-| 2 | `badge` is set (and not onlyIcon) | Label text + badge pill | leftIcon, rightIcon |
-| 3 | Otherwise | leftIcon? + label + rightIcon? | — |
+| 1 | `onlyIcon` is true | Single icon in a square (40/36/28px per size) | badge, children |
+| 2 | `badge` is set (and not onlyIcon) | Label text + badge pill | icon |
+| 3 | Otherwise | icon (left or right) + label | — |
 
 Rules of thumb:
 - Badge always requires label text — badge-only is not supported.
 - Icons require label text — use `onlyIcon` for an icon with no label.
-- Icons and badge never appear together — badge wins and icons are suppressed.
-- Left + right icons together alongside label is valid.
+- Icons and badge never appear together — badge wins and icon is suppressed.
+- Badge is supported on Large and Medium only. Do not use badge on Small.
 
 The component logs `console.warn` in development for any invalid combination.
 
@@ -193,6 +181,8 @@ The component logs `console.warn` in development for any invalid combination.
 
 ## Open items
 
-- Sizes `medium` / `small` not yet built — `size` prop reserved
-- `secondary` type built and tokenised — activate when use-case is confirmed
+- `secondary` type built and tokenised — activate when DS/product decision is made
 - Badge slot only tested with short numeric/text values; long strings untested
+- `--button-fill-primary-bg-hover` has no visual hover shift in dark mode — intentional DS decision or gap, needs visual QA confirmation
+- `--button-stroke-neutral-border-hover` has no border shift in dark mode — same as above
+- `--button-fill-destructive-border` token does not exist in tokens.css — base `.button { border: 1px solid transparent }` covers this for now. Flag for DS Auditor if a dedicated token is later required.

@@ -1,4 +1,4 @@
-/* Button — Large
+/* Button — Large + Medium + Small
    Source of truth: design-tokens/tokens.css (import it once at app root)
    Variants (match Figma "🏵️ Style"): filled | outline | lighter | ghost
    Types   (match Figma "🧩 Type"):    primary | neutral | error
@@ -55,6 +55,38 @@
   font-weight: var(--font-weight-medium);
   letter-spacing: 0.05px;
   text-align: center;
+}
+
+/* ---------- Size: Small ----------
+   Figma node 1921:4253 — padding 6px, font 12px, radius 6px, icon 16px, icon-only 28×28  */
+.button--size-small {
+  padding: var(--spacing-6);
+  font-size: var(--font-size-body-sm);
+  border-radius: var(--radius-6);
+  min-width: 48px;
+}
+
+.button--size-small .button__icon {
+  width: 16px;
+  height: 16px;
+}
+
+.button--size-small.button--onlyIcon {
+  width: 28px;
+  height: 28px;
+}
+
+/* ---------- Size: Medium ----------
+   Figma node 1921:3648 — padding 8px, font 14px, icon-only 36×36  */
+.button--size-medium {
+  padding: var(--spacing-8);
+  font-size: var(--font-size-body-md);
+  min-width: 64px;
+}
+
+.button--size-medium.button--onlyIcon {
+  width: 36px;
+  height: 36px;
 }
 
 /* ---------- Filled ---------- */

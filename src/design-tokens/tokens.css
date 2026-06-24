@@ -224,7 +224,10 @@
   --button-lighter-neutral-bg: #f4f4f6;
   --button-lighter-neutral-bg-hover: #ebecef;
 
-  /* — Tonal (tinted bg with active state — primary + secondary) — */
+  /* — Tonal — pending DS review — legacy/unmapped token
+     These tokens are present from a previous sync but are NOT wired to any
+     component output. `lighter` is the approved soft/tinted style in the DS.
+     Do not use --button-tonal-* without explicit DS Auditor approval.       */
   --button-tonal-primary-text: #302571;
   --button-tonal-primary-bg: #eceaf8;
   --button-tonal-primary-bg-hover: #dad6f2;
@@ -465,7 +468,7 @@
   --button-lighter-neutral-bg: #2d2f39;
   --button-lighter-neutral-bg-hover: #515567;
 
-  /* ---------- Button — Tonal ---------- */
+  /* ---------- Button — Tonal — pending DS review — legacy/unmapped token --- */
   --button-tonal-primary-text: #9589d9;
   --button-tonal-primary-bg: #0f0c24;
   --button-tonal-primary-bg-hover: #20184b;

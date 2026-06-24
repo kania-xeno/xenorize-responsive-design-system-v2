@@ -3,58 +3,30 @@ import CopyIcon from "../icons/CopyIcon.jsx";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Figma source: Design System Scalable — All Platform V.2.1.0
-//   ↳buttons-large — node 1897:1592
+//   ↳buttons-medium — node 1921:3648
 // DS Auditor handoff: design-system-handsoff/component-button-handoff-brief.md
 // Token pattern: button / {style} / {type} / {role}
 // Error type maps to the "destructive" token namespace in CSS variables.
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default {
-  title: "Components/Button/General/Large",
+  title: "Components/Button/General/Medium",
   component: Button,
   parameters: {
     docs: {
       description: {
         component: `
-**Button — Large**
+**Button — Medium**
 
-The Button is the primary interactive element for triggering actions across the Xenorize product. It communicates actionability, priority, and consequence through its combination of type, style, and size.
+Medium is the default size for most UI contexts — forms, cards, dialogs, side panels, and page-level action areas. When no special size is required, use Medium.
+
+**Sizing:** padding 8px · font 14px · radius 8px · icon-only 36×36px · icon 20×20px
 
 **Token pattern:** \`button / {style} / {type} / {role}\`
 
-**Type → token namespace mapping:**
-- \`primary\` → \`button/{style}/primary/*\`
-- \`neutral\` → \`button/{style}/neutral/*\`
-- \`error\` → \`button/{style}/destructive/*\` (Figma "Error" maps to "destructive" in token names)
+**Note:** Badge is supported on Medium. \`error\` type maps to the \`destructive\` token namespace.
 
-**Out of scope:** \`secondary\` type, \`tonal\` variant, \`loading\` state, and Badge on Small are not implemented. Do not expose without DS Auditor approval.
-
-**Figma:** [↳buttons-large — Design System Scalable V.2.1.0](https://www.figma.com/design/0aVnOgjVWH1YL8JCnjXTBi/)
-
----
-
-**Do:**
-- Use one \`primary\` + \`filled\` button as the dominant CTA per screen or modal
-- Pair \`outline\` or \`ghost\` as the secondary action alongside a filled primary
-- Use \`error\` type only when the action is destructive and irreversible
-- Provide \`aria-label\` on icon-only buttons — this is a **blocking** accessibility requirement
-- Always keep the visible focus ring — never suppress it
-
-**Don't:**
-- Place two Filled buttons of the same type in one button group
-- Use \`error\` type for warnings — use Alert or Toast instead
-- Use \`ghost\` as the only visible action in a view
-- Add \`loading\` state — out of scope until DS approval
-- Use Button for navigation links — use a Link component instead
-
----
-
-**Accessibility:**
-- Renders as a native \`<button type="button">\`
-- \`disabled\` sets the native HTML \`disabled\` attribute — button is removed from tab order
-- Icon-only buttons require \`aria-label\` — dev warning fires if missing
-- Focus ring uses \`:focus-visible\` (keyboard nav only, not mouse click)
-- Do not suppress \`outline: none\` without a custom focus style in place
+**Figma:** [↳buttons-medium — Design System Scalable V.2.1.0](https://www.figma.com/design/0aVnOgjVWH1YL8JCnjXTBi/)
         `,
       },
     },
@@ -72,8 +44,8 @@ The Button is the primary interactive element for triggering actions across the 
     },
     size: {
       control: "inline-radio",
-      options: ["large"],
-      description: "Button size. This story file is scoped to Large only.",
+      options: ["medium"],
+      description: "Button size. This story file is scoped to Medium only.",
     },
     icon: { table: { disable: true } },
     iconPosition: {
@@ -83,7 +55,7 @@ The Button is the primary interactive element for triggering actions across the 
     },
     onlyIcon: {
       control: "boolean",
-      description: "Renders a 40×40 icon-only button. Requires `icon` and `aria-label`.",
+      description: "Renders a 36×36 icon-only button. Requires `icon` and `aria-label`.",
     },
     badge: { table: { disable: true } },
     showBadge: {
@@ -97,14 +69,14 @@ The Button is the primary interactive element for triggering actions across the 
     },
     children: { control: "text", description: "Label text." },
     disabled: { control: "boolean" },
-    leftIcon:   { table: { disable: true } },
-    rightIcon:  { table: { disable: true } },
-    className:  { table: { disable: true } },
+    leftIcon:  { table: { disable: true } },
+    rightIcon: { table: { disable: true } },
+    className: { table: { disable: true } },
   },
   args: {
     type: "primary",
     variant: "filled",
-    size: "large",
+    size: "medium",
     children: "Button",
     disabled: false,
     onlyIcon: false,
@@ -114,13 +86,13 @@ The Button is the primary interactive element for triggering actions across the 
   },
 };
 
-// ── Playground ───────────────────────────────────────────────────────────────
+// ── Playground ────────────────────────────────────────────────────────────────
 
 export const Playground = {
   parameters: {
     docs: {
       description: {
-        story: "Interactive sandbox — use the controls panel to try all approved type / style / icon combinations for the Large button.",
+        story: "Interactive sandbox — use the controls panel to try all approved type / style / icon combinations for the Medium button.",
       },
     },
   },
@@ -161,31 +133,10 @@ export const Playground = {
 const TYPES    = ["primary", "neutral", "error"];
 const VARIANTS = ["filled", "outline", "lighter", "ghost"];
 
-function Label({ children: text }) {
-  return (
-    <span style={{
-      fontFamily: "var(--font-family-body)",
-      fontSize: 11,
-      fontWeight: 600,
-      color: "#888",
-      textTransform: "uppercase",
-      letterSpacing: "0.06em",
-    }}>
-      {text}
-    </span>
-  );
-}
-
 function Row({ label, children: content }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-      <span style={{
-        width: 68,
-        flexShrink: 0,
-        fontFamily: "var(--font-family-body)",
-        fontSize: 12,
-        color: "#888",
-      }}>
+      <span style={{ width: 68, flexShrink: 0, fontFamily: "var(--font-family-body)", fontSize: 12, color: "#888" }}>
         {label}
       </span>
       {content}
@@ -194,20 +145,7 @@ function Row({ label, children: content }) {
 }
 
 function Group({ children: content }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      {content}
-    </div>
-  );
-}
-
-function Section({ title, children: content }) {
-  return (
-    <section>
-      <div style={{ marginBottom: 10 }}><Label>{title}</Label></div>
-      {content}
-    </section>
-  );
+  return <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>{content}</div>;
 }
 
 // ── Default ───────────────────────────────────────────────────────────────────
@@ -217,12 +155,12 @@ export const Default = {
   parameters: {
     docs: {
       description: {
-        story: "Baseline reference — Primary · Filled · Large. This is the highest-weight button style. Use as the dominant CTA in a section, modal, or onboarding step.",
+        story: "Baseline reference — Primary · Filled · Medium. Medium is the default size for most UI contexts. When no special size is required, use Medium.",
       },
     },
   },
   render: () => (
-    <Button type="primary" variant="filled" size="large">Button</Button>
+    <Button type="primary" variant="filled" size="medium">Button</Button>
   ),
 };
 
@@ -233,14 +171,14 @@ export const AllTypes = {
   parameters: {
     docs: {
       description: {
-        story: "Primary · Neutral · Error shown with Filled style. **Primary** = main CTA. **Neutral** = supporting action. **Error** = destructive / irreversible action only.",
+        story: "Primary · Neutral · Error with Filled style. **Primary** = main CTA. **Neutral** = supporting action. **Error** = destructive / irreversible action only.",
       },
     },
   },
   render: () => (
     <div style={{ display: "flex", gap: 12 }}>
       {TYPES.map((type) => (
-        <Button key={type} type={type} variant="filled" size="large">
+        <Button key={type} type={type} variant="filled" size="medium">
           {type.charAt(0).toUpperCase() + type.slice(1)}
         </Button>
       ))}
@@ -255,14 +193,14 @@ export const AllStyles = {
   parameters: {
     docs: {
       description: {
-        story: "Filled · Outline · Lighter · Ghost shown with Primary type. Visual weight descends left to right — Filled is highest, Ghost is lowest.",
+        story: "Filled · Outline · Lighter · Ghost with Primary type. Visual weight descends left to right.",
       },
     },
   },
   render: () => (
     <div style={{ display: "flex", gap: 12 }}>
       {VARIANTS.map((variant) => (
-        <Button key={variant} type="primary" variant={variant} size="large">
+        <Button key={variant} type="primary" variant={variant} size="medium">
           {variant.charAt(0).toUpperCase() + variant.slice(1)}
         </Button>
       ))}
@@ -277,7 +215,7 @@ export const WithLeftIcon = {
   parameters: {
     docs: {
       description: {
-        story: "Icon on the left reinforces or clarifies the label meaning. The icon must semantically match the action — do not use decorative icons.",
+        story: "Icon on the left reinforces or clarifies the label. The icon must semantically match the action.",
       },
     },
   },
@@ -286,7 +224,7 @@ export const WithLeftIcon = {
       {TYPES.map((type) => (
         <div key={type} style={{ display: "flex", gap: 12 }}>
           {VARIANTS.map((variant) => (
-            <Button key={variant} type={type} variant={variant} size="large"
+            <Button key={variant} type={type} variant={variant} size="medium"
               icon={<CopyIcon />} iconPosition="left">
               Button
             </Button>
@@ -304,7 +242,7 @@ export const WithRightIcon = {
   parameters: {
     docs: {
       description: {
-        story: "Icon on the right indicates direction, expansion, or continuation — e.g. chevron-right on 'Next', external-link on 'View on Explorer'. Use sparingly.",
+        story: "Icon on the right indicates direction, expansion, or continuation. Use sparingly.",
       },
     },
   },
@@ -313,7 +251,7 @@ export const WithRightIcon = {
       {TYPES.map((type) => (
         <div key={type} style={{ display: "flex", gap: 12 }}>
           {VARIANTS.map((variant) => (
-            <Button key={variant} type={type} variant={variant} size="large"
+            <Button key={variant} type={type} variant={variant} size="medium"
               icon={<CopyIcon />} iconPosition="right">
               Button
             </Button>
@@ -331,7 +269,7 @@ export const IconOnly = {
   parameters: {
     docs: {
       description: {
-        story: "Visible label is hidden but must be present in code via `aria-label`. Use only when the icon meaning is universally clear in context (close, filter, share). Large icon-only = 40×40px.",
+        story: "Visible label is hidden but must be present in code via `aria-label`. Medium icon-only = 36×36px.",
       },
     },
   },
@@ -340,7 +278,7 @@ export const IconOnly = {
       {TYPES.map((type) => (
         <div key={type} style={{ display: "flex", gap: 12 }}>
           {VARIANTS.map((variant) => (
-            <Button key={variant} type={type} variant={variant} size="large"
+            <Button key={variant} type={type} variant={variant} size="medium"
               onlyIcon icon={<CopyIcon />} aria-label="Copy" />
           ))}
         </div>
@@ -356,7 +294,7 @@ export const WithBadge = {
   parameters: {
     docs: {
       description: {
-        story: "Badge supported on Large and Medium only — not Small. Badge value should reflect live data (e.g. notification count). Badge and icon cannot appear together.",
+        story: "Badge supported on Large and Medium only — not Small. Badge and icon cannot appear together.",
       },
     },
   },
@@ -365,7 +303,7 @@ export const WithBadge = {
       {TYPES.map((type) => (
         <div key={type} style={{ display: "flex", gap: 12 }}>
           {VARIANTS.map((variant) => (
-            <Button key={variant} type={type} variant={variant} size="large" badge={3}>
+            <Button key={variant} type={type} variant={variant} size="medium" badge={3}>
               Button
             </Button>
           ))}
@@ -382,7 +320,7 @@ export const Disabled = {
   parameters: {
     docs: {
       description: {
-        story: "Disabled state uses shared `button/disabled/*` tokens across all types and styles. Native `disabled` attribute removes the button from tab order. Where possible, provide a tooltip or helper text explaining why the button is unavailable.",
+        story: "Shared `button/disabled/*` tokens across all types and styles. Native `disabled` removes the button from tab order.",
       },
     },
   },
@@ -392,7 +330,7 @@ export const Disabled = {
         <Row key={variant} label={variant}>
           <div style={{ display: "flex", gap: 12 }}>
             {TYPES.map((type) => (
-              <Button key={type} type={type} variant={variant} size="large" disabled>
+              <Button key={type} type={type} variant={variant} size="medium" disabled>
                 Button
               </Button>
             ))}
@@ -410,30 +348,25 @@ export const Focus = {
   parameters: {
     docs: {
       description: {
-        story: "Keyboard focus ring — uses `:focus-visible` so it only appears on keyboard navigation, not mouse click. Focus ring is a **blocking accessibility requirement** — do not suppress it. Tab through the buttons below to see the focus ring per type.",
+        story: "Keyboard focus ring — uses `:focus-visible`. Visible focus is a **blocking accessibility requirement**. Tab through the buttons below to verify.",
       },
     },
   },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-      <p style={{
-        margin: 0,
-        fontFamily: "var(--font-family-body)",
-        fontSize: 13,
-        color: "#888",
-      }}>
+      <p style={{ margin: 0, fontFamily: "var(--font-family-body)", fontSize: 13, color: "#888" }}>
         Use <kbd style={{ fontFamily: "monospace", background: "#f0f0f0", padding: "1px 5px", borderRadius: 3, fontSize: 12 }}>Tab</kbd> to move focus and view the focus ring per type.
       </p>
       <div style={{ display: "flex", gap: 12 }}>
         {TYPES.map((type) => (
-          <Button key={type} type={type} variant="filled" size="large">
+          <Button key={type} type={type} variant="filled" size="medium">
             {type.charAt(0).toUpperCase() + type.slice(1)}
           </Button>
         ))}
       </div>
       <div style={{ display: "flex", gap: 12 }}>
         {TYPES.map((type) => (
-          <Button key={type} type={type} variant="outline" size="large">
+          <Button key={type} type={type} variant="outline" size="medium">
             {type.charAt(0).toUpperCase() + type.slice(1)}
           </Button>
         ))}
@@ -449,7 +382,7 @@ export const LightMode = {
   parameters: {
     docs: {
       description: {
-        story: "All styles in explicit light mode context. All button token values are driven by the theme — no hardcoded color overrides.",
+        story: "All styles in explicit light mode context. Token values are theme-driven — no hardcoded overrides.",
       },
     },
   },
@@ -460,7 +393,7 @@ export const LightMode = {
           <Row key={variant} label={variant}>
             <div style={{ display: "flex", gap: 12 }}>
               {TYPES.map((type) => (
-                <Button key={type} type={type} variant={variant} size="large">Button</Button>
+                <Button key={type} type={type} variant={variant} size="medium">Button</Button>
               ))}
             </div>
           </Row>
@@ -477,7 +410,7 @@ export const DarkMode = {
   parameters: {
     docs: {
       description: {
-        story: "All styles in dark mode context via `data-theme=\"dark\"`. Token values switch automatically — no separate CSS block is needed. Verify that Ghost and Lighter soft fills have sufficient contrast against the dark surface.",
+        story: "All styles in dark mode via `data-theme=\"dark\"`. Token values switch automatically. Verify Ghost and Lighter soft fills have sufficient contrast against the dark surface.",
       },
     },
   },
@@ -488,7 +421,7 @@ export const DarkMode = {
           <Row key={variant} label={variant}>
             <div style={{ display: "flex", gap: 12 }}>
               {TYPES.map((type) => (
-                <Button key={type} type={type} variant={variant} size="large">Button</Button>
+                <Button key={type} type={type} variant={variant} size="medium">Button</Button>
               ))}
             </div>
           </Row>
@@ -505,29 +438,27 @@ export const TypeStyleMatrix = {
   parameters: {
     docs: {
       description: {
-        story: "All 12 approved type + style combinations (3 types × 4 styles). Columns = types, rows = styles. Use this as the primary visual QA reference.",
+        story: "All 12 approved type + style combinations (3 types × 4 styles). Primary visual QA reference.",
       },
     },
   },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      {/* Header row */}
       <div style={{ display: "flex", gap: 8, marginBottom: 4, paddingLeft: 76 }}>
         {TYPES.map((type) => (
-          <div key={type} style={{ width: 120, fontFamily: "var(--font-family-body)", fontSize: 11, fontWeight: 600, color: "#888", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          <div key={type} style={{ width: 112, fontFamily: "var(--font-family-body)", fontSize: 11, fontWeight: 600, color: "#888", textTransform: "uppercase", letterSpacing: "0.06em" }}>
             {type}
           </div>
         ))}
       </div>
-      {/* Matrix rows */}
       {VARIANTS.map((variant) => (
         <div key={variant} style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ width: 68, flexShrink: 0, fontFamily: "var(--font-family-body)", fontSize: 12, color: "#888" }}>
             {variant}
           </span>
           {TYPES.map((type) => (
-            <div key={type} style={{ width: 120 }}>
-              <Button type={type} variant={variant} size="large">Button</Button>
+            <div key={type} style={{ width: 112 }}>
+              <Button type={type} variant={variant} size="medium">Button</Button>
             </div>
           ))}
         </div>
@@ -568,13 +499,7 @@ function VariantMatrix({ renderBtn }) {
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       {ALL_VARIANTS.map((variant) => (
         <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-          <span style={{
-            width: 64,
-            fontFamily: "var(--font-family-body)",
-            fontSize: 12,
-            color: "#888",
-            flexShrink: 0,
-          }}>
+          <span style={{ width: 64, fontFamily: "var(--font-family-body)", fontSize: 12, color: "#888", flexShrink: 0 }}>
             {variant}
           </span>
           {VARIANT_TYPES[variant].map((type) => renderBtn(variant, type))}
@@ -589,7 +514,7 @@ export const AllVariants = {
   parameters: {
     docs: {
       description: {
-        story: "Comprehensive view of all approved style × type × state combinations for Large. Use individual named stories for focused QA.",
+        story: "Comprehensive view of all approved style × type × state combinations for Medium.",
       },
     },
   },
@@ -599,14 +524,14 @@ export const AllVariants = {
       <section>
         <SectionTitle>Default — text only</SectionTitle>
         <VariantMatrix renderBtn={(variant, type) => (
-          <Button key={type} type={type} variant={variant} size="large">Button</Button>
+          <Button key={type} type={type} variant={variant} size="medium">Button</Button>
         )} />
       </section>
 
       <section>
         <SectionTitle>Icon left</SectionTitle>
         <VariantMatrix renderBtn={(variant, type) => (
-          <Button key={type} type={type} variant={variant} size="large" icon={<CopyIcon />} iconPosition="left">
+          <Button key={type} type={type} variant={variant} size="medium" icon={<CopyIcon />} iconPosition="left">
             Button
           </Button>
         )} />
@@ -615,7 +540,7 @@ export const AllVariants = {
       <section>
         <SectionTitle>Icon right</SectionTitle>
         <VariantMatrix renderBtn={(variant, type) => (
-          <Button key={type} type={type} variant={variant} size="large" icon={<CopyIcon />} iconPosition="right">
+          <Button key={type} type={type} variant={variant} size="medium" icon={<CopyIcon />} iconPosition="right">
             Button
           </Button>
         )} />
@@ -624,21 +549,21 @@ export const AllVariants = {
       <section>
         <SectionTitle>With badge</SectionTitle>
         <VariantMatrix renderBtn={(variant, type) => (
-          <Button key={type} type={type} variant={variant} size="large" badge={2}>Button</Button>
+          <Button key={type} type={type} variant={variant} size="medium" badge={2}>Button</Button>
         )} />
       </section>
 
       <section>
         <SectionTitle>Icon only</SectionTitle>
         <VariantMatrix renderBtn={(variant, type) => (
-          <Button key={type} type={type} variant={variant} size="large" onlyIcon icon={<CopyIcon />} aria-label="Icon button" />
+          <Button key={type} type={type} variant={variant} size="medium" onlyIcon icon={<CopyIcon />} aria-label="Icon button" />
         )} />
       </section>
 
       <section>
         <SectionTitle>Disabled</SectionTitle>
         <VariantMatrix renderBtn={(variant, type) => (
-          <Button key={type} type={type} variant={variant} size="large" disabled>Button</Button>
+          <Button key={type} type={type} variant={variant} size="medium" disabled>Button</Button>
         )} />
       </section>
 

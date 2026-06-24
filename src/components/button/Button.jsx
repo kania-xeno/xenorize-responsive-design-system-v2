@@ -2,9 +2,12 @@ import React from "react";
 import "./Button.css";
 
 /**
- * Button — Large
- * Spec: components/button/button-large-spec.md
- * Source: Figma "Design System Scalable V.2.1.0 → ↳buttons-large" (node 1897:1592)
+ * Button — Large + Medium + Small
+ * Specs: components/button/button-large-spec.md, button-medium-spec.md, button-small-spec.md
+ * Sources:
+ *   Large  — Figma node 1897:1592 (↳buttons-large)
+ *   Medium — Figma node 1921:3648 (↳buttons-medium)
+ *   Small  — Figma node 1921:4253 (↳buttons-small)
  *
  * @param {"primary"|"neutral"|"error"} [type="primary"]
  *   Maps to Figma "🧩 Type". "secondary" is built but hidden until a use-case is confirmed.
@@ -12,7 +15,7 @@ import "./Button.css";
  * @param {"filled"|"outline"|"lighter"|"ghost"} [variant="filled"]
  *   Maps to Figma "🏵️ Style". "outline" = Figma "Stroke".
  *
- * @param {"large"} [size="large"]
+ * @param {"large"|"medium"|"small"} [size="large"]
  *
  * @param {React.ReactNode} [icon]
  *   The icon to display. Use `iconPosition` to place it left or right.
