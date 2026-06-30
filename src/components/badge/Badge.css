@@ -1,0 +1,422 @@
+/* =============================================================================
+   Badge — Component Styles
+   Figma source: Design System Scalable V.2.1.0 → ❖ badge (2008:2857)
+   DS version: v2.1.0 | Implemented: 30/06/2026
+
+   Architecture: scoped CSS custom properties (--_badge-*) are set per
+   [data-color][data-style] combination. Base .badge rules consume only the
+   scoped vars — no color logic in the base rule.
+
+   9 colors × 4 styles = 36 attribute combinations.
+   All token values come from tokens.css --badge-{color}-{style}-{role}.
+   No hardcoded hex values.
+   ============================================================================= */
+
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  background-color: var(--_badge-bg);
+  color:            var(--_badge-text);
+  border:           1px solid var(--_badge-border-color, transparent);
+  border-radius:    999px;
+
+  font-family: var(--font-family-body);
+  font-weight: 400;
+  white-space: nowrap;
+  /* Typography is size-specific — see .badge--small / .badge--medium below */
+}
+
+/* ── Icon slot ─────────────────────────────────────────────────────────────── */
+
+.badge__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--_badge-icon);
+  flex-shrink: 0;
+}
+
+/* ── Label ─────────────────────────────────────────────────────────────────── */
+
+.badge__label {
+  /* inherits color from .badge → var(--_badge-text) */
+}
+
+/* ── Number (Number=On) ────────────────────────────────────────────────────── */
+
+.badge__number {
+  font-weight: 600; /* SemiBold — Number=On only */
+  /* inherits color from .badge */
+}
+
+/* ── Dot ───────────────────────────────────────────────────────────────────── */
+/* Dot color reuses the text token — no dedicated dot color token in DS V1.    */
+
+.badge__dot-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.badge__dot {
+  width:         4px;
+  height:        4px;
+  border-radius: 50%;
+  background-color: var(--_badge-text);
+  flex-shrink:   0;
+}
+
+/* ── Size variants ─────────────────────────────────────────────────────────── */
+/* Spacing per: responsive collection spacing/X tokens (v2 — updated 30/06/2026) */
+/* spacing/2=2px spacing/4=4px spacing/6=6px spacing/8=8px spacing/10=10px       */
+/*                                                                                */
+/* Typography is split by size — text styles now bound in Figma (DS Gap resolved) */
+/* Small: 10px / 150% line-height / 0.5% letter-spacing                          */
+/* Medium: 12px / 133% line-height / 0.2% letter-spacing                         */
+/*                                                                                */
+/* Medium uses asymmetric vertical padding (pTop=2px, pBottom=4px) — intentional  */
+/* optical alignment per Figma source of truth. Implement as-is.                  */
+
+/* ── Typography — Small */
+.badge--small {
+  font-size:      10px;
+  line-height:    1.5;      /* 150% */
+  letter-spacing: 0.005em;  /* 0.5% */
+}
+
+/* ── Typography — Medium */
+.badge--medium {
+  font-size:      12px;
+  line-height:    1.33;     /* ~133% */
+  letter-spacing: 0.002em;  /* 0.2% */
+}
+
+/* Basic — Small: pTop=2 pBottom=2 pLeft=8 pRight=8 gap=2 */
+.badge--basic.badge--small {
+  padding: 2px 8px;
+  gap: 2px;
+}
+
+/* Basic — Medium: pTop=2 pBottom=4 pLeft=10 pRight=10 gap=2 (asymmetric vertical) */
+.badge--basic.badge--medium {
+  padding: 2px 10px 4px;
+  gap: 2px;
+}
+
+/* Number=On — Small: pTop=2 pBottom=2 pLeft=4 pRight=4 */
+.badge--basic.badge--small:has(.badge__number) {
+  padding: 2px 4px;
+}
+
+/* Number=On — Medium: pTop=2 pBottom=4 pLeft=4 pRight=4 (asymmetric vertical) */
+.badge--basic.badge--medium:has(.badge__number) {
+  padding: 2px 4px 4px;
+}
+
+/* Dot — Small: pTop=2 pBottom=2 pLeft=0 pRight=8 gap=0  */
+/* Dot-container is 14×14 (reduced from 16×16 in v2).     */
+.badge--dot.badge--small {
+  padding: 2px 8px 2px 0;
+  gap: 0;
+}
+
+.badge--dot.badge--small .badge__dot-container {
+  width:  14px;
+  height: 14px;
+}
+
+/* Dot — Medium: pTop=2 pBottom=4 pLeft=2 pRight=8 gap=0 (asymmetric vertical) */
+.badge--dot.badge--medium {
+  padding: 2px 8px 4px 2px;
+  gap: 0;
+}
+
+.badge--dot.badge--medium .badge__dot-container {
+  padding: 0 4px;
+}
+
+/* Left Icon — Small: pTop=2 pBottom=2 pLeft=6 pRight=8 gap=4 */
+.badge--left-icon.badge--small {
+  padding: 2px 8px 2px 6px;
+  gap: 4px;
+}
+
+/* Left Icon — Medium: pTop=2 pBottom=4 pLeft=6 pRight=8 gap=4 (asymmetric vertical) */
+.badge--left-icon.badge--medium {
+  padding: 2px 8px 4px 6px;
+  gap: 4px;
+}
+
+/* Right Icon — Small: pTop=2 pBottom=2 pLeft=8 pRight=6 gap=4 */
+.badge--right-icon.badge--small {
+  padding: 2px 6px 2px 8px;
+  gap: 4px;
+}
+
+/* Right Icon — Medium: pTop=2 pBottom=4 pLeft=8 pRight=6 gap=4 (asymmetric vertical) */
+.badge--right-icon.badge--medium {
+  padding: 2px 6px 4px 8px;
+  gap: 4px;
+}
+
+/* ── Disabled ──────────────────────────────────────────────────────────────── */
+/* Disabled=On reuses stroke-style tokens. Badge.jsx sets data-style="stroke"  */
+/* when disabled=true, so the [data-color][data-style="stroke"] rules handle   */
+/* token resolution. This class is the specificity fallback guard only.        */
+
+.badge--disabled {
+  --_badge-bg: transparent;
+}
+
+/* ── Color × Style — scoped token assignment ───────────────────────────────── */
+/* Each combination sets 4 scoped vars consumed by the base rule.              */
+/* Stroke style: --_badge-bg is forced transparent; border uses stroke token.  */
+/* Stroke-style "bg" tokens resolve to page bg (#fff/dark bg) — not applied.  */
+
+/* ————— GRAY ————— */
+
+.badge[data-color="gray"][data-style="filled"] {
+  --_badge-bg:     var(--badge-gray-filled-bg);
+  --_badge-text:   var(--badge-gray-filled-text);
+  --_badge-icon:   var(--badge-gray-filled-icon);
+}
+
+.badge[data-color="gray"][data-style="light"] {
+  --_badge-bg:     var(--badge-gray-light-bg);
+  --_badge-text:   var(--badge-gray-light-text);
+  --_badge-icon:   var(--badge-gray-light-icon);
+}
+
+.badge[data-color="gray"][data-style="lighter"] {
+  --_badge-bg:     var(--badge-gray-lighter-bg);
+  --_badge-text:   var(--badge-gray-lighter-text);
+  --_badge-icon:   var(--badge-gray-lighter-icon);
+}
+
+.badge[data-color="gray"][data-style="stroke"] {
+  --_badge-bg:           transparent;
+  --_badge-text:         var(--badge-gray-stroke-text);
+  --_badge-icon:         var(--badge-gray-stroke-icon);
+  --_badge-border-color: var(--badge-gray-stroke-stroke);
+}
+
+/* ————— BLUE ————— */
+
+.badge[data-color="blue"][data-style="filled"] {
+  --_badge-bg:     var(--badge-blue-filled-bg);
+  --_badge-text:   var(--badge-blue-filled-text);
+  --_badge-icon:   var(--badge-blue-filled-icon);
+}
+
+.badge[data-color="blue"][data-style="light"] {
+  --_badge-bg:     var(--badge-blue-light-bg);
+  --_badge-text:   var(--badge-blue-light-text);
+  --_badge-icon:   var(--badge-blue-light-icon);
+}
+
+.badge[data-color="blue"][data-style="lighter"] {
+  --_badge-bg:     var(--badge-blue-lighter-bg);
+  --_badge-text:   var(--badge-blue-lighter-text);
+  --_badge-icon:   var(--badge-blue-lighter-icon);
+}
+
+.badge[data-color="blue"][data-style="stroke"] {
+  --_badge-bg:           transparent;
+  --_badge-text:         var(--badge-blue-stroke-text);
+  --_badge-icon:         var(--badge-blue-stroke-icon);
+  --_badge-border-color: var(--badge-blue-stroke-stroke);
+}
+
+/* ————— ORANGE ————— */
+
+.badge[data-color="orange"][data-style="filled"] {
+  --_badge-bg:     var(--badge-orange-filled-bg);
+  --_badge-text:   var(--badge-orange-filled-text);
+  --_badge-icon:   var(--badge-orange-filled-icon);
+}
+
+.badge[data-color="orange"][data-style="light"] {
+  --_badge-bg:     var(--badge-orange-light-bg);
+  --_badge-text:   var(--badge-orange-light-text);
+  --_badge-icon:   var(--badge-orange-light-icon);
+}
+
+.badge[data-color="orange"][data-style="lighter"] {
+  --_badge-bg:     var(--badge-orange-lighter-bg);
+  --_badge-text:   var(--badge-orange-lighter-text);
+  --_badge-icon:   var(--badge-orange-lighter-icon);
+}
+
+.badge[data-color="orange"][data-style="stroke"] {
+  --_badge-bg:           transparent;
+  --_badge-text:         var(--badge-orange-stroke-text);
+  --_badge-icon:         var(--badge-orange-stroke-icon);
+  --_badge-border-color: var(--badge-orange-stroke-stroke);
+}
+
+/* ————— RED ————— */
+
+.badge[data-color="red"][data-style="filled"] {
+  --_badge-bg:     var(--badge-red-filled-bg);
+  --_badge-text:   var(--badge-red-filled-text);
+  --_badge-icon:   var(--badge-red-filled-icon);
+}
+
+.badge[data-color="red"][data-style="light"] {
+  --_badge-bg:     var(--badge-red-light-bg);
+  --_badge-text:   var(--badge-red-light-text);
+  --_badge-icon:   var(--badge-red-light-icon);
+}
+
+.badge[data-color="red"][data-style="lighter"] {
+  --_badge-bg:     var(--badge-red-lighter-bg);
+  --_badge-text:   var(--badge-red-lighter-text);
+  --_badge-icon:   var(--badge-red-lighter-icon);
+}
+
+.badge[data-color="red"][data-style="stroke"] {
+  --_badge-bg:           transparent;
+  --_badge-text:         var(--badge-red-stroke-text);
+  --_badge-icon:         var(--badge-red-stroke-icon);
+  --_badge-border-color: var(--badge-red-stroke-stroke);
+}
+
+/* ————— GREEN ————— */
+
+.badge[data-color="green"][data-style="filled"] {
+  --_badge-bg:     var(--badge-green-filled-bg);
+  --_badge-text:   var(--badge-green-filled-text);
+  --_badge-icon:   var(--badge-green-filled-icon);
+}
+
+.badge[data-color="green"][data-style="light"] {
+  --_badge-bg:     var(--badge-green-light-bg);
+  --_badge-text:   var(--badge-green-light-text);
+  --_badge-icon:   var(--badge-green-light-icon);
+}
+
+.badge[data-color="green"][data-style="lighter"] {
+  --_badge-bg:     var(--badge-green-lighter-bg);
+  --_badge-text:   var(--badge-green-lighter-text);
+  --_badge-icon:   var(--badge-green-lighter-icon);
+}
+
+.badge[data-color="green"][data-style="stroke"] {
+  --_badge-bg:           transparent;
+  --_badge-text:         var(--badge-green-stroke-text);
+  --_badge-icon:         var(--badge-green-stroke-icon);
+  --_badge-border-color: var(--badge-green-stroke-stroke);
+}
+
+/* ————— PURPLE ————— */
+
+.badge[data-color="purple"][data-style="filled"] {
+  --_badge-bg:     var(--badge-purple-filled-bg);
+  --_badge-text:   var(--badge-purple-filled-text);
+  --_badge-icon:   var(--badge-purple-filled-icon);
+}
+
+.badge[data-color="purple"][data-style="light"] {
+  --_badge-bg:     var(--badge-purple-light-bg);
+  --_badge-text:   var(--badge-purple-light-text);
+  --_badge-icon:   var(--badge-purple-light-icon);
+}
+
+.badge[data-color="purple"][data-style="lighter"] {
+  --_badge-bg:     var(--badge-purple-lighter-bg);
+  --_badge-text:   var(--badge-purple-lighter-text);
+  --_badge-icon:   var(--badge-purple-lighter-icon);
+}
+
+.badge[data-color="purple"][data-style="stroke"] {
+  --_badge-bg:           transparent;
+  --_badge-text:         var(--badge-purple-stroke-text);
+  --_badge-icon:         var(--badge-purple-stroke-icon);
+  --_badge-border-color: var(--badge-purple-stroke-stroke);
+}
+
+/* ————— SKY ————— */
+
+.badge[data-color="sky"][data-style="filled"] {
+  --_badge-bg:     var(--badge-sky-filled-bg);
+  --_badge-text:   var(--badge-sky-filled-text);
+  --_badge-icon:   var(--badge-sky-filled-icon);
+}
+
+.badge[data-color="sky"][data-style="light"] {
+  --_badge-bg:     var(--badge-sky-light-bg);
+  --_badge-text:   var(--badge-sky-light-text);
+  --_badge-icon:   var(--badge-sky-light-icon);
+}
+
+.badge[data-color="sky"][data-style="lighter"] {
+  --_badge-bg:     var(--badge-sky-lighter-bg);
+  --_badge-text:   var(--badge-sky-lighter-text);
+  --_badge-icon:   var(--badge-sky-lighter-icon);
+}
+
+.badge[data-color="sky"][data-style="stroke"] {
+  --_badge-bg:           transparent;
+  --_badge-text:         var(--badge-sky-stroke-text);
+  --_badge-icon:         var(--badge-sky-stroke-icon);
+  --_badge-border-color: var(--badge-sky-stroke-stroke);
+}
+
+/* ————— PINK ————— */
+
+.badge[data-color="pink"][data-style="filled"] {
+  --_badge-bg:     var(--badge-pink-filled-bg);
+  --_badge-text:   var(--badge-pink-filled-text);
+  --_badge-icon:   var(--badge-pink-filled-icon);
+}
+
+.badge[data-color="pink"][data-style="light"] {
+  --_badge-bg:     var(--badge-pink-light-bg);
+  --_badge-text:   var(--badge-pink-light-text);
+  --_badge-icon:   var(--badge-pink-light-icon);
+}
+
+.badge[data-color="pink"][data-style="lighter"] {
+  --_badge-bg:     var(--badge-pink-lighter-bg);
+  --_badge-text:   var(--badge-pink-lighter-text);
+  --_badge-icon:   var(--badge-pink-lighter-icon);
+}
+
+.badge[data-color="pink"][data-style="stroke"] {
+  --_badge-bg:           transparent;
+  --_badge-text:         var(--badge-pink-stroke-text);
+  --_badge-icon:         var(--badge-pink-stroke-icon);
+  --_badge-border-color: var(--badge-pink-stroke-stroke);
+}
+
+/* ————— TEAL ————— */
+
+.badge[data-color="teal"][data-style="filled"] {
+  --_badge-bg:     var(--badge-teal-filled-bg);
+  --_badge-text:   var(--badge-teal-filled-text);
+  --_badge-icon:   var(--badge-teal-filled-icon);
+}
+
+.badge[data-color="teal"][data-style="light"] {
+  --_badge-bg:     var(--badge-teal-light-bg);
+  --_badge-text:   var(--badge-teal-light-text);
+  --_badge-icon:   var(--badge-teal-light-icon);
+}
+
+.badge[data-color="teal"][data-style="lighter"] {
+  --_badge-bg:     var(--badge-teal-lighter-bg);
+  --_badge-text:   var(--badge-teal-lighter-text);
+  --_badge-icon:   var(--badge-teal-lighter-icon);
+}
+
+.badge[data-color="teal"][data-style="stroke"] {
+  --_badge-bg:           transparent;
+  --_badge-text:         var(--badge-teal-stroke-text);
+  --_badge-icon:         var(--badge-teal-stroke-icon);
+  --_badge-border-color: var(--badge-teal-stroke-stroke);
+}

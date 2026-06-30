@@ -140,6 +140,7 @@
   --color-surface-neutral-soft-alt: #ebecef;
   --color-surface-neutral-strong-950: #161616;
 
+  --color-border-neutral-default: #d1d1d1;
   --color-border-neutral-subtle: #eaeaea;
   --color-border-neutral-strong: #333333;
   --color-border-stroke-soft-200: #ebebeb;
@@ -155,7 +156,7 @@
   --status-danger-base: #cb1515;
   --status-danger-dark: #941010;
   --status-warning-lighter: #fef4ec;
-  --status-warning-base: #763606;
+  --status-warning-base: #684e00;  /* updated — Figma source of truth (was #763606) */
   --status-warning-dark: #482104;
   --status-success-lighter: #edfdf3;
   --status-success-base: #0f6d32;
@@ -403,6 +404,193 @@
   --input-phone-number-icon-default: #403297;
   --input-phone-number-bg: #ffffff;
   --input-phone-number-border-default: #eaeaea;
+
+  /* ================= COLOR — ACCORDION ================= */
+  /* Source: Figma component collection "accordion/*" variables, resolved via
+     Desktop Bridge 29/06/2026. Token chain: component → theme → primitive.
+     accordion/bg/hover and accordion/bg/active alias the same theme token
+     (surface/neutral/weak) — identical resolved values by DS design intent. */
+  --accordion-bg-default:    #ffffff;
+  --accordion-bg-hover:      #f6f7f8;
+  --accordion-bg-active:     #f6f7f8;
+  --accordion-border:        #eaeaea;
+  --accordion-icon-soft:     #a3a3a3;
+  --accordion-icon-default:  #5c5c5c;
+  --accordion-text-title:    #1c1c1c;
+  --accordion-text-body:     #5c5c5c;
+  /* Shadow — primitive token color/alpha/black/4 (rgba(23,23,23,0.04)),
+     used in Default state only (not Hover or Active). */
+  --accordion-shadow: 0 1px 2px 0 rgba(23, 23, 23, 0.04);
+
+  /* ================= COLOR — BADGE =================
+     Source: Figma component collection "badge/{color}/{style}/{role}",
+     resolved through theme collection light mode (1781:34), 30/06/2026.
+     144 tokens: 9 colors × 4 styles × 4 roles (bg, text, icon, stroke).
+     Yellow excluded — no Figma variant. See badge-spec.md.
+     Stroke-style "bg" tokens (#ffffff) are defined here for completeness
+     but CSS uses transparent for stroke/disabled backgrounds. */
+
+  /* — Gray — */
+  --badge-gray-filled-bg:      #1c1c1c;
+  --badge-gray-filled-text:    #ffffff;
+  --badge-gray-filled-icon:    #ffffff;
+  --badge-gray-filled-stroke:  #1c1c1c;
+  --badge-gray-light-bg:       #f4f4f6;
+  --badge-gray-light-text:     #1c1c1c;
+  --badge-gray-light-icon:     #333333;
+  --badge-gray-light-stroke:   #f4f4f6;
+  --badge-gray-lighter-bg:     #f4f4f6;
+  --badge-gray-lighter-text:   #7b7b7b;
+  --badge-gray-lighter-icon:   #7b7b7b;
+  --badge-gray-lighter-stroke: #f5f5f5;
+  --badge-gray-stroke-bg:      #ffffff;
+  --badge-gray-stroke-text:    #333333;
+  --badge-gray-stroke-icon:    #333333;
+  --badge-gray-stroke-stroke:  #d1d1d1;
+
+  /* — Blue — */
+  --badge-blue-filled-bg:      #0d4896;
+  --badge-blue-filled-text:    #ffffff;
+  --badge-blue-filled-icon:    #ffffff;
+  --badge-blue-filled-stroke:  #0d4896;
+  --badge-blue-light-bg:       #7cb0f4;
+  --badge-blue-light-text:     #0d4896;
+  --badge-blue-light-icon:     #1264ce;
+  --badge-blue-light-stroke:   #7cb0f4;
+  --badge-blue-lighter-bg:     #deebfc;
+  --badge-blue-lighter-text:   #0d4896;
+  --badge-blue-lighter-icon:   #1264ce;
+  --badge-blue-lighter-stroke: #deebfc;
+  --badge-blue-stroke-bg:      #ffffff;
+  --badge-blue-stroke-text:    #0d4896;
+  --badge-blue-stroke-icon:    #1264ce;
+  --badge-blue-stroke-stroke:  #1264ce;
+
+  /* — Orange — */
+  --badge-orange-filled-bg:      #3c2e00;
+  --badge-orange-filled-text:    #ffffff;
+  --badge-orange-filled-icon:    #ffffff;
+  --badge-orange-filled-stroke:  #3c2e00;
+  --badge-orange-light-bg:       #f1c21b;
+  --badge-orange-light-text:     #3c2e00;
+  --badge-orange-light-icon:     #684e00;
+  --badge-orange-light-stroke:   #f1c21b;
+  --badge-orange-lighter-bg:     #fddc69;
+  --badge-orange-lighter-text:   #3c2e00;
+  --badge-orange-lighter-icon:   #684e00;
+  --badge-orange-lighter-stroke: #fddc69;
+  --badge-orange-stroke-bg:      #ffffff;
+  --badge-orange-stroke-text:    #3c2e00;
+  --badge-orange-stroke-icon:    #684e00;
+  --badge-orange-stroke-stroke:  #684e00;
+
+  /* — Red — */
+  --badge-red-filled-bg:      #941010;
+  --badge-red-filled-text:    #ffffff;
+  --badge-red-filled-icon:    #ffffff;
+  --badge-red-filled-stroke:  #941010;
+  --badge-red-light-bg:       #f17e7e;
+  --badge-red-light-text:     #941010;
+  --badge-red-light-icon:     #cb1515;
+  --badge-red-light-stroke:   #f17e7e;
+  --badge-red-lighter-bg:     #fcdfdf;
+  --badge-red-lighter-text:   #941010;
+  --badge-red-lighter-icon:   #cb1515;
+  --badge-red-lighter-stroke: #fcdfdf;
+  --badge-red-stroke-bg:      #ffffff;
+  --badge-red-stroke-text:    #941010;
+  --badge-red-stroke-icon:    #cb1515;
+  --badge-red-stroke-stroke:  #cb1515;
+
+  /* — Green — */
+  --badge-green-filled-bg:      #09421e;
+  --badge-green-filled-text:    #ffffff;
+  --badge-green-filled-icon:    #ffffff;
+  --badge-green-filled-stroke:  #09421e;
+  --badge-green-light-bg:       #82eeaa;
+  --badge-green-light-text:     #09421e;
+  --badge-green-light-icon:     #0f6d32;
+  --badge-green-light-stroke:   #82eeaa;
+  --badge-green-lighter-bg:     #edfdf3;
+  --badge-green-lighter-text:   #09421e;
+  --badge-green-lighter-icon:   #0f6d32;
+  --badge-green-lighter-stroke: #edfdf3;
+  --badge-green-stroke-bg:      #ffffff;
+  --badge-green-stroke-text:    #09421e;
+  --badge-green-stroke-icon:    #0f6d32;
+  --badge-green-stroke-stroke:  #0f6d32;
+
+  /* — Purple — */
+  --badge-purple-filled-bg:      #302571;
+  --badge-purple-filled-text:    #ffffff;
+  --badge-purple-filled-icon:    #ffffff;
+  --badge-purple-filled-stroke:  #302571;
+  --badge-purple-light-bg:       #9589d9;
+  --badge-purple-light-text:     #302571;
+  --badge-purple-light-icon:     #403297;
+  --badge-purple-light-stroke:   #9589d9;
+  --badge-purple-lighter-bg:     #dad6f2;
+  --badge-purple-lighter-text:   #302571;
+  --badge-purple-lighter-icon:   #403297;
+  --badge-purple-lighter-stroke: #dad6f2;
+  --badge-purple-stroke-bg:      #ffffff;
+  --badge-purple-stroke-text:    #302571;
+  --badge-purple-stroke-icon:    #403297;
+  --badge-purple-stroke-stroke:  #403297;
+
+  /* — Sky — */
+  --badge-sky-filled-bg:      #2597d0;
+  --badge-sky-filled-text:    #ffffff;
+  --badge-sky-filled-icon:    #ffffff;
+  --badge-sky-filled-stroke:  #2597d0;
+  --badge-sky-light-bg:       #97dcff;
+  --badge-sky-light-text:     #2597d0;
+  --badge-sky-light-icon:     #35ade9;
+  --badge-sky-light-stroke:   #97dcff;
+  --badge-sky-lighter-bg:     #d5f1ff;
+  --badge-sky-lighter-text:   #2597d0;
+  --badge-sky-lighter-icon:   #35ade9;
+  --badge-sky-lighter-stroke: #d5f1ff;
+  --badge-sky-stroke-bg:      #ffffff;
+  --badge-sky-stroke-text:    #2597d0;
+  --badge-sky-stroke-icon:    #35ade9;
+  --badge-sky-stroke-stroke:  #35ade9;
+
+  /* — Pink — */
+  --badge-pink-filled-bg:      #d0257a;
+  --badge-pink-filled-text:    #ffffff;
+  --badge-pink-filled-icon:    #ffffff;
+  --badge-pink-filled-stroke:  #d0257a;
+  --badge-pink-light-bg:       #ff97cb;
+  --badge-pink-light-text:     #d0257a;
+  --badge-pink-light-icon:     #e9358f;
+  --badge-pink-light-stroke:   #ff97cb;
+  --badge-pink-lighter-bg:     #ffd5ea;
+  --badge-pink-lighter-text:   #d0257a;
+  --badge-pink-lighter-icon:   #e9358f;
+  --badge-pink-lighter-stroke: #ffd5ea;
+  --badge-pink-stroke-bg:      #ffffff;
+  --badge-pink-stroke-text:    #d0257a;
+  --badge-pink-stroke-icon:    #e9358f;
+  --badge-pink-stroke-stroke:  #e9358f;
+
+  /* — Teal — */
+  --badge-teal-filled-bg:      #1daf9c;
+  --badge-teal-filled-text:    #ffffff;
+  --badge-teal-filled-icon:    #ffffff;
+  --badge-teal-filled-stroke:  #1daf9c;
+  --badge-teal-light-bg:       #84ebdd;
+  --badge-teal-light-text:     #1daf9c;
+  --badge-teal-light-icon:     #22d3bb;
+  --badge-teal-light-stroke:   #84ebdd;
+  --badge-teal-lighter-bg:     #cffbf5;
+  --badge-teal-lighter-text:   #1daf9c;
+  --badge-teal-lighter-icon:   #22d3bb;
+  --badge-teal-lighter-stroke: #cffbf5;
+  --badge-teal-stroke-bg:      #ffffff;
+  --badge-teal-stroke-text:    #1daf9c;
+  --badge-teal-stroke-icon:    #22d3bb;
+  --badge-teal-stroke-stroke:  #22d3bb;
 }
 
 /* =====================================================================
@@ -412,8 +600,23 @@
    ===================================================================== */
 [data-theme="dark"] {
   /* Base surfaces (used for page bg + badge + focus-ring offset) */
+  --color-surface-neutral-weak: #2d2f39;
   --color-surface-neutral-soft: #2d2f39;
   --color-text-neutral-strong: #ffffff;
+
+  /* Border */
+  --color-border-neutral-default: #6b7189;
+
+  /* ---------- Status tokens — base values (dark mode) ----------
+     Source: Figma "Design System Scalable V.2.1.0" theme collection, dark mode.
+     DS variable scan confirmed 25/06/2026.
+     Only /base values were confirmed in scan — lighter/dark variants pending
+     a full status palette dark mode sync with DS Auditor. */
+  --status-danger-base:  #ea3434;
+  --status-warning-base: #b28600;
+  --status-success-base: #57e88c;
+  --status-sky-base:     #68cdff;
+  --status-feature-base: #7263cc;
 
   /* ---------- Button — Fill ---------- */
   --button-fill-primary-bg: #9589d9;
@@ -492,6 +695,185 @@
   --button-disabled-bg: #2d2f39;
   --button-disabled-text: #a3a3a3;
   --button-disabled-border: #5c5c5c;
+
+  /* ---------- Accordion ---------- */
+  /* Source: same Desktop Bridge inspection, 29/06/2026. */
+  --accordion-bg-default:   #24262e;
+  --accordion-bg-hover:     #2d2f39;
+  --accordion-bg-active:    #2d2f39;
+  --accordion-border:       #515567;
+  --accordion-icon-soft:    #989dae;
+  --accordion-icon-default: #ccced7;
+  --accordion-text-title:   #ffffff;
+  --accordion-text-body:    #ccced7;
+  /* Shadow — color/alpha/black/4 is a primitive alpha token. Verify
+     visibility on dark surfaces during QA. */
+  --accordion-shadow: 0 1px 2px 0 rgba(23, 23, 23, 0.04);
+
+  /* ---------- Badge — Dark mode overrides ----------
+     Source: theme collection dark mode (1781:35), resolved 30/06/2026. */
+
+  /* — Gray — */
+  --badge-gray-filled-bg:      #ffffff;
+  --badge-gray-filled-text:    #1b1c22;
+  --badge-gray-filled-icon:    #1b1c22;
+  --badge-gray-filled-stroke:  #ffffff;
+  --badge-gray-light-bg:       #2d2f39;
+  --badge-gray-light-text:     #ffffff;
+  --badge-gray-light-icon:     #ccced7;
+  --badge-gray-light-stroke:   #2d2f39;
+  --badge-gray-lighter-bg:     #2d2f39;
+  --badge-gray-lighter-text:   #989dae;
+  --badge-gray-lighter-icon:   #989dae;
+  --badge-gray-lighter-stroke: #2d2f39;
+  --badge-gray-stroke-bg:      #1b1c22;
+  --badge-gray-stroke-text:    #ccced7;
+  --badge-gray-stroke-icon:    #ccced7;
+  --badge-gray-stroke-stroke:  #6b7189;
+
+  /* — Blue — */
+  --badge-blue-filled-bg:      #7cb0f4;
+  --badge-blue-filled-text:    #1b1c22;
+  --badge-blue-filled-icon:    #1b1c22;
+  --badge-blue-filled-stroke:  #7cb0f4;
+  --badge-blue-light-bg:       #0d4896;
+  --badge-blue-light-text:     #7cb0f4;
+  --badge-blue-light-icon:     #3182ed;
+  --badge-blue-light-stroke:   #0d4896;
+  --badge-blue-lighter-bg:     #0a3671;
+  --badge-blue-lighter-text:   #7cb0f4;
+  --badge-blue-lighter-icon:   #3182ed;
+  --badge-blue-lighter-stroke: #0a3671;
+  --badge-blue-stroke-bg:      #1b1c22;
+  --badge-blue-stroke-text:    #7cb0f4;
+  --badge-blue-stroke-icon:    #3182ed;
+  --badge-blue-stroke-stroke:  #3182ed;
+
+  /* — Orange — */
+  --badge-orange-filled-bg:      #d2a106;
+  --badge-orange-filled-text:    #1b1c22;
+  --badge-orange-filled-icon:    #1b1c22;
+  --badge-orange-filled-stroke:  #d2a106;
+  --badge-orange-light-bg:       #483700;
+  --badge-orange-light-text:     #d2a106;
+  --badge-orange-light-icon:     #b28600;
+  --badge-orange-light-stroke:   #483700;
+  --badge-orange-lighter-bg:     #3c2e00;
+  --badge-orange-lighter-text:   #d2a106;
+  --badge-orange-lighter-icon:   #b28600;
+  --badge-orange-lighter-stroke: #3c2e00;
+  --badge-orange-stroke-bg:      #1b1c22;
+  --badge-orange-stroke-text:    #d2a106;
+  --badge-orange-stroke-icon:    #b28600;
+  --badge-orange-stroke-stroke:  #b28600;
+
+  /* — Red — */
+  --badge-red-filled-bg:      #f17e7e;
+  --badge-red-filled-text:    #1b1c22;
+  --badge-red-filled-icon:    #1b1c22;
+  --badge-red-filled-stroke:  #f17e7e;
+  --badge-red-light-bg:       #941010;
+  --badge-red-light-text:     #f17e7e;
+  --badge-red-light-icon:     #ea3434;
+  --badge-red-light-stroke:   #941010;
+  --badge-red-lighter-bg:     #6f0c0c;
+  --badge-red-lighter-text:   #f17e7e;
+  --badge-red-lighter-icon:   #ea3434;
+  --badge-red-lighter-stroke: #6f0c0c;
+  --badge-red-stroke-bg:      #1b1c22;
+  --badge-red-stroke-text:    #f17e7e;
+  --badge-red-stroke-icon:    #ea3434;
+  --badge-red-stroke-stroke:  #ea3434;
+
+  /* — Green — */
+  --badge-green-filled-bg:      #82eeaa;
+  --badge-green-filled-text:    #1b1c22;
+  --badge-green-filled-icon:    #1b1c22;
+  --badge-green-filled-stroke:  #82eeaa;
+  --badge-green-light-bg:       #159845;
+  --badge-green-light-text:     #82eeaa;
+  --badge-green-light-icon:     #57e88c;
+  --badge-green-light-stroke:   #159845;
+  --badge-green-lighter-bg:     #09421e;
+  --badge-green-lighter-text:   #82eeaa;
+  --badge-green-lighter-icon:   #57e88c;
+  --badge-green-lighter-stroke: #09421e;
+  --badge-green-stroke-bg:      #1b1c22;
+  --badge-green-stroke-text:    #82eeaa;
+  --badge-green-stroke-icon:    #57e88c;
+  --badge-green-stroke-stroke:  #57e88c;
+
+  /* — Purple — */
+  --badge-purple-filled-bg:      #9589d9;
+  --badge-purple-filled-text:    #1b1c22;
+  --badge-purple-filled-icon:    #1b1c22;
+  --badge-purple-filled-stroke:  #9589d9;
+  --badge-purple-light-bg:       #302571;
+  --badge-purple-light-text:     #9589d9;
+  --badge-purple-light-icon:     #7263cc;
+  --badge-purple-light-stroke:   #302571;
+  --badge-purple-lighter-bg:     #0f0c24;
+  --badge-purple-lighter-text:   #9589d9;
+  --badge-purple-lighter-icon:   #7263cc;
+  --badge-purple-lighter-stroke: #0f0c24;
+  --badge-purple-stroke-bg:      #1b1c22;
+  --badge-purple-stroke-text:    #9589d9;
+  --badge-purple-stroke-icon:    #7263cc;
+  --badge-purple-stroke-stroke:  #7263cc;
+
+  /* — Sky — */
+  --badge-sky-filled-bg:      #97dcff;
+  --badge-sky-filled-text:    #1b1c22;
+  --badge-sky-filled-icon:    #1b1c22;
+  --badge-sky-filled-stroke:  #97dcff;
+  --badge-sky-light-bg:       #2597d0;
+  --badge-sky-light-text:     #97dcff;
+  --badge-sky-light-icon:     #68cdff;
+  --badge-sky-light-stroke:   #2597d0;
+  --badge-sky-lighter-bg:     #18658b;
+  --badge-sky-lighter-text:   #97dcff;
+  --badge-sky-lighter-icon:   #68cdff;
+  --badge-sky-lighter-stroke: #18658b;
+  --badge-sky-stroke-bg:      #1b1c22;
+  --badge-sky-stroke-text:    #97dcff;
+  --badge-sky-stroke-icon:    #68cdff;
+  --badge-sky-stroke-stroke:  #68cdff;
+
+  /* — Pink — */
+  --badge-pink-filled-bg:      #ff97cb;
+  --badge-pink-filled-text:    #1b1c22;
+  --badge-pink-filled-icon:    #1b1c22;
+  --badge-pink-filled-stroke:  #ff97cb;
+  --badge-pink-light-bg:       #d0257a;
+  --badge-pink-light-text:     #ff97cb;
+  --badge-pink-light-icon:     #ff68b3;
+  --badge-pink-light-stroke:   #d0257a;
+  --badge-pink-lighter-bg:     #8b1852;
+  --badge-pink-lighter-text:   #ff97cb;
+  --badge-pink-lighter-icon:   #ff68b3;
+  --badge-pink-lighter-stroke: #8b1852;
+  --badge-pink-stroke-bg:      #1b1c22;
+  --badge-pink-stroke-text:    #ff97cb;
+  --badge-pink-stroke-icon:    #ff68b3;
+  --badge-pink-stroke-stroke:  #ff68b3;
+
+  /* — Teal — */
+  --badge-teal-filled-bg:      #84ebdd;
+  --badge-teal-filled-text:    #1b1c22;
+  --badge-teal-filled-icon:    #1b1c22;
+  --badge-teal-filled-stroke:  #84ebdd;
+  --badge-teal-light-bg:       #178c7d;
+  --badge-teal-light-text:     #84ebdd;
+  --badge-teal-light-icon:     #3fdec9;
+  --badge-teal-light-stroke:   #178c7d;
+  --badge-teal-lighter-bg:     #16645a;
+  --badge-teal-lighter-text:   #84ebdd;
+  --badge-teal-lighter-icon:   #3fdec9;
+  --badge-teal-lighter-stroke: #16645a;
+  --badge-teal-stroke-bg:      #1b1c22;
+  --badge-teal-stroke-text:    #84ebdd;
+  --badge-teal-stroke-icon:    #3fdec9;
+  --badge-teal-stroke-stroke:  #3fdec9;
 
   /* ---------- Button — Focus rings (same values in both modes) ---------- */
   --button-focus-ring-primary: #513ebe3d;
