@@ -1,0 +1,181 @@
+/* =============================================================================
+   Button Group — Component Styles
+   Figma source: Design System Scalable V.2.1.0 → ↳button-group (2271:7422)
+                                                → ↳button-group-items (2271:7498)
+   DS version: v2.1.0 | Implemented: 03/07/2026
+
+   Architecture:
+   ─ .button-group                  Container — outer border, radius, overflow clip
+   ─ .button-group-item             Individual item — NO border of its own
+   ─ .button-group-item + .button-group-item  Vertical divider via left-border on non-first items
+
+   Figma uses "1px CENTER stroke on all sides" per item, clipped by the container.
+   In CSS, border: all-sides renders fully inside the layout box (not clipped), creating
+   the "separate boxes" appearance. The correct CSS equivalent is a left-border divider
+   on adjacent siblings — same visual result: outer border from container, 1px vertical
+   dividers between items, no top/bottom item borders.
+
+   Token names follow DS convention (slash → hyphen):
+     button-group/*          → --button-group-*
+     button-group-item/*     → --button-group-item-*
+
+   All color values come from tokens.css — no hardcoded hex.
+   ============================================================================= */
+
+/* ── Container ─────────────────────────────────────────────────────────────── */
+
+.button-group {
+  display:         inline-flex;
+  flex-direction:  row;
+  gap:             0;
+  padding:         0;
+
+  background-color: var(--button-group-bg);
+  border:          1px solid var(--button-group-border);
+
+  /* Size-specific radius applied via modifiers below */
+  border-radius:   var(--radius-8); /* Small + X-Small default */
+  overflow:        hidden;          /* Clips item corners at container edge */
+
+  box-sizing:      border-box;
+}
+
+/* ── Container size modifiers ───────────────────────────────────────────────── */
+
+.button-group--small    { border-radius: var(--radius-8); }
+.button-group--x-small  { border-radius: var(--radius-8); }
+.button-group--2x-small { border-radius: var(--radius-6); }
+
+/* ── Item base ──────────────────────────────────────────────────────────────── */
+
+.button-group-item {
+  display:         inline-flex;
+  flex-direction:  row;
+  align-items:     center;
+  justify-content: center;
+  gap:             8px; /* Small default — overridden per size */
+
+  /* No border on the item itself — container provides all outer borders.
+     Vertical dividers are created via the adjacent sibling rule below. */
+  border:          none;
+  border-radius:   0; /* Items have no per-item radius — container clips corners */
+
+  background-color: var(--button-group-item-bg-default);
+  color:           var(--button-group-item-text-default);
+
+  font-family:     var(--font-family-body); /* Open Sans */
+  font-weight:     600;                     /* SemiBold — all sizes */
+  font-size:       var(--font-size-body-md); /* 14px — Small + X-Small */
+  line-height:     1.43;                    /* 143% */
+  letter-spacing:  0;
+
+  cursor:          pointer;
+  user-select:     none;
+  white-space:     nowrap;
+  box-sizing:      border-box;
+
+  /* Reset button defaults */
+  appearance:      none;
+  -webkit-appearance: none;
+  outline:         none;
+}
+
+/* ── Internal dividers ──────────────────────────────────────────────────────── */
+/* A 1px left border on every non-first item creates a vertical divider.
+   Container's overflow:hidden clips the divider at the top and bottom edges. */
+
+.button-group-item + .button-group-item {
+  border-left: 1px solid var(--button-group-item-border-default);
+}
+
+/* ── Item sizes ─────────────────────────────────────────────────────────────── */
+
+/* Small (36) — 8px T/B, 16px L/R, 8px gap */
+.button-group-item--small {
+  height:          36px;
+  padding:         8px 16px;
+  gap:             8px;
+  font-size:       var(--font-size-body-md); /* 14px */
+}
+
+/* X-Small (32) — 6px T/B, 14px L/R, 6px gap */
+.button-group-item--x-small {
+  height:          32px;
+  padding:         6px 14px;
+  gap:             6px;
+  font-size:       var(--font-size-body-md); /* 14px */
+}
+
+/* 2X-Small (24) — 4px T/B, 12px L/R, 4px gap */
+.button-group-item--2x-small {
+  height:          24px;
+  padding:         4px 12px;
+  gap:             4px;
+  font-size:       var(--font-size-body-sm); /* 12px */
+}
+
+/* ── Icon wrapper ───────────────────────────────────────────────────────────── */
+/* Icon color is applied at the SVG/path level via CSS `color` inheritance */
+
+.button-group-item__icon {
+  display:        flex;
+  align-items:    center;
+  justify-content: center;
+  flex-shrink:    0;
+  color:          var(--button-group-item-icon-default); /* SVG inherits via currentColor */
+}
+
+/* ── Item states ────────────────────────────────────────────────────────────── */
+
+/* Hover — item bg changes, label/icon remain default */
+.button-group-item--hover,
+.button-group-item:not(:disabled):not(.button-group-item--active):hover {
+  background-color: var(--button-group-item-bg-hover);
+  color:            var(--button-group-item-text-default);
+}
+
+.button-group-item--hover .button-group-item__icon,
+.button-group-item:not(:disabled):not(.button-group-item--active):hover .button-group-item__icon {
+  color: var(--button-group-item-icon-default);
+}
+
+/* Active — bg same as hover, but label + icon become strong */
+.button-group-item--active,
+.button-group-item[aria-pressed="true"] {
+  background-color: var(--button-group-item-bg-active);
+  color:            var(--button-group-item-text-active);
+}
+
+.button-group-item--active .button-group-item__icon,
+.button-group-item[aria-pressed="true"] .button-group-item__icon {
+  color: var(--button-group-item-icon-active);
+}
+
+/* Disabled — bg uses surface/neutral/weak, text + icon are muted */
+.button-group-item--disabled,
+.button-group-item:disabled {
+  background-color: var(--button-group-item-bg-hover); /* surface/neutral/weak — same as hover by DS spec */
+  color:            var(--button-group-item-text-disabled);
+  cursor:           not-allowed;
+  pointer-events:   none;
+}
+
+.button-group-item--disabled .button-group-item__icon,
+.button-group-item:disabled .button-group-item__icon {
+  color: var(--button-group-item-icon-disabled);
+}
+
+/* ── Icon-only variant ──────────────────────────────────────────────────────── */
+
+.button-group-item--only-icon {
+  /* Label is hidden — item width narrows to icon + padding only */
+}
+
+/* ── Focus — DS Gap ─────────────────────────────────────────────────────────── */
+/* Focus state is NOT defined in Figma. No token or variant exists.
+   A minimal accessible outline is applied until DS Auditor defines the token. */
+.button-group-item:focus-visible {
+  outline:        2px solid var(--button-group-border);
+  outline-offset: -2px; /* Inside border to preserve group outline integrity */
+  z-index:        1;    /* Ensure focus ring renders above adjacent items */
+}

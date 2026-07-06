@@ -691,6 +691,36 @@
   --alert-feature-stroke-icon:    #403297;
   --alert-feature-stroke-text:    #302571;
 
+  /* ---------- Button Group ----------
+     Source: Figma "Design System Scalable V.2.1.0" component + theme collections.
+     Resolved via --color-* primitives in tokens.css (synced 22/06/2026).
+     Token name → theme alias:
+       bg              → surface/neutral/white
+       border          → border/neutral/default
+       item bg default → surface/neutral/white
+       item bg hover   → surface/neutral/weak  (same resolved value as active — separate vars by DS spec)
+       item bg active  → surface/neutral/weak
+       item border *   → border/neutral/soft   (both default + disabled resolve same — keep separate)
+       item icon default → icon/sub
+       item icon active  → icon/strong
+       item icon disabled → icon/dissabled      ⚠️ typo is DS-intentional — do not rename
+       item text default → text/neutral/subtle
+       item text active  → text/neutral/strong
+       item text disabled → state/disabled-text  */
+  --button-group-bg:                   #ffffff;   /* surface/neutral/white */
+  --button-group-border:               #d1d1d1;   /* border/neutral/default */
+  --button-group-item-bg-default:      #ffffff;   /* surface/neutral/white */
+  --button-group-item-bg-hover:        #f6f7f8;   /* surface/neutral/weak */
+  --button-group-item-bg-active:       #f6f7f8;   /* surface/neutral/weak */
+  --button-group-item-border-default:  #eaeaea;   /* border/neutral/soft */
+  --button-group-item-border-disabled: #eaeaea;   /* border/neutral/soft */
+  --button-group-item-icon-default:    #5c5c5c;   /* icon/sub */
+  --button-group-item-icon-active:     #1c1c1c;   /* icon/strong */
+  --button-group-item-icon-disabled:   #d1d1d1;   /* icon/dissabled */
+  --button-group-item-text-default:    #7b7b7b;   /* text/neutral/subtle */
+  --button-group-item-text-active:     #1c1c1c;   /* text/neutral/strong */
+  --button-group-item-text-disabled:   #d1d1d1;   /* state/disabled-text */
+
 }
 
 /* =====================================================================
@@ -1066,6 +1096,21 @@
   --alert-feature-stroke-border:  #7263cc;
   --alert-feature-stroke-icon:    #7263cc;
   --alert-feature-stroke-text:    #9589d9;
+
+  /* ---------- Button Group (dark mode) ---------- */
+  --button-group-bg:                   #24262e;   /* surface/neutral/white */
+  --button-group-border:               #6b7189;   /* border/neutral/default */
+  --button-group-item-bg-default:      #24262e;   /* surface/neutral/white */
+  --button-group-item-bg-hover:        #2d2f39;   /* surface/neutral/weak */
+  --button-group-item-bg-active:       #2d2f39;   /* surface/neutral/weak */
+  --button-group-item-border-default:  #515567;   /* border/neutral/soft */
+  --button-group-item-border-disabled: #515567;   /* border/neutral/soft */
+  --button-group-item-icon-default:    #ccced7;   /* icon/sub */
+  --button-group-item-icon-active:     #ffffff;   /* icon/strong */
+  --button-group-item-icon-disabled:   #989dae;   /* icon/dissabled */
+  --button-group-item-text-default:    #ccced7;   /* text/neutral/subtle */
+  --button-group-item-text-active:     #ffffff;   /* text/neutral/strong */
+  --button-group-item-text-disabled:   #989dae;   /* state/disabled-text */
 
   /* ---------- Button — Focus rings (same values in both modes) ---------- */
   --button-focus-ring-primary: #513ebe3d;
