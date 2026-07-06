@@ -591,6 +591,106 @@
   --badge-teal-stroke-text:    #1daf9c;
   --badge-teal-stroke-icon:    #22d3bb;
   --badge-teal-stroke-stroke:  #22d3bb;
+
+  /* =====================================================================
+     Alert — Component tokens (light mode)
+     alert / {status} / {style} / {role}
+     5 statuses × 4 styles × 4 roles = 80 tokens
+     Status vocabulary: danger (Error), warning, success, info (Information), feature
+     Sourced from component collection → theme collection (light mode)
+     Design System Scalable V.2.1.0 | Synced 01/07/2026
+     ===================================================================== */
+
+  /* — Danger (maps to Figma "Error" variant) — */
+  --alert-danger-filled-bg:       #941010;
+  --alert-danger-filled-border:   #941010;
+  --alert-danger-filled-icon:     #ffffff;
+  --alert-danger-filled-text:     #ffffff;
+  --alert-danger-light-bg:        #f17e7e;
+  --alert-danger-light-border:    #f17e7e;
+  --alert-danger-light-icon:      #cb1515;
+  --alert-danger-light-text:      #941010;
+  --alert-danger-lighter-bg:      #fcdfdf;
+  --alert-danger-lighter-border:  #fcdfdf;
+  --alert-danger-lighter-icon:    #cb1515;
+  --alert-danger-lighter-text:    #941010;
+  --alert-danger-stroke-bg:       #ffffff;
+  --alert-danger-stroke-border:   #cb1515;
+  --alert-danger-stroke-icon:     #cb1515;
+  --alert-danger-stroke-text:     #941010;
+
+  /* — Warning — */
+  --alert-warning-filled-bg:      #3c2e00;
+  --alert-warning-filled-border:  #3c2e00;
+  --alert-warning-filled-icon:    #ffffff;
+  --alert-warning-filled-text:    #ffffff;
+  --alert-warning-light-bg:       #f1c21b;
+  --alert-warning-light-border:   #f1c21b;
+  --alert-warning-light-icon:     #684e00;
+  --alert-warning-light-text:     #3c2e00;
+  --alert-warning-lighter-bg:     #fddc69;
+  --alert-warning-lighter-border: #fddc69;
+  --alert-warning-lighter-icon:   #684e00;
+  --alert-warning-lighter-text:   #3c2e00;
+  --alert-warning-stroke-bg:      #ffffff;
+  --alert-warning-stroke-border:  #684e00;
+  --alert-warning-stroke-icon:    #684e00;
+  --alert-warning-stroke-text:    #3c2e00;
+
+  /* — Success — */
+  --alert-success-filled-bg:      #09421e;
+  --alert-success-filled-border:  #09421e;
+  --alert-success-filled-icon:    #ffffff;
+  --alert-success-filled-text:    #ffffff;
+  --alert-success-light-bg:       #82eeaa;
+  --alert-success-light-border:   #82eeaa;
+  --alert-success-light-icon:     #0f6d32;
+  --alert-success-light-text:     #09421e;
+  --alert-success-lighter-bg:     #edfdf3;
+  --alert-success-lighter-border: #edfdf3;
+  --alert-success-lighter-icon:   #0f6d32;
+  --alert-success-lighter-text:   #09421e;
+  --alert-success-stroke-bg:      #ffffff;
+  --alert-success-stroke-border:  #0f6d32;
+  --alert-success-stroke-icon:    #0f6d32;
+  --alert-success-stroke-text:    #09421e;
+
+  /* — Info (maps to Figma "Information" variant) — */
+  --alert-info-filled-bg:         #0d4896;
+  --alert-info-filled-border:     #0d4896;
+  --alert-info-filled-icon:       #ffffff;
+  --alert-info-filled-text:       #ffffff;
+  --alert-info-light-bg:          #7cb0f4;
+  --alert-info-light-border:      #7cb0f4;
+  --alert-info-light-icon:        #1264ce;
+  --alert-info-light-text:        #0d4896;
+  --alert-info-lighter-bg:        #deebfc;
+  --alert-info-lighter-border:    #deebfc;
+  --alert-info-lighter-icon:      #1264ce;
+  --alert-info-lighter-text:      #0d4896;
+  --alert-info-stroke-bg:         #ffffff;
+  --alert-info-stroke-border:     #1264ce;
+  --alert-info-stroke-icon:       #1264ce;
+  --alert-info-stroke-text:       #0d4896;
+
+  /* — Feature — */
+  --alert-feature-filled-bg:      #302571;
+  --alert-feature-filled-border:  #302571;
+  --alert-feature-filled-icon:    #ffffff;
+  --alert-feature-filled-text:    #ffffff;
+  --alert-feature-light-bg:       #9589d9;
+  --alert-feature-light-border:   #9589d9;
+  --alert-feature-light-icon:     #403297;
+  --alert-feature-light-text:     #302571;
+  --alert-feature-lighter-bg:     #dad6f2;
+  --alert-feature-lighter-border: #dad6f2;
+  --alert-feature-lighter-icon:   #403297;
+  --alert-feature-lighter-text:   #302571;
+  --alert-feature-stroke-bg:      #ffffff;
+  --alert-feature-stroke-border:  #403297;
+  --alert-feature-stroke-icon:    #403297;
+  --alert-feature-stroke-text:    #302571;
+
 }
 
 /* =====================================================================
@@ -874,6 +974,98 @@
   --badge-teal-stroke-text:    #84ebdd;
   --badge-teal-stroke-icon:    #3fdec9;
   --badge-teal-stroke-stroke:  #3fdec9;
+
+  /* ——— Alert — dark mode overrides ——— */
+
+  /* — Danger — */
+  --alert-danger-filled-bg:       #f17e7e;
+  --alert-danger-filled-border:   #f17e7e;
+  --alert-danger-filled-icon:     #1b1c22;
+  --alert-danger-filled-text:     #1b1c22;
+  --alert-danger-light-bg:        #941010;
+  --alert-danger-light-border:    #941010;
+  --alert-danger-light-icon:      #ea3434;
+  --alert-danger-light-text:      #f17e7e;
+  --alert-danger-lighter-bg:      #6f0c0c;
+  --alert-danger-lighter-border:  #6f0c0c;
+  --alert-danger-lighter-icon:    #ea3434;
+  --alert-danger-lighter-text:    #f17e7e;
+  --alert-danger-stroke-bg:       #1b1c22;
+  --alert-danger-stroke-border:   #ea3434;
+  --alert-danger-stroke-icon:     #ea3434;
+  --alert-danger-stroke-text:     #f17e7e;
+
+  /* — Warning — */
+  --alert-warning-filled-bg:      #d2a106;
+  --alert-warning-filled-border:  #d2a106;
+  --alert-warning-filled-icon:    #1b1c22;
+  --alert-warning-filled-text:    #1b1c22;
+  --alert-warning-light-bg:       #483700;
+  --alert-warning-light-border:   #483700;
+  --alert-warning-light-icon:     #b28600;
+  --alert-warning-light-text:     #d2a106;
+  --alert-warning-lighter-bg:     #3c2e00;
+  --alert-warning-lighter-border: #3c2e00;
+  --alert-warning-lighter-icon:   #b28600;
+  --alert-warning-lighter-text:   #d2a106;
+  --alert-warning-stroke-bg:      #1b1c22;
+  --alert-warning-stroke-border:  #b28600;
+  --alert-warning-stroke-icon:    #b28600;
+  --alert-warning-stroke-text:    #d2a106;
+
+  /* — Success — */
+  --alert-success-filled-bg:      #82eeaa;
+  --alert-success-filled-border:  #82eeaa;
+  --alert-success-filled-icon:    #1b1c22;
+  --alert-success-filled-text:    #1b1c22;
+  --alert-success-light-bg:       #159845;
+  --alert-success-light-border:   #159845;
+  --alert-success-light-icon:     #57e88c;
+  --alert-success-light-text:     #82eeaa;
+  --alert-success-lighter-bg:     #09421e;
+  --alert-success-lighter-border: #09421e;
+  --alert-success-lighter-icon:   #57e88c;
+  --alert-success-lighter-text:   #82eeaa;
+  --alert-success-stroke-bg:      #1b1c22;
+  --alert-success-stroke-border:  #57e88c;
+  --alert-success-stroke-icon:    #57e88c;
+  --alert-success-stroke-text:    #82eeaa;
+
+  /* — Info — */
+  --alert-info-filled-bg:         #7cb0f4;
+  --alert-info-filled-border:     #7cb0f4;
+  --alert-info-filled-icon:       #1b1c22;
+  --alert-info-filled-text:       #1b1c22;
+  --alert-info-light-bg:          #0d4896;
+  --alert-info-light-border:      #0d4896;
+  --alert-info-light-icon:        #3182ed;
+  --alert-info-light-text:        #7cb0f4;
+  --alert-info-lighter-bg:        #0a3671;
+  --alert-info-lighter-border:    #0a3671;
+  --alert-info-lighter-icon:      #3182ed;
+  --alert-info-lighter-text:      #7cb0f4;
+  --alert-info-stroke-bg:         #1b1c22;
+  --alert-info-stroke-border:     #3182ed;
+  --alert-info-stroke-icon:       #3182ed;
+  --alert-info-stroke-text:       #7cb0f4;
+
+  /* — Feature — */
+  --alert-feature-filled-bg:      #9589d9;
+  --alert-feature-filled-border:  #9589d9;
+  --alert-feature-filled-icon:    #1b1c22;
+  --alert-feature-filled-text:    #1b1c22;
+  --alert-feature-light-bg:       #302571;
+  --alert-feature-light-border:   #302571;
+  --alert-feature-light-icon:     #7263cc;
+  --alert-feature-light-text:     #9589d9;
+  --alert-feature-lighter-bg:     #0f0c24;
+  --alert-feature-lighter-border: #0f0c24;
+  --alert-feature-lighter-icon:   #7263cc;
+  --alert-feature-lighter-text:   #9589d9;
+  --alert-feature-stroke-bg:      #1b1c22;
+  --alert-feature-stroke-border:  #7263cc;
+  --alert-feature-stroke-icon:    #7263cc;
+  --alert-feature-stroke-text:    #9589d9;
 
   /* ---------- Button — Focus rings (same values in both modes) ---------- */
   --button-focus-ring-primary: #513ebe3d;

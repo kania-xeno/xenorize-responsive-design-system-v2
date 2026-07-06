@@ -1,0 +1,361 @@
+/* =============================================================================
+   Alert / Toast Notification — Component Styles
+   Figma source: Design System Scalable V.2.1.0 → ↳alert-toast-notification (1995:2497)
+   DS version: v2.1.0 | Implemented: 01/07/2026
+
+   Architecture: scoped CSS custom properties (--_alert-*) are set per
+   [data-status][data-style] combination. Base .alert rules consume only the
+   scoped vars — no color logic in the base rule.
+
+   5 statuses × 4 styles = 20 attribute combinations.
+   Status token namespace: danger | warning | success | info | feature
+   (Figma prop labels: Error | Warning | Success | Information | Feature)
+
+   All token values come from tokens.css --alert-{status}-{style}-{role}.
+   No hardcoded hex values.
+   ============================================================================= */
+
+/* ── Scoped custom properties — defaults (prevent flash of undefined) ── */
+.alert {
+  --_alert-bg:     transparent;
+  --_alert-border: transparent;
+  --_alert-icon:   currentColor;
+  --_alert-text:   currentColor;
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+
+.alert {
+  display: flex;
+  align-items: center;
+  width: 100%; /* FIXED 390px in Figma is a canvas constraint only — use 100% */
+  box-sizing: border-box;
+
+  background-color: var(--_alert-bg);
+  color:            var(--_alert-text);
+  border:           1px solid var(--_alert-border);
+  border-radius:    var(--radius-8); /* 8px — X-Small and Small */
+
+  font-family: var(--font-family-body);
+  font-size:   var(--font-size-body-md); /* 14px — all sizes */
+  font-weight: 400;
+  line-height: 1.43; /* 143% */
+}
+
+/* ── Status icon slot ──────────────────────────────────────────────────────── */
+
+.alert__status-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--_alert-icon);
+}
+
+/* ── Dismiss button ────────────────────────────────────────────────────────── */
+/* Dismiss is an interactive button — keyboard accessible, labeled */
+
+.alert__dismiss {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-4);
+  background: transparent;
+  color: var(--_alert-icon);
+  cursor: pointer;
+  line-height: 0;
+}
+
+.alert__dismiss:focus-visible {
+  outline: 2px solid var(--_alert-border);
+  outline-offset: 2px;
+}
+
+/* ── Message (X-Small / Small) ────────────────────────────────────────────── */
+
+.alert__message {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Content wrapper (Large only) ──────────────────────────────────────────── */
+
+.alert__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Text frame (Large — title + description) ──────────────────────────────── */
+
+.alert__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* Internal Text frame gap per DS spec */
+}
+
+.alert__title {
+  font-weight: 600; /* SemiBold — Large title */
+  /* inherits font-size and color from .alert */
+}
+
+.alert__description {
+  font-weight: 400; /* Regular — Large body */
+  /* inherits font-size and color from .alert */
+}
+
+/* ── Actions frame (Large — primary + divider + secondary) ─────────────────── */
+
+.alert__actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px; /* Actions frame gap per DS spec */
+  margin-top: 4px;
+}
+
+/* Link button — alert action */
+.alert__action {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--link-button-modifable-default); /* link-button/modifable/default — note: typo is DS-intentional */
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-body-md); /* 14px for Large */
+  font-weight: 600; /* SemiBold — typography/weight/medium → 600 per DS spec */
+  line-height: 1.43; /* 143% */
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.alert__action:hover {
+  opacity: 0.8; /* Dissolve 0.2s EASE_OUT — approximated via opacity transition */
+  transition: opacity 0.2s ease-out;
+}
+
+.alert__action:focus-visible {
+  outline: 2px solid var(--_alert-border);
+  outline-offset: 2px;
+  border-radius: var(--radius-2);
+}
+
+/* Actions divider — Inter font per DS spec (only non-Open Sans text in component) */
+.alert__action-divider {
+  font-family: Inter, sans-serif; /* ⚠️ Inter — DS spec. Not Open Sans. */
+  font-weight: 400;
+  font-size: var(--font-size-body-md);
+  line-height: 20px; /* Fixed 20px per DS spec */
+  color: var(--_alert-text);
+  user-select: none;
+}
+
+/* ── Size variants ─────────────────────────────────────────────────────────── */
+/* X-Small (32) and Small (36): single row, center-aligned, 8px padding, 8px gap */
+/* Large: multi-row, top-aligned (flex-start), 12px padding, 12px gap           */
+
+/* X-Small (32) — 8px all sides, 8px gap, center-aligned */
+.alert--x-small {
+  padding: 8px;
+  gap: 8px;
+  align-items: center;
+  border-radius: var(--radius-8);
+}
+
+/* Small (36) — 8px all sides, 8px gap, center-aligned */
+.alert--small {
+  padding: 8px;
+  gap: 8px;
+  align-items: center;
+  border-radius: var(--radius-8);
+}
+
+/* Large — 12px all sides, 12px gap, top-aligned (MIN in Figma = flex-start) */
+.alert--large {
+  padding: 12px;
+  gap: 12px;
+  align-items: flex-start;
+  border-radius: var(--radius-12);
+}
+
+/* ── Toast positioning ─────────────────────────────────────────────────────── */
+/* Toast alerts stack in the bottom-right corner, 8px gap between them */
+
+.alert--toast {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  width: 390px; /* Fixed width for toast — matches Figma master */
+  max-width: calc(100vw - 32px);
+  z-index: 1000;
+  box-shadow: var(--shadow-regular-medium); /* Stroke style + shadow approx — DS shadow token */
+}
+
+/* ── Stroke style — shadow ─────────────────────────────────────────────────── */
+/* Shadow exists ONLY on Stroke style (not Filled/Light/Lighter) */
+
+.alert[data-style="stroke"] {
+  box-shadow: var(--shadow-regular-medium);
+}
+
+/* ── Color × Style — scoped token assignment ───────────────────────────────── */
+/* Each combination sets 4 scoped vars consumed by the base rule.               */
+/* Filled/Light/Lighter: border = bg (intentionally invisible — do not remove)  */
+/* Stroke: border = colored; shadow applied via .alert[data-style="stroke"]     */
+
+/* ————— DANGER (Error) ————— */
+
+.alert[data-status="danger"][data-style="filled"] {
+  --_alert-bg:     var(--alert-danger-filled-bg);
+  --_alert-border: var(--alert-danger-filled-border);
+  --_alert-icon:   var(--alert-danger-filled-icon);
+  --_alert-text:   var(--alert-danger-filled-text);
+}
+
+.alert[data-status="danger"][data-style="light"] {
+  --_alert-bg:     var(--alert-danger-light-bg);
+  --_alert-border: var(--alert-danger-light-border);
+  --_alert-icon:   var(--alert-danger-light-icon);
+  --_alert-text:   var(--alert-danger-light-text);
+}
+
+.alert[data-status="danger"][data-style="lighter"] {
+  --_alert-bg:     var(--alert-danger-lighter-bg);
+  --_alert-border: var(--alert-danger-lighter-border);
+  --_alert-icon:   var(--alert-danger-lighter-icon);
+  --_alert-text:   var(--alert-danger-lighter-text);
+}
+
+.alert[data-status="danger"][data-style="stroke"] {
+  --_alert-bg:     var(--alert-danger-stroke-bg);
+  --_alert-border: var(--alert-danger-stroke-border);
+  --_alert-icon:   var(--alert-danger-stroke-icon);
+  --_alert-text:   var(--alert-danger-stroke-text);
+}
+
+/* ————— WARNING ————— */
+
+.alert[data-status="warning"][data-style="filled"] {
+  --_alert-bg:     var(--alert-warning-filled-bg);
+  --_alert-border: var(--alert-warning-filled-border);
+  --_alert-icon:   var(--alert-warning-filled-icon);
+  --_alert-text:   var(--alert-warning-filled-text);
+}
+
+.alert[data-status="warning"][data-style="light"] {
+  --_alert-bg:     var(--alert-warning-light-bg);
+  --_alert-border: var(--alert-warning-light-border);
+  --_alert-icon:   var(--alert-warning-light-icon);
+  --_alert-text:   var(--alert-warning-light-text);
+}
+
+.alert[data-status="warning"][data-style="lighter"] {
+  --_alert-bg:     var(--alert-warning-lighter-bg);
+  --_alert-border: var(--alert-warning-lighter-border);
+  --_alert-icon:   var(--alert-warning-lighter-icon);
+  --_alert-text:   var(--alert-warning-lighter-text);
+}
+
+.alert[data-status="warning"][data-style="stroke"] {
+  --_alert-bg:     var(--alert-warning-stroke-bg);
+  --_alert-border: var(--alert-warning-stroke-border);
+  --_alert-icon:   var(--alert-warning-stroke-icon);
+  --_alert-text:   var(--alert-warning-stroke-text);
+}
+
+/* ————— SUCCESS ————— */
+
+.alert[data-status="success"][data-style="filled"] {
+  --_alert-bg:     var(--alert-success-filled-bg);
+  --_alert-border: var(--alert-success-filled-border);
+  --_alert-icon:   var(--alert-success-filled-icon);
+  --_alert-text:   var(--alert-success-filled-text);
+}
+
+.alert[data-status="success"][data-style="light"] {
+  --_alert-bg:     var(--alert-success-light-bg);
+  --_alert-border: var(--alert-success-light-border);
+  --_alert-icon:   var(--alert-success-light-icon);
+  --_alert-text:   var(--alert-success-light-text);
+}
+
+.alert[data-status="success"][data-style="lighter"] {
+  --_alert-bg:     var(--alert-success-lighter-bg);
+  --_alert-border: var(--alert-success-lighter-border);
+  --_alert-icon:   var(--alert-success-lighter-icon);
+  --_alert-text:   var(--alert-success-lighter-text);
+}
+
+.alert[data-status="success"][data-style="stroke"] {
+  --_alert-bg:     var(--alert-success-stroke-bg);
+  --_alert-border: var(--alert-success-stroke-border);
+  --_alert-icon:   var(--alert-success-stroke-icon);
+  --_alert-text:   var(--alert-success-stroke-text);
+}
+
+/* ————— INFO (Information) ————— */
+
+.alert[data-status="info"][data-style="filled"] {
+  --_alert-bg:     var(--alert-info-filled-bg);
+  --_alert-border: var(--alert-info-filled-border);
+  --_alert-icon:   var(--alert-info-filled-icon);
+  --_alert-text:   var(--alert-info-filled-text);
+}
+
+.alert[data-status="info"][data-style="light"] {
+  --_alert-bg:     var(--alert-info-light-bg);
+  --_alert-border: var(--alert-info-light-border);
+  --_alert-icon:   var(--alert-info-light-icon);
+  --_alert-text:   var(--alert-info-light-text);
+}
+
+.alert[data-status="info"][data-style="lighter"] {
+  --_alert-bg:     var(--alert-info-lighter-bg);
+  --_alert-border: var(--alert-info-lighter-border);
+  --_alert-icon:   var(--alert-info-lighter-icon);
+  --_alert-text:   var(--alert-info-lighter-text);
+}
+
+.alert[data-status="info"][data-style="stroke"] {
+  --_alert-bg:     var(--alert-info-stroke-bg);
+  --_alert-border: var(--alert-info-stroke-border);
+  --_alert-icon:   var(--alert-info-stroke-icon);
+  --_alert-text:   var(--alert-info-stroke-text);
+}
+
+/* ————— FEATURE ————— */
+
+.alert[data-status="feature"][data-style="filled"] {
+  --_alert-bg:     var(--alert-feature-filled-bg);
+  --_alert-border: var(--alert-feature-filled-border);
+  --_alert-icon:   var(--alert-feature-filled-icon);
+  --_alert-text:   var(--alert-feature-filled-text);
+}
+
+.alert[data-status="feature"][data-style="light"] {
+  --_alert-bg:     var(--alert-feature-light-bg);
+  --_alert-border: var(--alert-feature-light-border);
+  --_alert-icon:   var(--alert-feature-light-icon);
+  --_alert-text:   var(--alert-feature-light-text);
+}
+
+.alert[data-status="feature"][data-style="lighter"] {
+  --_alert-bg:     var(--alert-feature-lighter-bg);
+  --_alert-border: var(--alert-feature-lighter-border);
+  --_alert-icon:   var(--alert-feature-lighter-icon);
+  --_alert-text:   var(--alert-feature-lighter-text);
+}
+
+.alert[data-status="feature"][data-style="stroke"] {
+  --_alert-bg:     var(--alert-feature-stroke-bg);
+  --_alert-border: var(--alert-feature-stroke-border);
+  --_alert-icon:   var(--alert-feature-stroke-icon);
+  --_alert-text:   var(--alert-feature-stroke-text);
+}
