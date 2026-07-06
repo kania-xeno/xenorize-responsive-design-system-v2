@@ -721,6 +721,20 @@
   --button-group-item-text-active:     #1c1c1c;   /* text/neutral/strong */
   --button-group-item-text-disabled:   #d1d1d1;   /* state/disabled-text */
 
+  /* ---------- Breadcrumb ----------
+     Source: Figma "Design System Scalable V.2.1.0" — nested-breadcrumb/* variables.
+     All 5 aliases resolved from --color-* primitives + confirmed accordion/button-group values.
+     Token name → theme alias:
+       text/default → text/neutral/subtle
+       text/active  → text/neutral/strong
+       icon/default → icon/sub
+       icon/active  → icon/strong
+       divider      → icon/soft                */
+  --breadcrumb-text-default:  #7b7b7b;   /* text/neutral/subtle */
+  --breadcrumb-text-active:   #1c1c1c;   /* text/neutral/strong */
+  --breadcrumb-icon-default:  #5c5c5c;   /* icon/sub */
+  --breadcrumb-icon-active:   #1c1c1c;   /* icon/strong */
+  --breadcrumb-divider:       #a3a3a3;   /* icon/soft */
 }
 
 /* =====================================================================
@@ -1111,6 +1125,13 @@
   --button-group-item-text-default:    #ccced7;   /* text/neutral/subtle */
   --button-group-item-text-active:     #ffffff;   /* text/neutral/strong */
   --button-group-item-text-disabled:   #989dae;   /* state/disabled-text */
+
+  /* ---------- Breadcrumb (dark mode) ---------- */
+  --breadcrumb-text-default:  #ccced7;   /* text/neutral/subtle */
+  --breadcrumb-text-active:   #ffffff;   /* text/neutral/strong */
+  --breadcrumb-icon-default:  #ccced7;   /* icon/sub */
+  --breadcrumb-icon-active:   #ffffff;   /* icon/strong */
+  --breadcrumb-divider:       #989dae;   /* icon/soft */
 
   /* ---------- Button — Focus rings (same values in both modes) ---------- */
   --button-focus-ring-primary: #513ebe3d;
