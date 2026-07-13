@@ -1,0 +1,219 @@
+/* Avatar — Display-only component
+   DS Source: Design System Scalable — All Platform V.2.1.0, component set 2107:27
+   Token pattern: direct theme token bindings (no avatar/* component namespace)
+   Last updated: 25/06/2026
+
+   DOM architecture:
+     .avatar              — outer wrapper
+                            position: relative  → stacking context for absolute badges
+                            NO overflow: hidden → badges allowed to protrude
+     .avatar__circle      — inner clip layer
+                            width/height: 100% → fills outer wrapper
+                            overflow: hidden   → clips image/initials/icon to circle
+                            border-radius: full → circle shape
+     .avatar__top-status  — absolute top-right, overflows outer wrapper
+     .avatar__bottom-status — absolute bottom-right, overflows outer wrapper
+
+   Badge geometry values sourced directly from Figma (Desktop Bridge inspection, 25/06/2026).
+   See avatar-spec.md § Status Badge Rules for full value table.
+
+   Tokens used:
+     surface/neutral/weak  → --color-surface-neutral-weak   (container bg: text + icon + solidBg)
+     surface/neutral/white → --color-surface-neutral-white  (icon silhouette)
+     text/neutral/strong   → --color-text-neutral-strong    (initials text)
+     radius/full           → --radius-full                  (all border-radius)
+
+   Status token usage lives in TopStatus.css / BottomStatus.css.
+*/
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Base outer wrapper
+   overflow is intentionally NOT set (defaults to visible) — status badge spans
+   must be able to protrude beyond the avatar boundary.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.avatar {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Sizes — all 9 approved sizes
+   Width and height live on the outer wrapper; the inner circle fills 100%.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.avatar--size-80 { width: 80px; height: 80px; }
+.avatar--size-72 { width: 72px; height: 72px; }
+.avatar--size-64 { width: 64px; height: 64px; }
+.avatar--size-56 { width: 56px; height: 56px; }
+.avatar--size-48 { width: 48px; height: 48px; }
+.avatar--size-40 { width: 40px; height: 40px; }
+.avatar--size-32 { width: 32px; height: 32px; }
+.avatar--size-24 { width: 24px; height: 24px; }
+.avatar--size-20 { width: 20px; height: 20px; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Badge geometry — per-size CSS custom properties
+   Source: Figma Avatar component set (2107:27), badge child inspection via Desktop Bridge.
+   Inspection date: 25/06/2026
+   Method: scanned first-level INSTANCE children named "Top Status"/"Bottom Status"
+           for each of the 9 size variants; extracted x, y, width, height.
+
+   --_status-sz:    badge bounding box (width = height, square)
+   --_status-right: CSS right offset (negative = badge overflows beyond avatar right edge)
+   --_status-top:   CSS top offset for .avatar__top-status (0 = flush with avatar top)
+   --_status-bottom: CSS bottom offset for .avatar__bottom-status (0 = flush with avatar bottom)
+
+   | Size | Badge | right  | top | bottom |
+   |------|-------|--------|-----|--------|
+   | 80   | 32px  | -8px   | 0   | 0      |
+   | 72   | 32px  | -8px   | 0   | 0      |
+   | 64   | 28px  | -8px   | 0   | 0      |
+   | 56   | 24px  | -6px   | 0   | 0      |
+   | 48   | 20px  | -6px   | 0   | 0      |
+   | 40   | 18px  | -6px   | 0   | 0      |
+   | 32   | 16px  | -6px   | 0   | 0      |
+   | 24   | 12px  | -4px   | 0   | 0      |
+   | 20   | 10px  | -4px   | 0   | 0      |
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.avatar--size-80 { --_status-sz: 32px; --_status-right: -8px; --_status-top: 0px; --_status-bottom: 0px; }
+.avatar--size-72 { --_status-sz: 32px; --_status-right: -8px; --_status-top: 0px; --_status-bottom: 0px; }
+.avatar--size-64 { --_status-sz: 28px; --_status-right: -8px; --_status-top: 0px; --_status-bottom: 0px; }
+.avatar--size-56 { --_status-sz: 24px; --_status-right: -6px; --_status-top: 0px; --_status-bottom: 0px; }
+.avatar--size-48 { --_status-sz: 20px; --_status-right: -6px; --_status-top: 0px; --_status-bottom: 0px; }
+.avatar--size-40 { --_status-sz: 18px; --_status-right: -6px; --_status-top: 0px; --_status-bottom: 0px; }
+.avatar--size-32 { --_status-sz: 16px; --_status-right: -6px; --_status-top: 0px; --_status-bottom: 0px; }
+.avatar--size-24 { --_status-sz: 12px; --_status-right: -4px; --_status-top: 0px; --_status-bottom: 0px; }
+.avatar--size-20 { --_status-sz: 10px; --_status-right: -4px; --_status-top: 0px; --_status-bottom: 0px; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Inner circle — content clipping layer
+   This is where overflow: hidden + border-radius lives.
+   All content (image, initials, icon) renders inside this div.
+   Status badges render OUTSIDE this div (as siblings, not children).
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.avatar__circle {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* stacking context for avatar__image absolute positioning */
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Content mode backgrounds — applied to inner circle
+   Image mode: no bg (photo fills the circle)
+   Text + Icon mode: surface/neutral/weak
+   solidBg: same token, explicitly applied even in image mode
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.avatar--text .avatar__circle,
+.avatar--icon .avatar__circle {
+  background: var(--color-surface-neutral-weak);
+}
+
+.avatar--solid-bg .avatar__circle {
+  background: var(--color-surface-neutral-weak);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Image
+   Fills the inner circle absolutely. No border-radius needed — parent
+   .avatar__circle handles clipping via overflow: hidden.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.avatar__image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Initials (Text mode)
+   Font sizes are DT estimates proportional to avatar size — pending DS token confirmation.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.avatar__initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-neutral-strong);
+  line-height: 1;
+  user-select: none;
+}
+
+.avatar--size-80  .avatar__initials { font-size: 28px; }
+.avatar--size-72  .avatar__initials { font-size: 26px; }
+.avatar--size-64  .avatar__initials { font-size: 22px; }
+.avatar--size-56  .avatar__initials { font-size: 20px; }
+.avatar--size-48  .avatar__initials { font-size: 16px; }
+.avatar--size-40  .avatar__initials { font-size: 14px; }
+.avatar--size-32  .avatar__initials { font-size: 12px; }
+.avatar--size-24  .avatar__initials { font-size: 10px; }
+.avatar--size-20  .avatar__initials { font-size: 8px;  }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Icon silhouette (Icon mode — generic fallback)
+   Body + Head ellipses: hardcoded #FFFFFF in Figma (DS gap — no variable binding).
+   Using --color-surface-neutral-white as the approved token replacement.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.avatar__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72%;
+  height: 72%;
+}
+
+.avatar__icon svg {
+  width: 100%;
+  height: 100%;
+  fill: var(--color-surface-neutral-white);
+  overflow: visible; /* allow head circle to render above body clip */
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Status badge positioning
+   Badges are rendered by <TopStatus> and <BottomStatus> as scalable SVG spans.
+   Both components use viewBox="0 0 32 32" with width/height="100%"
+   so the SVG scales to the container size defined here.
+
+   Positioned on the outer .avatar wrapper (overflow: visible) — NOT inside
+   .avatar__circle. This allows them to protrude beyond the visible circle.
+
+   All coordinate values from Figma inspection (see --_status-* custom props above).
+
+   Badge suppression at sizes 24 and 20: REMOVED in this revision.
+   All 9 sizes support status badges. See Avatar.jsx — no suppressBadges logic.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* Top status — top-right corner, overflows outside right edge */
+.avatar__top-status {
+  position: absolute;
+  top: var(--_status-top, 0px);
+  right: var(--_status-right, -6px);
+  width: var(--_status-sz, 20px);
+  height: var(--_status-sz, 20px);
+}
+
+/* Bottom status — bottom-right corner, overflows outside right edge */
+.avatar__bottom-status {
+  position: absolute;
+  bottom: var(--_status-bottom, 0px);
+  right: var(--_status-right, -6px);
+  width: var(--_status-sz, 20px);
+  height: var(--_status-sz, 20px);
+}

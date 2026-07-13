@@ -89,14 +89,17 @@ Medium is the default size for most UI contexts — forms, cards, dialogs, side 
 // ── Playground ────────────────────────────────────────────────────────────────
 
 export const Playground = {
-  parameters: {
+  args: {
+    showBadge: true
+  },
+  parameters:{
     docs: {
       description: {
         story: "Interactive sandbox — use the controls panel to try all approved type / style / icon combinations for the Medium button.",
       },
     },
   },
-  render: (args) => {
+  render:(args) => {
     const {
       type,
       variant,
@@ -125,7 +128,7 @@ export const Playground = {
         {children}
       </Button>
     );
-  },
+  }
 };
 
 // ── Shared helpers ────────────────────────────────────────────────────────────

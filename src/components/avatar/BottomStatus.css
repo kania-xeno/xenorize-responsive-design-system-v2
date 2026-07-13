@@ -1,0 +1,33 @@
+/* BottomStatus — DS-sourced status badge, rendered as 32×32 SVG
+   Source: Design System Scalable — All Platform V.2.1.0 · BottomStatus (2107:2834)
+   Last updated: 25/06/2026
+
+   Badge anatomy (online/idle/busy/away):
+     Container:  32×32 SVG viewBox
+     Padding:    2px transparent on each side — clearance for drop shadow
+     Stroke:     white circle r=10 (surface/neutral/white) — 20px visible diameter
+     Dot:        colored circle r=6 — 12px visible diameter
+
+   Company exception:
+     White BG circle r=14 — 28px visible diameter
+     No inner icon in V1 (Synergy brand icon pending product-level supply)
+
+   Tokens used:
+     surface/neutral/white  → --color-surface-neutral-white  (Stroke ring + Company bg)
+     status/success/base    → --status-success-base          (Online dot)
+     text/neutral/muted     → --color-text-neutral-muted     (Idle dot)
+     status/danger/base     → --status-danger-base           (Busy dot)
+     status/warning/base    → --status-warning-base          (Away dot · light: #684E00 · dark: #B28600)
+*/
+
+.bottom-status {
+  display: inline-flex;
+  flex-shrink: 0;
+  line-height: 0; /* prevent inline baseline gap */
+  /* Drop shadow — Figma source: color/alpha/black/4 = rgba(23,23,23,0.04) */
+  filter: drop-shadow(0 1px 2px rgba(23, 23, 23, 0.04));
+}
+
+.bottom-status svg {
+  display: block;
+}

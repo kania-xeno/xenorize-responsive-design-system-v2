@@ -58,7 +58,7 @@
 }
 
 /* ---------- Size: Small ----------
-   Figma node 1921:4253 — padding 6px, font 12px, radius 6px, icon 16px, icon-only 28×28  */
+   Figma node 1921:4253 — padding 6px, font 12px, radius 6px, icon 20px, icon-only 32×32  */
 .button--size-small {
   padding: var(--spacing-6);
   font-size: var(--font-size-body-sm);
@@ -66,14 +66,14 @@
   min-width: 48px;
 }
 
-.button--size-small .button__icon {
-  width: 16px;
-  height: 16px;
-}
+/* Icon size for small text buttons is 20×20 (same as base) — no override needed.
+   Rule intentionally removed: icon size in icon-only is controlled by .button--onlyIcon below. */
 
 .button--size-small.button--onlyIcon {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  min-width: 0;
 }
 
 /* ---------- Size: Medium ----------
@@ -87,6 +87,8 @@
 .button--size-medium.button--onlyIcon {
   width: 36px;
   height: 36px;
+  padding: 0;
+  min-width: 0;
 }
 
 /* ---------- Filled ---------- */

@@ -3,7 +3,7 @@
 Source: Figma "Design System Scalable - All Platform V.2.1.0 → General Components → Button".
 Node: 1921:4253 (`↳buttons-small`)
 All values reference `design-tokens/tokens.css`.
-Last updated: 22/06/2026
+Last updated: 24/06/2026 (corrected icon-only size to 32×32px, icon size to 20×20px per DS QA)
 
 ---
 
@@ -21,8 +21,8 @@ Same as Large — flex row with: left icon (optional) → label → right icon (
 | Gap between children | 4px | `--spacing-4` |
 | Border radius | **6px** | `--radius-6` |
 | Min width (text variant) | 48px | — |
-| Icon-only size | 28×28px | — |
-| Icon size | **16×16px** | — |
+| Icon-only size | 32×32px | — |
+| Icon size | 20×20px | — |
 | Label inline padding | 4px (left + right) | `--spacing-4` |
 | Font family | Open Sans | `--font-family-body` |
 | Font weight | 600 (SemiBold) | `--font-weight-medium` |
@@ -34,13 +34,13 @@ Same as Large — flex row with: left icon (optional) → label → right icon (
 |---|---|---|---|
 | Padding | 10px `--spacing-10` | 8px `--spacing-8` | **6px `--spacing-6`** |
 | Font size | 16px `--font-size-body-lg` | 14px `--font-size-body-md` | **12px `--font-size-body-sm`** |
-| Height | 40px | 36px | **28px** |
+| Height | 40px | 36px | **32px** |
 | Border radius | 8px `--radius-8` | 8px `--radius-8` | **6px `--radius-6`** |
-| Icon size | 20×20px | 20×20px | **16×16px** |
-| Icon-only | 40×40px | 36×36px | **28×28px** |
+| Icon size | 20×20px | 20×20px | 20×20px |
+| Icon-only | 40×40px | 36×36px | **32×32px** |
 | Min width | 80px | 64px | **48px** |
 
-> Note: Small is the only size with a different border radius (6px vs 8px) and icon size (16px vs 20px).
+> Note: Small is the only size with a different border radius (6px vs 8px). Icon size is 20×20px across all sizes. Icon-only button is 32×32px.
 
 Colors, variants, types, and states are identical to Large and Medium.
 
@@ -84,15 +84,13 @@ Small overrides the base button with a size modifier class:
   min-width: 48px;
 }
 
-/* Icon shrinks to 16px for small */
-.button--size-small .button__icon {
-  width: 16px;
-  height: 16px;
-}
+/* Icon size for small is 20×20 (same as base) — no .button__icon override needed. */
 
 .button--size-small.button--onlyIcon {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  min-width: 0;
 }
 ```
 
@@ -109,4 +107,4 @@ Identical to Large. See `button-large-spec.md`.
 ## Accessibility
 
 Identical to Large. See `button-large-spec.md`.
-Icon-only buttons at 28×28px still meet the WCAG 2.5.5 minimum target size of 24×24px.
+Icon-only buttons at 32×32px exceed the WCAG 2.5.5 minimum target size of 24×24px.

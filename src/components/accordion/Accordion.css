@@ -1,0 +1,131 @@
+/* =============================================================================
+   Accordion
+   Source: Design System Scalable V.2.1.0 → ❖ Accordion
+   All color values via tokens.css (accordion/* namespace).
+   All hardcoded values (padding, gap, font, radius) are Figma-sourced
+   per component-accordion-usage-spec.md.
+   ============================================================================= */
+
+/* ── Container ─────────────────────────────────────────────────────────────── */
+
+.accordion {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--radius-10);   /* 10px — responsive collection token */
+  border: 1px solid var(--accordion-border);
+  box-shadow: var(--accordion-shadow);
+  background-color: var(--accordion-bg-default);
+  box-sizing: border-box;
+
+  /* DISSOLVE 0.2s EASE_OUT — Hover transition (Figma spec) */
+  transition:
+    background-color 0.2s ease-out,
+    border-color     0.2s ease-out,
+    box-shadow       0.2s ease-out;
+}
+
+/* Hover state — border and shadow intentionally absent (Figma DS design) */
+.accordion:hover {
+  background-color: var(--accordion-bg-hover);
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* Active (open) state — same bg as hover, no border, no shadow */
+.accordion--open {
+  background-color: var(--accordion-bg-active);
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* ── Trigger (button row) ───────────────────────────────────────────────────── */
+
+.accordion__trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;                         /* container gap — Figma spec */
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+}
+
+.accordion__trigger:focus {
+  /* V1: Focus ring not implemented — DS gap (no accordion/focus-ring token).
+     Do not suppress :focus-visible in future versions.
+     WCAG 2.4.7 requires a visible focus indicator. Pending DS Auditor. */
+  outline: none;
+}
+
+/* ── Info icon (Flip Icon = Off only) ──────────────────────────────────────── */
+
+.accordion__info-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--accordion-icon-soft);
+
+  /* DISSOLVE 0.2s EASE_OUT — shifts from soft to default on hover/open */
+  transition: color 0.2s ease-out;
+}
+
+.accordion:hover .accordion__info-icon,
+.accordion--open .accordion__info-icon {
+  color: var(--accordion-icon-default);
+}
+
+/* ── Chevron icon ───────────────────────────────────────────────────────────── */
+
+.accordion__chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--accordion-icon-default);  /* chevron is always full-strength */
+}
+
+/* ── Title text ─────────────────────────────────────────────────────────────── */
+
+.accordion__title {
+  flex: 1;
+  font-family: var(--font-family-body);  /* Open Sans */
+  font-size: 14px;                       /* hardcoded — no responsive token yet */
+  font-weight: var(--font-weight-semibold);  /* 600 */
+  line-height: 20px;                     /* hardcoded — no responsive token yet */
+  letter-spacing: -0.084px;             /* -0.6% of 14px */
+  color: var(--accordion-text-title);
+}
+
+/* ── Body (expand/collapse via CSS grid row animation) ──────────────────────── */
+
+.accordion__body-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+
+  /* SMART_ANIMATE 0.2s EASE_OUT — expand/collapse transition (Figma spec) */
+  transition: grid-template-rows 0.2s ease-out;
+}
+
+.accordion--open .accordion__body-wrap {
+  grid-template-rows: 1fr;
+}
+
+.accordion__body {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.accordion__body-text {
+  padding-top: 6px;                      /* text frame gap — Figma spec */
+  margin: 0;
+  font-family: var(--font-family-body);  /* Open Sans */
+  font-size: 14px;                       /* hardcoded — no responsive token yet */
+  font-weight: var(--font-weight-regular);  /* 400 */
+  line-height: 20px;                     /* hardcoded — no responsive token yet */
+  letter-spacing: -0.084px;             /* -0.6% of 14px */
+  color: var(--accordion-text-body);
+}

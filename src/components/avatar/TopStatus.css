@@ -1,0 +1,35 @@
+/* TopStatus — DS-sourced status badge, rendered as 32×32 SVG
+   Source: Design System Scalable — All Platform V.2.1.0 · TopStatus (2107:2850)
+   Last updated: 25/06/2026
+
+   Badge anatomy (all types):
+     Container:  32×32 SVG viewBox
+     Padding:    2px transparent on each side — clearance for drop shadow
+     Stroke:     white separation ring (surface/neutral/white)
+     BG:         colored fill per type (status/* or text/neutral/muted tokens)
+     Icon:       white vector icon (text/neutral/inverse)
+
+   Verified exception: Stroke + BG use octagonal shape paths (not ELLIPSE).
+   Notification exception: white circle + red dot only — no outer Stroke ring.
+
+   Tokens used:
+     surface/neutral/white  → --color-surface-neutral-white  (Stroke ring + Notification bg)
+     text/neutral/inverse   → --color-text-neutral-inverse   (icon fills)
+     text/neutral/muted     → --color-text-neutral-muted     (Add badge bg)
+     status/sky/base        → --status-sky-base              (Verified bg)
+     status/feature/base    → --status-feature-base          (Pin bg)
+     status/success/base    → --status-success-base          (Favorite bg)
+     status/danger/base     → --status-danger-base           (Remove bg · Notification dot)
+*/
+
+.top-status {
+  display: inline-flex;
+  flex-shrink: 0;
+  line-height: 0; /* prevent inline baseline gap */
+  /* Drop shadow — Figma source: color/alpha/black/4 = rgba(23,23,23,0.04) */
+  filter: drop-shadow(0 1px 2px rgba(23, 23, 23, 0.04));
+}
+
+.top-status svg {
+  display: block;
+}
