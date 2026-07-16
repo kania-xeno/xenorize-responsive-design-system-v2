@@ -1,0 +1,94 @@
+/* =============================================================================
+   KeyIcon — ↳key-icon
+   Source: Design System Scalable V.2.1.0 · Page: ❖ Key Component
+   Figma node: 2166:306
+   Token collection: VariableCollectionId:1902:2617 (single mode "variable")
+
+   90 variants: 2 styles × 9 colors × 5 sizes.
+   Display-only. No hover / focus / pressed states defined in Figma V1.
+
+   Icon fill color is set via `color` CSS property on the wrapper (.key-icon).
+   Inner icon SVG uses `currentColor` and inherits the correct fill automatically.
+   ============================================================================= */
+
+/* ── Base container ──────────────────────────────────────────────────────────── */
+
+.key-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;       /* radius=999 — full circle at all sizes */
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+/* ── Sizes ───────────────────────────────────────────────────────────────────── */
+/* Container / padding / icon size per Figma spec:
+   2xl → 64 / 16 / 32px
+   xl  → 56 / 14 / 28px
+   l   → 48 / 12 / 24px
+   m   → 40 / 10 / 20px
+   s   → 32 /  8 / 16px                                                         */
+
+.key-icon--2xl { width: 64px; height: 64px; padding: 16px; }
+.key-icon--xl  { width: 56px; height: 56px; padding: 14px; }
+.key-icon--l   { width: 48px; height: 48px; padding: 12px; }
+.key-icon--m   { width: 40px; height: 40px; padding: 10px; }
+.key-icon--s   { width: 32px; height: 32px; padding: 8px;  }
+
+/* Icon slot — fills the padded area */
+.key-icon__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.key-icon__icon > svg,
+.key-icon__icon > * {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Style: Stroke ───────────────────────────────────────────────────────────── */
+/* BG: key-icon/stroke/bg → surface/neutral/white
+   Border: key-icon/stroke/border → border/neutral/default (1px)               */
+
+.key-icon--stroke {
+  background-color: var(--key-icon-stroke-bg);
+  border: 1px solid var(--key-icon-stroke-border);
+}
+
+/* ── Style: Lighter ──────────────────────────────────────────────────────────── */
+/* BG: key-icon/lighter/bg/{color} per color. No border.                        */
+
+.key-icon--lighter {
+  border: none;
+}
+
+/* Color-specific lighter backgrounds */
+.key-icon--lighter.key-icon--gray   { background-color: var(--key-icon-lighter-bg-gray);   }
+.key-icon--lighter.key-icon--blue   { background-color: var(--key-icon-lighter-bg-blue);   }
+.key-icon--lighter.key-icon--orange { background-color: var(--key-icon-lighter-bg-orange); }
+.key-icon--lighter.key-icon--red    { background-color: var(--key-icon-lighter-bg-red);    }
+.key-icon--lighter.key-icon--green  { background-color: var(--key-icon-lighter-bg-green);  }
+.key-icon--lighter.key-icon--yellow { background-color: var(--key-icon-lighter-bg-yellow); }
+.key-icon--lighter.key-icon--purple { background-color: var(--key-icon-lighter-bg-purple); }
+.key-icon--lighter.key-icon--pink   { background-color: var(--key-icon-lighter-bg-pink);   }
+.key-icon--lighter.key-icon--teal   { background-color: var(--key-icon-lighter-bg-teal);   }
+
+/* Stroke style uses the same bg regardless of color */
+.key-icon--stroke.key-icon--gray,
+.key-icon--stroke.key-icon--blue,
+.key-icon--stroke.key-icon--orange,
+.key-icon--stroke.key-icon--red,
+.key-icon--stroke.key-icon--green,
+.key-icon--stroke.key-icon--yellow,
+.key-icon--stroke.key-icon--purple,
+.key-icon--stroke.key-icon--pink,
+.key-icon--stroke.key-icon--teal {
+  background-color: var(--key-icon-stroke-bg);
+}

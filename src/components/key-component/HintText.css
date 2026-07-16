@@ -1,0 +1,97 @@
+/* =============================================================================
+   HintText — ↳hint-text
+   Source: Design System Scalable V.2.1.0 · Page: ❖ Key Component
+   Figma node: 1956:5592
+   Token collection: VariableCollectionId:1902:2617 (single mode "variable")
+
+   4 variants: Default · Error · Disabled · Success.
+   Display-only. No hover / focus / pressed states defined in Figma V1.
+
+   Width: 100% — 190px Figma canvas value is a constraint. Text uses FILL.
+   Height: HUG.
+   Internal gap: 4px (icon → text). HORIZONTAL AL.
+
+   Token rule:
+     Default: icon uses key-component/hint/icon (icon/sub), text uses key-component/hint/text (text/neutral/default) — SEPARATE tokens.
+     Error:    icon + text share key-component/hint/error.
+     Success:  icon + text share key-component/hint/success.
+     Disabled: icon + text BOTH use key-component/hint/icon-disabled (icon/dissabled ⚠️).
+               key-component/hint/text-disabled is confirmed bound but NOT consumed in V1
+               per handoff brief Section 14 (DS Auditor 2026-07-14).
+   ============================================================================= */
+
+/* ── Root container ──────────────────────────────────────────────────────────── */
+
+.hint-text {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+/* ── Icon slot ───────────────────────────────────────────────────────────────── */
+
+.hint-text__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.hint-text__icon > svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+/* ── Hint text ───────────────────────────────────────────────────────────────── */
+
+.hint-text__message {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;             /* fontSize/body/sm */
+  font-weight: 400;            /* typography/weight/regular */
+  line-height: 1.33;           /* caption/regular text style */
+  letter-spacing: 0.02em;
+  flex: 1 1 0;
+  min-width: 0;
+  word-break: break-word;
+}
+
+/* ── State: Default ──────────────────────────────────────────────────────────── */
+/* Icon: hint/icon → icon/sub. Text: hint/text → text/neutral/default. SEPARATE. */
+
+.hint-text--default .hint-text__icon {
+  color: var(--key-component-hint-icon);
+}
+
+.hint-text--default .hint-text__message {
+  color: var(--key-component-hint-text);
+}
+
+/* ── State: Error ────────────────────────────────────────────────────────────── */
+/* Icon + text share hint/error → status/danger. */
+
+.hint-text--error .hint-text__icon,
+.hint-text--error .hint-text__message {
+  color: var(--key-component-hint-error);
+}
+
+/* ── State: Success ──────────────────────────────────────────────────────────── */
+/* Icon + text share hint/success → status/success. */
+
+.hint-text--success .hint-text__icon,
+.hint-text--success .hint-text__message {
+  color: var(--key-component-hint-success);
+}
+
+/* ── State: Disabled ─────────────────────────────────────────────────────────── */
+/* Icon + text BOTH use hint/icon-disabled → icon/dissabled ⚠️ (typo is intentional DS source of truth).
+   hint/text-disabled token exists and is documented but is NOT consumed in V1 per DS Auditor decision. */
+
+.hint-text--disabled .hint-text__icon,
+.hint-text--disabled .hint-text__message {
+  color: var(--key-component-hint-icon-disabled);
+}

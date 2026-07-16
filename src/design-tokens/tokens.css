@@ -362,48 +362,95 @@
   --switch-card-text-label: #1c1c1c;
 
   /* ================= COLOR — KEY COMPONENT (label / hint / password field) ================= */
-  --key-component-label-text: #1c1c1c;
-  --key-component-label-optional-text: #7b7b7b;
-  --key-component-label-text-disabled: #d1d1d1;
-  --key-component-hint-button: #403297;
-  --key-component-hint-icon: #5c5c5c;
-  --key-component-hint-text: #333333;
-  --key-component-hint-error: #cb1515;
-  --key-component-hint-icon-disabled: #d1d1d1;
-  --key-component-password-default: #ebecef;
-  --key-component-password-text: #333333;
-  --key-component-password-icon: #a3a3a3;
-  --key-component-password-error: #cb1515;
-  --key-component-password-success: #0f6d32;
-  --key-component-password-warning: #763606;
+  /* Source: Figma component collection VariableCollectionId:1902:2617, single mode "variable".
+     Alias chain: key-component/* → theme token → primitive (light/dark handled at theme layer).
+     DS Auditor confirmed 2026-07-14. Dark mode NOT duplicated here — resolves through alias chain.
+     Corrected stale values vs. Figma source of truth: password/warning (#763606 → #684e00). */
+
+  /* label-key tokens */
+  --key-component-label-text: #1c1c1c;           /* key-component/label/label → text/neutral/strong */
+  --key-component-label-label: var(--key-component-label-text); /* spec alias: key-component/label/label */
+  --key-component-label-optional-text: #7b7b7b;  /* key-component/label/optional-text → text/neutral/muted */
+  --key-component-label-icon: #a3a3a3;            /* key-component/label/icon → icon/soft — ADDED 2026-07-14 */
+  --key-component-label-icon-disabled: #d1d1d1;   /* key-component/label/icon-disabled → icon/dissabled ⚠️ — ADDED 2026-07-14 */
+  --key-component-label-text-disabled: #d1d1d1;   /* key-component/label/text-disabled → text/neutral/disabled */
+
+  /* hint-text tokens */
+  --key-component-hint-button: #403297;           /* key-component/hint/button → text/brand/link (LabelKey help action) */
+  --key-component-hint-icon: #5c5c5c;             /* key-component/hint/icon → icon/sub */
+  --key-component-hint-text: #333333;             /* key-component/hint/text → text/neutral/default */
+  --key-component-hint-error: #cb1515;            /* key-component/hint/error → status/danger */
+  --key-component-hint-success: #0f6d32;          /* key-component/hint/success → status/success — ADDED 2026-07-14 */
+  --key-component-hint-icon-disabled: #d1d1d1;    /* key-component/hint/icon-disabled → icon/dissabled ⚠️ */
+  --key-component-hint-text-disabled: #d1d1d1;    /* key-component/hint/text-disabled → text/neutral/disabled — ADDED 2026-07-14 (confirmed bound; not consumed in V1 Disabled state — icon-disabled covers both) */
+
+  /* password-strength tokens */
+  --key-component-password-default: #ebecef;      /* key-component/password/default → surface/neutral/soft-alt */
+  --key-component-password-text: #333333;         /* key-component/password/text → text/neutral/default */
+  --key-component-password-icon: #a3a3a3;         /* key-component/password/icon → icon/soft */
+  --key-component-password-error: #cb1515;        /* key-component/password/error → status/danger */
+  --key-component-password-success: #0f6d32;      /* key-component/password/success → status/success */
+  --key-component-password-warning: #684e00;      /* key-component/password/warning → status/warning — CORRECTED 2026-07-14 (was #763606) */
+  --key-component-password-icon-disabled: #d1d1d1; /* key-component/password/icon-disabled → icon/dissabled ⚠️ — ADDED 2026-07-14 */
 
   /* ================= COLOR — KEY ICON (status icon variants) ================= */
-  --key-icon-gray: #5c5c5c;
-  --key-icon-gray-lighter-bg: #f4f4f6;
-  --key-icon-blue: #1264ce;
-  --key-icon-blue-lighter-bg: #deebfc;
-  --key-icon-orange: #482104;
-  --key-icon-orange-lighter-bg: #fef4ec;
-  --key-icon-red: #cb1515;
-  --key-icon-red-lighter-bg: #fcdfdf;
-  --key-icon-green: #0f6d32;
-  --key-icon-green-lighter-bg: #edfdf3;
-  --key-icon-yellow: #763606;
-  --key-icon-yellow-lighter-bg: #f8af78;
-  --key-icon-purple: #403297;
-  --key-icon-purple-lighter-bg: #dad6f2;
-  --key-icon-pink: #e9358f;
-  --key-icon-pink-lighter-bg: #ffd5ea;
-  --key-icon-teal: #0f766e;
-  --key-icon-teal-lighter-bg: #ccfbf1;
-  --key-icon-stroke-bg: #ffffff;
-  --key-icon-stroke-border: #a3a3a3;
+  /* Source: Figma component collection VariableCollectionId:1902:2617, single mode "variable".
+     Stale hex values corrected 2026-07-14 per Figma variable inspection:
+       orange (#482104 → #3c2e00), orange-lighter-bg (#fef4ec → #fddc69),
+       yellow (#763606 → #684e00), yellow-lighter-bg (#f8af78 → #f1c21b),
+       teal (#0f766e → #22d3bb), teal-lighter-bg (#ccfbf1 → #cffbf5),
+       stroke-border (#a3a3a3 → #d1d1d1).
+     Spec-name aliases added: key-icon/icon/{color} → --key-icon-icon-{color}
+                               key-icon/lighter/bg/{color} → --key-icon-lighter-bg-{color}
+     Existing --key-icon-{color} and --key-icon-{color}-lighter-bg names retained (no rename). */
 
-  /* ================= COLOR — PHONE NUMBER INPUT ================= */
-  --input-phone-number-text-placeholder: #7b7b7b;
-  --input-phone-number-icon-default: #403297;
-  --input-phone-number-bg: #ffffff;
-  --input-phone-number-border-default: #eaeaea;
+  /* — icon fill colors (legacy names retained; spec aliases below) — */
+  --key-icon-gray:              #5c5c5c;   /* key-icon/icon/gray → icon/sub */
+  --key-icon-blue:              #1264ce;   /* key-icon/icon/blue → status/info/base */
+  --key-icon-orange:            #3c2e00;   /* key-icon/icon/orange → status/warning/dark — CORRECTED (was #482104) */
+  --key-icon-red:               #cb1515;   /* key-icon/icon/red → status/danger/base */
+  --key-icon-green:             #0f6d32;   /* key-icon/icon/green → status/success/base */
+  --key-icon-yellow:            #684e00;   /* key-icon/icon/yellow → status/warning/base — CORRECTED (was #763606) */
+  --key-icon-purple:            #403297;   /* key-icon/icon/purple → status/feature/base */
+  --key-icon-pink:              #e9358f;   /* key-icon/icon/pink → status/pink/base */
+  --key-icon-teal:              #22d3bb;   /* key-icon/icon/teal → status/skableoff/base — CORRECTED (was #0f766e) */
+
+  /* — lighter background colors (legacy names retained; spec aliases below) — */
+  --key-icon-gray-lighter-bg:   #f4f4f6;   /* key-icon/lighter/bg/gray → surface/neutral/soft */
+  --key-icon-blue-lighter-bg:   #deebfc;   /* key-icon/lighter/bg/blue → status/info/lighter */
+  --key-icon-orange-lighter-bg: #fddc69;   /* key-icon/lighter/bg/orange → status/warning/lighter — CORRECTED (was #fef4ec) */
+  --key-icon-red-lighter-bg:    #fcdfdf;   /* key-icon/lighter/bg/red → status/danger/lighter */
+  --key-icon-green-lighter-bg:  #edfdf3;   /* key-icon/lighter/bg/green → status/success/lighter */
+  --key-icon-yellow-lighter-bg: #f1c21b;   /* key-icon/lighter/bg/yellow → status/warning/light — CORRECTED (was #f8af78) */
+  --key-icon-purple-lighter-bg: #dad6f2;   /* key-icon/lighter/bg/purple → status/feature/lighter */
+  --key-icon-pink-lighter-bg:   #ffd5ea;   /* key-icon/lighter/bg/pink → status/pink/lighter */
+  --key-icon-teal-lighter-bg:   #cffbf5;   /* key-icon/lighter/bg/teal → status/skableoff/lighter — CORRECTED (was #ccfbf1) */
+
+  /* — stroke style — */
+  --key-icon-stroke-bg:     #ffffff;   /* key-icon/stroke/bg → surface/neutral/white */
+  --key-icon-stroke-border: #d1d1d1;   /* key-icon/stroke/border → border/neutral/default — CORRECTED (was #a3a3a3) */
+
+  /* — spec-name aliases: key-icon/icon/{color} — */
+  --key-icon-icon-gray:   var(--key-icon-gray);
+  --key-icon-icon-blue:   var(--key-icon-blue);
+  --key-icon-icon-orange: var(--key-icon-orange);
+  --key-icon-icon-red:    var(--key-icon-red);
+  --key-icon-icon-green:  var(--key-icon-green);
+  --key-icon-icon-yellow: var(--key-icon-yellow);
+  --key-icon-icon-purple: var(--key-icon-purple);
+  --key-icon-icon-pink:   var(--key-icon-pink);
+  --key-icon-icon-teal:   var(--key-icon-teal);
+
+  /* — spec-name aliases: key-icon/lighter/bg/{color} — */
+  --key-icon-lighter-bg-gray:   var(--key-icon-gray-lighter-bg);
+  --key-icon-lighter-bg-blue:   var(--key-icon-blue-lighter-bg);
+  --key-icon-lighter-bg-orange: var(--key-icon-orange-lighter-bg);
+  --key-icon-lighter-bg-red:    var(--key-icon-red-lighter-bg);
+  --key-icon-lighter-bg-green:  var(--key-icon-green-lighter-bg);
+  --key-icon-lighter-bg-yellow: var(--key-icon-yellow-lighter-bg);
+  --key-icon-lighter-bg-purple: var(--key-icon-purple-lighter-bg);
+  --key-icon-lighter-bg-pink:   var(--key-icon-pink-lighter-bg);
+  --key-icon-lighter-bg-teal:   var(--key-icon-teal-lighter-bg);
 
   /* ================= COLOR — ACCORDION ================= */
   /* Source: Figma component collection "accordion/*" variables, resolved via
@@ -735,6 +782,340 @@
   --breadcrumb-icon-default:  #5c5c5c;   /* icon/sub */
   --breadcrumb-icon-active:   #1c1c1c;   /* icon/strong */
   --breadcrumb-divider:       #a3a3a3;   /* icon/soft */
+
+  /* =====================================================================
+     Chart Donut — Component tokens (light mode)
+     Source: Figma "Design System Scalable V.2.1.0" — theme collection
+     chart/series/*, chart/up/*, chart/down/* variables.
+     Extracted via Figma Desktop Bridge — 2026-07-14
+     Palette map:
+       series/1 → indigo    series/2 → orange    series/3 → cyan
+       series/4 → rose      series/5 → yellow    series/6 → fuchsia
+       series/7 → lime      series/8 → amber
+       up → greeny (green)  down → crimpson (crimson)
+     ===================================================================== */
+
+  /* — Series 1 (indigo) — */
+  --chart-series-1-lighter:   #dedcf6;   /* color/chart/indigo/100 */
+  --chart-series-1-light:     #958fe1;   /* color/chart/indigo/300 */
+  --chart-series-1-default:   #4c42cd;   /* color/chart/indigo/500 */
+  --chart-series-1-dark:      #2c2488;   /* color/chart/indigo/700 */
+  --chart-series-1-darker:    #13103c;   /* color/chart/indigo/900 */
+
+  /* — Series 2 (orange) — */
+  --chart-series-2-lighter:   #fee5d3;   /* color/chart/orange/100 */
+  --chart-series-2-light:     #fbac74;   /* color/chart/orange/300 */
+  --chart-series-2-default:   #f97315;   /* color/chart/orange/500 */
+  --chart-series-2-dark:      #a84804;   /* color/chart/orange/700 */
+  --chart-series-2-darker:    #491f02;   /* color/chart/orange/900 */
+
+  /* — Series 3 (cyan) — */
+  --chart-series-3-lighter:   #cffafe;   /* color/chart/cyan/100 */
+  --chart-series-3-light:     #22d3ee;   /* color/chart/cyan/300 */
+  --chart-series-3-default:   #06b6d4;   /* color/chart/cyan/500 */
+  --chart-series-3-dark:      #0e7490;   /* color/chart/cyan/700 */
+  --chart-series-3-darker:    #164e63;   /* color/chart/cyan/900 */
+
+  /* — Series 4 (rose) — */
+  --chart-series-4-lighter:   #ffe4e6;   /* color/chart/rose/100 */
+  --chart-series-4-light:     #fb7185;   /* color/chart/rose/300 */
+  --chart-series-4-default:   #e11d48;   /* color/chart/rose/500 */
+  --chart-series-4-dark:      #9f1239;   /* color/chart/rose/700 */
+  --chart-series-4-darker:    #4c0519;   /* color/chart/rose/900 */
+
+  /* — Series 5 (yellow) — */
+  --chart-series-5-lighter:   #ffebcc;   /* color/chart/yellow/100 */
+  --chart-series-5-light:     #ffd899;   /* color/chart/yellow/300 */
+  --chart-series-5-default:   #ffb033;   /* color/chart/yellow/500 */
+  --chart-series-5-dark:      #f59600;   /* color/chart/yellow/700 */
+  --chart-series-5-darker:    #a36400;   /* color/chart/yellow/900 */
+
+  /* — Series 6 (fuchsia) — */
+  --chart-series-6-lighter:   #f7d6fb;   /* color/chart/fuchsia/100 */
+  --chart-series-6-light:     #e47cf4;   /* color/chart/fuchsia/300 */
+  --chart-series-6-default:   #d222ec;   /* color/chart/fuchsia/500 */
+  --chart-series-6-dark:      #8c0e9f;   /* color/chart/fuchsia/700 */
+  --chart-series-6-darker:    #3d0645;   /* color/chart/fuchsia/900 */
+
+  /* — Series 7 (lime) — */
+  --chart-series-7-lighter:   #ecfcd6;   /* color/chart/lime/100 */
+  --chart-series-7-light:     #c2f47b;   /* color/chart/lime/300 */
+  --chart-series-7-default:   #99ed21;   /* color/chart/lime/500 */
+  --chart-series-7-dark:      #63a00d;   /* color/chart/lime/700 */
+  --chart-series-7-darker:    #2b4606;   /* color/chart/lime/900 */
+
+  /* — Series 8 (amber) — */
+  --chart-series-8-lighter:   #fef3c7;   /* color/chart/amber/100 */
+  --chart-series-8-light:     #f59e0b;   /* color/chart/amber/300 */
+  --chart-series-8-default:   #cc7a05;   /* color/chart/amber/500 */
+  --chart-series-8-dark:      #9a4307;   /* color/chart/amber/700 */
+  --chart-series-8-darker:    #5c2705;   /* color/chart/amber/900 */
+
+  /* — Up trend (greeny / green) — */
+  --chart-up-lighter:         #bbf7d0;   /* color/chart/greeny/100 */
+  --chart-up-light:           #4ade80;   /* color/chart/greeny/300 */
+  --chart-up-default:         #16a34a;   /* color/chart/greeny/500 */
+  --chart-up-dark:            #166534;   /* color/chart/greeny/700 */
+  --chart-up-darker:          #14532d;   /* color/chart/greeny/900 */
+
+  /* — Down trend (crimpson / crimson) — */
+  --chart-down-lighter:       #fecaca;   /* color/chart/crimpson/100 */
+  --chart-down-light:         #f87171;   /* color/chart/crimpson/300 */
+  --chart-down-default:       #ef4444;   /* color/chart/crimpson/500 */
+  --chart-down-dark:          #991b1b;   /* color/chart/crimpson/700 */
+  --chart-down-darker:        #7f1d1d;   /* color/chart/crimpson/900 */
+
+  /* — Tooltip (fixed — component collection, intentionally not theme-adaptive) — */
+  --chart-tooltip-bg:         #ffffff;   /* tooltip/light/bg → surface/neutral/white */
+  --chart-tooltip-border:     #f5f5f5;   /* tooltip/light/border → border/neutral/soft */
+  --chart-tooltip-text:       #1c1c1c;   /* tooltip/light/text → text/neutral/strong */
+
+  /* — Empty state — */
+  --chart-empty: var(--color-surface-neutral-weak);   /* surface/neutral/weak — theme-adaptive via cascade */
+
+  /* ═══════════════════════════════════════════════════════════════
+     SHADOW / EFFECT — Ring States
+     Source: Figma Effect Styles — state/hover-ring/* + state/focus-ring/*
+     Extracted: 2026-07-16 via figma.getLocalEffectStylesAsync()
+     Reusable across any component that requires hover/focus rings.
+     Hover rings  = single DROP_SHADOW, offset 0/0, blur 0, spread 3.
+     Focus rings  = two stacked shadows: inner 2px white gap + outer 4px ring.
+     Do NOT create color variables for these — treat as shadow/effect tokens.
+     ═══════════════════════════════════════════════════════════════ */
+  --shadow-hover-ring-primary: 0 0 0 3px rgba(81, 62, 190, 0.16);
+  --shadow-hover-ring-neutral: 0 0 0 3px rgba(143, 143, 143, 0.16);
+  --shadow-hover-ring-error:   0 0 0 3px rgba(234, 52, 52, 0.16);
+  --shadow-focus-ring-primary: 0 0 0 2px #fff, 0 0 0 4px rgba(81, 62, 190, 0.16);
+  --shadow-focus-ring-neutral: 0 0 0 2px #fff, 0 0 0 4px rgba(143, 143, 143, 0.16);
+  --shadow-focus-ring-error:   0 0 0 2px #fff, 0 0 0 4px rgba(234, 52, 52, 0.16);
+
+  /* ═══════════════════════════════════════════════════════════════
+     INPUT TEXT — Component Tokens
+     Source: VariableCollectionId:1902:2617 — single mode "variable"
+     Extracted: 2026-07-16 · 193 variables · 7 variants
+     CSS naming: input-text/{variant}/{role}/{state}
+              → --input-text-{variant}-{role}-{state}
+     Dark mode: single-mode collection; alias chain resolves light/dark
+     at the theme layer. Do NOT add [data-theme="dark"] overrides here.
+     ═══════════════════════════════════════════════════════════════ */
+
+  /* ── BASIC ──────────────────────────────────────────────────── */
+  --input-text-basic-bg-default:              #FFFFFF; /* → surface/neutral/white */
+  --input-text-basic-bg-hover:                #FFFFFF; /* → surface/neutral/white */
+  --input-text-basic-bg-focus:                #FFFFFF; /* → surface/neutral/white */
+  --input-text-basic-bg-filled:               #FFFFFF; /* → surface/neutral/white */
+  --input-text-basic-bg-disabled:             #F5F5F5; /* → state/disabled-bg */
+  --input-text-basic-bg-error:                #FFFFFF; /* → surface/neutral/white */
+  --input-text-basic-border-default:          #EAEAEA; /* → border/neutral/subtle */
+  --input-text-basic-border-hover:            #DAD6F2; /* → surface/brand/primary/hover */
+  --input-text-basic-border-focus:            #7263CC; /* → border/brand/default-primary */
+  --input-text-basic-border-filled:           #7263CC; /* → border/brand/default-primary */
+  --input-text-basic-border-disabled:         #EAEAEA; /* → state/disabled-border */
+  --input-text-basic-border-error:            #CB1515; /* → status/danger */
+  --input-text-basic-text-default:            #1C1C1C; /* → text/neutral/strong */
+  --input-text-basic-text-hover:              #1C1C1C; /* → text/neutral/strong */
+  --input-text-basic-text-focus:              #1C1C1C; /* → text/neutral/strong */
+  --input-text-basic-text-filled:             #1C1C1C; /* → text/neutral/strong */
+  --input-text-basic-text-disabled:           #7B7B7B; /* → state/disabled-text */
+  --input-text-basic-text-error:              #CB1515; /* → status/danger */
+  --input-text-basic-placeholder-default:     #7B7B7B; /* → text/neutral/muted */
+  --input-text-basic-placeholder-hover:       #7B7B7B; /* → text/neutral/muted */
+  --input-text-basic-placeholder-focus:       #7B7B7B; /* → text/neutral/muted */
+  --input-text-basic-placeholder-filled:      #7B7B7B; /* → text/neutral/muted */
+  --input-text-basic-placeholder-disabled:    #7B7B7B; /* → state/disabled-text */
+  --input-text-basic-placeholder-error:       #CB1515; /* → status/danger */
+  --input-text-basic-icon-default:            #403297; /* → brand/primary/base */
+  --input-text-basic-icon-hover:              #403297; /* → brand/primary/base */
+  --input-text-basic-icon-focus:              #403297; /* → brand/primary/base */
+  --input-text-basic-icon-filled:             #403297; /* → brand/primary/base */
+  --input-text-basic-icon-disabled:           #D1D1D1; /* → icon/dissabled ⚠️ intentional DS typo */
+  --input-text-basic-icon-error:              #403297; /* → brand/primary/base */
+
+  /* ── DATE ───────────────────────────────────────────────────── */
+  --input-text-date-bg-default:               #FFFFFF; /* → surface/neutral/white */
+  --input-text-date-bg-hover:                 #FFFFFF; /* → surface/neutral/white */
+  --input-text-date-bg-focus:                 #FFFFFF; /* → surface/neutral/white */
+  --input-text-date-bg-filled:                #FFFFFF; /* → surface/neutral/white */
+  --input-text-date-bg-disabled:              #F5F5F5; /* → state/disabled-bg */
+  --input-text-date-bg-error:                 #FFFFFF; /* → surface/neutral/white */
+  --input-text-date-border-default:           #EAEAEA; /* → border/neutral/subtle */
+  --input-text-date-border-hover:             #DAD6F2; /* → surface/brand/primary/hover */
+  --input-text-date-border-focus:             #7263CC; /* → border/brand/default-primary */
+  --input-text-date-border-filled:            #7263CC; /* → border/brand/default-primary */
+  --input-text-date-border-disabled:          #EAEAEA; /* → state/disabled-border */
+  --input-text-date-border-error:             #CB1515; /* → status/danger */
+  --input-text-date-text-default:             #1C1C1C; /* → text/neutral/strong */
+  --input-text-date-text-hover:               #1C1C1C; /* → text/neutral/strong */
+  --input-text-date-text-focus:               #1C1C1C; /* → text/neutral/strong */
+  --input-text-date-text-filled:              #1C1C1C; /* → text/neutral/strong */
+  --input-text-date-text-disabled:            #7B7B7B; /* → state/disabled-text */
+  --input-text-date-text-error:               #CB1515; /* → status/danger */
+  --input-text-date-placeholder-default:      #7B7B7B; /* → text/neutral/muted */
+  --input-text-date-placeholder-hover:        #7B7B7B; /* → text/neutral/muted */
+  --input-text-date-placeholder-focus:        #7B7B7B; /* → text/neutral/muted */
+  --input-text-date-placeholder-filled:       #7B7B7B; /* → text/neutral/muted */
+  --input-text-date-placeholder-disabled:     #7B7B7B; /* → state/disabled-text */
+  --input-text-date-placeholder-error:        #CB1515; /* → status/danger */
+  --input-text-date-icon-default:             #403297; /* → brand/primary/base */
+  --input-text-date-icon-hover:               #403297; /* → brand/primary/base */
+  --input-text-date-icon-focus:               #403297; /* → brand/primary/base */
+  --input-text-date-icon-filled:              #403297; /* → brand/primary/base */
+  --input-text-date-icon-disabled:            #A3A3A3; /* → icon/soft */
+  --input-text-date-icon-error:               #403297; /* → brand/primary/base */
+
+  /* ── PASSWORD ───────────────────────────────────────────────── */
+  /* ⚠️ Lock/Eye icons are stroke-based VECTORs — bind stroke, not fill */
+  --input-text-password-bg-default:           #FFFFFF; /* → surface/neutral/white */
+  --input-text-password-bg-hover:             #FFFFFF; /* → surface/neutral/white */
+  --input-text-password-bg-focus:             #FFFFFF; /* → surface/neutral/white */
+  --input-text-password-bg-filled:            #FFFFFF; /* → surface/neutral/white */
+  --input-text-password-bg-disabled:          #F5F5F5; /* → state/disabled-bg */
+  --input-text-password-bg-error:             #FFFFFF; /* → surface/neutral/white */
+  --input-text-password-border-default:       #EAEAEA; /* → border/neutral/subtle */
+  --input-text-password-border-hover:         #DAD6F2; /* → surface/brand/primary/hover */
+  --input-text-password-border-focus:         #7263CC; /* → border/brand/default-primary */
+  --input-text-password-border-filled:        #7263CC; /* → border/brand/default-primary */
+  --input-text-password-border-disabled:      #EAEAEA; /* → state/disabled-border */
+  --input-text-password-border-error:         #CB1515; /* → status/danger */
+  --input-text-password-text-default:         #1C1C1C; /* → text/neutral/strong */
+  --input-text-password-text-hover:           #1C1C1C; /* → text/neutral/strong */
+  --input-text-password-text-focus:           #1C1C1C; /* → text/neutral/strong */
+  --input-text-password-text-filled:          #1C1C1C; /* → text/neutral/strong */
+  --input-text-password-text-disabled:        #7B7B7B; /* → state/disabled-text */
+  --input-text-password-text-error:           #CB1515; /* → status/danger */
+  --input-text-password-placeholder-default:  #7B7B7B; /* → text/neutral/muted */
+  --input-text-password-placeholder-hover:    #7B7B7B; /* → text/neutral/muted */
+  --input-text-password-placeholder-focus:    #7B7B7B; /* → text/neutral/muted */
+  --input-text-password-placeholder-filled:   #7B7B7B; /* → text/neutral/muted */
+  --input-text-password-placeholder-disabled: #7B7B7B; /* → state/disabled-text */
+  --input-text-password-placeholder-error:    #CB1515; /* → status/danger */
+  --input-text-password-icon-default:         #403297; /* → brand/primary/base */
+  --input-text-password-icon-hover:           #403297; /* → brand/primary/base */
+  --input-text-password-icon-focus:           #403297; /* → brand/primary/base */
+  --input-text-password-icon-filled:          #403297; /* → brand/primary/base */
+  --input-text-password-icon-disabled:        #D1D1D1; /* → icon/dissabled ⚠️ intentional DS typo */
+  --input-text-password-icon-error:           #403297; /* → brand/primary/base */
+
+  /* ── PHONE NUMBER ───────────────────────────────────────────── */
+  --input-text-phone-number-bg-default:            #FFFFFF; /* → surface/neutral/white */
+  --input-text-phone-number-bg-hover:              #FFFFFF; /* → surface/neutral/white */
+  --input-text-phone-number-bg-focus:              #FFFFFF; /* → surface/neutral/white */
+  --input-text-phone-number-bg-filled:             #FFFFFF; /* → surface/neutral/white */
+  --input-text-phone-number-bg-disabled:           #F5F5F5; /* → state/disabled-bg */
+  --input-text-phone-number-bg-error:              #FFFFFF; /* → surface/neutral/white */
+  --input-text-phone-number-border-default:        #EAEAEA; /* → border/neutral/subtle */
+  --input-text-phone-number-border-hover:          #DAD6F2; /* → surface/brand/primary/hover */
+  --input-text-phone-number-border-focus:          #7263CC; /* → border/brand/default-primary */
+  --input-text-phone-number-border-filled:         #7263CC; /* → border/brand/default-primary */
+  --input-text-phone-number-border-disabled:       #EAEAEA; /* → state/disabled-border */
+  --input-text-phone-number-border-error:          #CB1515; /* → status/danger */
+  --input-text-phone-number-text-default:          #1C1C1C; /* → text/neutral/strong */
+  --input-text-phone-number-text-hover:            #1C1C1C; /* → text/neutral/strong */
+  --input-text-phone-number-text-focus:            #1C1C1C; /* → text/neutral/strong */
+  --input-text-phone-number-text-filled:           #1C1C1C; /* → text/neutral/strong */
+  --input-text-phone-number-text-disabled:         #7B7B7B; /* → state/disabled-text */
+  --input-text-phone-number-text-error:            #CB1515; /* → status/danger */
+  --input-text-phone-number-placeholder-default:   #7B7B7B; /* → text/neutral/muted */
+  --input-text-phone-number-placeholder-hover:     #7B7B7B; /* → text/neutral/muted */
+  --input-text-phone-number-placeholder-focus:     #7B7B7B; /* → text/neutral/muted */
+  --input-text-phone-number-placeholder-filled:    #7B7B7B; /* → text/neutral/muted */
+  --input-text-phone-number-placeholder-disabled:  #7B7B7B; /* → state/disabled-text */
+  --input-text-phone-number-icon-default:          #403297; /* → brand/primary/base */
+  --input-text-phone-number-icon-hover:            #403297; /* → brand/primary/base */
+  --input-text-phone-number-icon-focus:            #403297; /* → brand/primary/base */
+  --input-text-phone-number-icon-filled:           #403297; /* → brand/primary/base */
+  --input-text-phone-number-icon-disabled:         #D1D1D1; /* → icon/dissabled ⚠️ intentional DS typo */
+  --input-text-phone-number-icon-error:            #403297; /* → brand/primary/base */
+
+  /* ── SEARCH ─────────────────────────────────────────────────── */
+  /* ⚠️ placeholder/* uses text/neutral/subtle (#A3A3A3), not muted */
+  /* ⚠️ icon-placeholder = softer icon for empty/default state */
+  /* ⚠️ text-disabled = text/neutral/disabled (#D1D1D1), unique to search */
+  /* ⚠️ search-placeholder-disabled inferred as #A3A3A3 — verify at QA */
+  --input-text-search-bg-default:              #FFFFFF; /* → surface/neutral/white */
+  --input-text-search-bg-hover:                #FFFFFF; /* → surface/neutral/white */
+  --input-text-search-bg-focus:                #FFFFFF; /* → surface/neutral/white */
+  --input-text-search-bg-filled:               #FFFFFF; /* → surface/neutral/white */
+  --input-text-search-bg-disabled:             #F5F5F5; /* → state/disabled-bg */
+  --input-text-search-bg-error:                #FFFFFF; /* → surface/neutral/white */
+  --input-text-search-border-default:          #EAEAEA; /* → border/neutral/subtle */
+  --input-text-search-border-hover:            #DAD6F2; /* → surface/brand/primary/hover */
+  --input-text-search-border-focus:            #7263CC; /* → border/brand/default-primary */
+  --input-text-search-border-filled:           #7263CC; /* → border/brand/default-primary */
+  --input-text-search-border-disabled:         #EAEAEA; /* → state/disabled-border */
+  --input-text-search-border-error:            #CB1515; /* → status/danger */
+  --input-text-search-text-default:            #1C1C1C; /* → text/neutral/strong */
+  --input-text-search-text-hover:              #1C1C1C; /* → text/neutral/strong */
+  --input-text-search-text-focus:              #1C1C1C; /* → text/neutral/strong */
+  --input-text-search-text-filled:             #1C1C1C; /* → text/neutral/strong */
+  --input-text-search-text-disabled:           #D1D1D1; /* → text/neutral/disabled ⚠️ unique */
+  --input-text-search-text-error:              #CB1515; /* → status/danger */
+  --input-text-search-placeholder-default:     #A3A3A3; /* → text/neutral/subtle */
+  --input-text-search-placeholder-hover:       #A3A3A3; /* → text/neutral/subtle */
+  --input-text-search-placeholder-focus:       #A3A3A3; /* → text/neutral/subtle */
+  --input-text-search-placeholder-filled:      #A3A3A3; /* → text/neutral/subtle */
+  --input-text-search-placeholder-disabled:    #A3A3A3; /* → text/neutral/subtle ⚠️ inferred — verify QA */
+  --input-text-search-icon-placeholder:        #A3A3A3; /* → icon/soft — default/empty state */
+  --input-text-search-icon-hover:              #403297; /* → brand/primary/base */
+  --input-text-search-icon-focus:              #403297; /* → brand/primary/base */
+  --input-text-search-icon-filled:             #403297; /* → brand/primary/base */
+  --input-text-search-icon-disabled:           #D1D1D1; /* → icon/dissabled ⚠️ intentional DS typo */
+  --input-text-search-icon-error:              #403297; /* → brand/primary/base */
+
+  /* ── LINK ───────────────────────────────────────────────────── */
+  --input-text-link-bg-default:                #FFFFFF; /* → surface/neutral/white */
+  --input-text-link-bg-hover:                  #FFFFFF; /* → surface/neutral/white */
+  --input-text-link-bg-focus:                  #FFFFFF; /* → surface/neutral/white */
+  --input-text-link-bg-filled:                 #FFFFFF; /* → surface/neutral/white */
+  --input-text-link-bg-disabled:               #F5F5F5; /* → state/disabled-bg */
+  --input-text-link-bg-error:                  #FFFFFF; /* → surface/neutral/white */
+  --input-text-link-border-default:            #EAEAEA; /* → border/neutral/subtle */
+  --input-text-link-border-hover:              #DAD6F2; /* → surface/brand/primary/hover */
+  --input-text-link-border-focus:              #7263CC; /* → border/brand/default-primary */
+  --input-text-link-border-filled:             #7263CC; /* → border/brand/default-primary */
+  --input-text-link-border-disabled:           #EAEAEA; /* → state/disabled-border */
+  --input-text-link-border-error:              #CB1515; /* → status/danger */
+  --input-text-link-text-default:              #1C1C1C; /* → text/neutral/strong */
+  --input-text-link-text-hover:                #1C1C1C; /* → text/neutral/strong */
+  --input-text-link-text-focus:                #1C1C1C; /* → text/neutral/strong */
+  --input-text-link-text-filled:               #1C1C1C; /* → text/neutral/strong */
+  --input-text-link-text-disabled:             #7B7B7B; /* → state/disabled-text */
+  --input-text-link-text-error:                #CB1515; /* → status/danger */
+  --input-text-link-placeholder-default:       #7B7B7B; /* → text/neutral/muted */
+  --input-text-link-placeholder-hover:         #7B7B7B; /* → text/neutral/muted */
+  --input-text-link-placeholder-focus:         #7B7B7B; /* → text/neutral/muted */
+  --input-text-link-placeholder-filled:        #7B7B7B; /* → text/neutral/muted */
+  --input-text-link-placeholder-disabled:      #7B7B7B; /* → state/disabled-text */
+  --input-text-link-icon-default:              #403297; /* → brand/primary/base */
+  --input-text-link-icon-hover:                #403297; /* → brand/primary/base */
+  --input-text-link-icon-focus:                #403297; /* → brand/primary/base */
+  --input-text-link-icon-filled:               #403297; /* → brand/primary/base */
+  --input-text-link-icon-disabled:             #A3A3A3; /* → icon/soft */
+  --input-text-link-icon-error:                #403297; /* → brand/primary/base */
+
+  /* ── DIGIT INPUT (field/ prefix) ────────────────────────────── */
+  /* ⚠️ No size axis. Single cell fixed at 80×64px (Figma node 1986:195) */
+  /* ⚠️ No placeholder tokens (single-char cell). No icon tokens. */
+  /* ⚠️ Figma has 5 variants (no Error variant); error styling is CSS-class based */
+  /* ⚠️ field/bg/hover = #F4F4F6 — unique across all input-text variants */
+  --input-text-digit-input-field-bg-default:      #FFFFFF; /* → surface/neutral/white */
+  --input-text-digit-input-field-bg-hover:        #F4F4F6; /* → surface/neutral/soft ⚠️ unique */
+  --input-text-digit-input-field-bg-focus:        #FFFFFF; /* → surface/neutral/white */
+  --input-text-digit-input-field-bg-filled:       #FFFFFF; /* → surface/neutral/white */
+  --input-text-digit-input-field-bg-disabled:     #F5F5F5; /* → state/disabled-bg */
+  --input-text-digit-input-field-bg-error:        #FFFFFF; /* → surface/neutral/white */
+  --input-text-digit-input-field-border-default:  #EAEAEA; /* → border/neutral/subtle */
+  --input-text-digit-input-field-border-hover:    #DAD6F2; /* → surface/brand/primary/hover */
+  --input-text-digit-input-field-border-focus:    #7263CC; /* → border/brand/default-primary */
+  --input-text-digit-input-field-border-filled:   #7263CC; /* → border/brand/default-primary */
+  --input-text-digit-input-field-border-disabled: #EAEAEA; /* → state/disabled-border */
+  --input-text-digit-input-field-border-error:    #CB1515; /* → status/danger */
+  --input-text-digit-input-field-text-default:    #1C1C1C; /* → text/neutral/strong */
+  --input-text-digit-input-field-text-hover:      #1C1C1C; /* → text/neutral/strong */
+  --input-text-digit-input-field-text-focus:      #1C1C1C; /* → text/neutral/strong */
+  --input-text-digit-input-field-text-filled:     #1C1C1C; /* → text/neutral/strong */
+  --input-text-digit-input-field-text-disabled:   #D1D1D1; /* → text/neutral/disabled ⚠️ unique */
+  --input-text-digit-input-field-text-error:      #CB1515; /* → status/danger */
 }
 
 /* =====================================================================
@@ -1132,6 +1513,69 @@
   --breadcrumb-icon-default:  #ccced7;   /* icon/sub */
   --breadcrumb-icon-active:   #ffffff;   /* icon/strong */
   --breadcrumb-divider:       #989dae;   /* icon/soft */
+
+  /* ---------- Chart Donut (dark mode) ---------- */
+  --chart-series-1-lighter:   #13103c;   /* color/chart/indigo/900 */
+  --chart-series-1-light:     #2c2488;   /* color/chart/indigo/700 */
+  --chart-series-1-default:   #7168d7;   /* color/chart/indigo/400 */
+  --chart-series-1-dark:      #958fe1;   /* color/chart/indigo/300 */
+  --chart-series-1-darker:    #dedcf6;   /* color/chart/indigo/100 */
+
+  --chart-series-2-lighter:   #491f02;   /* color/chart/orange/900 */
+  --chart-series-2-light:     #a84804;   /* color/chart/orange/700 */
+  --chart-series-2-default:   #fa8f45;   /* color/chart/orange/400 */
+  --chart-series-2-dark:      #fbac74;   /* color/chart/orange/300 */
+  --chart-series-2-darker:    #fee5d3;   /* color/chart/orange/100 */
+
+  --chart-series-3-lighter:   #164e63;   /* color/chart/cyan/900 */
+  --chart-series-3-light:     #0e7490;   /* color/chart/cyan/700 */
+  --chart-series-3-default:   #0ecfe6;   /* color/chart/cyan/400 */
+  --chart-series-3-dark:      #22d3ee;   /* color/chart/cyan/300 */
+  --chart-series-3-darker:    #cffafe;   /* color/chart/cyan/100 */
+
+  --chart-series-4-lighter:   #4c0519;   /* color/chart/rose/900 */
+  --chart-series-4-light:     #9f1239;   /* color/chart/rose/700 */
+  --chart-series-4-default:   #f43f5e;   /* color/chart/rose/400 */
+  --chart-series-4-dark:      #fb7185;   /* color/chart/rose/300 */
+  --chart-series-4-darker:    #ffe4e6;   /* color/chart/rose/100 */
+
+  --chart-series-5-lighter:   #a36400;   /* color/chart/yellow/900 */
+  --chart-series-5-light:     #f59600;   /* color/chart/yellow/700 */
+  --chart-series-5-default:   #ffba4d;   /* color/chart/yellow/400 */
+  --chart-series-5-dark:      #ffd899;   /* color/chart/yellow/300 */
+  --chart-series-5-darker:    #ffebcc;   /* color/chart/yellow/100 */
+
+  --chart-series-6-lighter:   #3d0645;   /* color/chart/fuchsia/900 */
+  --chart-series-6-light:     #8c0e9f;   /* color/chart/fuchsia/700 */
+  --chart-series-6-default:   #db4ff0;   /* color/chart/fuchsia/400 */
+  --chart-series-6-dark:      #e47cf4;   /* color/chart/fuchsia/300 */
+  --chart-series-6-darker:    #f7d6fb;   /* color/chart/fuchsia/100 */
+
+  --chart-series-7-lighter:   #2b4606;   /* color/chart/lime/900 */
+  --chart-series-7-light:     #63a00d;   /* color/chart/lime/700 */
+  --chart-series-7-default:   #aef14e;   /* color/chart/lime/400 */
+  --chart-series-7-dark:      #c2f47b;   /* color/chart/lime/300 */
+  --chart-series-7-darker:    #ecfcd6;   /* color/chart/lime/100 */
+
+  --chart-series-8-lighter:   #5c2705;   /* color/chart/amber/900 */
+  --chart-series-8-light:     #9a4307;   /* color/chart/amber/700 */
+  --chart-series-8-default:   #e08b08;   /* color/chart/amber/400 */
+  --chart-series-8-dark:      #f59e0b;   /* color/chart/amber/300 */
+  --chart-series-8-darker:    #fef3c7;   /* color/chart/amber/100 */
+
+  --chart-up-lighter:         #14532d;   /* color/chart/greeny/900 */
+  --chart-up-light:           #166534;   /* color/chart/greeny/700 */
+  --chart-up-default:         #22c55e;   /* color/chart/greeny/400 */
+  --chart-up-dark:            #4ade80;   /* color/chart/greeny/300 */
+  --chart-up-darker:          #bbf7d0;   /* color/chart/greeny/100 */
+
+  --chart-down-lighter:       #7f1d1d;   /* color/chart/crimpson/900 */
+  --chart-down-light:         #991b1b;   /* color/chart/crimpson/700 */
+  --chart-down-default:       #f05252;   /* color/chart/crimpson/400 */
+  --chart-down-dark:          #f87171;   /* color/chart/crimpson/300 */
+  --chart-down-darker:        #fecaca;   /* color/chart/crimpson/100 */
+
+  /* Tooltip remains fixed in dark mode — intentional (no override) */
 
   /* ---------- Button — Focus rings (same values in both modes) ---------- */
   --button-focus-ring-primary: #513ebe3d;

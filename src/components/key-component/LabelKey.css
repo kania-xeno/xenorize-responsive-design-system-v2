@@ -1,0 +1,132 @@
+/* =============================================================================
+   LabelKey — ↳label-key
+   Source: Design System Scalable V.2.1.0 · Page: ❖ Key Component
+   Figma node: 1956:5490
+   Token collection: VariableCollectionId:1902:2617 (single mode "variable")
+
+   2 variants: Normal · Disabled.
+   Display-only. No hover / focus / pressed states defined in Figma V1.
+
+   Width: 100% — 242px Figma canvas value is a constraint, not a fixed code width.
+   Height: HUG — determined by content.
+   Internal gap: 2px between elements (Figma HORIZONTAL AL, gap=2).
+
+   Help action: LabelKey-internal only. NOT the global Link Button component.
+   Uses --key-component-hint-button token for the help link text color.
+   ============================================================================= */
+
+/* ── Root container ──────────────────────────────────────────────────────────── */
+
+.label-key {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+  width: 100%;
+  min-height: 20px;
+}
+
+/* ── Label text ──────────────────────────────────────────────────────────────── */
+
+.label-key__label {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;          /* SemiBold — text style S:3301dc8b */
+  line-height: 1.43;
+  letter-spacing: 0;
+  color: var(--key-component-label-label);
+  white-space: nowrap;
+}
+
+/* ── Required asterisk ───────────────────────────────────────────────────────── */
+
+.label-key__required {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.43;
+  color: var(--color-text-brand-primary);  /* text/brand/primary — applied directly, no key-component alias */
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Optional sublabel ───────────────────────────────────────────────────────── */
+
+.label-key__optional {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;          /* Regular — caption/regular text style */
+  line-height: 1.33;
+  letter-spacing: 0.02em;
+  color: var(--key-component-label-optional-text);
+  white-space: nowrap;
+}
+
+/* ── Info icon ───────────────────────────────────────────────────────────────── */
+
+.label-key__info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--key-component-label-icon);  /* key-component/label/icon → icon/soft */
+}
+
+.label-key__info-icon > svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+/* ── Help action (LabelKey-internal — NOT the global Link Button component) ─── */
+
+.label-key__help {
+  display: inline-flex;
+  align-items: center;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.label-key__help-link {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  color: var(--key-component-hint-button);  /* text/brand/link — confirmed for LabelKey help action */
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.label-key__help-link:hover {
+  text-decoration: underline;
+}
+
+/* ── Disabled state ──────────────────────────────────────────────────────────── */
+
+.label-key--disabled .label-key__label {
+  color: var(--key-component-label-text-disabled);
+}
+
+.label-key--disabled .label-key__required {
+  color: var(--key-component-label-text-disabled);
+}
+
+.label-key--disabled .label-key__optional {
+  color: var(--key-component-label-text-disabled);
+}
+
+.label-key--disabled .label-key__info-icon {
+  color: var(--key-component-label-icon-disabled);  /* key-component/label/icon-disabled → icon/dissabled ⚠️ */
+}
+
+.label-key--disabled .label-key__help-link {
+  color: var(--key-component-label-text-disabled);
+  cursor: default;
+  pointer-events: none;
+}
