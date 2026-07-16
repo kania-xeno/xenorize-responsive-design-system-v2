@@ -1,0 +1,18 @@
+/* =============================================================================
+   FormField — composed form field layout
+   Assembles: LabelKey (above) · Input Field (middle) · HintText (below)
+
+   This file contains STRUCTURAL layout only.
+   It does NOT duplicate or override LabelKey.css, HintText.css, or InputText.css.
+   All visual token consumption stays in the respective component CSS files.
+
+   ⚠️ Gap between elements (4px) is an implementation assumption.
+   Verify against Figma form field anatomy spec at QA.
+   ============================================================================= */
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
