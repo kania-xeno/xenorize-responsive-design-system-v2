@@ -1,5 +1,5 @@
 import './InputText.css';
-import CalendarIcon from '../icons/CalendarIcon.jsx';
+import CalendarIcon from '../../icons/CalendarIcon.jsx';
 
 /**
  * DateInput — ↳input-text/date

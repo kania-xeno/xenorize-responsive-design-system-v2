@@ -1,5 +1,5 @@
 import './InputText.css';
-import PhoneIcon from '../icons/PhoneIcon.jsx';
+import PhoneIcon from '../../icons/PhoneIcon.jsx';
 
 /**
  * PhoneNumberInput — ↳input-text/phone-number

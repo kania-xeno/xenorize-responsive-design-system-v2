@@ -1,6 +1,7 @@
 import React from 'react';
 import Breadcrumb from './Breadcrumb';
-import ChevronRightSmall from '../icons/ChevronRightSmall';
+import ChevronRightSmall from '../../icons/ChevronRightSmall.jsx';
+import Rose from '../../icons/Rose.jsx';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Breadcrumb — General stories
@@ -49,7 +50,9 @@ Figma: [Design System Scalable V.2.1.0 → Breadcrumb](https://www.figma.com/des
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-const iconEl = <ChevronRightSmall />;
+// Item leading icon: Rose (Figma node 9:83079)
+// Arrow divider: ChevronRightSmall (kept as divider, separate from item icon)
+const iconEl = <Rose />;
 
 // 3-item trail — text only
 const ITEMS_3 = [

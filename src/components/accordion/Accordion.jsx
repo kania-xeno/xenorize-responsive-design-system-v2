@@ -1,7 +1,7 @@
 import React, { useState, useId } from 'react';
-import CircleInfo from '../icons/CircleInfo.jsx';
-import ChevronDownSmall from '../icons/ChevronDownSmall.jsx';
-import ChevronTopSmall from '../icons/ChevronTopSmall.jsx';
+import CircleInfo from '../../icons/CircleInfo.jsx';
+import ChevronDownSmall from '../../icons/ChevronDownSmall.jsx';
+import ChevronTopSmall from '../../icons/ChevronTopSmall.jsx';
 import './Accordion.css';
 
 /**

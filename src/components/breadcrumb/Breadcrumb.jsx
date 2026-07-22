@@ -1,6 +1,6 @@
 import React from 'react';
 import BreadcrumbItem from './BreadcrumbItem';
-import ChevronRightSmall from '../icons/ChevronRightSmall';
+import ChevronRightSmall from '../../icons/ChevronRightSmall';
 import './Breadcrumb.css';
 
 /**

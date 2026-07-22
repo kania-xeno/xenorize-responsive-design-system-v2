@@ -1,5 +1,5 @@
 import Button from "./Button.jsx";
-import CopyIcon from "../icons/CopyIcon.jsx";
+import CopyIcon from "../../icons/CopyIcon.jsx";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Overview — cross-size stories for Button

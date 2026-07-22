@@ -1,5 +1,5 @@
 import Badge from './Badge.jsx';
-import BubbleAlert from '../icons/BubbleAlert.jsx';
+import BubbleAlert from '../../icons/BubbleAlert.jsx';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Badge — General stories

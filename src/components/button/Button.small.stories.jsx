@@ -1,5 +1,5 @@
 import Button from "./Button.jsx";
-import CopyIcon from "../icons/CopyIcon.jsx";
+import CopyIcon from "../../icons/CopyIcon.jsx";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Figma source: Design System Scalable — All Platform V.2.1.0

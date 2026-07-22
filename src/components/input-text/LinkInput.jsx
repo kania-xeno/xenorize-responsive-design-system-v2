@@ -1,5 +1,5 @@
 import './InputText.css';
-import LinkIcon from '../icons/LinkIcon.jsx';
+import LinkIcon from '../../icons/LinkIcon.jsx';
 
 /**
  * LinkInput — ↳input-text/link

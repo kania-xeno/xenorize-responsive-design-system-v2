@@ -1,6 +1,6 @@
 import React from 'react';
 import KeyIcon from './KeyIcon.jsx';
-import CircleInfo from '../icons/CircleInfo.jsx';
+import CircleInfo from '../../icons/CircleInfo.jsx';
 
 export default {
   title: 'Components/Key Component/KeyIcon/General',

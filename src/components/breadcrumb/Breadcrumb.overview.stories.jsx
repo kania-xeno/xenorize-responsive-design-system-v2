@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Breadcrumb from './Breadcrumb';
-import ChevronRightSmall from '../icons/ChevronRightSmall';
+import ChevronRightSmall from '../../icons/ChevronRightSmall.jsx';
+import Rose from '../../icons/Rose.jsx';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Breadcrumb — Overview stories
@@ -31,7 +32,9 @@ See the \`General\` stories for isolated state, divider, and quantity demos.
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-const iconEl = <ChevronRightSmall />;
+// Item leading icon: Rose (Figma node 9:83079)
+// Arrow divider: ChevronRightSmall (kept as divider, separate from item icon)
+const iconEl = <Rose />;
 
 const makeItems = (count, withIcon = false, iconOnly = false) =>
   Array.from({ length: count }, (_, i) => ({

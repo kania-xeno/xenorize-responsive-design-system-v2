@@ -1,5 +1,5 @@
 import React from 'react';
-import BubbleAlert from '../icons/BubbleAlert.jsx';
+import BubbleAlert from '../../icons/BubbleAlert.jsx';
 import './Badge.css';
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -1,5 +1,5 @@
 import React from 'react';
-import CircleInfo from '../icons/CircleInfo.jsx';
+import CircleInfo from '../../icons/CircleInfo.jsx';
 import './LabelKey.css';
 
 /**

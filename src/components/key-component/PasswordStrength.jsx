@@ -1,6 +1,6 @@
 import React from 'react';
-import CircleCheck from '../icons/CircleCheck.jsx';
-import CircleX from '../icons/CircleX.jsx';
+import CircleCheck from '../../icons/CircleCheck.jsx';
+import CircleX from '../../icons/CircleX.jsx';
 import './PasswordStrength.css';
 
 /**

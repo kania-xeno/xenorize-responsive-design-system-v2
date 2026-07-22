@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import ButtonGroup from './ButtonGroup.jsx';
 import ButtonGroupItem from './ButtonGroupItem.jsx';
-import ChevronDownSmall from '../icons/ChevronDownSmall.jsx';
-import ChevronTopSmall from '../icons/ChevronTopSmall.jsx';
+import ChevronDownSmall from '../../icons/ChevronDownSmall.jsx';
+import ChevronTopSmall from '../../icons/ChevronTopSmall.jsx';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Button Group — General stories

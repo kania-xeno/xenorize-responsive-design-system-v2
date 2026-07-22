@@ -1,7 +1,7 @@
 import './InputText.css';
-import LockIcon    from '../icons/LockIcon.jsx';
-import EyeIcon     from '../icons/EyeIcon.jsx';
-import EyeOffIcon  from '../icons/EyeOffIcon.jsx';
+import LockIcon    from '../../icons/LockIcon.jsx';
+import EyeIcon     from '../../icons/EyeIcon.jsx';
+import EyeOffIcon  from '../../icons/EyeOffIcon.jsx';
 
 /**
  * PasswordInput — ↳input-text/password

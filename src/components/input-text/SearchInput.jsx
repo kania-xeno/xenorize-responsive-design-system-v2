@@ -1,5 +1,5 @@
 import './InputText.css';
-import SearchIcon from '../icons/SearchIcon.jsx';
+import SearchIcon from '../../icons/SearchIcon.jsx';
 
 /**
  * SearchInput — ↳input-text/search

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import BubbleAlert from '../icons/BubbleAlert.jsx';
-import CrossLarge from '../icons/CrossLarge.jsx';
+import BubbleAlert from '../../icons/BubbleAlert.jsx';
+import CrossLarge from '../../icons/CrossLarge.jsx';
 import './Alert.css';
 
 // ─────────────────────────────────────────────────────────────────────────────
