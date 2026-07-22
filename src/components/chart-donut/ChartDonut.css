@@ -1,0 +1,83 @@
+/* ==========================================================================
+   ChartDonut — Component Styles
+   Design System Scalable V.2.1.0
+   Covers: ↳chart-donut-multicolor + ↳chart-donut-single-color
+   ========================================================================== */
+
+/* ── Base container ───────────────────────────────────────────────────────── */
+
+.chart-donut {
+  display: inline-block;
+  flex-shrink: 0;
+  position: relative;
+  /* Size is set inline via the size prop. These classes provide semantic hooks. */
+}
+
+/* ── Size variants ────────────────────────────────────────────────────────── */
+/* Figma: S=120px · M=180px · L=240px · XL=300px — fixed, no responsive scaling */
+
+.chart-donut--s  { width: 120px; height: 120px; }
+.chart-donut--m  { width: 180px; height: 180px; }
+.chart-donut--l  { width: 240px; height: 240px; }
+.chart-donut--xl { width: 300px; height: 300px; }
+
+/* ── SVG slices ───────────────────────────────────────────────────────────── */
+
+.chart-donut svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Tooltip ──────────────────────────────────────────────────────────────── */
+/*
+ * Tooltip tokens are intentionally FIXED (not theme-adaptive).
+ * tooltip/light/* tokens are a designer choice — single mode only.
+ * No [data-theme="dark"] override should be added here.
+ */
+
+.chart-donut__tooltip {
+  position: absolute;
+  /* x/y set inline in JSX (x = dim + 2, y = 50% with translateY(-50%)) */
+
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 8px;
+  gap: 4px;
+  white-space: nowrap;
+
+  /* Tokens: tooltip/light/* — fixed, no dark override */
+  background-color: var(--chart-tooltip-bg);
+  border: 1px solid var(--chart-tooltip-border);
+  color: var(--chart-tooltip-text);
+
+  /* Typography: caption/regular (Open Sans 12px Regular) */
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5; /* 18px / 12px */
+
+  /* Shape */
+  border-radius: 6px;
+
+  /*
+   * Shadow: DS effect style `components/tooltip`
+   * Approximate rendering of the layered shadow stack from Figma.
+   * effect[1] → border/neutral/soft → matches --chart-tooltip-border channel.
+   * This is a best-effort approximation — verify against DS shadow tokens.
+   */
+  box-shadow:
+    0 0 0 1px var(--chart-tooltip-border),
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    0 4px 12px rgba(0, 0, 0, 0.06);
+
+  /* Prevent tooltip from interfering with chart hit target */
+  pointer-events: none;
+}
+
+/* ── No hover or focus states ─────────────────────────────────────────────── */
+/*
+ * Hover (Gap B) and Focus states are not defined in Figma DS V1.
+ * Do not add :hover, :focus, or :focus-visible rules without DS Auditor approval.
+ */
