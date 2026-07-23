@@ -318,7 +318,7 @@
   --color-status-success-surface: var(--prim-green-50);      /* #edfdf3 */
   --color-status-warning:         var(--prim-yellow-400);    /* #684e00 */
   --color-status-warning-dark:    var(--prim-yellow-600);    /* #3c2e00 */
-  --color-status-warning-surface: var(--prim-yellow-100);    /* #fef4ec */
+  --color-status-warning-surface: var(--prim-yellow-50);     /* #fddc69 — Figma: status/warning/lighter, confirmed 2026-07-23 */
   --color-status-info:            var(--prim-blue-300);      /* #1264ce */
   --color-status-info-dark:       var(--prim-blue-400);      /* #0d4896 */
   --color-status-info-surface:    var(--prim-blue-50);       /* #deebfc */
@@ -416,7 +416,7 @@
   --status-danger-lighter:   var(--prim-red-50);           /* #fcdfdf */
   --status-danger-base:      var(--prim-red-400);          /* #cb1515 */
   --status-danger-dark:      var(--prim-red-600);          /* #941010 */
-  --status-warning-lighter:  var(--prim-yellow-100);       /* #fef4ec */
+  --status-warning-lighter:  var(--prim-yellow-50);        /* #fddc69 — Figma: status/warning/lighter */
   --status-warning-base:     var(--prim-yellow-400);       /* #684e00 */
   --status-warning-dark:     var(--prim-yellow-600);       /* #3c2e00 */
   --status-success-lighter:  var(--prim-green-50);         /* #edfdf3 */
@@ -489,16 +489,6 @@
   --button-lighter-neutral-bg:      var(--color-surface-soft);          /* #f4f4f6 */
   --button-lighter-neutral-bg-hover: var(--color-surface-soft-alt);     /* #ebecef */
 
-  /* — Tonal (legacy/unmapped — do not use without DS approval) — */
-  --button-tonal-primary-text:       var(--color-brand-primary-dark);    /* #302571 */
-  --button-tonal-primary-bg:         var(--color-brand-primary-lighter); /* #eceaf8 */
-  --button-tonal-primary-bg-hover:   var(--color-brand-primary-hover);   /* #dad6f2 */
-  --button-tonal-primary-bg-active:  var(--prim-purple-200);             /* #b8b0e5 */
-  --button-tonal-secondary-text:     var(--color-brand-secondary-dark);  /* #178c7d */
-  --button-tonal-secondary-bg:       #e4fbf7;
-  --button-tonal-secondary-bg-hover: var(--prim-teal-50);                /* #cffbf5 */
-  --button-tonal-secondary-bg-active: #c2f5ee;
-
   /* — Ghost — */
   --button-ghost-primary-text:      var(--color-brand-primary-dark);    /* #302571 */
   --button-ghost-primary-bg-hover:  var(--color-brand-primary-lighter); /* #eceaf8 */
@@ -516,13 +506,12 @@
 
   /* — Focus rings — */
   --button-focus-ring-primary:   #513ebe3d;
-  --button-focus-ring-secondary: #22d3bb3d;
   --button-focus-ring-error:     #ea34343d;
   --button-focus-ring-neutral:   #82879c3d;
 
   /* ── Link Button ── */
   --link-button-neutral-default:     var(--color-text-default);       /* #333333 */
-  --link-button-neutral-underline:   var(--color-text-default);       /* #333333 */
+  --link-button-neutral-underline:   var(--color-icon-sub);           /* #5c5c5c — Figma: link-button/neutral/underline confirmed 2026-07-23 */
   --link-button-neutral-hover:       var(--color-text-strong);        /* #1c1c1c */
   --link-button-neutral-disabled:    var(--color-text-muted);         /* #7b7b7b */
   --link-button-modifable-default:   var(--color-text-white);         /* #ffffff */
@@ -557,7 +546,7 @@
   --modal-footer-bg:       var(--color-surface-white);         /* #ffffff */
   --modal-footer-border:   var(--color-border-subtle);         /* #eaeaea */
   --modal-icon-bg-error:   var(--color-status-danger-surface); /* #fcdfdf */
-  --modal-icon-bg-warning: var(--color-status-warning-surface); /* #fef4ec */
+  --modal-icon-bg-warning: var(--color-status-warning-surface); /* #fddc69 */
   --modal-icon-bg-success: var(--color-status-success-surface); /* #edfdf3 */
   --modal-icon-bg-info:    var(--color-status-info-surface);   /* #deebfc */
 
@@ -570,7 +559,7 @@
   --date-picker-surface-bg:        var(--color-surface-white);         /* #ffffff */
   --date-picker-surface-bg-hover:  var(--color-surface-weak);          /* #f6f7f8 */
   --date-picker-surface-bg-active: var(--color-brand-primary);         /* #403297 */
-  --date-picker-surface-disabled:  var(--color-text-disabled);         /* #d1d1d1 */
+  --date-picker-surface-disabled:  var(--color-border-default);        /* #d1d1d1 — Figma-confirmed 2026-07-23 */
   --date-picker-range-bg-selected: var(--color-brand-primary-lighter); /* #eceaf8 */
   --date-picker-border-default:    var(--color-border-subtle);         /* #eaeaea */
 
@@ -582,7 +571,7 @@
   --select-bg-hover:         var(--color-surface-weak);          /* #f6f7f8 */
   --select-bg-disabled:      var(--color-state-disabled-bg);     /* #f5f5f5 */
   --select-border-default:   var(--color-border-subtle);         /* #eaeaea */
-  --select-border-focus:     var(--color-brand-primary);         /* #403297 */
+  --select-border-focus:     var(--color-brand-primary-light);   /* #7263cc — Figma: select-basic/border/focus confirmed 2026-07-23 */
   --select-border-error:     var(--color-status-danger);         /* #cb1515 */
 
   --compact-select-text-default:   var(--color-text-strong);      /* #1c1c1c */
@@ -591,9 +580,9 @@
   --compact-select-bg-hover:       var(--color-surface-weak);     /* #f6f7f8 */
   --compact-select-bg-active:      var(--color-surface-soft);     /* #f4f4f6 */
   --compact-select-bg-disabled:    var(--color-state-disabled-bg); /* #f5f5f5 */
-  --compact-select-border-default: var(--color-text-subtle);      /* #a3a3a3 */
+  --compact-select-border-default: var(--color-border-default);   /* #d1d1d1 — Figma: compact-select/border/default confirmed 2026-07-23 */
   --compact-select-border-error:   var(--color-status-danger);    /* #cb1515 */
-  --compact-select-border-focus:   var(--color-brand-primary);    /* #403297 */
+  --compact-select-border-focus:   var(--color-brand-primary-light); /* #7263cc — Figma: compact-select/border/focus confirmed 2026-07-23 */
 
   /* ── Tab Menu ── */
   --tab-menu-bg:                   var(--color-surface-white);    /* #ffffff */
@@ -1330,16 +1319,6 @@
   /* lighter · error — text and bg-hover differ from their light semantic sources */
   --button-lighter-error-text:       var(--prim-red-100);        /* #f17e7e */
   --button-lighter-error-bg-hover:   var(--prim-red-600);        /* #941010 */
-
-  /* tonal · primary/secondary — not yet in Button.css */
-  --button-tonal-primary-text:        var(--prim-purple-300);    /* #9589d9 */
-  --button-tonal-primary-bg:          var(--prim-purple-900);    /* #0f0c24 */
-  --button-tonal-primary-bg-hover:    #20184b;                   /* no prim step */
-  --button-tonal-primary-bg-active:   var(--prim-purple-700);    /* #302571 */
-  --button-tonal-secondary-text:      var(--prim-teal-100);      /* #84ebdd */
-  --button-tonal-secondary-bg:        var(--prim-teal-600);      /* #16645a */
-  --button-tonal-secondary-bg-hover:  #1a7569;                   /* no prim step — between teal-500/600 */
-  --button-tonal-secondary-bg-active: var(--prim-teal-500);      /* #178c7d */
 
   /* ghost · primary/secondary — brand overrides */
   --button-ghost-primary-text:       var(--prim-purple-300);     /* #9589d9 */

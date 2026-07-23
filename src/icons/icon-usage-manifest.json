@@ -1,18 +1,18 @@
 {
   "_meta": {
-    "title": "Icon Foundation — Initial Local Batch",
+    "title": "Icon Foundation \u2014 Initial Local Batch",
     "version": "1.0.0",
     "lastSync": "2026-07-22",
-    "scope": "Initial local batch — 17 icons. NOT the complete product-used icon set.",
+    "scope": "Initial local batch \u2014 17 icons. NOT the complete product-used icon set.",
     "expansionNote": "Remaining ~41 product-used icons require a separate Figma icon audit/export pass before they can be added here.",
     "iconSystem": "Xenorize Icon System V.2.0.0",
     "defaultVariant": "filled=off, stroke=1, radius=0, join=square",
     "statusValues": {
-      "verified":    "Path sourced directly from Figma node; variant confirmed",
-      "extracted":   "Figma paths captured in session; file written from those paths",
-      "derived":     "Path inferred from a related icon; Figma node not directly queried",
-      "placeholder": "Figma node ID known; temporary geometry in file — real path pending",
-      "blocked":     "Figma node not accessible (MCP offline, token missing, node deleted)"
+      "verified": "Path sourced directly from Figma node; variant confirmed",
+      "extracted": "Figma paths captured in session; file written from those paths",
+      "derived": "Path inferred from a related icon; Figma node not directly queried",
+      "placeholder": "Figma node ID known; temporary geometry in file \u2014 real path pending",
+      "blocked": "Figma node not accessible (MCP offline, token missing, node deleted)"
     }
   },
   "icons": [
@@ -21,25 +21,40 @@
       "exportName": "BubbleAlert",
       "filePath": "src/icons/BubbleAlert.jsx",
       "category": "ui",
-      "variant": { "filled": "on", "stroke": 1, "radius": 0, "join": "round" },
+      "variant": {
+        "filled": "on",
+        "stroke": 1,
+        "radius": 0,
+        "join": "round"
+      },
       "nodeId": "9:77916",
       "componentSetId": "9:77857",
       "status": "verified",
       "verifiedAt": null,
-      "usedBy": ["Alert", "Badge"],
-      "notes": "filled=on variant (EVENODD filled path). Primary use in Badge at 12×12px."
+      "usedBy": [
+        "Alert",
+        "Badge"
+      ],
+      "notes": "filled=on variant (EVENODD filled path). Primary use in Badge at 12\u00d712px."
     },
     {
       "canonicalName": "calendar-2",
       "exportName": "CalendarIcon",
       "filePath": "src/icons/CalendarIcon.jsx",
       "category": "ui",
-      "variant": { "filled": "off", "stroke": 1, "radius": 0, "join": "square" },
+      "variant": {
+        "filled": "off",
+        "stroke": 1,
+        "radius": 0,
+        "join": "square"
+      },
       "nodeId": "9:87135",
       "componentSetId": "9:87135",
       "status": "verified",
       "verifiedAt": null,
-      "usedBy": ["DateInput"],
+      "usedBy": [
+        "DateInput"
+      ],
       "notes": "Trailing icon in DateInput."
     },
     {
@@ -47,142 +62,223 @@
       "exportName": "ChevronDownSmall",
       "filePath": "src/icons/ChevronDownSmall.jsx",
       "category": "navigation",
-      "variant": { "filled": "off", "stroke": 1, "radius": 0, "join": "square" },
+      "variant": {
+        "filled": "off",
+        "stroke": 1,
+        "radius": 0,
+        "join": "square"
+      },
       "nodeId": "9:2273",
       "componentSetId": "9:2232",
       "status": "verified",
       "verifiedAt": null,
-      "usedBy": ["Accordion", "ButtonGroup"],
-      "notes": "Renders at 20×20 (24×24 frame, content at offset 8,10)."
+      "usedBy": [
+        "Accordion",
+        "ButtonGroup"
+      ],
+      "notes": "Renders at 20\u00d720 (24\u00d724 frame, content at offset 8,10)."
     },
     {
       "canonicalName": "chevron-right-small",
       "exportName": "ChevronRightSmall",
       "filePath": "src/icons/ChevronRightSmall.jsx",
       "category": "navigation",
-      "variant": { "filled": "off", "stroke": 1, "radius": 0, "join": "square" },
+      "variant": {
+        "filled": "off",
+        "stroke": 1,
+        "radius": 0,
+        "join": "square"
+      },
       "nodeId": "9:2293",
       "componentSetId": "9:2293",
       "status": "derived",
       "verifiedAt": null,
-      "usedBy": ["Breadcrumb"],
-      "notes": "PATH DERIVED — rotated 90° CW from ChevronDownSmall (node 9:2273). componentSetId 9:2293 confirmed from figma-icon-catalog.json (Arrows category). Extract real path from Figma on next session to upgrade status to extracted."
+      "usedBy": [
+        "Breadcrumb"
+      ],
+      "notes": "PATH DERIVED \u2014 rotated 90\u00b0 CW from ChevronDownSmall (node 9:2273). componentSetId 9:2293 confirmed from figma-icon-catalog.json (Arrows category). Extract real path from Figma on next session to upgrade status to extracted."
     },
     {
       "canonicalName": "chevron-top-small",
       "exportName": "ChevronTopSmall",
       "filePath": "src/icons/ChevronTopSmall.jsx",
       "category": "navigation",
-      "variant": { "filled": "off", "stroke": 1, "radius": 0, "join": "square" },
+      "variant": {
+        "filled": "off",
+        "stroke": 1,
+        "radius": 0,
+        "join": "square"
+      },
       "nodeId": "9:2212",
       "componentSetId": "9:2171",
       "status": "verified",
       "verifiedAt": null,
-      "usedBy": ["Accordion", "ButtonGroup"],
-      "notes": "Renders at 20×20 (24×24 frame, content at offset 8,10)."
+      "usedBy": [
+        "Accordion",
+        "ButtonGroup"
+      ],
+      "notes": "Renders at 20\u00d720 (24\u00d724 frame, content at offset 8,10)."
     },
     {
       "canonicalName": "circle-check",
       "exportName": "CircleCheck",
       "filePath": "src/icons/CircleCheck.jsx",
       "category": "status",
-      "variant": { "filled": "on", "stroke": 1, "radius": 0, "join": "round" },
+      "variant": {
+        "filled": "on",
+        "stroke": 1,
+        "radius": 0,
+        "join": "round"
+      },
       "nodeId": "9:96443",
-      "componentSetId": null,
-      "status": "placeholder",
-      "verifiedAt": null,
-      "usedBy": ["PasswordStrength"],
-      "notes": "PLACEHOLDER — temporary geometry. Extract real SVG path from Figma node 9:96443 on next Figma session. Used in production (PasswordStrength)."
+      "componentSetId": "9:96382",
+      "status": "extracted",
+      "verifiedAt": "2026-07-23",
+      "usedBy": [
+        "PasswordStrength"
+      ],
+      "notes": "Extracted from Figma Icon System (LedlgNlwu4pXBMmGmAr6op) node 9:96443. fillRule=evenodd compound path. Verified 2026-07-23."
     },
     {
       "canonicalName": "circle-info",
       "exportName": "CircleInfo",
       "filePath": "src/icons/CircleInfo.jsx",
       "category": "status",
-      "variant": { "filled": "on", "stroke": 1, "radius": 0, "join": "round" },
+      "variant": {
+        "filled": "on",
+        "stroke": 1,
+        "radius": 0,
+        "join": "round"
+      },
       "nodeId": "9:98583",
       "componentSetId": null,
       "status": "verified",
       "verifiedAt": null,
-      "usedBy": ["Accordion", "HintText", "LabelKey"],
-      "notes": "filled=on, EVENODD — outer circle + 'i' stem + 'i' dot."
+      "usedBy": [
+        "Accordion",
+        "HintText",
+        "LabelKey"
+      ],
+      "notes": "filled=on, EVENODD \u2014 outer circle + 'i' stem + 'i' dot."
     },
     {
       "canonicalName": "circle-x",
       "exportName": "CircleX",
       "filePath": "src/icons/CircleX.jsx",
       "category": "status",
-      "variant": { "filled": "on", "stroke": 1, "radius": 0, "join": "round" },
+      "variant": {
+        "filled": "on",
+        "stroke": 1,
+        "radius": 0,
+        "join": "round"
+      },
       "nodeId": "9:100399",
-      "componentSetId": null,
-      "status": "placeholder",
-      "verifiedAt": null,
-      "usedBy": ["PasswordStrength"],
-      "notes": "PLACEHOLDER — temporary geometry. Extract real SVG path from Figma node 9:100399 on next Figma session. Used in production (PasswordStrength)."
+      "componentSetId": "9:100327",
+      "status": "extracted",
+      "verifiedAt": "2026-07-23",
+      "usedBy": [
+        "PasswordStrength"
+      ],
+      "notes": "Extracted from Figma Icon System (LedlgNlwu4pXBMmGmAr6op) node 9:100399. fillRule=evenodd compound path. Verified 2026-07-23."
     },
     {
       "canonicalName": "layers-copy",
       "exportName": "CopyIcon",
       "filePath": "src/icons/CopyIcon.jsx",
       "category": "ui",
-      "variant": { "filled": "off", "stroke": 1, "radius": 4, "join": "round" },
+      "variant": {
+        "filled": "off",
+        "stroke": 1,
+        "radius": 4,
+        "join": "round"
+      },
       "nodeId": "1897:1833",
       "componentSetId": null,
       "status": "verified",
       "verifiedAt": null,
-      "usedBy": ["Button"],
-      "notes": "Non-standard origin — sourced from Button component node (1897:1833), not the Icon System V.2.0.0 component set. Two overlapping rounded squares, 20×20 frame."
+      "usedBy": [
+        "Button"
+      ],
+      "notes": "Non-standard origin \u2014 sourced from Button component node (1897:1833), not the Icon System V.2.0.0 component set. Two overlapping rounded squares, 20\u00d720 frame."
     },
     {
       "canonicalName": "cross-large",
       "exportName": "CrossLarge",
       "filePath": "src/icons/CrossLarge.jsx",
       "category": "ui",
-      "variant": { "filled": "off", "stroke": 1, "radius": 0, "join": "square" },
+      "variant": {
+        "filled": "off",
+        "stroke": 1,
+        "radius": 0,
+        "join": "square"
+      },
       "nodeId": "9:103236",
       "componentSetId": "9:103195",
       "status": "verified",
       "verifiedAt": null,
-      "usedBy": ["Alert"],
-      "notes": "Dismiss/close icon in Alert. Vector at x=4.5, y=4.5, 15×15."
+      "usedBy": [
+        "Alert"
+      ],
+      "notes": "Dismiss/close icon in Alert. Vector at x=4.5, y=4.5, 15\u00d715."
     },
     {
       "canonicalName": "eye-open",
       "exportName": "EyeIcon",
       "filePath": "src/icons/EyeIcon.jsx",
       "category": "ui",
-      "variant": { "filled": "off", "stroke": 1, "radius": 0, "join": "square" },
+      "variant": {
+        "filled": "off",
+        "stroke": 1,
+        "radius": 0,
+        "join": "square"
+      },
       "nodeId": "9:105540",
       "componentSetId": null,
       "status": "verified",
       "verifiedAt": null,
-      "usedBy": ["PasswordInput"],
-      "notes": "Toggle pair: EyeIcon (password hidden) ↔ EyeOffIcon (password visible)."
+      "usedBy": [
+        "PasswordInput"
+      ],
+      "notes": "Toggle pair: EyeIcon (password hidden) \u2194 EyeOffIcon (password visible)."
     },
     {
       "canonicalName": "eye-closed",
       "exportName": "EyeOffIcon",
       "filePath": "src/icons/EyeOffIcon.jsx",
       "category": "ui",
-      "variant": { "filled": "off", "stroke": 1, "radius": 0, "join": "round" },
+      "variant": {
+        "filled": "off",
+        "stroke": 1,
+        "radius": 0,
+        "join": "round"
+      },
       "nodeId": "9:105616",
       "componentSetId": null,
       "status": "verified",
       "verifiedAt": null,
-      "usedBy": ["PasswordInput"],
-      "notes": "Toggle pair: EyeIcon (password hidden) ↔ EyeOffIcon (password visible)."
+      "usedBy": [
+        "PasswordInput"
+      ],
+      "notes": "Toggle pair: EyeIcon (password hidden) \u2194 EyeOffIcon (password visible)."
     },
     {
       "canonicalName": "chain-link-4",
       "exportName": "LinkIcon",
       "filePath": "src/icons/LinkIcon.jsx",
       "category": "ui",
-      "variant": { "filled": "off", "stroke": 1, "radius": 0, "join": "round" },
+      "variant": {
+        "filled": "off",
+        "stroke": 1,
+        "radius": 0,
+        "join": "round"
+      },
       "nodeId": "9:99575",
       "componentSetId": null,
       "status": "verified",
       "verifiedAt": null,
-      "usedBy": ["LinkInput"],
+      "usedBy": [
+        "LinkInput"
+      ],
       "notes": "Leading icon in LinkInput."
     },
     {
@@ -190,12 +286,19 @@
       "exportName": "LockIcon",
       "filePath": "src/icons/LockIcon.jsx",
       "category": "ui",
-      "variant": { "filled": "off", "stroke": 1, "radius": 0, "join": "square" },
+      "variant": {
+        "filled": "off",
+        "stroke": 1,
+        "radius": 0,
+        "join": "square"
+      },
       "nodeId": "9:40033",
       "componentSetId": null,
       "status": "verified",
       "verifiedAt": null,
-      "usedBy": ["PasswordInput"],
+      "usedBy": [
+        "PasswordInput"
+      ],
       "notes": "Leading icon in PasswordInput. DS typo in disabled token: 'icon/dissabled'."
     },
     {
@@ -203,12 +306,19 @@
       "exportName": "PhoneIcon",
       "filePath": "src/icons/PhoneIcon.jsx",
       "category": "ui",
-      "variant": { "filled": "off", "stroke": 1, "radius": 0, "join": "round" },
+      "variant": {
+        "filled": "off",
+        "stroke": 1,
+        "radius": 0,
+        "join": "round"
+      },
       "nodeId": "9:8281",
       "componentSetId": null,
       "status": "verified",
       "verifiedAt": null,
-      "usedBy": ["PhoneNumberInput"],
+      "usedBy": [
+        "PhoneNumberInput"
+      ],
       "notes": "Leading icon in PhoneNumberInput."
     },
     {
@@ -216,12 +326,19 @@
       "exportName": "Rose",
       "filePath": "src/icons/Rose.jsx",
       "category": "ui",
-      "variant": { "filled": "off", "stroke": 1, "radius": 0, "join": "square" },
+      "variant": {
+        "filled": "off",
+        "stroke": 1,
+        "radius": 0,
+        "join": "square"
+      },
       "nodeId": "9:83079",
       "componentSetId": "9:83018",
       "status": "extracted",
       "verifiedAt": "2026-07-22",
-      "usedBy": ["Breadcrumb"],
+      "usedBy": [
+        "Breadcrumb"
+      ],
       "notes": "Figma search tags: 'rose, flower, romance, love'. Semantic rename pending. 3 vector children with frame x/y offsets (stem, calyx arc, rose body). Paths extracted via Figma Desktop Bridge Plugin API, session 2026-07-22."
     },
     {
@@ -229,12 +346,19 @@
       "exportName": "SearchIcon",
       "filePath": "src/icons/SearchIcon.jsx",
       "category": "ui",
-      "variant": { "filled": "off", "stroke": 1, "radius": 0, "join": "square" },
+      "variant": {
+        "filled": "off",
+        "stroke": 1,
+        "radius": 0,
+        "join": "square"
+      },
       "nodeId": "9:92084",
       "componentSetId": null,
       "status": "verified",
       "verifiedAt": null,
-      "usedBy": ["SearchInput"],
+      "usedBy": [
+        "SearchInput"
+      ],
       "notes": "Leading icon in SearchInput."
     }
   ],
@@ -243,7 +367,7 @@
     "totalProductUsedTarget": 58,
     "currentBatchCount": 17,
     "remainingCount": 41,
-    "status": "blocked — requires separate Figma icon audit/export pass",
+    "status": "blocked \u2014 requires separate Figma icon audit/export pass",
     "action": "Run a Figma audit across all product screens to enumerate the remaining icons needed. Extract node IDs, verify variants, export paths via Desktop Bridge Plugin API. Then add to this manifest and create corresponding JSX files."
   }
 }
