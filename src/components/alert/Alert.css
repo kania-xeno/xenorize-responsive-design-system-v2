@@ -37,9 +37,9 @@
   border-radius:    var(--radius-8); /* 8px — X-Small and Small */
 
   font-family: var(--font-family-body);
-  font-size:   var(--font-size-body-md); /* 14px — all sizes */
+  font-size:   var(--font-size-body-md); /* 14px — Large. X-Small + Small override to 12px below */
   font-weight: 400;
-  line-height: 1.43; /* 143% */
+  line-height: 1.43; /* 143% — Large. X-Small + Small override to 1.33 below */
 }
 
 /* ── Status icon slot ──────────────────────────────────────────────────────── */
@@ -89,6 +89,7 @@
   flex-direction: column;
   flex: 1;
   min-width: 0;
+  gap: 10px; /* gap between text frame and actions — Figma: Content gap=10px */
 }
 
 /* ── Text frame (Large — title + description) ──────────────────────────────── */
@@ -116,7 +117,7 @@
   flex-direction: row;
   align-items: center;
   gap: 8px; /* Actions frame gap per DS spec */
-  margin-top: 4px;
+  /* margin-top removed — spacing handled by .alert__content gap: 10px */
 }
 
 /* Link button — alert action */
@@ -147,13 +148,23 @@
   border-radius: var(--radius-2);
 }
 
-/* Actions divider — Inter font per DS spec (only non-Open Sans text in component) */
+/* X-Small + Small action links — 12px to match size variant typography */
+.alert--x-small .alert__action,
+.alert--small .alert__action {
+  font-size: var(--font-size-body-sm);  /* 12px — Figma: fontSize/body/sm */
+  line-height: 1.33;                    /* 133% — Figma: caption/regular lineHeight */
+  letter-spacing: 0.024px;             /* Figma: tracking-[0.024px] */
+}
+
+/* Actions divider — Open Sans per Figma (typography/font/open-sans).
+   Previous spec.md noted Inter — corrected after Figma deep inspection. */
 .alert__action-divider {
-  font-family: Inter, sans-serif; /* ⚠️ Inter — DS spec. Not Open Sans. */
+  font-family: var(--font-family-body); /* Open Sans — confirmed Figma: typography/font/open-sans */
   font-weight: 400;
   font-size: var(--font-size-body-md);
-  line-height: 20px; /* Fixed 20px per DS spec */
+  line-height: 1.43; /* proportional, matches body/regular/md — Figma: leading-[1.43] */
   color: var(--_alert-text);
+  opacity: 0.48; /* Figma: opacity-48 on divider character */
   user-select: none;
 }
 
@@ -161,12 +172,16 @@
 /* X-Small (32) and Small (36): single row, center-aligned, 8px padding, 8px gap */
 /* Large: multi-row, top-aligned (flex-start), 12px padding, 12px gap           */
 
-/* X-Small (32) — 8px all sides, 8px gap, center-aligned */
+/* X-Small (32) — 6px top/bottom · 10px left/right, 8px gap, center-aligned */
+/* Figma: py-[6px] px-[10px] — differs from Small (8px all sides) */
 .alert--x-small {
-  padding: 8px;
+  padding: 6px 10px;
   gap: 8px;
   align-items: center;
   border-radius: var(--radius-8);
+  font-size: var(--font-size-body-sm);  /* 12px — Figma: fontSize/body/sm */
+  line-height: 1.33;                    /* 133% — Figma: caption/regular lineHeight */
+  letter-spacing: 0.024px;             /* Figma: tracking-[0.024px] */
 }
 
 /* Small (36) — 8px all sides, 8px gap, center-aligned */
@@ -175,6 +190,9 @@
   gap: 8px;
   align-items: center;
   border-radius: var(--radius-8);
+  font-size: var(--font-size-body-sm);  /* 12px — Figma: fontSize/body/sm (same as X-Small) */
+  line-height: 1.33;                    /* 133% — Figma: caption/regular lineHeight */
+  letter-spacing: 0.024px;             /* Figma: tracking-[0.024px] */
 }
 
 /* Large — 12px all sides, 12px gap, top-aligned (MIN in Figma = flex-start) */

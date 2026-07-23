@@ -18,7 +18,7 @@
 | `message` | `string` | `''` | Single-line message (X-Small/Small) or title text (Large). |
 | `description` | `string` | `''` | Body text below title. Large only. Ignored for X-Small/Small. |
 | `primaryAction` | `string` | `''` | Label for primary link button. Optional for all sizes. |
-| `secondaryAction` | `string` | `''` | Label for secondary link button. Large only. Renders "∙" divider (Inter font) before it. |
+| `secondaryAction` | `string` | `''` | Label for secondary link button. Large only. Renders "∙" divider (Open Sans) before it. |
 | `dismissible` | `boolean` | `true` | Show/hide dismiss button (CrossLarge icon, 16×16). |
 | `toast` | `boolean` | `false` | Fixed-position toast behavior (bottom-right). Enables auto-dismiss timer. |
 | `autoDismiss` | `number` | `5000` | Auto-dismiss delay in ms. `toast=true` only. `status="error"` never auto-dismisses. |
@@ -56,7 +56,8 @@
 ```
 
 - `align-items: center`
-- `padding: 8px` all sides
+- X-Small `padding: 6px 10px` (6px top/bottom · 10px left/right — Figma: py-6 px-10)
+- Small `padding: 8px` all sides
 - `gap: 8px`
 - `border-radius: var(--radius-8)` (8px)
 
@@ -69,7 +70,7 @@
   │    ├── .alert__text     flex-direction: column — gap: 4px
   │    │    ├── .alert__title        SemiBold (600) — message prop
   │    │    └── .alert__description  Regular (400) — description prop
-  │    └── .alert__actions  flex-direction: row — gap: 8px — margin-top: 4px
+  │    └── .alert__actions  flex-direction: row — gap: 8px
   │         ├── .alert__action--primary
   │         ├── .alert__action-divider  "∙" — Inter font
   │         └── .alert__action--secondary
@@ -87,7 +88,7 @@
 
 | Size | Padding | Gap | Text gap (Large) | Actions gap (Large) |
 |---|---|---|---|---|
-| X-Small (32) | 8px all | 8px | — | — |
+| X-Small (32) | 6px top/bottom · 10px left/right | 8px | — | — |
 | Small (36) | 8px all | 8px | — | — |
 | Large | 12px all | 12px | 4px | 8px |
 
@@ -95,15 +96,16 @@
 
 ## 5. Typography
 
-| Element | Font | Weight | Size | Line height |
-|---|---|---|---|---|
-| Message — X-Small/Small | Open Sans | Regular (400) | `var(--font-size-body-md)` = 14px | 143% |
-| Title — Large | Open Sans | SemiBold (600) | `var(--font-size-body-md)` = 14px | 143% |
-| Description — Large | Open Sans | Regular (400) | `var(--font-size-body-md)` = 14px | 143% |
-| Action link — all sizes | Open Sans | SemiBold (600) | `var(--font-size-body-md)` = 14px | 143% |
-| Divider "∙" — Large | **Inter** ⚠️ | Regular (400) | `var(--font-size-body-md)` | 20px fixed |
+| Element | Font | Weight | Size | Line height | Letter-spacing |
+|---|---|---|---|---|---|
+| Message — X-Small/Small | Open Sans | Regular (400) | `var(--font-size-body-sm)` = 12px | 133% | 0.024px |
+| Title — Large | Open Sans | SemiBold (600) | `var(--font-size-body-md)` = 14px | 143% | — |
+| Description — Large | Open Sans | Regular (400) | `var(--font-size-body-md)` = 14px | 143% | — |
+| Action link — X-Small/Small | Open Sans | SemiBold (600) | `var(--font-size-body-sm)` = 12px | 133% | 0.024px |
+| Action link — Large | Open Sans | SemiBold (600) | `var(--font-size-body-md)` = 14px | 143% | — |
+| Divider "∙" — Large | Open Sans | Regular (400) | `var(--font-size-body-md)` | 143% | — |
 
-⚠️ The "∙" divider uses Inter — the only non-Open Sans text in this component. No DS text style token. Implemented as-is per DS spec.
+ℹ️ X-Small and Small use `fontSize/body/sm` (12px, 133%, 0.024px tracking) — Figma: caption/regular style. Large uses `fontSize/body/md` (14px, 143%).
 
 ⚠️ `typography/weight/medium` renders at SemiBold (600) — legacy naming. Implement value (600), not name.
 
@@ -312,7 +314,7 @@ Dark mode overrides follow the same pattern in `[data-theme="dark"]`. See `token
 | Shadow token mismatch | Figma uses `color/alpha/black/10` (pure black alpha); implementation uses `--shadow-regular-medium` (`rgba(14,18,27,0.10)`). Difference is imperceptible. | Flagged for DS Auditor |
 | `link-button/modifable/default` typo | "modifable" missing "i" — typo in DS token name. Do not rename without DS Auditor approval. | Implement as-is |
 | `typography/weight/medium` naming | Token named "medium" renders at SemiBold (600). Legacy naming. | Implement value (600) |
-| "∙" divider uses Inter font | Only non-Open Sans text in component. No DS text style token. | Implement as-is |
+| "∙" divider font — spec error corrected | Previous spec stated Inter font. Figma deep inspection (`get_design_context`) confirmed Open Sans (`typography/font/open-sans`). Fixed in Alert.css and spec. | Resolved |
 | Duplicate "Supporting text" layer names | Title and description share Figma layer name — distinguished by position. | DT decision: title = first, body = second |
 | Shadow visibility in dark mode | `color/alpha/black/10` may be imperceptible on dark surfaces. | Monitor — flag to DS Auditor if invisible |
 | No Loading / Indeterminate state | Not in Figma scope. | Do not implement |
