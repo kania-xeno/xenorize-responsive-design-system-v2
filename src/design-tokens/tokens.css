@@ -1424,56 +1424,58 @@
   --badge-teal-stroke-icon:    #3fdec9;  --badge-teal-stroke-stroke:  #3fdec9;
 
   /* ── Alert — dark mode component overrides ── */
+  /* Dark: filled bg/border inverts to lighter shade; icon/text→slate.900 (dark text on light bg).
+     Light/Lighter/Stroke: bg deepens, text/icon shift to lighter steps. */
 
   /* — Danger — */
-  --alert-danger-filled-bg:       #f17e7e;  --alert-danger-filled-border:   #f17e7e;
-  --alert-danger-filled-icon:     #1b1c22;  --alert-danger-filled-text:     #1b1c22;
-  --alert-danger-light-bg:        #941010;  --alert-danger-light-border:    #941010;
-  --alert-danger-light-icon:      #ea3434;  --alert-danger-light-text:      #f17e7e;
-  --alert-danger-lighter-bg:      #6f0c0c;  --alert-danger-lighter-border:  #6f0c0c;
-  --alert-danger-lighter-icon:    #ea3434;  --alert-danger-lighter-text:    #f17e7e;
-  --alert-danger-stroke-bg:       #1b1c22;  --alert-danger-stroke-border:   #ea3434;
-  --alert-danger-stroke-icon:     #ea3434;  --alert-danger-stroke-text:     #f17e7e;
+  --alert-danger-filled-bg:       var(--prim-red-100);    --alert-danger-filled-border:   var(--prim-red-100);
+  --alert-danger-filled-icon:     var(--prim-slate-900);  --alert-danger-filled-text:     var(--prim-slate-900);
+  --alert-danger-light-bg:        var(--prim-red-600);    --alert-danger-light-border:    var(--prim-red-600);
+  --alert-danger-light-icon:      var(--prim-red-200);    --alert-danger-light-text:      var(--prim-red-100);
+  --alert-danger-lighter-bg:      var(--prim-red-700);    --alert-danger-lighter-border:  var(--prim-red-700);
+  --alert-danger-lighter-icon:    var(--prim-red-200);    --alert-danger-lighter-text:    var(--prim-red-100);
+  --alert-danger-stroke-bg:       var(--prim-slate-900);  --alert-danger-stroke-border:   var(--prim-red-200);
+  --alert-danger-stroke-icon:     var(--prim-red-200);    --alert-danger-stroke-text:     var(--prim-red-100);
 
   /* — Warning — */
-  --alert-warning-filled-bg:      #d2a106;  --alert-warning-filled-border:  #d2a106;
-  --alert-warning-filled-icon:    #1b1c22;  --alert-warning-filled-text:    #1b1c22;
-  --alert-warning-light-bg:       #483700;  --alert-warning-light-border:   #483700;
-  --alert-warning-light-icon:     #b28600;  --alert-warning-light-text:     #d2a106;
-  --alert-warning-lighter-bg:     #3c2e00;  --alert-warning-lighter-border: #3c2e00;
-  --alert-warning-lighter-icon:   #b28600;  --alert-warning-lighter-text:   #d2a106;
-  --alert-warning-stroke-bg:      #1b1c22;  --alert-warning-stroke-border:  #b28600;
-  --alert-warning-stroke-icon:    #b28600;  --alert-warning-stroke-text:    #d2a106;
+  --alert-warning-filled-bg:      var(--prim-yellow-200);  --alert-warning-filled-border:  var(--prim-yellow-200);
+  --alert-warning-filled-icon:    var(--prim-slate-900);   --alert-warning-filled-text:    var(--prim-slate-900);
+  --alert-warning-light-bg:       var(--prim-yellow-500);  --alert-warning-light-border:   var(--prim-yellow-500);
+  --alert-warning-light-icon:     var(--prim-yellow-300);  --alert-warning-light-text:     var(--prim-yellow-200);
+  --alert-warning-lighter-bg:     var(--prim-yellow-600);  --alert-warning-lighter-border: var(--prim-yellow-600);
+  --alert-warning-lighter-icon:   var(--prim-yellow-300);  --alert-warning-lighter-text:   var(--prim-yellow-200);
+  --alert-warning-stroke-bg:      var(--prim-slate-900);   --alert-warning-stroke-border:  var(--prim-yellow-300);
+  --alert-warning-stroke-icon:    var(--prim-yellow-300);  --alert-warning-stroke-text:    var(--prim-yellow-200);
 
   /* — Success — */
-  --alert-success-filled-bg:      #82eeaa;  --alert-success-filled-border:  #82eeaa;
-  --alert-success-filled-icon:    #1b1c22;  --alert-success-filled-text:    #1b1c22;
-  --alert-success-light-bg:       #159845;  --alert-success-light-border:   #159845;
-  --alert-success-light-icon:     #57e88c;  --alert-success-light-text:     #82eeaa;
-  --alert-success-lighter-bg:     #09421e;  --alert-success-lighter-border: #09421e;
-  --alert-success-lighter-icon:   #57e88c;  --alert-success-lighter-text:   #82eeaa;
-  --alert-success-stroke-bg:      #1b1c22;  --alert-success-stroke-border:  #57e88c;
-  --alert-success-stroke-icon:    #57e88c;  --alert-success-stroke-text:    #82eeaa;
+  --alert-success-filled-bg:      var(--prim-green-100);   --alert-success-filled-border:  var(--prim-green-100);
+  --alert-success-filled-icon:    var(--prim-slate-900);   --alert-success-filled-text:    var(--prim-slate-900);
+  --alert-success-light-bg:       var(--prim-green-500);   --alert-success-light-border:   var(--prim-green-500);
+  --alert-success-light-icon:     var(--prim-green-200);   --alert-success-light-text:     var(--prim-green-100);
+  --alert-success-lighter-bg:     var(--prim-green-600);   --alert-success-lighter-border: var(--prim-green-600);
+  --alert-success-lighter-icon:   var(--prim-green-200);   --alert-success-lighter-text:   var(--prim-green-100);
+  --alert-success-stroke-bg:      var(--prim-slate-900);   --alert-success-stroke-border:  var(--prim-green-200);
+  --alert-success-stroke-icon:    var(--prim-green-200);   --alert-success-stroke-text:    var(--prim-green-100);
 
   /* — Info — */
-  --alert-info-filled-bg:         #7cb0f4;  --alert-info-filled-border:     #7cb0f4;
-  --alert-info-filled-icon:       #1b1c22;  --alert-info-filled-text:       #1b1c22;
-  --alert-info-light-bg:          #0d4896;  --alert-info-light-border:      #0d4896;
-  --alert-info-light-icon:        #3182ed;  --alert-info-light-text:        #7cb0f4;
-  --alert-info-lighter-bg:        #0a3671;  --alert-info-lighter-border:    #0a3671;
-  --alert-info-lighter-icon:      #3182ed;  --alert-info-lighter-text:      #7cb0f4;
-  --alert-info-stroke-bg:         #1b1c22;  --alert-info-stroke-border:     #3182ed;
-  --alert-info-stroke-icon:       #3182ed;  --alert-info-stroke-text:       #7cb0f4;
+  --alert-info-filled-bg:         var(--prim-blue-100);    --alert-info-filled-border:     var(--prim-blue-100);
+  --alert-info-filled-icon:       var(--prim-slate-900);   --alert-info-filled-text:       var(--prim-slate-900);
+  --alert-info-light-bg:          var(--prim-blue-400);    --alert-info-light-border:      var(--prim-blue-400);
+  --alert-info-light-icon:        var(--prim-blue-200);    --alert-info-light-text:        var(--prim-blue-100);
+  --alert-info-lighter-bg:        var(--prim-blue-500);    --alert-info-lighter-border:    var(--prim-blue-500);
+  --alert-info-lighter-icon:      var(--prim-blue-200);    --alert-info-lighter-text:      var(--prim-blue-100);
+  --alert-info-stroke-bg:         var(--prim-slate-900);   --alert-info-stroke-border:     var(--prim-blue-200);
+  --alert-info-stroke-icon:       var(--prim-blue-200);    --alert-info-stroke-text:       var(--prim-blue-100);
 
   /* — Feature — */
-  --alert-feature-filled-bg:      #9589d9;  --alert-feature-filled-border:  #9589d9;
-  --alert-feature-filled-icon:    #1b1c22;  --alert-feature-filled-text:    #1b1c22;
-  --alert-feature-light-bg:       #302571;  --alert-feature-light-border:   #302571;
-  --alert-feature-light-icon:     #7263cc;  --alert-feature-light-text:     #9589d9;
-  --alert-feature-lighter-bg:     #0f0c24;  --alert-feature-lighter-border: #0f0c24;
-  --alert-feature-lighter-icon:   #7263cc;  --alert-feature-lighter-text:   #9589d9;
-  --alert-feature-stroke-bg:      #1b1c22;  --alert-feature-stroke-border:  #7263cc;
-  --alert-feature-stroke-icon:    #7263cc;  --alert-feature-stroke-text:    #9589d9;
+  --alert-feature-filled-bg:      var(--prim-purple-300);  --alert-feature-filled-border:  var(--prim-purple-300);
+  --alert-feature-filled-icon:    var(--prim-slate-900);   --alert-feature-filled-text:    var(--prim-slate-900);
+  --alert-feature-light-bg:       var(--prim-purple-700);  --alert-feature-light-border:   var(--prim-purple-700);
+  --alert-feature-light-icon:     var(--prim-purple-400);  --alert-feature-light-text:     var(--prim-purple-300);
+  --alert-feature-lighter-bg:     var(--prim-purple-900);  --alert-feature-lighter-border: var(--prim-purple-900);
+  --alert-feature-lighter-icon:   var(--prim-purple-400);  --alert-feature-lighter-text:   var(--prim-purple-300);
+  --alert-feature-stroke-bg:      var(--prim-slate-900);   --alert-feature-stroke-border:  var(--prim-purple-400);
+  --alert-feature-stroke-icon:    var(--prim-purple-400);  --alert-feature-stroke-text:    var(--prim-purple-300);
 
   /* ── Chart — dark mode (inverted palette scale) ── */
   --chart-series-1-lighter:   #13103c;   --chart-series-1-light:     #2c2488;
