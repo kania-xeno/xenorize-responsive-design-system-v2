@@ -25,6 +25,11 @@ export default {
       options: ['s', 'm', 'l', 'xl'],
       description: 'Fixed chart size (120/180/240/300px).',
     },
+    data: {
+      control: 'object',
+      description:
+        'Array of numeric values (one per slice). Length must match `slices`. If omitted, equal distribution is used. Example: [40, 25, 20, 15].',
+    },
     showTooltip: {
       control: 'boolean',
       description: 'Show tooltip overlay.',
@@ -89,6 +94,38 @@ export const Series8 = {
 export const SeriesEmpty = {
   args: { slices: 'empty', size: 'm' },
   name: 'Series Empty',
+};
+
+// ── Data-driven (uneven distribution) ─────────────────────────────────────────
+//
+// Verifies that the `data` prop overrides the equal-weight fallback.
+// Values [40, 25, 20, 15] represent a realistic revenue split across 4 categories.
+
+export const DataDrivenLight = {
+  name: 'Data Driven — Light',
+  args: { slices: 4, size: 'm', data: [40, 25, 20, 15] },
+};
+
+export const DataDrivenDark = {
+  name: 'Data Driven — Dark',
+  decorators: [withDark],
+  args: { slices: 4, size: 'm', data: [40, 25, 20, 15] },
+};
+
+export const DataDrivenSized = {
+  name: 'Data Driven — All Sizes',
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'flex-end' }}>
+      {(['s', 'm', 'l', 'xl']).map((sz) => (
+        <div key={sz} style={{ textAlign: 'center' }}>
+          <ChartDonutMulticolor slices={4} size={sz} data={[40, 25, 20, 15]} />
+          <div style={{ marginTop: 8, fontSize: 12, color: '#666', fontFamily: 'Open Sans, sans-serif' }}>
+            {sz.toUpperCase()}
+          </div>
+        </div>
+      ))}
+    </div>
+  ),
 };
 
 // ── All series — grid ─────────────────────────────────────────────────────────

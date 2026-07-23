@@ -88,9 +88,9 @@ function roundedArcPath(cx, cy, outerR, innerR, startA, endA, cr) {
     `A ${outerR} ${outerR} 0 ${largeOuter} 1 ${f(outerArcE.x)} ${f(outerArcE.y)}`,
     `A ${cr} ${cr} 0 0 1 ${f(outerFaceE.x)} ${f(outerFaceE.y)}`,
     `L ${f(innerFaceE.x)} ${f(innerFaceE.y)}`,
-    `A ${cr} ${cr} 0 0 0 ${f(innerArcE.x)} ${f(innerArcE.y)}`,
+    `A ${cr} ${cr} 0 0 1 ${f(innerArcE.x)} ${f(innerArcE.y)}`,   // inner end corner — sweep CW (fixed: was CCW, caused convex bump into hole)
     `A ${innerR} ${innerR} 0 ${largeInner} 0 ${f(innerArcS.x)} ${f(innerArcS.y)}`,
-    `A ${cr} ${cr} 0 0 0 ${f(innerFaceS.x)} ${f(innerFaceS.y)}`,
+    `A ${cr} ${cr} 0 0 1 ${f(innerFaceS.x)} ${f(innerFaceS.y)}`,  // inner start corner — sweep CW (fixed: was CCW, caused convex bump into hole)
     'Z',
   ].join(' ');
 }
