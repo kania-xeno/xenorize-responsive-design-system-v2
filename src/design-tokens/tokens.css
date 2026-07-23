@@ -695,7 +695,7 @@
   --accordion-bg-hover:     var(--color-surface-weak);       /* #f6f7f8 */
   --accordion-bg-active:    var(--color-surface-weak);       /* #f6f7f8 */
   --accordion-border:       var(--color-border-subtle);      /* #eaeaea */
-  --accordion-icon-soft:    var(--color-text-subtle);        /* #a3a3a3 */
+  --accordion-icon-soft:    var(--color-icon-soft);          /* #a3a3a3 light / #989dae dark */
   --accordion-icon-default: var(--color-icon-sub);           /* #5c5c5c */
   --accordion-text-title:   var(--color-text-strong);        /* #1c1c1c */
   --accordion-text-body:    var(--color-icon-sub);           /* #5c5c5c */
