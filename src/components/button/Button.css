@@ -58,10 +58,13 @@
 }
 
 /* ---------- Size: Small ----------
-   Figma node 1921:4253 — padding 6px, font 12px, radius 6px, icon 20px, icon-only 32×32  */
+   Figma node 1921:4253 — padding 6px, font 12px, radius 6px, icon 20px, icon-only 32×32
+   Text style: caption/semiBold — 12px / 133% / 0.024px tracking               */
 .button--size-small {
   padding: var(--spacing-6);
   font-size: var(--font-size-body-sm);
+  line-height: 1.33;        /* 133% — Figma: caption/semiBold */
+  letter-spacing: 0.024px;  /* Figma: caption/semiBold tracking (0.2% of 12px) */
   border-radius: var(--radius-6);
   min-width: 48px;
 }
@@ -77,10 +80,12 @@
 }
 
 /* ---------- Size: Medium ----------
-   Figma node 1921:3648 — padding 8px, font 14px, icon-only 36×36  */
+   Figma node 1921:3648 — padding 8px, font 14px, icon-only 36×36
+   Text style: body/medium/md — 14px / 143%                                     */
 .button--size-medium {
   padding: var(--spacing-8);
   font-size: var(--font-size-body-md);
+  line-height: 1.43;  /* 143% — Figma: body/medium/md */
   min-width: 64px;
 }
 

@@ -92,7 +92,7 @@ export const AllSizes = {
       <section>
         <div style={{ marginBottom: 12 }}>
           <span style={{ fontFamily: "var(--font-family-body)", fontSize: 11, fontWeight: 600, color: "#888", textTransform: "uppercase", letterSpacing: "0.06em" }}>
-            Icon only — all sizes (40 · 36 · 28px)
+            Icon only — all sizes (40 · 36 · 32px)
           </span>
         </div>
         <div style={{ display: "flex", gap: 16, alignItems: "center" }}>

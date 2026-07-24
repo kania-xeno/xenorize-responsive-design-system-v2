@@ -27,7 +27,7 @@ The Button is the primary interactive element for triggering actions across the 
 - \`neutral\` → \`button/{style}/neutral/*\`
 - \`error\` → \`button/{style}/destructive/*\` (Figma "Error" maps to "destructive" in token names)
 
-**Out of scope:** \`secondary\` type, \`tonal\` variant, \`loading\` state, and Badge on Small are not implemented. Do not expose without DS Auditor approval.
+**Out of scope:** \`secondary\` type, \`tonal\` variant, \`loading\` state, Badge on Small, and **active/pressed state** (not defined in Figma DS V2.1.0 — no token or variant exists) are not implemented. Do not expose without DS Auditor approval.
 
 **Figma:** [↳buttons-large — Design System Scalable V.2.1.0](https://www.figma.com/design/0aVnOgjVWH1YL8JCnjXTBi/)
 
