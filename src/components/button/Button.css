@@ -13,10 +13,10 @@
   border: 1px solid transparent;
   padding: var(--spacing-10);
   min-width: 80px;
-  font-family: var(--font-family-body);
-  font-weight: var(--font-weight-medium);
-  font-size: var(--font-size-body-lg);
-  line-height: 1.5;
+  font-family: var(--text-style-body-medium-lg-font-family);
+  font-weight: var(--text-style-body-medium-lg-font-weight);
+  font-size:   var(--text-style-body-medium-lg-font-size);
+  line-height: var(--text-style-body-medium-lg-line-height);
   cursor: pointer;
   transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 }
@@ -51,20 +51,24 @@
   border-radius: var(--radius-full);
   background: var(--color-surface-neutral-soft);
   color: var(--color-text-neutral-strong);
-  font-size: var(--font-size-micro);
-  font-weight: var(--font-weight-medium);
-  letter-spacing: 0.05px;
+  font-family:    var(--text-style-micro-regular-font-family);
+  font-weight:    var(--text-style-micro-regular-font-weight);
+  font-size:      var(--text-style-micro-regular-font-size);
+  line-height:    var(--text-style-micro-regular-line-height);
+  letter-spacing: var(--text-style-micro-regular-letter-spacing);
   text-align: center;
 }
 
 /* ---------- Size: Small ----------
    Figma node 1921:4253 — padding 6px, font 12px, radius 6px, icon 20px, icon-only 32×32
-   Text style: caption/semiBold — 12px / 133% / 0.024px tracking               */
+   Text style: caption/semiBold — confirmed via figma.getLocalTextStylesAsync()  */
 .button--size-small {
   padding: var(--spacing-6);
-  font-size: var(--font-size-body-sm);
-  line-height: 1.33;        /* 133% — Figma: caption/semiBold */
-  letter-spacing: 0.024px;  /* Figma: caption/semiBold tracking (0.2% of 12px) */
+  font-family:    var(--text-style-caption-semibold-font-family);
+  font-weight:    var(--text-style-caption-semibold-font-weight);
+  font-size:      var(--text-style-caption-semibold-font-size);
+  line-height:    var(--text-style-caption-semibold-line-height);
+  letter-spacing: var(--text-style-caption-semibold-letter-spacing);
   border-radius: var(--radius-6);
   min-width: 48px;
 }
@@ -81,11 +85,14 @@
 
 /* ---------- Size: Medium ----------
    Figma node 1921:3648 — padding 8px, font 14px, icon-only 36×36
-   Text style: body/medium/md — 14px / 143%                                     */
+   Text style: body/medium/md — confirmed via figma.getLocalTextStylesAsync()   */
 .button--size-medium {
   padding: var(--spacing-8);
-  font-size: var(--font-size-body-md);
-  line-height: 1.43;  /* 143% — Figma: body/medium/md */
+  font-family:    var(--text-style-body-medium-md-font-family);
+  font-weight:    var(--text-style-body-medium-md-font-weight);
+  font-size:      var(--text-style-body-medium-md-font-size);
+  line-height:    var(--text-style-body-medium-md-line-height);
+  letter-spacing: var(--text-style-body-medium-md-letter-spacing);
   min-width: 64px;
 }
 

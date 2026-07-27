@@ -313,7 +313,7 @@
 
   --font-weight-light:    300;
   --font-weight-regular:  400;
-  --font-weight-medium:   600;
+  --font-weight-medium:   500;
   --font-weight-semibold: 600;
   --font-weight-bold:     700;
   --font-weight-black:    900;
@@ -331,6 +331,285 @@
   --font-size-body-sm:   12px;
   --font-size-label:     10px;
   --font-size-micro:     10px;
+
+  /* ── Text Styles — Figma text styles emitted as CSS custom properties ── */
+  /* 43 styles · Figma is source of truth · audit: TYPOGRAPHY-TEXT-STYLE-AUDIT.md  */
+  /* Naming: --text-style-{group}-{variant}-{property}                              */
+  /* Body group: --text-style-body-{weight}-{size}-{property}                       */
+
+  /* Display 1 — Sofia Pro ─────────────────────────────────────────────────── */
+  --text-style-display1-extrabold-font-family:    var(--font-family-display);
+  --text-style-display1-extrabold-font-weight:    var(--font-weight-black);
+  --text-style-display1-extrabold-font-size:      var(--font-size-display-1);
+  --text-style-display1-extrabold-line-height:    116%;
+  --text-style-display1-extrabold-letter-spacing: -0.01em;
+
+  --text-style-display1-medium-font-family:    var(--font-family-display);
+  --text-style-display1-medium-font-weight:    var(--font-weight-medium);
+  --text-style-display1-medium-font-size:      var(--font-size-display-1);
+  --text-style-display1-medium-line-height:    116%;
+  --text-style-display1-medium-letter-spacing: -0.01em;
+
+  --text-style-display1-regular-font-family:    var(--font-family-display);
+  --text-style-display1-regular-font-weight:    var(--font-weight-regular);
+  --text-style-display1-regular-font-size:      var(--font-size-display-1);
+  --text-style-display1-regular-line-height:    116%;
+  --text-style-display1-regular-letter-spacing: -0.01em;
+
+  /* Display 2 — Sofia Pro ─────────────────────────────────────────────────── */
+  --text-style-display2-extrabold-font-family:    var(--font-family-display);
+  --text-style-display2-extrabold-font-weight:    var(--font-weight-black);
+  --text-style-display2-extrabold-font-size:      var(--font-size-display-2);
+  --text-style-display2-extrabold-line-height:    120%;
+  --text-style-display2-extrabold-letter-spacing: -0.005em;
+
+  --text-style-display2-medium-font-family:    var(--font-family-display);
+  --text-style-display2-medium-font-weight:    var(--font-weight-medium);
+  --text-style-display2-medium-font-size:      var(--font-size-display-2);
+  --text-style-display2-medium-line-height:    120%;
+  --text-style-display2-medium-letter-spacing: -0.005em;
+
+  --text-style-display2-regular-font-family:    var(--font-family-display);
+  --text-style-display2-regular-font-weight:    var(--font-weight-regular);
+  --text-style-display2-regular-font-size:      var(--font-size-display-2);
+  --text-style-display2-regular-line-height:    120%;
+  --text-style-display2-regular-letter-spacing: -0.005em;
+
+  /* Heading 1 — Sofia Pro ─────────────────────────────────────────────────── */
+  --text-style-h1-extrabold-font-family:    var(--font-family-display);
+  --text-style-h1-extrabold-font-weight:    var(--font-weight-black);
+  --text-style-h1-extrabold-font-size:      var(--font-size-heading-1);
+  --text-style-h1-extrabold-line-height:    125%;
+  --text-style-h1-extrabold-letter-spacing: 0;
+
+  --text-style-h1-medium-font-family:    var(--font-family-display);
+  --text-style-h1-medium-font-weight:    var(--font-weight-medium);
+  --text-style-h1-medium-font-size:      var(--font-size-heading-1);
+  --text-style-h1-medium-line-height:    125%;
+  --text-style-h1-medium-letter-spacing: 0;
+
+  --text-style-h1-regular-font-family:    var(--font-family-display);
+  --text-style-h1-regular-font-weight:    var(--font-weight-regular);
+  --text-style-h1-regular-font-size:      var(--font-size-heading-1);
+  --text-style-h1-regular-line-height:    125%;
+  --text-style-h1-regular-letter-spacing: 0;
+
+  /* Heading 2 — Sofia Pro ─────────────────────────────────────────────────── */
+  --text-style-h2-extrabold-font-family:    var(--font-family-display);
+  --text-style-h2-extrabold-font-weight:    var(--font-weight-black);
+  --text-style-h2-extrabold-font-size:      var(--font-size-heading-2);
+  --text-style-h2-extrabold-line-height:    133%;
+  --text-style-h2-extrabold-letter-spacing: 0;
+
+  --text-style-h2-medium-font-family:    var(--font-family-display);
+  --text-style-h2-medium-font-weight:    var(--font-weight-medium);
+  --text-style-h2-medium-font-size:      var(--font-size-heading-2);
+  --text-style-h2-medium-line-height:    133%;
+  --text-style-h2-medium-letter-spacing: 0;
+
+  --text-style-h2-regular-font-family:    var(--font-family-display);
+  --text-style-h2-regular-font-weight:    var(--font-weight-regular);
+  --text-style-h2-regular-font-size:      var(--font-size-heading-2);
+  --text-style-h2-regular-line-height:    133%;
+  --text-style-h2-regular-letter-spacing: 0;
+
+  /* Heading 3 — Open Sans ─────────────────────────────────────────────────── */
+  --text-style-h3-bold-font-family:    var(--font-family-body);
+  --text-style-h3-bold-font-weight:    var(--font-weight-bold);
+  --text-style-h3-bold-font-size:      var(--font-size-heading-3);
+  --text-style-h3-bold-line-height:    140%;
+  --text-style-h3-bold-letter-spacing: 0;
+
+  /* h3/medium: Open Sans has no native 500 — resolves to Regular (400) in browser */
+  --text-style-h3-medium-font-family:    var(--font-family-body);
+  --text-style-h3-medium-font-weight:    var(--font-weight-regular);
+  --text-style-h3-medium-font-size:      var(--font-size-heading-3);
+  --text-style-h3-medium-line-height:    140%;
+  --text-style-h3-medium-letter-spacing: 0;
+
+  --text-style-h3-regular-font-family:    var(--font-family-body);
+  --text-style-h3-regular-font-weight:    var(--font-weight-regular);
+  --text-style-h3-regular-font-size:      var(--font-size-heading-3);
+  --text-style-h3-regular-line-height:    140%;
+  --text-style-h3-regular-letter-spacing: 0;
+
+  /* Heading 4 — Sofia Pro ─────────────────────────────────────────────────── */
+  --text-style-h4-bold-font-family:    var(--font-family-display);
+  --text-style-h4-bold-font-weight:    var(--font-weight-bold);
+  --text-style-h4-bold-font-size:      var(--font-size-heading-4);
+  --text-style-h4-bold-line-height:    145%;
+  --text-style-h4-bold-letter-spacing: 0;
+
+  --text-style-h4-medium-font-family:    var(--font-family-display);
+  --text-style-h4-medium-font-weight:    var(--font-weight-medium);
+  --text-style-h4-medium-font-size:      var(--font-size-heading-4);
+  --text-style-h4-medium-line-height:    145%;
+  --text-style-h4-medium-letter-spacing: 0;
+
+  --text-style-h4-regular-font-family:    var(--font-family-display);
+  --text-style-h4-regular-font-weight:    var(--font-weight-regular);
+  --text-style-h4-regular-font-size:      var(--font-size-heading-4);
+  --text-style-h4-regular-line-height:    145%;
+  --text-style-h4-regular-letter-spacing: 0;
+
+  /* Body / bold — Open Sans ───────────────────────────────────────────────── */
+  --text-style-body-bold-xl-font-family:    var(--font-family-body);
+  --text-style-body-bold-xl-font-weight:    var(--font-weight-bold);
+  --text-style-body-bold-xl-font-size:      var(--font-size-body-xl);
+  --text-style-body-bold-xl-line-height:    155%;
+  --text-style-body-bold-xl-letter-spacing: 0;
+
+  --text-style-body-bold-lg-font-family:    var(--font-family-body);
+  --text-style-body-bold-lg-font-weight:    var(--font-weight-bold);
+  --text-style-body-bold-lg-font-size:      var(--font-size-body-lg);
+  --text-style-body-bold-lg-line-height:    150%;
+  --text-style-body-bold-lg-letter-spacing: 0;
+
+  --text-style-body-bold-md-font-family:    var(--font-family-body);
+  --text-style-body-bold-md-font-weight:    var(--font-weight-bold);
+  --text-style-body-bold-md-font-size:      var(--font-size-body-md);
+  --text-style-body-bold-md-line-height:    143%;
+  --text-style-body-bold-md-letter-spacing: 0;
+
+  /* Body / semibold — Open Sans ───────────────────────────────────────────── */
+  --text-style-body-semibold-xl-font-family:    var(--font-family-body);
+  --text-style-body-semibold-xl-font-weight:    var(--font-weight-semibold);
+  --text-style-body-semibold-xl-font-size:      var(--font-size-body-xl);
+  --text-style-body-semibold-xl-line-height:    155%;
+  --text-style-body-semibold-xl-letter-spacing: 0;
+
+  --text-style-body-semibold-lg-font-family:    var(--font-family-body);
+  --text-style-body-semibold-lg-font-weight:    var(--font-weight-semibold);
+  --text-style-body-semibold-lg-font-size:      var(--font-size-body-lg);
+  --text-style-body-semibold-lg-line-height:    150%;
+  --text-style-body-semibold-lg-letter-spacing: 0;
+
+  --text-style-body-semibold-md-font-family:    var(--font-family-body);
+  --text-style-body-semibold-md-font-weight:    var(--font-weight-semibold);
+  --text-style-body-semibold-md-font-size:      var(--font-size-body-md);
+  --text-style-body-semibold-md-line-height:    143%;
+  --text-style-body-semibold-md-letter-spacing: 0;
+
+  /* Body / medium — Open Sans (no native 500; resolves to SemiBold/600) ───── */
+  --text-style-body-medium-xl-font-family:    var(--font-family-body);
+  --text-style-body-medium-xl-font-weight:    var(--font-weight-semibold);
+  --text-style-body-medium-xl-font-size:      var(--font-size-body-xl);
+  --text-style-body-medium-xl-line-height:    155%;
+  --text-style-body-medium-xl-letter-spacing: 0;
+
+  --text-style-body-medium-lg-font-family:    var(--font-family-body);
+  --text-style-body-medium-lg-font-weight:    var(--font-weight-semibold);
+  --text-style-body-medium-lg-font-size:      var(--font-size-body-lg);
+  --text-style-body-medium-lg-line-height:    150%;
+  --text-style-body-medium-lg-letter-spacing: 0;
+
+  --text-style-body-medium-md-font-family:    var(--font-family-body);
+  --text-style-body-medium-md-font-weight:    var(--font-weight-semibold);
+  --text-style-body-medium-md-font-size:      var(--font-size-body-md);
+  --text-style-body-medium-md-line-height:    143%;
+  --text-style-body-medium-md-letter-spacing: 0;
+
+  /* Body / regular — Open Sans ────────────────────────────────────────────── */
+  --text-style-body-regular-xl-font-family:    var(--font-family-body);
+  --text-style-body-regular-xl-font-weight:    var(--font-weight-regular);
+  --text-style-body-regular-xl-font-size:      var(--font-size-body-xl);
+  --text-style-body-regular-xl-line-height:    143%;
+  --text-style-body-regular-xl-letter-spacing: 0;
+
+  --text-style-body-regular-lg-font-family:    var(--font-family-body);
+  --text-style-body-regular-lg-font-weight:    var(--font-weight-regular);
+  --text-style-body-regular-lg-font-size:      var(--font-size-body-lg);
+  --text-style-body-regular-lg-line-height:    143%;
+  --text-style-body-regular-lg-letter-spacing: 0;
+
+  --text-style-body-regular-md-font-family:    var(--font-family-body);
+  --text-style-body-regular-md-font-weight:    var(--font-weight-regular);
+  --text-style-body-regular-md-font-size:      var(--font-size-body-md);
+  --text-style-body-regular-md-line-height:    143%;
+  --text-style-body-regular-md-letter-spacing: 0;
+
+  /* Body / light — Open Sans ──────────────────────────────────────────────── */
+  --text-style-body-light-xl-font-family:    var(--font-family-body);
+  --text-style-body-light-xl-font-weight:    var(--font-weight-light);
+  --text-style-body-light-xl-font-size:      var(--font-size-body-xl);
+  --text-style-body-light-xl-line-height:    155%;
+  --text-style-body-light-xl-letter-spacing: 0;
+
+  --text-style-body-light-lg-font-family:    var(--font-family-body);
+  --text-style-body-light-lg-font-weight:    var(--font-weight-light);
+  --text-style-body-light-lg-font-size:      var(--font-size-body-lg);
+  --text-style-body-light-lg-line-height:    155%;
+  --text-style-body-light-lg-letter-spacing: 0;
+
+  --text-style-body-light-md-font-family:    var(--font-family-body);
+  --text-style-body-light-md-font-weight:    var(--font-weight-light);
+  --text-style-body-light-md-font-size:      var(--font-size-body-md);
+  --text-style-body-light-md-line-height:    143%;
+  --text-style-body-light-md-letter-spacing: 0;
+
+  /* Caption — Open Sans, 12px ─────────────────────────────────────────────── */
+  --text-style-caption-bold-font-family:    var(--font-family-body);
+  --text-style-caption-bold-font-weight:    var(--font-weight-bold);
+  --text-style-caption-bold-font-size:      var(--font-size-body-sm);
+  --text-style-caption-bold-line-height:    133%;
+  --text-style-caption-bold-letter-spacing: 0.002em;
+
+  --text-style-caption-semibold-font-family:    var(--font-family-body);
+  --text-style-caption-semibold-font-weight:    var(--font-weight-semibold);
+  --text-style-caption-semibold-font-size:      var(--font-size-body-sm);
+  --text-style-caption-semibold-line-height:    133%;
+  --text-style-caption-semibold-letter-spacing: 0.002em;
+
+  --text-style-caption-regular-font-family:    var(--font-family-body);
+  --text-style-caption-regular-font-weight:    var(--font-weight-regular);
+  --text-style-caption-regular-font-size:      var(--font-size-body-sm);
+  --text-style-caption-regular-line-height:    133%;
+  --text-style-caption-regular-letter-spacing: 0.002em;
+
+  --text-style-caption-light-font-family:    var(--font-family-body);
+  --text-style-caption-light-font-weight:    var(--font-weight-light);
+  --text-style-caption-light-font-size:      var(--font-size-body-sm);
+  --text-style-caption-light-line-height:    133%;
+  --text-style-caption-light-letter-spacing: 0.002em;
+
+  /* Label — Open Sans, 10px ───────────────────────────────────────────────── */
+  --text-style-label-bold-font-family:    var(--font-family-body);
+  --text-style-label-bold-font-weight:    var(--font-weight-bold);
+  --text-style-label-bold-font-size:      var(--font-size-label);
+  --text-style-label-bold-line-height:    140%;
+  --text-style-label-bold-letter-spacing: 0.002em;
+
+  --text-style-label-semibold-font-family:    var(--font-family-body);
+  --text-style-label-semibold-font-weight:    var(--font-weight-semibold);
+  --text-style-label-semibold-font-size:      var(--font-size-label);
+  --text-style-label-semibold-line-height:    140%;
+  --text-style-label-semibold-letter-spacing: 0.002em;
+
+  --text-style-label-regular-font-family:    var(--font-family-body);
+  --text-style-label-regular-font-weight:    var(--font-weight-regular);
+  --text-style-label-regular-font-size:      var(--font-size-label);
+  --text-style-label-regular-line-height:    140%;
+  --text-style-label-regular-letter-spacing: 0.002em;
+
+  --text-style-label-light-font-family:    var(--font-family-body);
+  --text-style-label-light-font-weight:    var(--font-weight-light);
+  --text-style-label-light-font-size:      var(--font-size-label);
+  --text-style-label-light-line-height:    140%;
+  --text-style-label-light-letter-spacing: 0.002em;
+
+  /* Micro — Open Sans, 10px (responsive: 8px tablet/mobile) ──────────────── */
+  /* micro/medium: Open Sans has no native 500 — resolves to SemiBold (600) */
+  --text-style-micro-medium-font-family:    var(--font-family-body);
+  --text-style-micro-medium-font-weight:    var(--font-weight-semibold);
+  --text-style-micro-medium-font-size:      var(--font-size-micro);
+  --text-style-micro-medium-line-height:    150%;
+  --text-style-micro-medium-letter-spacing: 0.005em;
+
+  --text-style-micro-regular-font-family:    var(--font-family-body);
+  --text-style-micro-regular-font-weight:    var(--font-weight-regular);
+  --text-style-micro-regular-font-size:      var(--font-size-micro);
+  --text-style-micro-regular-line-height:    150%;
+  --text-style-micro-regular-letter-spacing: 0.005em;
 
   /* ── Shadows ── */
   --shadow-below-xs:  0 1px 2px -1px rgba(23,23,23,0.10), 0 1px 3px 0 rgba(23,23,23,0.10);
