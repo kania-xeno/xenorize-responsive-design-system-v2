@@ -72,7 +72,7 @@
   │    │    └── .alert__description  Regular (400) — description prop
   │    └── .alert__actions  flex-direction: row — gap: 8px
   │         ├── .alert__action--primary
-  │         ├── .alert__action-divider  "∙" — Inter font
+  │         ├── .alert__action-divider  "∙" — body/regular/md (Open Sans Regular 400)
   │         └── .alert__action--secondary
   └── .alert__dismiss       CrossLarge 16×16 — aria-label="Dismiss"
 ```
@@ -96,18 +96,19 @@
 
 ## 5. Typography
 
-| Element | Font | Weight | Size | Line height | Letter-spacing |
-|---|---|---|---|---|---|
-| Message — X-Small/Small | Open Sans | Regular (400) | `var(--font-size-body-sm)` = 12px | 133% | 0.024px |
-| Title — Large | Open Sans | SemiBold (600) | `var(--font-size-body-md)` = 14px | 143% | — |
-| Description — Large | Open Sans | Regular (400) | `var(--font-size-body-md)` = 14px | 143% | — |
-| Action link — X-Small/Small | Open Sans | SemiBold (600) | `var(--font-size-body-sm)` = 12px | 133% | 0.024px |
-| Action link — Large | Open Sans | SemiBold (600) | `var(--font-size-body-md)` = 14px | 143% | — |
-| Divider "∙" — Large | Open Sans | Regular (400) | `var(--font-size-body-md)` | 143% | — |
+| Element | DS Text Style | Font | Weight | Size | Line height | Letter-spacing |
+|---|---|---|---|---|---|---|
+| Message — X-Small | `caption/regular` | Open Sans | Regular (400) | 12px | 133% | 0.002em |
+| Message — Small | `body/regular/md` | Open Sans | Regular (400) | 14px | 143% | 0 |
+| Title — Large | `body/medium/md` | Open Sans | SemiBold (600) | 14px | 143% | 0 |
+| Description — Large | `body/regular/md` | Open Sans | Regular (400) | 14px | 143% | 0 |
+| Action link — X-Small/Small | `caption/regular` | Open Sans | Regular (400) | 12px | 133% | 0.002em |
+| Action link — Large | `body/medium/md` | Open Sans | SemiBold (600) | 14px | 143% | 0 |
+| Divider "∙" — Large | `body/regular/md` | Open Sans | Regular (400) | 14px | 143% | 0 |
 
-ℹ️ X-Small and Small use `fontSize/body/sm` (12px, 133%, 0.024px tracking) — Figma: caption/regular style. Large uses `fontSize/body/md` (14px, 143%).
+ℹ️ **X-Small** (message + action) = `caption/regular` — 12px, 133%, 0.002em tracking. **Small** message = `body/regular/md` — 14px, 143%, no tracking; Small action = `caption/regular` — 12px. **Large** title + action = `body/medium/md` (SemiBold 600). All text uses Open Sans.
 
-⚠️ `typography/weight/medium` renders at SemiBold (600) — legacy naming. Implement value (600), not name.
+⚠️ `body/medium/md` is a Figma text style name — not a reference to the primitive `fontWeight.medium`. For Open Sans, this style resolves to SemiBold (600). Implementation uses `--text-style-body-medium-md-*` vars. Do not map "medium" in the style name to `fontWeight.medium` (500).
 
 ---
 
@@ -313,7 +314,7 @@ Dark mode overrides follow the same pattern in `[data-theme="dark"]`. See `token
 |---|---|---|
 | Shadow token mismatch | Figma uses `color/alpha/black/10` (pure black alpha); implementation uses `--shadow-regular-medium` (`rgba(14,18,27,0.10)`). Difference is imperceptible. | Flagged for DS Auditor |
 | `link-button/modifable/default` typo | "modifable" missing "i" — typo in DS token name. Do not rename without DS Auditor approval. | Implement as-is |
-| `typography/weight/medium` naming | Token named "medium" renders at SemiBold (600). Legacy naming. | Implement value (600) |
+| `body/medium/md` resolved weight | Figma text style named `body/medium/md` resolves to Open Sans SemiBold (600). Implemented via `--text-style-body-medium-md-*`. Do not map to primitive `fontWeight.medium` (500) — the "medium" in the style name is a DS weight label, not the font-weight primitive. | Implement via text style vars only |
 | "∙" divider font — spec error corrected | Previous spec stated Inter font. Figma deep inspection (`get_design_context`) confirmed Open Sans (`typography/font/open-sans`). Fixed in Alert.css and spec. | Resolved |
 | Duplicate "Supporting text" layer names | Title and description share Figma layer name — distinguished by position. | DT decision: title = first, body = second |
 | Shadow visibility in dark mode | `color/alpha/black/10` may be imperceptible on dark surfaces. | Monitor — flag to DS Auditor if invisible |

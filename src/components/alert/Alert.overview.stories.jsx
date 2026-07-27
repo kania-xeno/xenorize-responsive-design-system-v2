@@ -114,7 +114,7 @@ Interactive sandbox for design QA and component exploration.
 - **dismissible** — show/hide dismiss button
 - **theme** — Light or Dark mode
 
-**Note:** The "∙" divider between action links uses Inter font — not Open Sans. This is per DS spec.
+**Note:** The "∙" divider between action links uses body/regular/md (Open Sans Regular 400) — same as the alert body text.
         `,
       },
     },

@@ -19,7 +19,7 @@ import './Alert.css';
 //   feature     → feature
 //
 // Sizes:
-//   x-small (32) — single row, center-aligned, 16×16 icon, 8px padding/gap
+//   x-small (32) — single row, center-aligned, 16×16 icon, 6px top/bottom, 10px left/right, 8px gap
 //   small   (36) — single row, center-aligned, 16×16 icon, 8px padding/gap
 //   large        — multi-row, top-aligned, 20×20 icon, 12px padding/gap
 // ─────────────────────────────────────────────────────────────────────────────
@@ -127,7 +127,7 @@ export default function Alert({
 
   const secondaryActionEl = secondaryAction && isLarge ? (
     <>
-      {/* Divider — Inter font as per DS spec */}
+      {/* Divider — body/regular/md, Open Sans Regular (400) */}
       <span className="alert__action-divider" aria-hidden="true">∙</span>
       <button
         className="alert__action alert__action--secondary"

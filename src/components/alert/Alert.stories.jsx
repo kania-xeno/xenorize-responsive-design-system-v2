@@ -41,7 +41,7 @@ Alert communicates status, feedback, or system information. It may contain actio
 - Status \`information\` maps to token namespace \`info\`
 - Filled/Light/Lighter border = bg (intentionally invisible — do not remove)
 - Shadow exists only on Stroke style
-- Actions divider "∙" uses Inter font (only non-Open Sans text in component)
+- Actions divider "∙" uses body/regular/md (Open Sans Regular 400) — same font as the alert body
 
 Figma source: [Design System Scalable V.2.1.0 → ↳alert-toast-notification](https://www.figma.com/design/0aVnOgjVWH1YL8JCnjXTBi?node-id=1995-2497)
         `,
@@ -78,7 +78,7 @@ Figma source: [Design System Scalable V.2.1.0 → ↳alert-toast-notification](h
     },
     secondaryAction: {
       control: 'text',
-      description: 'Label for secondary link button. Large only. Separated from primary by "∙" divider (Inter font).',
+      description: 'Label for secondary link button. Large only. Separated from primary by "∙" divider (Open Sans Regular, body/regular/md).',
     },
     dismissible: {
       control: 'boolean',
@@ -241,7 +241,7 @@ export const StyleStroke = {
 export const SizeXSmall = {
   name: 'Size — X-Small (32)',
   parameters: {
-    docs: { description: { story: 'Single row, center-aligned. 8px padding + 8px gap. 16×16 icon. Corner radius: 8px.' } },
+    docs: { description: { story: 'Single row, center-aligned. 6px top/bottom, 10px left/right, 8px gap. 16×16 icon. Corner radius: 8px.' } },
   },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -255,7 +255,7 @@ export const SizeXSmall = {
 export const SizeSmall = {
   name: 'Size — Small (36)',
   parameters: {
-    docs: { description: { story: 'Single row, center-aligned. 8px padding + 8px gap. 16×16 icon. Corner radius: 8px. Identical layout to X-Small, slightly taller due to line-height.' } },
+    docs: { description: { story: 'Single row, center-aligned. 8px all-side padding + 8px gap. 16×16 icon. Corner radius: 8px. Same single-row structure as X-Small, but uses 8px all-side padding and body/regular/md message typography.' } },
   },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -269,7 +269,7 @@ export const SizeSmall = {
 export const SizeLarge = {
   name: 'Size — Large',
   parameters: {
-    docs: { description: { story: 'Multi-row: title + description + actions. Top-aligned (flex-start). 12px padding + 12px gap. 20×20 icon. Corner radius: 12px. "∙" divider uses Inter font.' } },
+    docs: { description: { story: 'Multi-row: title + description + actions. Top-aligned (flex-start). 12px padding + 12px gap. 20×20 icon. Corner radius: 12px. "∙" divider uses body/regular/md (Open Sans Regular 400).' } },
   },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -305,7 +305,7 @@ export const SizeLarge = {
 export const WithAction = {
   name: 'With Action Link',
   parameters: {
-    docs: { description: { story: 'Primary action link button. Small/X-Small: single action only. Large: primary + optional secondary separated by "∙" divider (Inter font).' } },
+    docs: { description: { story: 'Primary action link button. Small/X-Small: single action only. Large: primary + optional secondary separated by "∙" divider (Open Sans Regular, body/regular/md).' } },
   },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
