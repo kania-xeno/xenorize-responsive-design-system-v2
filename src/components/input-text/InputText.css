@@ -65,18 +65,17 @@
   border: none;
   outline: none;
   padding: 0;
-  font-family: var(--font-family-body);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.43;
-  letter-spacing: 0;
+  font-family:    var(--text-style-body-regular-md-font-family);
+  font-weight:    var(--text-style-body-regular-md-font-weight);
+  font-size:      var(--text-style-body-regular-md-font-size);
+  line-height:    var(--text-style-body-regular-md-line-height);
+  letter-spacing: var(--text-style-body-regular-md-letter-spacing);
   color: var(--_it-text);
   width: 100%;
 }
 
-.input-text--xs .input-text__field {
-  font-size: 12px;
-}
+/* XS size: Figma "Size=X-Small" uses body/regular/md (14px) — same as md/sm.
+   No font-size override needed. Container height (32px) provides the compact feel. */
 
 .input-text__field::placeholder {
   color: var(--_it-placeholder);
@@ -509,10 +508,12 @@
   border-radius: var(--radius-8);
   background-color: var(--input-text-digit-input-field-bg-default);
   color: var(--input-text-digit-input-field-text-default);
-  font-family: var(--font-family-body);
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 1;
+  /* Figma text style: h2/regular — Sofia Pro Regular 24px, confirmed via getLocalTextStylesAsync()  */
+  font-family:    var(--text-style-h2-regular-font-family);
+  font-weight:    var(--text-style-h2-regular-font-weight);
+  font-size:      var(--text-style-h2-regular-font-size);
+  line-height:    var(--text-style-h2-regular-line-height);
+  letter-spacing: var(--text-style-h2-regular-letter-spacing);
   text-align: center;
   cursor: text;
   outline: none;
