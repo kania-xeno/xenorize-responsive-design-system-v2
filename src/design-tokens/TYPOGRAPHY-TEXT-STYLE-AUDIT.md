@@ -18,6 +18,7 @@
 
 | Figma Style | Font Family | Figma Style Name | CSS Weight | Font Size (desktop) | Line Height | Letter Spacing |
 |---|---|---|---|---|---|---|
+| `Display1/extraBold` | Sofia Pro | Black | 900 | 48px | 116% | -1% → `-0.01em` |
 | `Display1/medium` | Sofia Pro | Medium | 500 | 48px | 116% | -1% → `-0.01em` |
 | `Display1/regular` | Sofia Pro | Regular | 400 | 48px | 116% | -1% → `-0.01em` |
 | `Display2/extraBold` | Sofia Pro | Black | 900 | 40px | 120% | -0.5% → `-0.005em` |
