@@ -158,7 +158,7 @@ Interactive sandbox for design QA and component exploration.
     },
     number: {
       control: 'text',
-      description: 'Number=On (SemiBold). Basic type only. Replaces label when set.',
+      description: 'Number=On count label. Basic type only. Replaces label when set. Same text style as label for its size.',
     },
     showIcon: {
       control: 'boolean',

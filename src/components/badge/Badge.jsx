@@ -49,7 +49,8 @@ export default function Badge({
     className,
   ].filter(Boolean).join(' ');
 
-  // Number=On: renders a numeric label in SemiBold, basic type only.
+  // Number=On: renders a numeric count label, basic type only.
+  // Typography: same text style as label for its size (micro/regular small, caption/regular medium).
   const isNumber = number !== null && type === 'basic';
 
   // Icon rendering — only for left-icon and right-icon types.

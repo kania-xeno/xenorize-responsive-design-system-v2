@@ -24,8 +24,6 @@
   border:           1px solid var(--_badge-border-color, transparent);
   border-radius:    999px;
 
-  font-family: var(--font-family-body);
-  font-weight: 400;
   white-space: nowrap;
   /* Typography is size-specific — see .badge--small / .badge--medium below */
 }
@@ -49,7 +47,9 @@
 /* ── Number (Number=On) ────────────────────────────────────────────────────── */
 
 .badge__number {
-  font-weight: 600; /* SemiBold — Number=On only */
+  /* Figma: Number=On uses same text style as Number=Off (micro/regular or caption/regular).
+     No weight override. Inherits typography from .badge--small / .badge--medium.
+     font-weight: 600 removed — no Figma basis. */
   /* inherits color from .badge */
 }
 
@@ -82,18 +82,22 @@
 /* Medium uses asymmetric vertical padding (pTop=2px, pBottom=4px) — intentional  */
 /* optical alignment per Figma source of truth. Implement as-is.                  */
 
-/* ── Typography — Small */
+/* ── Typography — Small — Figma text style: micro/regular */
 .badge--small {
-  font-size:      10px;
-  line-height:    1.5;      /* 150% */
-  letter-spacing: 0.005em;  /* 0.5% */
+  font-family:    var(--text-style-micro-regular-font-family);
+  font-weight:    var(--text-style-micro-regular-font-weight);
+  font-size:      var(--text-style-micro-regular-font-size);
+  line-height:    var(--text-style-micro-regular-line-height);
+  letter-spacing: var(--text-style-micro-regular-letter-spacing);
 }
 
-/* ── Typography — Medium */
+/* ── Typography — Medium — Figma text style: caption/regular */
 .badge--medium {
-  font-size:      12px;
-  line-height:    1.33;     /* ~133% */
-  letter-spacing: 0.002em;  /* 0.2% */
+  font-family:    var(--text-style-caption-regular-font-family);
+  font-weight:    var(--text-style-caption-regular-font-weight);
+  font-size:      var(--text-style-caption-regular-font-size);
+  line-height:    var(--text-style-caption-regular-line-height);
+  letter-spacing: var(--text-style-caption-regular-letter-spacing);
 }
 
 /* Basic — Small: pTop=2 pBottom=2 pLeft=8 pRight=8 gap=2 */

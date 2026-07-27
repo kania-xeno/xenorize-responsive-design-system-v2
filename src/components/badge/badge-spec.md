@@ -17,7 +17,7 @@ interface BadgeProps {
                 | 'purple' | 'sky' | 'pink' | 'teal';           // default: 'gray'
   size?:          'small' | 'medium';                           // default: 'small'
   label?:         string;    // Text label — basic, dot, left-icon, right-icon types
-  number?:        string;    // Number=On (SemiBold) — basic type only. Replaces label.
+  number?:        string;    // Number=On count label — basic type only. Replaces label. Same text style as label for its size.
   icon?:          ReactComponent; // Default: BubbleAlert. Any icon from Icon System V.2.0.0.
   showIcon?:      boolean;   // Show/hide icon slot. Default: true
   disabled?:      boolean;   // Disabled=On. Default: false
@@ -33,7 +33,7 @@ Note: prop is named `badgeStyle` (not `style`) to avoid collision with the HTML 
 
 ### Basic
 `[label]` or `[number]` — text only, no icon or dot.
-Number=On activates when the `number` prop is set on `type="basic"`. Renders label in SemiBold.
+Number=On activates when the `number` prop is set on `type="basic"`. Uses the same text style as the label for its size (micro/regular for small, caption/regular for medium) — no weight override.
 
 ### With Dot
 `[dot-container(4×4 circle)] [label]` — dot before label.
@@ -79,11 +79,12 @@ Updated v2 — 30/06/2026. Text styles now bound in Figma (DS Gap resolved). Sma
 |---|---|---|
 | Font | Open Sans | Open Sans |
 | Weight — label | Regular (400) | Regular (400) |
-| Weight — number | SemiBold (600) | SemiBold (600) |
+| Weight — number | Regular (400) — same as label | Regular (400) — same as label |
 | Font size | 10px | **12px** ⬆ |
 | Line height | **150%** (1.5) ⬆ | **133%** (~1.33) ⬆ |
 | Letter spacing | **0.5%** (0.005em) ⬆ | 0.2% (0.002em) |
-| Text style | ✅ Bound (v2) | ✅ Bound (v2) |
+| Text style | `micro/regular` ✅ tokenized | `caption/regular` ✅ tokenized |
+| CSS vars | `--text-style-micro-regular-*` | `--text-style-caption-regular-*` |
 
 ⬆ = changed from v1
 
@@ -341,7 +342,7 @@ Stroke style and disabled both use `--_badge-bg: transparent` and `--_badge-bord
 | Yellow variant | `badge/yellow/*` tokens exist (16 vars) but no Figma variant | DS Auditor decision pending |
 | Disabled token namespace | Disabled reuses Stroke tokens — no dedicated `badge/{color}/disabled/*` | Acceptable for V1. Document for DS roadmap. |
 | Dot color token | Dot uses `text` token — cannot style dot independently | DS Auditor decision required if divergence needed |
-| ~~Typography text style~~ | ~~Font not bound to a named DS text style~~ | ✅ Resolved in v2 — text styles now bound. Small=10px/150%/0.5%, Medium=12px/133%/0.2% |
+| ~~Typography text style~~ | ~~Font not bound to a named DS text style~~ | ✅ Resolved — `micro/regular` (small) and `caption/regular` (medium) bound and tokenized via `--text-style-*` vars. Number=On confirmed to share the same text style as label — no weight override. |
 | Hover/Focus/Pressed/Loading | Not defined in Figma — badge is display-only by design | Not a gap, by intention |
 
 ---

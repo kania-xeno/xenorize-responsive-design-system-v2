@@ -41,7 +41,6 @@ export default {
 **DS Gaps (not implemented):**
 - Yellow variant — \`badge/yellow/*\` tokens exist but no Figma variant. Pending DS Auditor.
 - Dot color token — dot reuses \`badge/{color}/{style}/text\` token. No dedicated dot token.
-- Typography text style — 10px font not bound to a DS text style token.
 - Hover / Focus / Pressed states — by design (badge is display-only).
 
 Figma source: [Design System Scalable V.2.1.0 → ❖ badge](https://www.figma.com/design/0aVnOgjVWH1YL8JCnjXTBi?node-id=2008-2857)
@@ -76,7 +75,7 @@ Figma source: [Design System Scalable V.2.1.0 → ❖ badge](https://www.figma.c
     },
     number: {
       control: 'text',
-      description: 'Number=On label (SemiBold). Only applies when type=basic. Replaces label.',
+      description: 'Number=On count label. Only applies when type=basic. Replaces label. Uses the same text style as the label for its size.',
     },
     showIcon: {
       control: 'boolean',
@@ -288,7 +287,7 @@ export const NumberOn = {
   parameters: {
     docs: {
       description: {
-        story: 'Numeric count label in SemiBold (600). Basic type only. Use for notification counts, unread indicators. Display "999+" for counts over 999.',
+        story: 'Numeric count label. Basic type only. Uses the same text style as the label for its size — no weight override. Use for notification counts, unread indicators. Display "999+" for counts over 999.',
       },
     },
   },
