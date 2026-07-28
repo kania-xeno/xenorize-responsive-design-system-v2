@@ -12,7 +12,7 @@ import './InputText.css';
  *    variants (Default/Hover/Focus/Filled/Disabled), no Error variant.
  *    Error styling applied externally via `error` prop on the wrapper.
  * ⚠️ Cell gap (8px) assumed — verify at QA.
- * ⚠️ Font size in cell (24px) assumed — verify at QA.
+ * Cell typography uses h2/regular — Sofia Pro Regular 24px, confirmed via getLocalTextStylesAsync().
  * ⚠️ Auto-advance on digit entry is included as UX behaviour.
  *
  * @param {number}   [length=6]        — Number of digit cells

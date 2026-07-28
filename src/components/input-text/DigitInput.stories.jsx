@@ -15,7 +15,7 @@ export default {
           '5 Figma variants: Default · Hover · Focus · Filled · Disabled. ' +
           '⚠️ Error state is CSS-class based (`.digit-input__cell--error`) — ' +
           'Figma shows 5 variants (no Error variant) but error tokens exist. Verify visually. ' +
-          '⚠️ Cell gap (8px) and font-size (24px) assumed — verify at QA. ' +
+          '⚠️ Cell gap (8px) assumed — verify at QA. Cell typography uses h2/regular — Sofia Pro Regular 24px, confirmed via getLocalTextStylesAsync(). ' +
           'Paste from clipboard supported on first cell. Arrow key navigation between cells. ' +
           'Auto-advance on digit entry.',
       },

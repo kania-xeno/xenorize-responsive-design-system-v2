@@ -491,7 +491,7 @@
    ⚠️ field/bg/hover = #F4F4F6 — unique; all other variant hovers = #FFFFFF.
    ⚠️ field/text/disabled = #D1D1D1 (text/neutral/disabled) — unique.
    ⚠️ Cell gap (8px) is assumed — verify at QA.
-   ⚠️ Font size in cell (24px) is assumed — verify at QA.
+   Cell typography uses h2/regular — Sofia Pro Regular 24px, confirmed via getLocalTextStylesAsync().
    ════════════════════════════════════════════════════════════════ */
 
 .digit-input {
