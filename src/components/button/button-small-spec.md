@@ -24,16 +24,20 @@ Same as Large — flex row with: left icon (optional) → label → right icon (
 | Icon-only size | 32×32px | — |
 | Icon size | 20×20px | — |
 | Label inline padding | 4px (left + right) | `--spacing-4` |
-| Font family | Open Sans | `--font-family-body` |
-| Font weight | 600 (SemiBold) | `--font-weight-medium` |
-| Font size | 12px / ~1.33 line-height | `--font-size-body-sm` |
+| DS Text Style | `caption/semiBold` | `--text-style-caption-semibold-*` |
+| Font family | Open Sans | `--text-style-caption-semibold-font-family` |
+| Font weight | SemiBold (600) | `--text-style-caption-semibold-font-weight` |
+| Font size | 12px | `--text-style-caption-semibold-font-size` |
+| Line height | 133% | `--text-style-caption-semibold-line-height` |
+| Letter spacing | 0.002em | `--text-style-caption-semibold-letter-spacing` |
 
 ### Diff vs Large and Medium
 
 | Property | Large | Medium | Small |
 |---|---|---|---|
 | Padding | 10px `--spacing-10` | 8px `--spacing-8` | **6px `--spacing-6`** |
-| Font size | 16px `--font-size-body-lg` | 14px `--font-size-body-md` | **12px `--font-size-body-sm`** |
+| DS Text Style | `body/medium/lg` | `body/medium/md` | **`caption/semiBold`** |
+| Font size | 16px | 14px | **12px** |
 | Height | 40px | 36px | **32px** |
 | Border radius | 8px `--radius-8` | 8px `--radius-8` | **6px `--radius-6`** |
 | Icon size | 20×20px | 20×20px | 20×20px |
@@ -78,10 +82,15 @@ Small overrides the base button with a size modifier class:
 
 ```css
 .button--size-small {
-  padding: var(--spacing-6);
-  font-size: var(--font-size-body-sm);
-  border-radius: var(--radius-6);
-  min-width: 48px;
+  padding:        var(--spacing-6);
+  border-radius:  var(--radius-6);
+  min-width:      48px;
+  /* Typography: caption/semiBold — overrides the Large base */
+  font-family:    var(--text-style-caption-semibold-font-family);
+  font-weight:    var(--text-style-caption-semibold-font-weight);
+  font-size:      var(--text-style-caption-semibold-font-size);
+  line-height:    var(--text-style-caption-semibold-line-height);
+  letter-spacing: var(--text-style-caption-semibold-letter-spacing);
 }
 
 /* Icon size for small is 20×20 (same as base) — no .button__icon override needed. */

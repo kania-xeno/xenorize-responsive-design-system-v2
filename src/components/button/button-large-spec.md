@@ -27,9 +27,12 @@ Last updated: 24/06/2026 (spec cleanup — stale prop/variant names removed, siz
 | Icon-only size | 40×40px | — |
 | Icon size | 20×20px | — |
 | Label inline padding | 4px (left + right) | `--spacing-4` |
-| Font family | Open Sans | `--font-family-body` |
-| Font weight | 600 (Medium) | `--font-weight-medium` |
-| Font size | 16px / 1.5 line-height | `--font-size-body-lg` |
+| DS Text Style | `body/medium/lg` | `--text-style-body-medium-lg-*` |
+| Font family | Open Sans | `--text-style-body-medium-lg-font-family` |
+| Font weight | SemiBold (600) | `--text-style-body-medium-lg-font-weight` |
+| Font size | 16px | `--text-style-body-medium-lg-font-size` |
+| Line height | 150% | `--text-style-body-medium-lg-line-height` |
+| Letter spacing | 0 | `--text-style-body-medium-lg-letter-spacing` |
 
 ---
 
@@ -143,7 +146,7 @@ Dark mode is handled via `[data-theme="dark"]` overrides in `tokens.css`. The sa
 
 - bg: `--color-surface-neutral-soft` (#f4f4f6 light / #2d2f39 dark)
 - text: `--color-text-neutral-strong` (#1c1c1c light / #fff dark)
-- font: 10px (`--font-size-micro`), weight 600, letter-spacing 0.05px
+- DS Text Style: `micro/regular` — Open Sans Regular (400), 10px, 150%, 0.005em LS — `--text-style-micro-regular-*`
 - padding: 3px 4px, `border-radius: --radius-full`
 
 ---

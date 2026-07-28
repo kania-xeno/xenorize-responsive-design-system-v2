@@ -1,6 +1,6 @@
 # Component Typography Usage Audit
 
-**Status:** COMPLETE — read-only audit, no files edited  
+**Status:** SUPERSEDED — pre-fix snapshot; see Batch Closure Status below  
 **Date:** 2026-07-27  
 **Scope:** `src/components/**/*.css`  
 **Foundation reference:** `src/design-tokens/tokens.css` — `--text-style-*` properties now available for all 43 Figma text styles  
@@ -8,7 +8,32 @@
 
 ---
 
-## Summary
+## Batch Closure Status — 2026-07-28
+
+This document is a **pre-fix audit snapshot** (2026-07-27). The typography tokenization batch is now complete. All findings below are preserved as historical pre-fix reference only.
+
+| Component | Pre-fix status | Batch status |
+|---|---|---|
+| Button | B — Partial | ✅ RESOLVED — `--text-style-body-medium-lg-*` / `body-medium-md-*` / `caption-semibold-*` / `micro-regular-*` |
+| Badge | B — Partial | ✅ RESOLVED — `--text-style-micro-regular-*` / `micro-medium-*` / `caption-regular-*` / `caption-semibold-*` |
+| Alert | B — Partial | ✅ RESOLVED — `--text-style-body-regular-md-*` / `body-semibold-md-*` / `caption-regular-*` / `caption-semibold-*` |
+| Input Text | B — Partial | ✅ RESOLVED — `--text-style-body-regular-md-*` / `caption-regular-*`; digit input confirmed intentional exception |
+| LabelKey | C — Hardcoded | ✅ RESOLVED — `--text-style-body-semibold-md-*` / `caption-regular-*`; `0.02em` letter-spacing bug corrected to `0.002em` |
+| HintText | C — Hardcoded | ✅ RESOLVED — `--text-style-caption-regular-*`; `0.02em` letter-spacing bug corrected |
+| PasswordStrength | C — Hardcoded | ✅ RESOLVED — `--text-style-caption-regular-*`; `0.02em` letter-spacing bug corrected |
+| ButtonGroup | B — Partial | ✅ RESOLVED — `--text-style-body-semibold-md-*` / `caption-semibold-*` |
+| Accordion | B — Partial | ✅ RESOLVED — `--text-style-body-semibold-md-*` / `body-regular-md-*`; letter-spacing confirmed with Figma |
+| Breadcrumb | C — Hardcoded | ✅ RESOLVED — `--text-style-body-regular-md-*` |
+| Avatar | B — Partial + D | ✅ RESOLVED — pre-fix D exception was incorrect; all 9 sizes map to DS text styles; `--text-style-h2-regular-*` / `body-medium-xl-*` / `body-medium-lg-*` / `body-medium-md-*` / `caption-regular-*` (Figma-confirmed 2026-07-28) |
+| ChartDonut (tooltip) | C — Hardcoded | ⏸ DEFERRED — tooltip typography is a separate Tooltip/ChartTooltip component handoff; DS Auditor has not handed off Tooltip yet; ChartDonut.css not edited |
+| CompactSelect | Not in repo | 🚫 BLOCKED — component not in repo; pending DS Auditor handoff |
+| Select | Not in repo | 🚫 BLOCKED — component not in repo; pending DS Auditor handoff |
+
+> **Typography batch can close with ChartDonut tooltip explicitly deferred as a separate component/handoff.**
+
+---
+
+## Summary (pre-fix snapshot)
 
 | Metric | Count |
 |---|---|
@@ -42,7 +67,7 @@
 
 ### 1. Button — `src/components/button/Button.css`
 
-**Status: B — Partially tokenized**
+**Pre-fix status: B — Partially tokenized** — ✅ **RESOLVED**
 
 Uses `--font-family-body`, `--font-weight-medium`, `--font-size-body-lg`, `--font-size-body-md`, `--font-size-body-sm`, `--font-size-micro`, `--font-weight-medium` as vars. Does NOT use `--text-style-*` tokens.
 
@@ -79,7 +104,7 @@ Uses `--font-family-body`, `--font-weight-medium`, `--font-size-body-lg`, `--fon
 
 ### 2. Input Text — `src/components/input-text/InputText.css`
 
-**Status: B — Partially tokenized**
+**Pre-fix status: B — Partially tokenized** — ✅ **RESOLVED**
 
 Uses `var(--font-family-body)` for font-family but hardcodes font-size, font-weight, and line-height.
 
@@ -115,7 +140,7 @@ Uses `var(--font-family-body)` for font-family but hardcodes font-size, font-wei
 
 ### 3. Badge — `src/components/badge/Badge.css`
 
-**Status: B — Partially tokenized**
+**Pre-fix status: B — Partially tokenized** — ✅ **RESOLVED**
 
 Uses `var(--font-family-body)` but does not use `--font-size-*` vars for size variants. Size variants fully hardcode font-size and line-height.
 
@@ -157,7 +182,7 @@ The badge uses a two-layer pattern: base sets default weight (regular), `.badge_
 
 ### 4. Alert — `src/components/alert/Alert.css`
 
-**Status: B — Partially tokenized**
+**Pre-fix status: B — Partially tokenized** — ✅ **RESOLVED**
 
 Uses `--font-family-body`, `--font-size-body-md`, `--font-size-body-sm` vars but hardcodes font-weight, line-height, and letter-spacing.
 
@@ -201,35 +226,35 @@ Uses `--font-family-body`, `--font-size-body-md`, `--font-size-body-sm` vars but
 
 ### 5. Chart Donut — `src/components/chart-donut/ChartDonut.css`
 
-**Status: C — Hardcoded**
+**Pre-fix status: C — Hardcoded** — ⏸ **DEFERRED — separate Tooltip/ChartTooltip component handoff required**
 
-All typography properties hardcoded. No token vars used.
+ChartDonut.css was NOT edited. The tooltip typography gap is intentionally deferred. The tooltip should be treated as a separate `Tooltip / ChartTooltip` component. DS Auditor has not handed off Tooltip/ChartTooltip yet. ChartDonut main component is closed for typography; tooltip typography remains a documented deferred gap.
 
-#### Typography blocks
+#### Pre-fix typography blocks (historical reference)
 
 | Selector | font-family | font-weight | font-size | line-height | letter-spacing |
 |---|---|---|---|---|---|
 | Chart tooltip | `'Open Sans', sans-serif` ❌ | `400` ❌ | `12px` ❌ | `1.5` ❌ | — |
 
-#### Hardcoded properties
+#### Pre-fix hardcoded properties
 All: font-family (raw string), font-size, font-weight, line-height.
 
-#### Proposed target text-style tokens
+#### Pre-fix proposed target text-style tokens (historical — not applied)
 `caption/regular` is the closest by size + weight:
 
 | Proposed | Values |
 |---|---|
 | `--text-style-caption-regular-*` | Open Sans / 400 / 12px / **133%** / 0.002em |
 
-> **⚠️ Line-height discrepancy:** Current chart tooltip uses `line-height: 1.5` (150%). `caption/regular` is 133%. `micro/regular` is 150% but at 10px, not 12px. There is no 12px/150% Figma text style. This may be an intentional tooltip deviation for readability. **Needs Figma verification before tokenizing.** If 150% is intentional, this becomes a partial exception (use font-family/weight/size tokens, retain hardcoded line-height with a comment).
+> **⚠️ Line-height discrepancy (pre-fix finding):** Current chart tooltip uses `line-height: 1.5` (150%). `caption/regular` is 133%. `micro/regular` is 150% but at 10px, not 12px. There is no 12px/150% Figma text style. This may be an intentional tooltip deviation for readability. Tooltip/ChartTooltip handoff from DS Auditor should clarify. Do not tokenize until handoff is received.
 
-**Confidence:** Low for line-height. High for font-family/weight/size.
+**Confidence (pre-fix):** Low for line-height. High for font-family/weight/size.
 
 ---
 
 ### 6. Breadcrumb — `src/components/breadcrumb/Breadcrumb.css`
 
-**Status: C — Hardcoded**
+**Pre-fix status: C — Hardcoded** — ✅ **RESOLVED**
 
 All typography properties hardcoded. No token vars used.
 
@@ -261,7 +286,7 @@ letter-spacing: var(--text-style-body-regular-md-letter-spacing);
 
 ### 7. Button Group — `src/components/button-group/ButtonGroup.css`
 
-**Status: B — Partially tokenized**
+**Pre-fix status: B — Partially tokenized** — ✅ **RESOLVED**
 
 Uses `--font-family-body` and `--font-size-body-*` vars but hardcodes font-weight and line-height.
 
@@ -292,7 +317,7 @@ Uses `--font-family-body` and `--font-size-body-*` vars but hardcodes font-weigh
 
 ### 8. Accordion — `src/components/accordion/Accordion.css`
 
-**Status: B — Partially tokenized (ambiguous)**
+**Pre-fix status: B — Partially tokenized (ambiguous)** — ✅ **RESOLVED**
 
 Uses `--font-family-body`, `--font-weight-semibold`, `--font-weight-regular` vars but hardcodes font-size, line-height (in px), and letter-spacing.
 
@@ -331,48 +356,36 @@ If confirmed as a per-component style: retain `letter-spacing: -0.084px` with an
 
 ### 9. Avatar — `src/components/avatar/Avatar.css`
 
-**Status: B — Partially tokenized + D (intentional exception)**
+**Pre-fix status: B — Partially tokenized + D (intentional exception)** — ✅ **RESOLVED 2026-07-28**
 
-#### Typography blocks
+The pre-fix D exception classification was **incorrect**. Figma inspection of each size variant individually (nodes 2107:172–204, 2026-07-28) confirmed that all 9 sizes DO map to named DS text styles. The proportional font-size scale in the pre-fix CSS was a DT estimate, not a Figma-confirmed value.
+
+**Actual Figma-confirmed mapping (now in Avatar.css):**
+
+| Size(s) | DS Text Style | CSS vars |
+|---|---|---|
+| 80, 72, 64 | `h2/regular` | `--text-style-h2-regular-*` |
+| 56, 48 | `body/medium/xl` | `--text-style-body-medium-xl-*` |
+| 40 | `body/medium/lg` | `--text-style-body-medium-lg-*` |
+| 32 | `body/medium/md` | `--text-style-body-medium-md-*` |
+| 24, 20 | `caption/regular` | `--text-style-caption-regular-*` |
+
+See `avatar-spec.md` § Typography for full per-size detail.
+
+#### Pre-fix typography blocks (historical reference — now superseded)
 
 | Selector | font-family | font-weight | font-size | line-height | Notes |
 |---|---|---|---|---|---|
-| `.avatar__initials` (base) | `var(--font-family-body)` ✓ | `var(--font-weight-medium)` ✓ | — (set per size) | `1` ❌ | line-height: 1 is intentional |
-| `.avatar--size-{n} .avatar__initials` | — | — | `8–28px` ❌ | — | 9 rules; custom proportional scale |
+| `.avatar__initials` (base) | `var(--font-family-body)` | `var(--font-weight-medium)` | — (set per size) | `1` ❌ | line-height: 1 was incorrect |
+| `.avatar--size-{n} .avatar__initials` | — | — | `8–28px` ❌ | — | DT-estimated scale — all wrong |
 
-#### Hardcoded properties
-- `line-height: 1` — base (intentional for centered initials display)
-- `font-size: 28px / 26px / 22px / 20px / 16px / 14px / 12px / 10px / 8px` — per size (intentional exception)
-
-#### D — Intentional exception: Avatar initials font-sizes
-
-Avatar initials use a **9-step proportional font-size scale** tied to the 9 avatar container sizes (80/72/64/56/48/40/32/24/20px). This scale does not map to any Figma text style by design:
-
-| Avatar size | Initials font-size | Nearest text style | Verdict |
-|---|---|---|---|
-| 80px | 28px | none | Exception |
-| 72px | 26px | none | Exception |
-| 64px | 22px | none | Exception |
-| 56px | 20px | `h3` (20px) | Not applicable — different context |
-| 48px | 16px | `body-lg` (16px) | Not applicable |
-| 40px | 14px | `body-md` (14px) | Not applicable |
-| 32px | 12px | `caption` (12px) | Not applicable |
-| 24px | 10px | `label/micro` (10px) | Not applicable |
-| 20px | 8px | none | Exception |
-
-These sizes exist only to fill a circular avatar proportionally. Using text style vars here would create misleading semantic connections and make the scale harder to maintain.
-
-**Recommendation:** Retain hardcoded px values for initials font-size. No `--text-style-*` tokens apply. Consider documenting this as an explicit exception in the CSS with a comment.
-
-`font-weight: var(--font-weight-medium)` is correct usage — no change needed.
-
-**Confidence:** High (this is a confirmed exception).
+**Confidence:** High (Figma-confirmed).
 
 ---
 
 ### 10. LabelKey — `src/components/key-component/LabelKey.css`
 
-**Status: C — Hardcoded**
+**Pre-fix status: C — Hardcoded** — ✅ **RESOLVED**
 
 All typography properties hardcoded using raw `'Open Sans', sans-serif` font string.
 
@@ -406,7 +419,7 @@ All typography properties hardcoded using raw `'Open Sans', sans-serif` font str
 
 ### 11. HintText — `src/components/key-component/HintText.css`
 
-**Status: C — Hardcoded**
+**Pre-fix status: C — Hardcoded** — ✅ **RESOLVED**
 
 #### Typography blocks
 
@@ -440,7 +453,7 @@ All typography properties hardcoded using raw `'Open Sans', sans-serif` font str
 
 ### 12. PasswordStrength — `src/components/key-component/PasswordStrength.css`
 
-**Status: C — Hardcoded**
+**Pre-fix status: C — Hardcoded** — ✅ **RESOLVED**
 
 #### Typography blocks
 
@@ -460,7 +473,9 @@ Both selectors → `--text-style-caption-regular-*`
 
 ---
 
-## Suggested Fix Order
+## Suggested Fix Order (pre-fix — historical reference)
+
+> **Note (2026-07-28):** The fixes below have been completed. This section is preserved as a historical record of the fix plan.
 
 Based on component priority list, severity, and fix clarity:
 
@@ -510,21 +525,23 @@ Avoid:
 
 ## Appendix — Full CSS File Inventory
 
-| File | Typography | Status |
-|---|---|---|
-| `button/Button.css` | Yes | B — Partial |
-| `badge/Badge.css` | Yes | B — Partial |
-| `alert/Alert.css` | Yes | B — Partial |
-| `button-group/ButtonGroup.css` | Yes | B — Partial |
-| `breadcrumb/Breadcrumb.css` | Yes | C — Hardcoded |
-| `chart-donut/ChartDonut.css` | Yes | C — Hardcoded |
-| `accordion/Accordion.css` | Yes | B — Partial (ambiguous letter-spacing) |
-| `avatar/Avatar.css` | Yes | B — Partial + D exception |
-| `input-text/InputText.css` | Yes | B — Partial |
-| `input-text/FormField.css` | Layout only | — skip |
-| `key-component/LabelKey.css` | Yes | C — Hardcoded (letter-spacing bug) |
-| `key-component/HintText.css` | Yes | C — Hardcoded (letter-spacing bug) |
-| `key-component/PasswordStrength.css` | Yes | C — Hardcoded (letter-spacing bug) |
-| `key-component/KeyIcon.css` | None | — skip |
-| `avatar/TopStatus.css` | Structural only | — skip |
-| `avatar/BottomStatus.css` | Structural only | — skip |
+> Batch closure status appended 2026-07-28. Pre-fix status preserved for reference.
+
+| File | Typography | Pre-fix status | Batch status |
+|---|---|---|---|
+| `button/Button.css` | Yes | B — Partial | ✅ RESOLVED |
+| `badge/Badge.css` | Yes | B — Partial | ✅ RESOLVED |
+| `alert/Alert.css` | Yes | B — Partial | ✅ RESOLVED |
+| `button-group/ButtonGroup.css` | Yes | B — Partial | ✅ RESOLVED |
+| `breadcrumb/Breadcrumb.css` | Yes | C — Hardcoded | ✅ RESOLVED |
+| `chart-donut/ChartDonut.css` | Yes | C — Hardcoded | ⏸ DEFERRED (tooltip = separate Tooltip/ChartTooltip handoff) |
+| `accordion/Accordion.css` | Yes | B — Partial (ambiguous letter-spacing) | ✅ RESOLVED |
+| `avatar/Avatar.css` | Yes | B — Partial + D exception | ✅ RESOLVED (D exception was incorrect; Figma-confirmed 2026-07-28) |
+| `input-text/InputText.css` | Yes | B — Partial | ✅ RESOLVED |
+| `input-text/FormField.css` | Layout only | — skip | — skip |
+| `key-component/LabelKey.css` | Yes | C — Hardcoded (letter-spacing bug) | ✅ RESOLVED |
+| `key-component/HintText.css` | Yes | C — Hardcoded (letter-spacing bug) | ✅ RESOLVED |
+| `key-component/PasswordStrength.css` | Yes | C — Hardcoded (letter-spacing bug) | ✅ RESOLVED |
+| `key-component/KeyIcon.css` | None | — skip | — skip |
+| `avatar/TopStatus.css` | Structural only | — skip | — skip |
+| `avatar/BottomStatus.css` | Structural only | — skip | — skip |

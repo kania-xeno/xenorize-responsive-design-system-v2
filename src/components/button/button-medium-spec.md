@@ -24,16 +24,20 @@ Same as Large — flex row with: left icon (optional) → label → right icon (
 | Icon-only size | 36×36px | — |
 | Icon size | 20×20px | — |
 | Label inline padding | 4px (left + right) | `--spacing-4` |
-| Font family | Open Sans | `--font-family-body` |
-| Font weight | 600 (SemiBold) | `--font-weight-medium` |
-| Font size | 14px / ~1.43 line-height | `--font-size-body-md` |
+| DS Text Style | `body/medium/md` | `--text-style-body-medium-md-*` |
+| Font family | Open Sans | `--text-style-body-medium-md-font-family` |
+| Font weight | SemiBold (600) | `--text-style-body-medium-md-font-weight` |
+| Font size | 14px | `--text-style-body-medium-md-font-size` |
+| Line height | 143% | `--text-style-body-medium-md-line-height` |
+| Letter spacing | 0 | `--text-style-body-medium-md-letter-spacing` |
 
 ### Diff vs Large
 
 | Property | Large | Medium |
 |---|---|---|
 | Padding | 10px (`--spacing-10`) | 8px (`--spacing-8`) |
-| Font size | 16px (`--font-size-body-lg`) | 14px (`--font-size-body-md`) |
+| DS Text Style | `body/medium/lg` | `body/medium/md` |
+| Font size | 16px | 14px |
 | Height | 40px | 36px |
 | Icon-only | 40×40px | 36×36px |
 | Min width | 80px | 64px |
@@ -80,9 +84,14 @@ Medium is implemented as a size modifier class on the shared `Button.css`:
 
 ```css
 .button--size-medium {
-  padding: var(--spacing-8);
-  font-size: var(--font-size-body-md);
-  min-width: 64px;
+  padding:        var(--spacing-8);
+  min-width:      64px;
+  /* Typography: body/medium/md — overrides the Large base */
+  font-family:    var(--text-style-body-medium-md-font-family);
+  font-weight:    var(--text-style-body-medium-md-font-weight);
+  font-size:      var(--text-style-body-medium-md-font-size);
+  line-height:    var(--text-style-body-medium-md-line-height);
+  letter-spacing: var(--text-style-body-medium-md-letter-spacing);
 }
 
 .button--size-medium.button--onlyIcon {
