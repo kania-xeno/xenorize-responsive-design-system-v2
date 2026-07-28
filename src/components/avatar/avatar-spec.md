@@ -57,19 +57,35 @@ Memoji and Illustration modes are image-based — pass via `src` prop. No separa
 
 ## Sizing
 
-| Size | Width × Height | Initials font (DT estimate) | Icon svg size |
-|------|---------------|----------------------------|--------------|
-| 80px | 80×80         | 28px                       | 72% of 80    |
-| 72px | 72×72         | 26px                       | 72% of 72    |
-| 64px | 64×64         | 22px                       | 72% of 64    |
-| 56px | 56×56         | 20px                       | 72% of 56    |
-| 48px | 48×48         | 16px                       | 72% of 48    |
-| 40px | 40×40         | 14px                       | 72% of 40    |
-| 32px | 32×32         | 12px                       | 72% of 32    |
-| 24px | 24×24         | 10px                       | 72% of 24    |
-| 20px | 20×20         | 8px                        | 72% of 20    |
+| Size | Width × Height | DS Text Style | Icon svg size |
+|------|---------------|--------------|--------------|
+| 80px | 80×80         | `h2/regular` | 72% of 80    |
+| 72px | 72×72         | `h2/regular` | 72% of 72    |
+| 64px | 64×64         | `h2/regular` | 72% of 64    |
+| 56px | 56×56         | `body/medium/xl` | 72% of 56 |
+| 48px | 48×48         | `body/medium/xl` | 72% of 48 |
+| 40px | 40×40         | `body/medium/lg` | 72% of 40 |
+| 32px | 32×32         | `body/medium/md` | 72% of 32 |
+| 24px | 24×24         | `caption/regular` | 72% of 24 |
+| 20px | 20×20         | `caption/regular` | 72% of 20 |
 
-> Initials font sizes are DT estimates pending DS token confirmation. No DS spec exists for per-size font values.
+See Typography section below for full per-size text style details.
+
+---
+
+## Typography
+
+Initials typography is tokenized via `--text-style-*` CSS custom properties in `Avatar.css`. Each size group maps to a distinct DS text style. Confirmed from Figma inspection of each size variant individually (nodes 2107:172–204, 28 July 2026).
+
+| Size(s) | DS Text Style | Font | Weight | Size | Line height | Letter-spacing | CSS vars |
+|---------|--------------|------|--------|------|-------------|----------------|---------|
+| 80, 72, 64 | `h2/regular` | Sofia Pro | Regular (400) | 24px | 133% | 0 | `--text-style-h2-regular-*` |
+| 56, 48 | `body/medium/xl` | Open Sans | SemiBold (600) | 18px | 155% | 0 | `--text-style-body-medium-xl-*` |
+| 40 | `body/medium/lg` | Open Sans | SemiBold (600) | 16px | 150% | 0 | `--text-style-body-medium-lg-*` |
+| 32 | `body/medium/md` | Open Sans | SemiBold (600) | 14px | 143% | 0 | `--text-style-body-medium-md-*` |
+| 24, 20 | `caption/regular` | Open Sans | Regular (400) | 12px | 133% | 0.002em | `--text-style-caption-regular-*` |
+
+Note: sizes 80–64 use the display font (Sofia Pro); sizes 56 and below use the body font (Open Sans). Previous implementation used `--font-family-body`, `--font-weight-medium`, hardcoded `line-height: 1`, and DT-estimated font-sizes — all corrected.
 
 ---
 
@@ -173,7 +189,7 @@ Flagged to DS Auditor for official variable binding in Figma.
 
 ## Open Items
 
-- **Initials font sizes** — DT estimates pending DS specification
+- ~~**Initials font sizes**~~ — **Resolved 2026-07-28**: Figma-confirmed text styles applied via `--text-style-*` vars in `Avatar.css`. See Typography section for full per-size mapping.
 - ~~**Status badge dark mode**~~ — **Resolved 25/06/2026**: all `--status-*` tokens have `[data-theme="dark"]` overrides in `tokens.css`
 - ~~`--status-warning-base` value mismatch~~ — **Resolved 25/06/2026**: updated to `#684E00` (light) / `#B28600` (dark) per Figma source of truth
 - **Company icon** — Bottom status Company type has a white circle only in V1. The Figma component uses a "Synergy" placeholder icon instance. Awaiting product-level icon supply

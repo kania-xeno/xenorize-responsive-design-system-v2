@@ -140,29 +140,73 @@
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Initials (Text mode)
-   Font sizes are DT estimates proportional to avatar size — pending DS token confirmation.
+   Typography is tokenized via --text-style-* vars, confirmed from Figma inspection
+   (each size variant inspected individually — 2107:172–204, 2026-07-28).
+
+   Each size group maps to a distinct DS text style:
+     80 / 72 / 64 → h2/regular       (Sofia Pro,  400, 24px, 133%, 0 LS)
+     56 / 48      → body/medium/xl   (Open Sans,  600, 18px, 155%, 0 LS)
+     40           → body/medium/lg   (Open Sans,  600, 16px, 150%, 0 LS)
+     32           → body/medium/md   (Open Sans,  600, 14px, 143%, 0 LS)
+     24 / 20      → caption/regular  (Open Sans,  400, 12px, 133%, 0.002em LS)
    ───────────────────────────────────────────────────────────────────────────── */
 
 .avatar__initials {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-family-body);
-  font-weight: var(--font-weight-medium);
   color: var(--color-text-neutral-strong);
-  line-height: 1;
   user-select: none;
 }
 
-.avatar--size-80  .avatar__initials { font-size: 28px; }
-.avatar--size-72  .avatar__initials { font-size: 26px; }
-.avatar--size-64  .avatar__initials { font-size: 22px; }
-.avatar--size-56  .avatar__initials { font-size: 20px; }
-.avatar--size-48  .avatar__initials { font-size: 16px; }
-.avatar--size-40  .avatar__initials { font-size: 14px; }
-.avatar--size-32  .avatar__initials { font-size: 12px; }
-.avatar--size-24  .avatar__initials { font-size: 10px; }
-.avatar--size-20  .avatar__initials { font-size: 8px;  }
+/* Sizes 80 / 72 / 64 — Figma text style: h2/regular (Sofia Pro Regular 400, 24px, 133%, 0 LS) */
+.avatar--size-80 .avatar__initials,
+.avatar--size-72 .avatar__initials,
+.avatar--size-64 .avatar__initials {
+  font-family:    var(--text-style-h2-regular-font-family);
+  font-weight:    var(--text-style-h2-regular-font-weight);
+  font-size:      var(--text-style-h2-regular-font-size);
+  line-height:    var(--text-style-h2-regular-line-height);
+  letter-spacing: var(--text-style-h2-regular-letter-spacing);
+}
+
+/* Sizes 56 / 48 — Figma text style: body/medium/xl (Open Sans SemiBold 600, 18px, 155%, 0 LS) */
+.avatar--size-56 .avatar__initials,
+.avatar--size-48 .avatar__initials {
+  font-family:    var(--text-style-body-medium-xl-font-family);
+  font-weight:    var(--text-style-body-medium-xl-font-weight);
+  font-size:      var(--text-style-body-medium-xl-font-size);
+  line-height:    var(--text-style-body-medium-xl-line-height);
+  letter-spacing: var(--text-style-body-medium-xl-letter-spacing);
+}
+
+/* Size 40 — Figma text style: body/medium/lg (Open Sans SemiBold 600, 16px, 150%, 0 LS) */
+.avatar--size-40 .avatar__initials {
+  font-family:    var(--text-style-body-medium-lg-font-family);
+  font-weight:    var(--text-style-body-medium-lg-font-weight);
+  font-size:      var(--text-style-body-medium-lg-font-size);
+  line-height:    var(--text-style-body-medium-lg-line-height);
+  letter-spacing: var(--text-style-body-medium-lg-letter-spacing);
+}
+
+/* Size 32 — Figma text style: body/medium/md (Open Sans SemiBold 600, 14px, 143%, 0 LS) */
+.avatar--size-32 .avatar__initials {
+  font-family:    var(--text-style-body-medium-md-font-family);
+  font-weight:    var(--text-style-body-medium-md-font-weight);
+  font-size:      var(--text-style-body-medium-md-font-size);
+  line-height:    var(--text-style-body-medium-md-line-height);
+  letter-spacing: var(--text-style-body-medium-md-letter-spacing);
+}
+
+/* Sizes 24 / 20 — Figma text style: caption/regular (Open Sans Regular 400, 12px, 133%, 0.002em LS) */
+.avatar--size-24 .avatar__initials,
+.avatar--size-20 .avatar__initials {
+  font-family:    var(--text-style-caption-regular-font-family);
+  font-weight:    var(--text-style-caption-regular-font-weight);
+  font-size:      var(--text-style-caption-regular-font-size);
+  line-height:    var(--text-style-caption-regular-line-height);
+  letter-spacing: var(--text-style-caption-regular-letter-spacing);
+}
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Icon silhouette (Icon mode — generic fallback)
