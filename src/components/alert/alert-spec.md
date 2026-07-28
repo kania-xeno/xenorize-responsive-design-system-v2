@@ -127,9 +127,9 @@ Shadow exists **only on Stroke style**.
 | Property | Value |
 |---|---|
 | CSS token used | `var(--shadow-regular-medium)` |
-| Token value | `0 16px 32px -12px rgba(14,18,27,0.10)` |
+| Token value | `0 16px 32px -12px rgba(23,23,23,0.10)` |
 | Figma spec | Y=16, Spread=−12, Radius=32, `color/alpha/black/10` |
-| Note | Token uses `rgba(14,18,27,0.10)` vs pure black — within acceptable tolerance. Flagged for DS Auditor. |
+| Note | Token uses `rgba(23,23,23,0.10)` vs pure black — within acceptable tolerance. Flagged for DS Auditor. |
 
 ---
 
@@ -312,7 +312,7 @@ Dark mode overrides follow the same pattern in `[data-theme="dark"]`. See `token
 
 | Gap | Impact | Status |
 |---|---|---|
-| Shadow token mismatch | Figma uses `color/alpha/black/10` (pure black alpha); implementation uses `--shadow-regular-medium` (`rgba(14,18,27,0.10)`). Difference is imperceptible. | Flagged for DS Auditor |
+| Shadow token mismatch | Figma uses `color/alpha/black/10` (pure black alpha); implementation uses `--shadow-regular-medium` (`rgba(23,23,23,0.10)`). Difference is imperceptible. | Flagged for DS Auditor |
 | `link-button/modifable/default` typo | "modifable" missing "i" — typo in DS token name. Do not rename without DS Auditor approval. | Implement as-is |
 | `body/medium/md` resolved weight | Figma text style named `body/medium/md` resolves to Open Sans SemiBold (600). Implemented via `--text-style-body-medium-md-*`. Do not map to primitive `fontWeight.medium` (500) — the "medium" in the style name is a DS weight label, not the font-weight primitive. | Implement via text style vars only |
 | "∙" divider font — spec error corrected | Previous spec stated Inter font. Figma deep inspection (`get_design_context`) confirmed Open Sans (`typography/font/open-sans`). Fixed in Alert.css and spec. | Resolved |
