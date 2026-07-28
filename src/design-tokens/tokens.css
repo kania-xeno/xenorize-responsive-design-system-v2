@@ -647,6 +647,13 @@
   --shadow-hover-ring-neutral: 0 0 0 3px rgba(143,143,143,0.16);
   --shadow-hover-ring-error:   0 0 0 3px rgba(234,52,52,0.16);
 
+  /* Component effect shadows — primitive.shadow.components.customInput.*
+     Captured from Figma: components/custom-input/Input (Default / Hover / Active).
+     Emitted for reference; not yet bound to components (see InputText effect audit). */
+  --shadow-custom-input-default: 0 0 0 1px rgba(23,23,23,0.08), 0 1px 1px -0.5px rgba(23,23,23,0.04), 0 3px 3px -1.5px rgba(23,23,23,0.04);
+  --shadow-custom-input-hover:   0 0 0 1px rgba(23,23,23,0.08);
+  --shadow-custom-input-active:  0 0 0 1.4px #403297, 0 1px 1px -0.5px rgba(23,23,23,0.04), 0 3px 3px -1.5px rgba(23,23,23,0.04), 0 6px 6px -3px rgba(23,23,23,0.02);
+
   --shadow-accordion: 0 1px 2px 0 rgba(23,23,23,0.04);
 
 
