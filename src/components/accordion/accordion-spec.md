@@ -120,12 +120,12 @@ All icons inherit color via `currentColor`. No hardcoded colors.
 
 ## Typography
 
-| Element | Font | Weight | Size | Line height | Letter spacing |
-|---------|------|--------|------|-------------|----------------|
-| Title | Open Sans | SemiBold (600) | 14px | 20px | −0.084px (−0.6%) |
-| Body | Open Sans | Regular (400) | 14px | 20px | −0.084px (−0.6%) |
+| Element | DS Text Style | Font | Weight | Size | Line height | Letter spacing | CSS vars |
+|---------|---|------|--------|------|-------------|----------------|---|
+| Title | `body/semiBold/md` | Open Sans | SemiBold (600) | 14px | 143% | 0 | `--text-style-body-semibold-md-*` |
+| Body | `body/regular/md` | Open Sans | Regular (400) | 14px | 143% | 0 | `--text-style-body-regular-md-*` |
 
-Values are hardcoded — no responsive DS token exists for accordion typography yet. Flagged for future token adoption.
+Typography is implemented via `--text-style-*` CSS custom properties in `Accordion.css`. Previous `letter-spacing: -0.084px` was corrected to `0` after Figma inspection.
 
 ---
 
@@ -177,7 +177,7 @@ Background/border/shadow transition: `0.2s ease-out` on all three properties (ma
 | File | Purpose |
 |------|---------|
 | `Accordion.jsx` | Component implementation |
-| `Accordion.css` | All styles — tokens + hardcoded Figma values |
+| `Accordion.css` | Styles — tokens, Figma-sourced layout values, and tokenized typography |
 | `Accordion.stories.jsx` | Storybook stories (Default, Active, both layouts, dark mode) |
 | `accordion-spec.md` | This file |
 | `src/components/icons/CircleInfo.jsx` | Info icon |
@@ -191,5 +191,5 @@ Background/border/shadow transition: `0.2s ease-out` on all three properties (ma
 
 - **Focus ring token** — No `accordion/focus-ring` token in DS component collection. DT to confirm closest DS focus ring token with DS Auditor before implementing. `:focus-visible` should not be suppressed in production.
 - **Disabled token namespace** — No `accordion/disabled/*` namespace. Pending DS Auditor.
-- **Typography tokens** — font-size, line-height, letter-spacing are hardcoded per Figma. Track for future responsive token adoption.
+- **Typography tokenization** — resolved. Title and body now use Figma-confirmed `--text-style-*` vars.
 - **Dark mode shadow** — `color/alpha/black/4` is a primitive alpha. Verify shadow visibility on dark surfaces (`#24262e` background) — may need DS Auditor guidance if not visible.

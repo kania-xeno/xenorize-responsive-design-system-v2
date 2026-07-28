@@ -2,8 +2,7 @@
    Accordion
    Source: Design System Scalable V.2.1.0 → ❖ Accordion
    All color values via tokens.css (accordion/* namespace).
-   All hardcoded values (padding, gap, font, radius) are Figma-sourced
-   per component-accordion-usage-spec.md.
+   Layout values (padding, gap, radius) are Figma-sourced; typography is tokenized via --text-style-* vars.
    ============================================================================= */
 
 /* ── Container ─────────────────────────────────────────────────────────────── */
@@ -92,11 +91,13 @@
 
 .accordion__title {
   flex: 1;
-  font-family: var(--font-family-body);  /* Open Sans */
-  font-size: 14px;                       /* hardcoded — no responsive token yet */
-  font-weight: var(--font-weight-semibold);  /* 600 */
-  line-height: 20px;                     /* hardcoded — no responsive token yet */
-  letter-spacing: -0.084px;             /* -0.6% of 14px */
+  /* Figma text style: body/semiBold/md — Open Sans SemiBold (600), 14px, 143%, 0 LS
+     Previous letter-spacing: -0.084px was incorrect — Figma confirms letterSpacing: 0. */
+  font-family:    var(--text-style-body-semibold-md-font-family);
+  font-weight:    var(--text-style-body-semibold-md-font-weight);
+  font-size:      var(--text-style-body-semibold-md-font-size);
+  line-height:    var(--text-style-body-semibold-md-line-height);
+  letter-spacing: var(--text-style-body-semibold-md-letter-spacing);
   color: var(--accordion-text-title);
 }
 
@@ -122,10 +123,12 @@
 .accordion__body-text {
   padding-top: 6px;                      /* text frame gap — Figma spec */
   margin: 0;
-  font-family: var(--font-family-body);  /* Open Sans */
-  font-size: 14px;                       /* hardcoded — no responsive token yet */
-  font-weight: var(--font-weight-regular);  /* 400 */
-  line-height: 20px;                     /* hardcoded — no responsive token yet */
-  letter-spacing: -0.084px;             /* -0.6% of 14px */
+  /* Figma text style: body/regular/md — Open Sans Regular (400), 14px, 143%, 0 LS
+     Previous letter-spacing: -0.084px was incorrect — Figma confirms letterSpacing: 0. */
+  font-family:    var(--text-style-body-regular-md-font-family);
+  font-weight:    var(--text-style-body-regular-md-font-weight);
+  font-size:      var(--text-style-body-regular-md-font-size);
+  line-height:    var(--text-style-body-regular-md-line-height);
+  letter-spacing: var(--text-style-body-regular-md-letter-spacing);
   color: var(--accordion-text-body);
 }
