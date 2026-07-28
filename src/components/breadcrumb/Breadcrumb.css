@@ -42,10 +42,12 @@
 
   /* Arrow: SVG inherits currentColor via stroke="currentColor" */
   /* Slash + Dot: text node also inherits currentColor */
-  font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.43;   /* body/regular/md — 143% */
+  /* Figma text style: body/regular/md — Open Sans Regular (400), 14px, 143%, 0 LS */
+  font-family:    var(--text-style-body-regular-md-font-family);
+  font-weight:    var(--text-style-body-regular-md-font-weight);
+  font-size:      var(--text-style-body-regular-md-font-size);
+  line-height:    var(--text-style-body-regular-md-line-height);
+  letter-spacing: var(--text-style-body-regular-md-letter-spacing);
   user-select: none;
 }
 
@@ -95,10 +97,13 @@
 /* ---------- Label ---------- */
 
 .breadcrumb-item__label {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.43;        /* body/regular/md — 143% */
+  /* Figma text style: body/regular/md — Open Sans Regular (400), 14px, 143%, 0 LS
+     Applies to both Default and Active states — differentiation is color only. */
+  font-family:    var(--text-style-body-regular-md-font-family);
+  font-weight:    var(--text-style-body-regular-md-font-weight);
+  font-size:      var(--text-style-body-regular-md-font-size);
+  line-height:    var(--text-style-body-regular-md-line-height);
+  letter-spacing: var(--text-style-body-regular-md-letter-spacing);
   white-space: nowrap;
 }
 

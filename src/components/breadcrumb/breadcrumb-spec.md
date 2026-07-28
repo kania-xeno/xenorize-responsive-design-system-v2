@@ -127,12 +127,14 @@ All tokens are in the `--breadcrumb-*` namespace. Defined in `src/design-tokens/
 
 ## Typography
 
-| Element | Text Style | Font | Size | Weight | Line Height |
-|---|---|---|---|---|---|
-| Item label | `body/regular/md` | Open Sans | 14px | 400 | 143% (≈ 20px) |
-| Slash divider | `body/regular/md` | Open Sans | 14px | 400 | 143% |
-| Dot divider | `body/regular/md` | Open Sans | 14px | 400 | 143% |
-| Arrow divider | — (SVG) | — | — | — | — |
+| Element | DS Text Style | Font | Weight | Size | Line height | Letter-spacing | CSS vars |
+|---|---|---|---|---|---|---|---|
+| Item label (Default + Active) | `body/regular/md` | Open Sans | Regular (400) | 14px | 143% | 0 | `--text-style-body-regular-md-*` |
+| Slash divider | `body/regular/md` | Open Sans | Regular (400) | 14px | 143% | 0 | `--text-style-body-regular-md-*` |
+| Dot divider | `body/regular/md` | Open Sans | Regular (400) | 14px | 143% | 0 | `--text-style-body-regular-md-*` |
+| Arrow divider | SVG only | — | — | — | — | — | — |
+
+Typography is implemented via `--text-style-body-regular-md-*` CSS custom properties in `Breadcrumb.css`. Default and Active item labels share the same text style; state differentiation is color only.
 
 ---
 
