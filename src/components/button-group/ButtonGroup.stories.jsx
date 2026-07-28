@@ -26,9 +26,9 @@ Places 2–6 items flush side-by-side behind a shared outer border. Items are in
 
 **Two-component system:**
 - \`ButtonGroup\` — container (border, radius, overflow clip)
-- \`ButtonGroupItem\` — individual slot (state, content, 1px all-sides border)
+- \`ButtonGroupItem\` — individual slot (state, content)
 
-**Dividers** are not separate elements — they emerge from overlapping 1px CENTER borders at \`gap: 0\`.
+**Dividers** are not separate elements — container provides the outer border; internal dividers use \`border-left\` on adjacent items in CSS. Items do not have their own all-sides border.
 
 **Token mapping (status → token namespace):**
 - Default + Hover icon: \`icon/sub\` → \`--button-group-item-icon-default\`
@@ -157,7 +157,7 @@ export const StateInteractive = {
 export const SizeSmall = {
   name: 'Size — Small (36)',
   parameters: {
-    docs: { description: { story: 'Height 36px. Padding 8/16px, gap 8px, font 14px. Primary placement — page-level controls, card headers, toolbar actions. Corner radius: 8px.' } },
+    docs: { description: { story: 'Height 36px. Padding 8/16px, gap 8px, body/medium/md (Open Sans SemiBold 600, 14px). Primary placement — page-level controls, card headers, toolbar actions. Corner radius: 8px.' } },
     controls: { disable: true },
   },
   render: () => <Demo items={VIEW_ITEMS} size="small" label="Small (36)" />,
@@ -166,7 +166,7 @@ export const SizeSmall = {
 export const SizeXSmall = {
   name: 'Size — X-Small (32)',
   parameters: {
-    docs: { description: { story: 'Height 32px. Padding 6/14px, gap 6px, font 14px. Secondary placement — sidebars, filter rows, compact UI areas. Corner radius: 8px.' } },
+    docs: { description: { story: 'Height 32px. Padding 6/14px, gap 6px, body/medium/md (Open Sans SemiBold 600, 14px). Secondary placement — sidebars, filter rows, compact UI areas. Corner radius: 8px.' } },
     controls: { disable: true },
   },
   render: () => <Demo items={VIEW_ITEMS} size="x-small" label="X-Small (32)" />,
@@ -175,7 +175,7 @@ export const SizeXSmall = {
 export const Size2XSmall = {
   name: 'Size — 2X-Small (24)',
   parameters: {
-    docs: { description: { story: 'Height 24px. Padding 4/12px, gap 4px, font 12px. Dense UI only — data table toolbars, compact panels. Corner radius: 6px.' } },
+    docs: { description: { story: 'Height 24px. Padding 4/12px, gap 4px, caption/regular (Open Sans Regular 400, 12px). Dense UI only — data table toolbars, compact panels. Corner radius: 6px.' } },
     controls: { disable: true },
   },
   render: () => <Demo items={VIEW_ITEMS} size="2x-small" label="2X-Small (24)" />,

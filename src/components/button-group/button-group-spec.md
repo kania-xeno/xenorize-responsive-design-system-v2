@@ -15,9 +15,9 @@ Two-component system.
 | Component | File | Role |
 |---|---|---|
 | `ButtonGroup` | `ButtonGroup.jsx` | Container — outer border, radius, overflow clip, item orchestration |
-| `ButtonGroupItem` | `ButtonGroupItem.jsx` | Individual slot — content, state, 1px all-sides border |
+| `ButtonGroupItem` | `ButtonGroupItem.jsx` | Individual slot — content and state; no all-sides border |
 
-Internal dividers are **not explicit elements** — they emerge from overlapping 1px CENTER-aligned borders on adjacent items at `gap: 0`.
+Internal dividers are **not explicit elements** — they are created via `border-left` on adjacent `.button-group-item + .button-group-item` siblings in CSS. Items have no all-sides border of their own; the container provides the outer border.
 
 ---
 
@@ -147,13 +147,13 @@ Internal dividers are **not explicit elements** — they emerge from overlapping
 
 ## 7. Typography
 
-| Size | Font | Weight | Size | Line height |
-|---|---|---|---|---|
-| Small (36) | Open Sans | SemiBold (600) | 14px (`--font-size-body-md`) | 143% |
-| X-Small (32) | Open Sans | SemiBold (600) | 14px (`--font-size-body-md`) | 143% |
-| 2X-Small (24) | Open Sans | SemiBold (600) | 12px (`--font-size-body-sm`) | 143% |
+| Size | DS Text Style | Font | Weight | Size | Line height | Letter-spacing | CSS vars |
+|---|---|---|---|---|---|---|---|
+| Small (36) | `body/medium/md` | Open Sans | SemiBold (600) | 14px | 143% | 0 | `--text-style-body-medium-md-*` |
+| X-Small (32) | `body/medium/md` | Open Sans | SemiBold (600) | 14px | 143% | 0 | `--text-style-body-medium-md-*` |
+| 2X-Small (24) | `caption/regular` | Open Sans | Regular (400) | 12px | 133% | 0.002em | `--text-style-caption-regular-*` |
 
-Typography not tokenized at the component level per DS spec. Font size is implemented as a literal value per size modifier.
+Typography is implemented via `--text-style-*` CSS custom properties in `ButtonGroup.css`. The base `.button-group-item` rule applies `body/medium/md` (covers Small and X-Small); `.button-group-item--2x-small` overrides all 5 typography properties to `caption/regular` — a different weight (Regular 400 vs SemiBold 600), different size (12px vs 14px), and different line-height (133% vs 143%).
 
 ---
 
@@ -181,9 +181,9 @@ Typography not tokenized at the component level per DS spec. Font size is implem
 
 .button-group-item                      Item — NO border, bg-default, text-default
   + .button-group-item                  Divider — border-left 1px on non-first items only
-  .button-group-item--small            Size: h=36, pad=8/16, gap=8, font=14px
-  .button-group-item--x-small         Size: h=32, pad=6/14, gap=6, font=14px
-  .button-group-item--2x-small        Size: h=24, pad=4/12, gap=4, font=12px
+  .button-group-item--small            Size: h=36, pad=8/16, gap=8, body/medium/md (inherits base)
+  .button-group-item--x-small         Size: h=32, pad=6/14, gap=6, body/medium/md (inherits base)
+  .button-group-item--2x-small        Size: h=24, pad=4/12, gap=4, caption/regular (overrides base)
   .button-group-item--hover           State: bg-hover
   .button-group-item--active          State: bg-active, text-active, icon-active
   .button-group-item--disabled        State: bg-hover (reuse), text-disabled, icon-disabled, cursor:not-allowed

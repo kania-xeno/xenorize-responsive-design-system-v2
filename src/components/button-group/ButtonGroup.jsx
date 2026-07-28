@@ -9,7 +9,7 @@ import './ButtonGroup.css';
 //
 // Two-component system: ButtonGroup (container) + ButtonGroupItem (slot).
 // Container manages outer border, radius, and overflow clipping.
-// Items manage content, state, and internal dividers via 1px all-sides borders.
+// Items manage content and state. Internal dividers are created in CSS via border-left on adjacent ButtonGroupItem siblings.
 //
 // Quantity: 2–6 items. Do not exceed 6.
 // Typically one item is Active at a time (mutually exclusive selection).

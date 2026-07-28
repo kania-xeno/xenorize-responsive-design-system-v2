@@ -63,11 +63,13 @@
   background-color: var(--button-group-item-bg-default);
   color:           var(--button-group-item-text-default);
 
-  font-family:     var(--font-family-body); /* Open Sans */
-  font-weight:     600;                     /* SemiBold — all sizes */
-  font-size:       var(--font-size-body-md); /* 14px — Small + X-Small */
-  line-height:     1.43;                    /* 143% */
-  letter-spacing:  0;
+  /* Figma text style: body/medium/md — Open Sans SemiBold (600), 14px, 143%
+     Applies to Small (36) and X-Small (32). 2X-Small overrides to caption/regular below. */
+  font-family:    var(--text-style-body-medium-md-font-family);
+  font-weight:    var(--text-style-body-medium-md-font-weight);
+  font-size:      var(--text-style-body-medium-md-font-size);
+  line-height:    var(--text-style-body-medium-md-line-height);
+  letter-spacing: var(--text-style-body-medium-md-letter-spacing);
 
   cursor:          pointer;
   user-select:     none;
@@ -95,7 +97,7 @@
   height:          36px;
   padding:         8px 16px;
   gap:             8px;
-  font-size:       var(--font-size-body-md); /* 14px */
+  /* Typography: body/medium/md — inherited from base .button-group-item */
 }
 
 /* X-Small (32) — 6px T/B, 14px L/R, 6px gap */
@@ -103,7 +105,7 @@
   height:          32px;
   padding:         6px 14px;
   gap:             6px;
-  font-size:       var(--font-size-body-md); /* 14px */
+  /* Typography: body/medium/md — inherited from base .button-group-item */
 }
 
 /* 2X-Small (24) — 4px T/B, 12px L/R, 4px gap */
@@ -111,7 +113,13 @@
   height:          24px;
   padding:         4px 12px;
   gap:             4px;
-  font-size:       var(--font-size-body-sm); /* 12px */
+  /* Figma text style: caption/regular — Open Sans Regular (400), 12px, 133%, 0.002em LS
+     Overrides base body/medium/md (SemiBold 600, 14px) — different weight AND size at 2X-Small. */
+  font-family:    var(--text-style-caption-regular-font-family);
+  font-weight:    var(--text-style-caption-regular-font-weight);
+  font-size:      var(--text-style-caption-regular-font-size);
+  line-height:    var(--text-style-caption-regular-line-height);
+  letter-spacing: var(--text-style-caption-regular-letter-spacing);
 }
 
 /* ── Icon wrapper ───────────────────────────────────────────────────────────── */

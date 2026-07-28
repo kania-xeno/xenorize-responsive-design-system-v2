@@ -9,9 +9,9 @@ import React from 'react';
 // The container (ButtonGroup) manages which item is active.
 //
 // Sizes:
-//   small    (36) — pad 8/16px, gap 8px, font 14px
-//   x-small  (32) — pad 6/14px, gap 6px, font 14px
-//   2x-small (24) — pad 4/12px, gap 4px, font 12px
+//   small    (36) — pad 8/16px, gap 8px, body/medium/md (SemiBold 600, 14px)
+//   x-small  (32) — pad 6/14px, gap 6px, body/medium/md (SemiBold 600, 14px)
+//   2x-small (24) — pad 4/12px, gap 4px, caption/regular (Regular 400, 12px)
 //
 // Icon fill applies at the SVG level — not the wrapper — via CSS color.
 // ─────────────────────────────────────────────────────────────────────────────
