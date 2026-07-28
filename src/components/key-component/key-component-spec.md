@@ -124,14 +124,16 @@ Layout: `inline-flex`, `flex-direction: row`, `align-items: center`, `gap: 2px`.
 - Disabled: `pointer-events: none`, `cursor: default`, color → `--key-component-label-text-disabled`.
 
 ### Typography
-| Element | Size | Weight | Line-height | Letter-spacing |
-|---|---|---|---|---|
-| Label | 14px | 600 (SemiBold) | 1.43 | 0 |
-| Required `*` | 14px | 600 | 1.43 | 0 |
-| Optional sublabel | 12px | 400 | 1.33 | 0.02em |
-| Help link | 12px | 400 | 1.33 | — |
+| Element | DS Text Style | Size | Weight | Line-height | Letter-spacing | CSS vars |
+|---|---|---|---|---|---|---|
+| Label | `body/medium/md` | 14px | 600 (SemiBold) | 143% | 0 | `--text-style-body-medium-md-*` |
+| Required `*` | `body/medium/md` | 14px | 600 (SemiBold) | 143% | 0 | `--text-style-body-medium-md-*` |
+| Optional sublabel | `body/regular/md` | 14px | 400 | 143% | 0 | `--text-style-body-regular-md-*` |
+| Help link | `caption/regular` | 12px | 400 | 133% | 0.002em | `--text-style-caption-regular-*` |
 
-Font: `'Open Sans', sans-serif` throughout.
+Implemented via `--text-style-*` CSS custom properties. Font family (Open Sans) is resolved through token vars.
+
+⚠️ `body/medium/md` is a Figma text style name — it resolves to Open Sans SemiBold (600). Do not map to `fontWeight.medium` (500).
 
 ### Props
 | Prop | Type | Default | Notes |
@@ -191,11 +193,11 @@ Layout: `inline-flex`, `flex-direction: row`, `align-items: center`, `gap: 4px`.
 | `--key-component-hint-button` | `→ text/brand/link` (also used by LabelKey) |
 
 ### Typography
-| Element | Size | Weight | Line-height | Letter-spacing |
-|---|---|---|---|---|
-| Message | 12px | 400 | 1.33 | 0.02em |
+| Element | DS Text Style | Size | Weight | Line-height | Letter-spacing | CSS vars |
+|---|---|---|---|---|---|---|
+| Message | `caption/regular` | 12px | 400 | 133% | 0.002em | `--text-style-caption-regular-*` |
 
-Font: `'Open Sans', sans-serif`.
+Implemented via `--text-style-caption-regular-*` CSS custom properties. All 4 states (Default/Error/Disabled/Success) share the same text style — confirmed via Figma.
 
 ### Icon
 Default: `CircleInfo` (information-fill, `currentColor`, 16×16). Per DS V1 all 4 states share the same icon shape. Future Cleanup #2: distinct icons per state is a DS enhancement request.
@@ -261,7 +263,12 @@ div.password-strength.password-strength--{strength}
 | All text | `--key-component-password-text` | `text/neutral/default` |
 
 ### Typography
-All text (header + condition labels): 12px · Regular · line-height 1.33 · letter-spacing 0.02em · Open Sans.
+| Element | DS Text Style | Size | Weight | Line-height | Letter-spacing | CSS vars |
+|---|---|---|---|---|---|---|
+| Header ("Must contain at least;") | `caption/regular` | 12px | 400 | 133% | 0.002em | `--text-style-caption-regular-*` |
+| Condition label | `caption/regular` | 12px | 400 | 133% | 0.002em | `--text-style-caption-regular-*` |
+
+Implemented via `--text-style-caption-regular-*` CSS custom properties — confirmed via Figma `figma_execute` inspection.
 
 ### Props
 | Prop | Type | Default | Notes |

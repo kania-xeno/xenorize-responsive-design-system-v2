@@ -29,11 +29,12 @@
 /* ── Label text ──────────────────────────────────────────────────────────────── */
 
 .label-key__label {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 600;          /* SemiBold — text style S:3301dc8b */
-  line-height: 1.43;
-  letter-spacing: 0;
+  /* Figma text style: body/medium/md — Open Sans SemiBold (600), 14px */
+  font-family:    var(--text-style-body-medium-md-font-family);
+  font-weight:    var(--text-style-body-medium-md-font-weight);
+  font-size:      var(--text-style-body-medium-md-font-size);
+  line-height:    var(--text-style-body-medium-md-line-height);
+  letter-spacing: var(--text-style-body-medium-md-letter-spacing);
   color: var(--key-component-label-label);
   white-space: nowrap;
 }
@@ -41,10 +42,12 @@
 /* ── Required asterisk ───────────────────────────────────────────────────────── */
 
 .label-key__required {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.43;
+  /* Figma text style: body/medium/md — Open Sans SemiBold (600), 14px */
+  font-family:    var(--text-style-body-medium-md-font-family);
+  font-weight:    var(--text-style-body-medium-md-font-weight);
+  font-size:      var(--text-style-body-medium-md-font-size);
+  line-height:    var(--text-style-body-medium-md-line-height);
+  letter-spacing: var(--text-style-body-medium-md-letter-spacing);
   color: var(--color-text-brand-primary);  /* text/brand/primary — applied directly, no key-component alias */
   white-space: nowrap;
   flex-shrink: 0;
@@ -53,11 +56,13 @@
 /* ── Optional sublabel ───────────────────────────────────────────────────────── */
 
 .label-key__optional {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 400;          /* Regular — caption/regular text style */
-  line-height: 1.33;
-  letter-spacing: 0.02em;
+  /* Figma text style: body/regular/md — Open Sans Regular (400), 14px.
+     Previous code had 12px (caption/regular) — incorrect. Figma confirms body/regular/md (14px, 0 LS). */
+  font-family:    var(--text-style-body-regular-md-font-family);
+  font-weight:    var(--text-style-body-regular-md-font-weight);
+  font-size:      var(--text-style-body-regular-md-font-size);
+  line-height:    var(--text-style-body-regular-md-line-height);
+  letter-spacing: var(--text-style-body-regular-md-letter-spacing);
   color: var(--key-component-label-optional-text);
   white-space: nowrap;
 }
@@ -90,10 +95,12 @@
 }
 
 .label-key__help-link {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.33;
+  /* Figma text style: caption/regular — Open Sans Regular (400), 12px, 0.002em LS */
+  font-family:    var(--text-style-caption-regular-font-family);
+  font-weight:    var(--text-style-caption-regular-font-weight);
+  font-size:      var(--text-style-caption-regular-font-size);
+  line-height:    var(--text-style-caption-regular-line-height);
+  letter-spacing: var(--text-style-caption-regular-letter-spacing);
   color: var(--key-component-hint-button);  /* text/brand/link — confirmed for LabelKey help action */
   text-decoration: none;
   background: none;

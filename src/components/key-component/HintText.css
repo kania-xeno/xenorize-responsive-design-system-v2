@@ -50,11 +50,14 @@
 /* ── Hint text ───────────────────────────────────────────────────────────────── */
 
 .hint-text__message {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 12px;             /* fontSize/body/sm */
-  font-weight: 400;            /* typography/weight/regular */
-  line-height: 1.33;           /* caption/regular text style */
-  letter-spacing: 0.02em;
+  /* Figma text style: caption/regular — Open Sans Regular (400), 12px, 133%, 0.002em LS
+     All 4 states (Default/Error/Disabled/Success) confirmed via figma_execute getStyleByIdAsync().
+     Previous letter-spacing 0.02em was a 10× bug — correct value is 0.002em (0.2% ÷ 100). */
+  font-family:    var(--text-style-caption-regular-font-family);
+  font-weight:    var(--text-style-caption-regular-font-weight);
+  font-size:      var(--text-style-caption-regular-font-size);
+  line-height:    var(--text-style-caption-regular-line-height);
+  letter-spacing: var(--text-style-caption-regular-letter-spacing);
   flex: 1 1 0;
   min-width: 0;
   word-break: break-word;
