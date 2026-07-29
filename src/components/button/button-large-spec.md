@@ -128,11 +128,15 @@ Maps to Figma "Stroke" style. Code uses `variant="outline"`. Token namespace is 
 
 ### Focus ring (keyboard `:focus-visible`)
 
+**Effect/Shadow audit: PASS** (29/07/2026) — Figma and tokens confirmed to match across all styles (Filled/Stroke/Lighter/Ghost) and all types (Primary/Error/Neutral). No runtime changes required.
+
 | Type | border color | box-shadow token |
 |---|---|---|
 | primary | `--button-focus-ring-primary` #513ebe3d | `--shadow-focus-ring-primary` |
 | error | `--button-focus-ring-error` #ea34343d | `--shadow-focus-ring-error` |
 | neutral | `--button-focus-ring-neutral` #82879c3d | `--shadow-focus-ring-neutral` |
+
+Focus ring shadow architecture — 2-layer DROP_SHADOW in Figma maps to `box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba({type-color}, 0.16)`. White gap (2px) listed first renders closest to button edge; glow ring (4px) fills the outer band — identical visual result to Figma layer stack. Default, Hover, and Disabled states carry no effects in Figma; CSS matches. Base `border: 1px solid transparent` accepted as layout-stability implementation detail (prevents reflow on focus).
 
 ---
 
@@ -189,3 +193,9 @@ The component logs `console.warn` in development for any invalid combination.
 - `--button-fill-primary-bg-hover` has no visual hover shift in dark mode — intentional DS decision or gap, needs visual QA confirmation
 - `--button-stroke-neutral-border-hover` has no border shift in dark mode — same as above
 - `--button-fill-destructive-border` token does not exist in tokens.css — base `.button { border: 1px solid transparent }` covers this for now. Flag for DS Auditor if a dedicated token is later required.
+
+## Deferred — DS Auditor / future scope
+
+- **`↳buttons-special` not implemented** — separate Figma component with gradient fill, gradient stroke, 10px radius, elevation shadow (y=1, r=2, black/24) + inner glow (brand/primary/base, spread=1). DS Auditor to scope as a separate ButtonSpecial component task. Do not implement in this batch.
+- **`--shadow-glow-*` tokens emitted but not consumed** — five `--shadow-glow-*` tokens in `tokens.css` are reserved for ButtonSpecial. When ButtonSpecial is built, `--shadow-glow-brand-primary` will need its first layer corrected from `#9589D9` to the resolved value of `brand/primary/base` (~`#403297`). No change needed now.
+- **`button-large-qa.md` stale focus border value** — line 23 shows `#7963ba3d` for Primary focus border; current correct value is `#513ebe3d`. Docs-only; clean in a future QA docs pass.
