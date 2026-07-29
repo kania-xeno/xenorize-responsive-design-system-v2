@@ -150,12 +150,16 @@
 
 /* ════════════════════════════════════════════════════════════════
    VARIANT — BASIC
-   Ring: primary (hover + focus) · error ring in error state
+   Default/Filled: effect shadow via --shadow-custom-input-default
+   Hover: border only (no ring)
+   Focus: border + neutral ring (--shadow-focus-ring-neutral)
+   Error ring: --shadow-hover-ring-error / --shadow-focus-ring-error
    ════════════════════════════════════════════════════════════════ */
 
 .input-text--basic {
   background-color:  var(--input-text-basic-bg-default);
-  border-color:      var(--input-text-basic-border-default);
+  border-color:      transparent;
+  box-shadow:        var(--shadow-custom-input-default);
   --_it-text:        var(--input-text-basic-text-default);
   --_it-placeholder: var(--input-text-basic-placeholder-default);
   --_it-icon:        var(--input-text-basic-icon-default);
@@ -163,25 +167,27 @@
 
 .input-text--basic.input-text--filled:not(.input-text--disabled):not(.input-text--error) {
   border-color: var(--input-text-basic-border-filled);
+  box-shadow:   var(--shadow-custom-input-default);
 }
 
 .input-text--basic:hover:not(.input-text--disabled):not(.input-text--error):not(:focus-within) {
   background-color:  var(--input-text-basic-bg-hover);
   border-color:      var(--input-text-basic-border-hover);
-  box-shadow:        var(--shadow-hover-ring-primary);
+  box-shadow:        none;
   --_it-placeholder: var(--input-text-basic-placeholder-hover);
 }
 
 .input-text--basic:focus-within:not(.input-text--disabled):not(.input-text--error) {
   background-color:  var(--input-text-basic-bg-focus);
   border-color:      var(--input-text-basic-border-focus);
-  box-shadow:        var(--shadow-focus-ring-primary);
+  box-shadow:        var(--shadow-focus-ring-neutral);
   --_it-placeholder: var(--input-text-basic-placeholder-focus);
 }
 
 .input-text--basic.input-text--disabled {
   background-color:  var(--input-text-basic-bg-disabled);
   border-color:      var(--input-text-basic-border-disabled);
+  box-shadow:        none;
   --_it-text:        var(--input-text-basic-text-disabled);
   --_it-placeholder: var(--input-text-basic-placeholder-disabled);
   --_it-icon:        var(--input-text-basic-icon-disabled);
@@ -190,6 +196,7 @@
 .input-text--basic.input-text--error {
   background-color:  var(--input-text-basic-bg-error);
   border-color:      var(--input-text-basic-border-error);
+  box-shadow:        none;
   --_it-text:        var(--input-text-basic-text-error);
   --_it-placeholder: var(--input-text-basic-placeholder-error);
   --_it-icon:        var(--input-text-basic-icon-error);
@@ -210,7 +217,8 @@
 
 .input-text--date {
   background-color:  var(--input-text-date-bg-default);
-  border-color:      var(--input-text-date-border-default);
+  border-color:      transparent;
+  box-shadow:        var(--shadow-custom-input-default);
   --_it-text:        var(--input-text-date-text-default);
   --_it-placeholder: var(--input-text-date-placeholder-default);
   --_it-icon:        var(--input-text-date-icon-default);
@@ -218,25 +226,27 @@
 
 .input-text--date.input-text--filled:not(.input-text--disabled):not(.input-text--error) {
   border-color: var(--input-text-date-border-filled);
+  box-shadow:   var(--shadow-custom-input-default);
 }
 
 .input-text--date:hover:not(.input-text--disabled):not(.input-text--error):not(:focus-within) {
   background-color:  var(--input-text-date-bg-hover);
   border-color:      var(--input-text-date-border-hover);
-  box-shadow:        var(--shadow-hover-ring-primary);
+  box-shadow:        none;
   --_it-placeholder: var(--input-text-date-placeholder-hover);
 }
 
 .input-text--date:focus-within:not(.input-text--disabled):not(.input-text--error) {
   background-color:  var(--input-text-date-bg-focus);
   border-color:      var(--input-text-date-border-focus);
-  box-shadow:        var(--shadow-focus-ring-primary);
+  box-shadow:        var(--shadow-focus-ring-neutral);
   --_it-placeholder: var(--input-text-date-placeholder-focus);
 }
 
 .input-text--date.input-text--disabled {
   background-color:  var(--input-text-date-bg-disabled);
   border-color:      var(--input-text-date-border-disabled);
+  box-shadow:        none;
   --_it-text:        var(--input-text-date-text-disabled);
   --_it-placeholder: var(--input-text-date-placeholder-disabled);
   --_it-icon:        var(--input-text-date-icon-disabled);
@@ -245,6 +255,7 @@
 .input-text--date.input-text--error {
   background-color:  var(--input-text-date-bg-error);
   border-color:      var(--input-text-date-border-error);
+  box-shadow:        none;
   --_it-text:        var(--input-text-date-text-error);
   --_it-placeholder: var(--input-text-date-placeholder-error);
   --_it-icon:        var(--input-text-date-icon-error);
@@ -266,7 +277,8 @@
 
 .input-text--password {
   background-color:  var(--input-text-password-bg-default);
-  border-color:      var(--input-text-password-border-default);
+  border-color:      transparent;
+  box-shadow:        var(--shadow-custom-input-default);
   --_it-text:        var(--input-text-password-text-default);
   --_it-placeholder: var(--input-text-password-placeholder-default);
   --_it-icon:        var(--input-text-password-icon-default);
@@ -274,25 +286,27 @@
 
 .input-text--password.input-text--filled:not(.input-text--disabled):not(.input-text--error) {
   border-color: var(--input-text-password-border-filled);
+  box-shadow:   var(--shadow-custom-input-default);
 }
 
 .input-text--password:hover:not(.input-text--disabled):not(.input-text--error):not(:focus-within) {
   background-color:  var(--input-text-password-bg-hover);
   border-color:      var(--input-text-password-border-hover);
-  box-shadow:        var(--shadow-hover-ring-primary);
+  box-shadow:        none;
   --_it-placeholder: var(--input-text-password-placeholder-hover);
 }
 
 .input-text--password:focus-within:not(.input-text--disabled):not(.input-text--error) {
   background-color:  var(--input-text-password-bg-focus);
   border-color:      var(--input-text-password-border-focus);
-  box-shadow:        var(--shadow-focus-ring-primary);
+  box-shadow:        var(--shadow-focus-ring-neutral);
   --_it-placeholder: var(--input-text-password-placeholder-focus);
 }
 
 .input-text--password.input-text--disabled {
   background-color:  var(--input-text-password-bg-disabled);
   border-color:      var(--input-text-password-border-disabled);
+  box-shadow:        none;
   --_it-text:        var(--input-text-password-text-disabled);
   --_it-placeholder: var(--input-text-password-placeholder-disabled);
   --_it-icon:        var(--input-text-password-icon-disabled);
@@ -301,6 +315,7 @@
 .input-text--password.input-text--error {
   background-color:  var(--input-text-password-bg-error);
   border-color:      var(--input-text-password-border-error);
+  box-shadow:        none;
   --_it-text:        var(--input-text-password-text-error);
   --_it-placeholder: var(--input-text-password-placeholder-error);
   --_it-icon:        var(--input-text-password-icon-error);
@@ -321,7 +336,8 @@
 
 .input-text--phone-number {
   background-color:  var(--input-text-phone-number-bg-default);
-  border-color:      var(--input-text-phone-number-border-default);
+  border-color:      transparent;
+  box-shadow:        var(--shadow-custom-input-default);
   --_it-text:        var(--input-text-phone-number-text-default);
   --_it-placeholder: var(--input-text-phone-number-placeholder-default);
   --_it-icon:        var(--input-text-phone-number-icon-default);
@@ -329,25 +345,27 @@
 
 .input-text--phone-number.input-text--filled:not(.input-text--disabled):not(.input-text--error) {
   border-color: var(--input-text-phone-number-border-filled);
+  box-shadow:   var(--shadow-custom-input-default);
 }
 
 .input-text--phone-number:hover:not(.input-text--disabled):not(.input-text--error):not(:focus-within) {
   background-color:  var(--input-text-phone-number-bg-hover);
   border-color:      var(--input-text-phone-number-border-hover);
-  box-shadow:        var(--shadow-hover-ring-primary);
+  box-shadow:        none;
   --_it-placeholder: var(--input-text-phone-number-placeholder-hover);
 }
 
 .input-text--phone-number:focus-within:not(.input-text--disabled):not(.input-text--error) {
   background-color:  var(--input-text-phone-number-bg-focus);
   border-color:      var(--input-text-phone-number-border-focus);
-  box-shadow:        var(--shadow-focus-ring-primary);
+  box-shadow:        var(--shadow-focus-ring-neutral);
   --_it-placeholder: var(--input-text-phone-number-placeholder-focus);
 }
 
 .input-text--phone-number.input-text--disabled {
   background-color:  var(--input-text-phone-number-bg-disabled);
   border-color:      var(--input-text-phone-number-border-disabled);
+  box-shadow:        none;
   --_it-text:        var(--input-text-phone-number-text-disabled);
   --_it-placeholder: var(--input-text-phone-number-placeholder-disabled);
   --_it-icon:        var(--input-text-phone-number-icon-disabled);
@@ -356,6 +374,7 @@
 .input-text--phone-number.input-text--error {
   background-color:  var(--input-text-phone-number-bg-error);
   border-color:      var(--input-text-phone-number-border-error);
+  box-shadow:        none;
   --_it-text:        var(--input-text-phone-number-text-error);
   --_it-icon:        var(--input-text-phone-number-icon-error);
 }
@@ -370,6 +389,10 @@
 
 /* ════════════════════════════════════════════════════════════════
    VARIANT — SEARCH
+   Default/Filled: effect shadow via --shadow-custom-input-default
+   Hover: border only (no ring)
+   Focus: border + neutral ring (--shadow-focus-ring-neutral)
+   Error ring: --shadow-hover-ring-error / --shadow-focus-ring-error
    ⚠️ icon uses "placeholder" (#A3A3A3) in default state.
    ⚠️ icon switches to brand (#403297) on hover/focus/filled.
    ⚠️ placeholder color uses text/neutral/subtle (#A3A3A3) not muted.
@@ -379,7 +402,8 @@
 
 .input-text--search {
   background-color:  var(--input-text-search-bg-default);
-  border-color:      var(--input-text-search-border-default);
+  border-color:      transparent;
+  box-shadow:        var(--shadow-custom-input-default);
   --_it-text:        var(--input-text-search-text-default);
   --_it-placeholder: var(--input-text-search-placeholder-default);
   --_it-icon:        var(--input-text-search-icon-placeholder);
@@ -387,13 +411,14 @@
 
 .input-text--search.input-text--filled:not(.input-text--disabled):not(.input-text--error) {
   border-color: var(--input-text-search-border-filled);
+  box-shadow:   var(--shadow-custom-input-default);
   --_it-icon:   var(--input-text-search-icon-filled);
 }
 
 .input-text--search:hover:not(.input-text--disabled):not(.input-text--error):not(:focus-within) {
   background-color:  var(--input-text-search-bg-hover);
   border-color:      var(--input-text-search-border-hover);
-  box-shadow:        var(--shadow-hover-ring-primary);
+  box-shadow:        none;
   --_it-placeholder: var(--input-text-search-placeholder-hover);
   --_it-icon:        var(--input-text-search-icon-hover);
 }
@@ -401,7 +426,7 @@
 .input-text--search:focus-within:not(.input-text--disabled):not(.input-text--error) {
   background-color:  var(--input-text-search-bg-focus);
   border-color:      var(--input-text-search-border-focus);
-  box-shadow:        var(--shadow-focus-ring-primary);
+  box-shadow:        var(--shadow-focus-ring-neutral);
   --_it-placeholder: var(--input-text-search-placeholder-focus);
   --_it-icon:        var(--input-text-search-icon-focus);
 }
@@ -409,6 +434,7 @@
 .input-text--search.input-text--disabled {
   background-color:  var(--input-text-search-bg-disabled);
   border-color:      var(--input-text-search-border-disabled);
+  box-shadow:        none;
   --_it-text:        var(--input-text-search-text-disabled);
   --_it-placeholder: var(--input-text-search-placeholder-disabled);
   --_it-icon:        var(--input-text-search-icon-disabled);
@@ -417,6 +443,7 @@
 .input-text--search.input-text--error {
   background-color:  var(--input-text-search-bg-error);
   border-color:      var(--input-text-search-border-error);
+  box-shadow:        none;
   --_it-text:        var(--input-text-search-text-error);
   --_it-icon:        var(--input-text-search-icon-error);
 }
@@ -431,12 +458,17 @@
 
 /* ════════════════════════════════════════════════════════════════
    VARIANT — LINK
+   Default/Filled: effect shadow via --shadow-custom-input-default
+   Hover: border only (no ring)
+   Focus: border + neutral ring (--shadow-focus-ring-neutral)
+   Error ring: --shadow-hover-ring-error / --shadow-focus-ring-error
    icon/disabled = #A3A3A3 (icon/soft) — same as date
    ════════════════════════════════════════════════════════════════ */
 
 .input-text--link {
   background-color:  var(--input-text-link-bg-default);
-  border-color:      var(--input-text-link-border-default);
+  border-color:      transparent;
+  box-shadow:        var(--shadow-custom-input-default);
   --_it-text:        var(--input-text-link-text-default);
   --_it-placeholder: var(--input-text-link-placeholder-default);
   --_it-icon:        var(--input-text-link-icon-default);
@@ -444,25 +476,27 @@
 
 .input-text--link.input-text--filled:not(.input-text--disabled):not(.input-text--error) {
   border-color: var(--input-text-link-border-filled);
+  box-shadow:   var(--shadow-custom-input-default);
 }
 
 .input-text--link:hover:not(.input-text--disabled):not(.input-text--error):not(:focus-within) {
   background-color:  var(--input-text-link-bg-hover);
   border-color:      var(--input-text-link-border-hover);
-  box-shadow:        var(--shadow-hover-ring-primary);
+  box-shadow:        none;
   --_it-placeholder: var(--input-text-link-placeholder-hover);
 }
 
 .input-text--link:focus-within:not(.input-text--disabled):not(.input-text--error) {
   background-color:  var(--input-text-link-bg-focus);
   border-color:      var(--input-text-link-border-focus);
-  box-shadow:        var(--shadow-focus-ring-primary);
+  box-shadow:        var(--shadow-focus-ring-neutral);
   --_it-placeholder: var(--input-text-link-placeholder-focus);
 }
 
 .input-text--link.input-text--disabled {
   background-color:  var(--input-text-link-bg-disabled);
   border-color:      var(--input-text-link-border-disabled);
+  box-shadow:        none;
   --_it-text:        var(--input-text-link-text-disabled);
   --_it-placeholder: var(--input-text-link-placeholder-disabled);
   --_it-icon:        var(--input-text-link-icon-disabled);
@@ -471,6 +505,7 @@
 .input-text--link.input-text--error {
   background-color:  var(--input-text-link-bg-error);
   border-color:      var(--input-text-link-border-error);
+  box-shadow:        none;
   --_it-text:        var(--input-text-link-text-error);
   --_it-icon:        var(--input-text-link-icon-error);
 }

@@ -20,9 +20,14 @@ export default {
           'All variants share a common CSS architecture (`InputText.css`) using scoped ' +
           '`--_it-*` custom properties per variant. Tokens are namespaced under `input-text/{variant}/*` ' +
           '(193 tokens total from collection `VariableCollectionId:1902:2617`).\n\n' +
-          '**Shadow/effect tokens** (6 ring tokens added to `:root`):\n' +
-          '`--shadow-hover-ring-{primary|neutral|error}` and ' +
-          '`--shadow-focus-ring-{primary|neutral|error}`.\n\n' +
+          '**Shadow/effect tokens** (non-digit variants):\n' +
+          '- Non-digit Default: `--shadow-custom-input-default` + transparent border\n' +
+          '- Non-digit Filled: `--shadow-custom-input-default` + visible filled border\n' +
+          '- Non-digit Hover: visible border only, no ring\n' +
+          '- Non-digit Focus: `--shadow-focus-ring-neutral`\n' +
+          '- Non-digit Error hover/focus: `--shadow-hover-ring-error` / `--shadow-focus-ring-error`\n' +
+          '- DigitInput is excluded and keeps its own primary hover/focus ring behavior pending separate audit\n' +
+          '- `--shadow-custom-input-hover` and `--shadow-custom-input-active` are emitted but not consumed by InputText\n\n' +
           '**⚠️ QA Flags:**\n' +
           '- `--input-text-search-placeholder-disabled` inferred as #A3A3A3 — verify visually.\n' +
           '- Digit Input Error state is CSS-class based — verify border/shadow against DS intent.\n' +

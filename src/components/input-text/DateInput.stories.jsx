@@ -16,7 +16,11 @@ export default {
           'Placeholder defaults to `DD/MM/YYYY`. ' +
           '⚠️ CalendarIcon is a placeholder — replace with final DS SVG path. ' +
           '⚠️ icon/disabled = #A3A3A3 (icon/soft) — differs from basic (#D1D1D1). ' +
-          'Hover/focus rings use primary (purple) shadow tokens.',
+          'Default uses `--shadow-custom-input-default` with transparent border. ' +
+          'Filled uses `--shadow-custom-input-default` + visible filled border-color. ' +
+          'Hover uses visible border only (no ring). ' +
+          'Focus uses border + `--shadow-focus-ring-neutral`. ' +
+          'Error hover/focus use error rings.',
       },
     },
   },

@@ -8,7 +8,7 @@ import LinkIcon from '../../icons/LinkIcon.jsx';
  *
  * ⚠️ LinkIcon is a placeholder — replace with final DS icon path.
  * ⚠️ icon/disabled = #A3A3A3 (icon/soft) — same as date, differs from basic.
- * ⚠️ Ring state: hover/focus use primary (purple) ring — same as basic.
+ * Default: effect shadow (`--shadow-custom-input-default`) with transparent border. Filled: same effect shadow + visible filled border. Hover: visible border only (no ring). Focus: border + `--shadow-focus-ring-neutral`.
  *
  * Sizes:  md (40px) · sm (36px) · xs (32px)
  * States: default · hover (CSS) · focus (CSS) · filled · disabled · error

@@ -14,7 +14,10 @@ export default {
           '3 sizes: md (40px) · sm (36px) · xs (32px). ' +
           '6 states: Default · Hover · Focus · Filled · Disabled · Error. ' +
           'Accepts optional `leadingIcon` and `trailingIcon` slots. ' +
-          'Hover/focus rings use `--shadow-hover-ring-primary` / `--shadow-focus-ring-primary`. ' +
+          'Default uses `--shadow-custom-input-default` with transparent border. ' +
+          'Filled uses `--shadow-custom-input-default` + visible filled border-color. ' +
+          'Hover uses visible border only (no ring). ' +
+          'Focus uses border + `--shadow-focus-ring-neutral`. ' +
           'Error rings use `--shadow-hover-ring-error` / `--shadow-focus-ring-error`.',
       },
     },
