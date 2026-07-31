@@ -1,0 +1,180 @@
+/* ============================================================
+   Checkbox — Atomic component
+   Figma: ↳checkbox ComponentSet node 2113:34056, page ❖ Checkbox.
+   Tokens: L3 vars from tokens.css only — no :root block in this file.
+   Phase 1 scope: checked / indeterminate / disabled / medium / small.
+
+   Constraint: --checkbox-border-disabled is emitted in tokens.css but NOT
+   applied here. DS Q2 — Figma variable 2609:4303 exists but is not bound to
+   any visible Disabled-state layer. Do not apply until DS confirms binding.
+   ============================================================ */
+
+/* -----------------------------------------------------------
+   .checkbox — outer container
+   Sizes the input hit area (20×20 medium / 16×16 small) and
+   provides the overflow-visible context for the focus ring to
+   bleed outside .checkbox__bg. overflow:visible is the CSS
+   default and must not be overridden anywhere in this chain.
+   ----------------------------------------------------------- */
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  /* overflow: visible — intentional. Focus ring on .checkbox__bg bleeds
+     beyond its own bounds (--shadow-focus-ring-primary is a box-shadow
+     offset of 0 0 0 4px). Do NOT set overflow:hidden here or on parents. */
+}
+
+.checkbox--medium {
+  /* Figma container: 20×20px. bg is 16×16 — 2px clearance per side for ring. */
+  width: 20px;
+  height: 20px;
+}
+
+.checkbox--small {
+  /* Figma container: 16×16px. bg is 14×14 — 1px clearance per side for ring. */
+  width: 16px;
+  height: 16px;
+}
+
+/* -----------------------------------------------------------
+   .checkbox__input — visually hidden native control
+   Covers the full .checkbox area so all pointer / keyboard events
+   are received by the browser's native checkbox. opacity:0 hides
+   the native control; the custom .checkbox__bg renders the visual.
+   ----------------------------------------------------------- */
+.checkbox__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.checkbox__input:disabled {
+  cursor: not-allowed;
+}
+
+/* -----------------------------------------------------------
+   .checkbox__bg — visual rectangle (Figma bg RECTANGLE layer)
+   Default fill = --checkbox-border-default (the border-color token).
+   The inner .checkbox__box (white) sits on top of the bg, making the
+   bg's visible edge appear as a 1.5px stroke around the box.
+
+   Figma geometry:
+     Medium: w=16 h=16, corner-radius=4 (--radius-4), inside 20×20 container
+     Small:  w=14 h=14, corner-radius=4 (--radius-4), inside 16×16 container
+   ----------------------------------------------------------- */
+.checkbox__bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: var(--radius-4);
+  background-color: var(--checkbox-border-default);
+  flex-shrink: 0;
+  /* overflow: visible — focus ring must not be clipped by this element */
+}
+
+.checkbox--medium .checkbox__bg {
+  width: 16px;
+  height: 16px;
+}
+
+.checkbox--small .checkbox__bg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Hover — applied to bg fill when checkbox is not disabled.
+   Uses sibling combinator: .checkbox__input and .checkbox__bg are siblings
+   inside .checkbox. :not(.checkbox--disabled) prevents hover on disabled. */
+.checkbox:not(.checkbox--disabled):hover .checkbox__bg {
+  background-color: var(--checkbox-bg-hover);
+}
+
+/* Checked and indeterminate override hover — active bg takes priority */
+.checkbox--checked:hover .checkbox__bg,
+.checkbox--indeterminate:hover .checkbox__bg {
+  background-color: var(--checkbox-bg-active);
+}
+
+/* Focus-visible ring — box-shadow on bg via sibling combinator (~).
+   .checkbox__input:focus-visible targets the hidden input; the ~
+   combinator reaches the adjacent .checkbox__bg sibling.
+   --shadow-focus-ring-primary: 0 0 0 2px #fff, 0 0 0 4px rgba(81,62,190,0.16). */
+.checkbox__input:focus-visible ~ .checkbox__bg {
+  box-shadow: var(--shadow-focus-ring-primary);
+  outline: none;
+}
+
+/* Checked state */
+.checkbox--checked .checkbox__bg {
+  background-color: var(--checkbox-bg-active);
+}
+
+/* Indeterminate state — same bg fill as checked (Figma: both states use
+   checkbox/bg-active / VariableID:2609:4300 on the bg RECTANGLE). */
+.checkbox--indeterminate .checkbox__bg {
+  background-color: var(--checkbox-bg-active);
+}
+
+/* Disabled state
+   Note: --checkbox-border-disabled is intentionally NOT applied here.
+   DS Q2 — Figma variable 2609:4303 exists but has no bound visible layer
+   in the Disabled variant. Apply only after DS confirms the binding. */
+.checkbox--disabled .checkbox__bg {
+  background-color: var(--checkbox-bg-disabled);
+}
+
+/* -----------------------------------------------------------
+   .checkbox__box — inner white rectangle (Figma box RECTANGLE layer)
+   Only rendered by JSX when checked=false, indeterminate=false,
+   disabled=false. This means box-shadow is automatically absent in
+   Checked, Indeterminate, and Disabled states — matching Figma
+   (effectStyleId is absent on Active/Disabled variant layers).
+
+   bg centers the box via flexbox (align-items + justify-content center).
+
+   Figma geometry:
+     Medium: w=13 h=13, x=3.5 y=3.5 within bg (1.5px inset each side)
+     Small:  w=11 h=11, x=2.5 y=2.5 within bg (1.5px inset each side)
+   ----------------------------------------------------------- */
+.checkbox__box {
+  display: block;
+  border-radius: var(--radius-2);
+  background-color: var(--checkbox-bg);
+  box-shadow: var(--shadow-below-xs);
+  flex-shrink: 0;
+}
+
+.checkbox--medium .checkbox__box {
+  width: 13px;
+  height: 13px;
+}
+
+.checkbox--small .checkbox__box {
+  width: 11px;
+  height: 11px;
+}
+
+/* -----------------------------------------------------------
+   .checkbox__icon — Check and Subtract SVG glyphs
+   color: var(--checkbox-icon-check) drives fill via currentColor
+   on the SVG <path fill="currentColor">. Only one icon renders at
+   a time (JSX conditional: isChecked || isIndeterminate).
+
+   SVG width/height are set as attributes on the element (extracted
+   from Figma VECTOR bounds). No explicit width/height here.
+   bg centers icons via flexbox.
+   ----------------------------------------------------------- */
+.checkbox__icon {
+  display: block;
+  color: var(--checkbox-icon-check);
+  flex-shrink: 0;
+}

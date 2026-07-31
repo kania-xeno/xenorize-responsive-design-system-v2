@@ -1,0 +1,216 @@
+/* ============================================================
+   CheckboxCard — selectable card component
+   Figma: ↳checkbox-card ComponentSet node 2166:660, page ❖ Checkbox.
+   Tokens: L3 vars from tokens.css only — no :root block in this file.
+
+   MUST NOT use radio-card/* tokens — those belong to ↳radio-card only.
+   Use checkbox-card/* exclusively.
+
+   Token ownership:
+     --checkbox-card-* vars → owned by THIS file
+     --checkbox-*           → owned by Checkbox.css (trailing instance, do NOT override)
+
+   Shadow: Default state uses 'regular-shadow/x-small' → --shadow-regular-xsmall.
+     DS owner confirmed 2026-07-31. Disabled state: box-shadow: none (Effect Style
+     absent from Disabled variants in Figma by design).
+
+   Hover: Background-only per Figma (Hover card frames have no stroke). --checkbox-card-border-hover
+     exists in tokens.css but is not applied — this is intentional per DS decision.
+
+   Focused: ↳checkbox-card has no Focused wrapper variant in Figma. Browser default
+     outline preserved. The nested Checkbox shows its own focus ring independently.
+
+   Asset slots (card-provider, brand, company): Asset colors and shapes are
+     asset-owned. No DS tokens for those fill values. bg #252525 on card-provider
+     is asset-owned by design.
+
+   ⚠ SPACING VALUES (padding, gap) follow DS conventions but are not yet verified
+     against Figma pixel measurements. Confirm during QA.
+   ============================================================ */
+
+/* -----------------------------------------------------------
+   .checkbox-card — card root element
+   Role: role="checkbox" in JSX. Receives keyboard and pointer events.
+   width: 100% — Figma canvas 360px is a layout placeholder only.
+   box-sizing: border-box ensures padding does not increase total width.
+   cursor: pointer signals interactivity.
+   user-select: none prevents text selection on click/drag.
+
+   Shadow: --shadow-regular-xsmall confirmed by DS owner 2026-07-31.
+   Effect Style 'regular-shadow/x-small' bound to color/alpha/black/4
+   (rgba(23,23,23,0.04)), offset (0,1), radius 2, spread 0.
+   ----------------------------------------------------------- */
+.checkbox-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  padding: var(--spacing-16);
+  gap: var(--spacing-16);
+  background-color: var(--checkbox-card-bg-default);
+  border: 1px solid var(--checkbox-card-border-default);
+  border-radius: var(--radius-12);
+  box-shadow: var(--shadow-regular-xsmall);
+  cursor: pointer;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+/* -----------------------------------------------------------
+   Hover state
+   bg changes to --checkbox-card-bg-hover.
+   No border change — Hover card in Figma is background-only (no stroke).
+   --checkbox-card-border-hover exists in tokens.css but is intentionally not applied.
+   ----------------------------------------------------------- */
+.checkbox-card:not(.checkbox-card--disabled):hover {
+  background-color: var(--checkbox-card-bg-hover);
+}
+
+/* -----------------------------------------------------------
+   Checked / Active state
+   Active = card is selected (checked=true).
+   bg → --checkbox-card-bg-active
+   border → --checkbox-card-border-active (purple — #513ebe)
+   ----------------------------------------------------------- */
+.checkbox-card--checked:not(.checkbox-card--disabled) {
+  background-color: var(--checkbox-card-bg-active);
+  border-color: var(--checkbox-card-border-active);
+}
+
+/* Checked + hover — keep active bg and border; no hover override */
+.checkbox-card--checked:not(.checkbox-card--disabled):hover {
+  background-color: var(--checkbox-card-bg-active);
+  border-color: var(--checkbox-card-border-active);
+}
+
+/* -----------------------------------------------------------
+   Disabled state
+   Figma: effect style is ABSENT (not just a different color — the
+   entire shadow Effect Style is removed from Disabled card variants).
+   box-shadow: none — Effect Style is absent from Disabled variants in Figma.
+   pointer-events: none prevents any mouse interaction.
+   cursor: not-allowed provides visual feedback (via pointer-events: none,
+   the parent would receive cursor — set cursor on both for safety).
+   ----------------------------------------------------------- */
+.checkbox-card--disabled {
+  background-color: var(--checkbox-card-bg-disabled);
+  border-color: var(--checkbox-card-border-disabled);
+  box-shadow: none; /* Effect style ABSENT in Figma Disabled state — not a token change */
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Focused: no wrapper focus variant in Figma. Browser default outline preserved. */
+
+/* -----------------------------------------------------------
+   .checkbox-card__left — left slot container
+   flex-shrink: 0 prevents compression.
+   Specific dimensions are set per type modifier below.
+   ----------------------------------------------------------- */
+.checkbox-card__left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Left Icon: KeyIcon size="m" = 40×40px. KeyIcon owns its own tokens. */
+.checkbox-card__left--icon {
+  width: 40px;
+  height: 40px;
+}
+
+/* Avatar: 40×40px container. Avatar component owns its own shape/tokens. */
+.checkbox-card__left--avatar {
+  width: 40px;
+  height: 40px;
+}
+
+/* Card Provider: 32×24px (landscape), radius/4 container.
+   Figma: Mastercard instance 32px wide × 24px tall — landscape orientation.
+   bg: #252525 — asset-owned by DS design decision. No DS token for this value. */
+.checkbox-card__left--provider {
+  width: 32px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: var(--radius-4);
+  background-color: #252525; /* asset-owned — DS confirmed */
+  overflow: hidden;
+}
+
+/* Brand: 40×40px, no containing frame or bg (raw SVG, asset colors preserved). */
+.checkbox-card__left--brand {
+  width: 40px;
+  height: 40px;
+}
+
+/* Company: 40×40px circular container.
+   bg is brand-specific primitive (red/500 or similar) — asset-owned.
+   Do NOT override background color or apply DS tokens here. */
+.checkbox-card__left--company {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full); /* pill / circular clip */
+  overflow: hidden;
+}
+
+/* -----------------------------------------------------------
+   .checkbox-card__content — text column (flex: 1)
+   min-width: 0 enables text overflow/truncation when needed.
+   ----------------------------------------------------------- */
+.checkbox-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  flex: 1;
+  min-width: 0;
+}
+
+/* Title row — label + optional sublabel inline */
+.checkbox-card__title-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+}
+
+/* Primary label — body/regular/md */
+.checkbox-card__label {
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;       /* body-md */
+  font-weight: 400;
+  line-height: 1.43;
+  color: var(--checkbox-card-text-label);
+}
+
+/* Sublabel — caption/regular */
+.checkbox-card__sublabel {
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px;       /* caption */
+  font-weight: 400;
+  line-height: 1.33;
+  color: var(--checkbox-card-text-sublabel);
+}
+
+/* Description — caption/regular */
+.checkbox-card__description {
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px;       /* caption */
+  font-weight: 400;
+  line-height: 1.33;
+  color: var(--checkbox-card-text-description);
+}
+
+/* -----------------------------------------------------------
+   .checkbox-card__trailing — wraps the decorative ↳checkbox instance
+   aria-hidden="true" is set in JSX — this span is invisible to AT.
+   pointer-events: none prevents the trailing checkbox from receiving
+   independent mouse events (card root handles all interaction).
+   flex-shrink: 0 keeps the checkbox from compressing.
+   ----------------------------------------------------------- */
+.checkbox-card__trailing {
+  display: flex;
+  flex-shrink: 0;
+  pointer-events: none;
+}

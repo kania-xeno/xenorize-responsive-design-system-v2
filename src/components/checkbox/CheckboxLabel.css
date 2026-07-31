@@ -1,0 +1,166 @@
+/* ============================================================
+   CheckboxLabel — wrapper component
+   Figma: ↳checkbox-label ComponentSet node 2164:10056, page ❖ Checkbox.
+   Tokens: L3 vars from tokens.css only — no :root block in this file.
+
+   Token ownership rules:
+     --checkbox-label-* vars  → owned by THIS file
+     --checkbox-*             → owned by Checkbox.css (do NOT override here)
+
+   Focused: ↳checkbox-label has no Focused wrapper variant in Figma. The nested
+     Checkbox shows its own focus ring independently. No wrapper focus ring applied.
+
+   Background: CheckboxLabel root stays transparent by DS decision. --checkbox-label-bg
+     is emitted in tokens.css but not applied here.
+
+   Link button: ↳buttons-link not yet implemented. Placeholder <button> uses
+     --link-button-primary-* L3 tokens. Disabled uses --link-button-neutral-disabled
+     (--link-button-primary-disabled does not exist in tokens.css).
+
+   ⚠ Spacing values (gap, padding-top) are derived from DS conventions —
+     not yet verified against Figma pixel measurements. Confirm during QA.
+   ============================================================ */
+
+/* -----------------------------------------------------------
+   .checkbox-label — root <label> element
+   width: 100% — Figma canvas 300px is a layout placeholder only.
+   No background-color — CheckboxLabel root stays transparent by DS decision.
+   cursor: pointer flows through to the full label row.
+   ----------------------------------------------------------- */
+.checkbox-label {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--spacing-8);
+  width: 100%;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+/* Disabled — change cursor; pass-through to nested Checkbox handles visual state */
+.checkbox-label--disabled {
+  cursor: not-allowed;
+}
+
+/* Flip — checkbox moves to right side (flex-direction: row-reverse) */
+.checkbox-label--flip {
+  flex-direction: row-reverse;
+}
+
+/* -----------------------------------------------------------
+   .checkbox-label__control — wraps the ↳checkbox instance
+   flex-shrink: 0 prevents the checkbox from compressing.
+   padding-top: 2px provides optical alignment of the checkbox
+   center with the cap-height of the 14px label text.
+   ⚠ Verify this offset during Figma QA.
+   ----------------------------------------------------------- */
+.checkbox-label__control {
+  display: flex;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+/* -----------------------------------------------------------
+   .checkbox-label__text — column containing label row + description
+   flex: 1 lets it fill remaining row space.
+   min-width: 0 enables text truncation if needed.
+   ----------------------------------------------------------- */
+.checkbox-label__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  flex: 1;
+  min-width: 0;
+}
+
+/* -----------------------------------------------------------
+   .checkbox-label__label-row — label + sublabel on same line
+   ----------------------------------------------------------- */
+.checkbox-label__label-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+}
+
+/* Primary label — body/regular/md */
+.checkbox-label__label {
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;        /* body-md */
+  font-weight: 400;
+  line-height: 1.43;
+  color: var(--checkbox-label-text-label);
+}
+
+/* Sublabel — caption/regular */
+.checkbox-label__sublabel {
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px;        /* caption */
+  font-weight: 400;
+  line-height: 1.33;
+  color: var(--checkbox-label-text-sublabel);
+}
+
+/* -----------------------------------------------------------
+   .checkbox-label__description-area
+   Column containing description text and/or link button.
+   Shown when description or linkLabel prop is provided.
+   ----------------------------------------------------------- */
+.checkbox-label__description-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+/* Description text — caption/regular */
+.checkbox-label__description {
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px;        /* caption */
+  font-weight: 400;
+  line-height: 1.33;
+  color: var(--checkbox-label-text-description);
+}
+
+/* -----------------------------------------------------------
+   .checkbox-label__link — ↳buttons-link placeholder
+   ↳buttons-link is not yet implemented in the codebase.
+   This is a <button type="button"> styled as an inline text link.
+
+   Uses link-button/primary L3 tokens from tokens.css.
+   Disabled: --link-button-primary-disabled does not exist in tokens.css;
+   using --link-button-neutral-disabled (color-text-muted, #7b7b7b) as closest match.
+   Update to --link-button-primary-disabled when emitted.
+
+   e.stopPropagation() in onClick prevents the wrapping <label> from
+   also triggering the checkbox input — handled in JSX, not CSS.
+   ----------------------------------------------------------- */
+.checkbox-label__link {
+  display: inline;
+  align-self: flex-start;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  color: var(--link-button-primary-default);
+  text-decoration: underline;
+  text-decoration-color: var(--link-button-primary-underline);
+  cursor: pointer;
+  text-align: left;
+}
+
+.checkbox-label__link:hover {
+  color: var(--link-button-primary-hover);
+}
+
+.checkbox-label__link:disabled {
+  /* --link-button-primary-disabled not yet emitted — using neutral-disabled */
+  color: var(--link-button-neutral-disabled);
+  cursor: not-allowed;
+  text-decoration: none;
+  pointer-events: none;
+}

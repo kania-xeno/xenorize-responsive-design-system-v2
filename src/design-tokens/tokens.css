@@ -937,9 +937,42 @@
   --drawer-surface-bg:       var(--color-surface-white);    /* #ffffff */
   --drawer-footer-border:    var(--color-border-subtle);    /* #eaeaea */
 
-  --checkbox-border:      var(--color-border-subtle);       /* #eaeaea */
-  --checkbox-bg:          var(--color-surface-white);       /* #ffffff */
-  --checkbox-label-text:  var(--color-text-strong);         /* #1c1c1c */
+  /* ↳checkbox — L3 tokens (7 vars).
+     Figma: ComponentSet node 2113:34056, page ❖ Checkbox. Variable IDs 2609:4299–2609:4304, 3166:188.
+     bg-hover aliases text/neutral/disabled — text token reused for bg fill; DS design choice.
+     border-disabled: emitted as reserved token (DS variable 2609:4303 exists) but NOT applied
+     in component CSS until DS confirms binding to a visible Disabled-state layer. */
+  --checkbox-bg:              var(--color-surface-white);          /* surface/neutral/white */
+  --checkbox-bg-hover:        var(--color-text-disabled);          /* text/neutral/disabled */
+  --checkbox-bg-active:       var(--color-brand-primary);          /* brand/primary/base */
+  --checkbox-bg-disabled:     var(--color-border-subtle);          /* border/neutral/subtle */
+  --checkbox-border-default:  var(--color-border-subtle);          /* border/neutral/subtle */
+  --checkbox-border-disabled: var(--color-state-disabled-border);  /* state/disabled-border */
+  --checkbox-icon-check:      var(--color-text-white);             /* text/neutral/white — foreground icon on active bg; stays #fff in both modes */
+
+  /* ↳checkbox-label — L3 tokens (4 vars).
+     Figma: ComponentSet node 2164:10056. Variable IDs 2609:4295–2609:4298.
+     --checkbox-label-bg: emitted; apply only if root frame carries a visible fill (DS Q4 pending). */
+  --checkbox-label-bg:               var(--color-surface-white);   /* surface/neutral/white */
+  --checkbox-label-text-label:       var(--color-text-strong);     /* text/neutral/strong */
+  --checkbox-label-text-sublabel:    var(--color-text-muted);      /* text/neutral/muted */
+  --checkbox-label-text-description: var(--color-text-muted);      /* text/neutral/muted */
+
+  /* ↳checkbox-card — L3 tokens (11 vars).
+     Figma: ComponentSet node 2166:660. Variable IDs 3166:189–3166:199. Namespace rebound from radio-card/* on 2026-07-30.
+     border-hover: emitted; DS gap — Hover frame has no stroke in Figma. Do NOT apply without DS confirmation.
+     Shadow (Default state): unresolved — external library Effect Style, no confirmed CSS var in tokens.css. */
+  --checkbox-card-bg-default:        var(--color-surface-white);      /* surface/neutral/white */
+  --checkbox-card-bg-hover:          var(--color-surface-weak);       /* surface/neutral/weak */
+  --checkbox-card-bg-active:         var(--color-surface-white);      /* surface/neutral/white */
+  --checkbox-card-bg-disabled:       var(--color-surface-white);      /* surface/neutral/white */
+  --checkbox-card-border-default:    var(--color-border-subtle);      /* border/neutral/subtle */
+  --checkbox-card-border-hover:      var(--color-border-subtle);      /* border/neutral/subtle */
+  --checkbox-card-border-active:     var(--color-brand-primary-light);/* brand/primary/light */
+  --checkbox-card-border-disabled:   var(--color-border-subtle);      /* border/neutral/subtle */
+  --checkbox-card-text-label:        var(--color-text-strong);        /* text/neutral/strong */
+  --checkbox-card-text-sublabel:     var(--color-text-muted);         /* text/neutral/muted */
+  --checkbox-card-text-description:  var(--color-text-muted);         /* text/neutral/muted */
 
   --switch-card-toggle-bg:   var(--color-surface-soft);     /* #f4f4f6 */
   --switch-card-toggle-ball: var(--color-surface-white);    /* #ffffff */
@@ -1495,6 +1528,54 @@
   --input-text-digit-input-field-text-filled:     var(--color-text-strong);
   --input-text-digit-input-field-text-disabled:   var(--color-text-disabled);       /* ⚠️ unique */
   --input-text-digit-input-field-text-error:      var(--color-status-danger);
+
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     LAYER 3 — COMPONENT: DROPDOWN (light mode)
+     ↳dropdown-items:  18 tokens (Figma L3 IDs 3149:896–3149:913)
+     dropdown-list:     3 tokens (Figma L3 IDs 3149:914–3149:915 + shadow)
+     Figma source: ❖ Dropdown page — Design System Scalable V.2.1.0
+     Dark mode: auto-flips via semantic cascade — no [data-theme="dark"] overrides needed.
+     DS gap G4: descriptions-default aliases icon/sub (icon token, not text token).
+     DS gap: border/neutral/soft has no dedicated alias; border-neutral-default used.
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  /* — dropdown-items: background fills per state — */
+  --dropdown-items-bg-default:              var(--color-surface-neutral-white);    /* surface/neutral/white   → 3149:896 */
+  --dropdown-items-bg-hover:               var(--color-surface-neutral-soft);     /* surface/neutral/soft    → 3149:897 */
+  --dropdown-items-bg-selected:            var(--color-surface-neutral-soft);     /* surface/neutral/soft    → 3149:898 */
+  --dropdown-items-bg-selected-hover:      var(--color-surface-neutral-soft-alt); /* surface/neutral/soft-alt → 3149:899 */
+  --dropdown-items-bg-disabled:            var(--color-surface-neutral-white);    /* surface/neutral/white   → 3149:900 */
+
+  /* — dropdown-items: label text fills per state — */
+  --dropdown-items-text-default:           var(--color-text-neutral-strong);      /* text/neutral/strong     → 3149:901 */
+  --dropdown-items-text-hover:             var(--color-text-neutral-strong);      /* text/neutral/strong     → 3149:902 */
+  --dropdown-items-text-selected:          var(--color-text-neutral-strong);      /* text/neutral/strong     → 3149:903 */
+  --dropdown-items-text-selected-hover:    var(--color-text-neutral-strong);      /* text/neutral/strong     → 3149:904 */
+  --dropdown-items-text-disabled:          var(--color-text-neutral-disabled);    /* text/neutral/disabled   → 3149:905 */
+
+  /* — dropdown-items: sublabel text fills per state — */
+  /* text/neutral/subtle → semantic.color.text.subtle → --color-text-subtle (no --color-text-neutral-subtle alias) */
+  --dropdown-items-subtext-default:        var(--color-text-subtle);              /* text/neutral/subtle → 3149:906 */
+  --dropdown-items-subtext-hover:          var(--color-text-subtle);              /* text/neutral/subtle → 3149:907 */
+  --dropdown-items-subtext-selected:       var(--color-text-subtle);              /* text/neutral/subtle → 3149:908 */
+  --dropdown-items-subtext-selected-hover: var(--color-text-subtle);              /* text/neutral/subtle → 3149:909 */
+  --dropdown-items-subtext-disabled:       var(--color-text-neutral-disabled);    /* text/neutral/disabled → 3149:910 */
+
+  /* — dropdown-items: descriptions text (Large only) — */
+  /* DS gap G4: descriptions/default → icon/sub (icon token, not a text token) */
+  --dropdown-items-descriptions-default:   var(--color-icon-sub);                 /* icon/sub              → 3149:911 */
+  --dropdown-items-descriptions-disabled:  var(--color-text-neutral-disabled);    /* text/neutral/disabled → 3149:912 */
+
+  /* — dropdown-items: icon frame border (Large non-Basic, all states) — */
+  --dropdown-items-icon-border-default:    var(--color-border-neutral-subtle);    /* border/neutral/subtle → 3149:913 */
+
+  /* — dropdown-list: panel — */
+  /* background/base → semantic.color.bg.base → --color-bg-base (slate-0 in both modes) */
+  /* border/neutral/soft: no dedicated alias; --color-border-neutral-default is closest emitted equivalent */
+  --dropdown-list-bg-default:              var(--color-bg-base);                  /* background/base       → 3149:914 */
+  --dropdown-list-border-default:          var(--color-border-neutral-default);   /* border/neutral/soft   → 3149:915 */
+  --dropdown-list-shadow-default:          var(--shadow-regular-medium);          /* regular-shadow/medium (Figma Effect Style) */
 
 } /* end :root */
 
