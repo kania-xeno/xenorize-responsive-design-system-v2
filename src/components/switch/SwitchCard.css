@@ -1,0 +1,233 @@
+/* ============================================================
+   SwitchCard — ↳switch-card
+   Figma: node 2278:136 · page ❖ Switch. DS v2.1.0.
+   Tokens: L3 --switch-card-* from tokens.css only. No :root block.
+
+   6 types: basic · left-icon · avatar · card-provider · brand · company
+   4 states: Default · Hover · Active (checked) · Disabled
+
+   Shadow (Default only):
+     --shadow-below-sm = 0 1px 2px 0 rgba(23,23,23,0.04)
+     Confirmed exact match to Figma Default effect (color/alpha/black/4,
+     offset (0,1), radius 2, spread 0). Verified via get_design_context.
+     Hover, Active, and Disabled have NO shadow.
+
+   Switch override strategy:
+     CSS custom properties --switch-track-off and --switch-knob-bg are
+     redefined at .switch-card scope. Switch.css reads these vars for
+     track and thumb fill colors, so the card context colors apply
+     automatically without modifying the atomic Switch component.
+     See Switch.jsx override note. No cardMode prop was added.
+
+   Disabled switch track:
+     Switch.css Disabled applies ring via box-shadow using --switch-track-off.
+     With our redefinition, that would resolve to --switch-card-toggle-bg
+     (#f4f4f6). Figma Disabled shows the switch ring at --switch-card-border
+     (#f5f5f5). Precision override is added below to match exactly.
+
+   Nested component boundary (NO re-tokenization):
+     Badge · KeyIcon · Avatar keep their own token namespaces.
+     No --switch-card-badge-* or --switch-card-icon tokens are emitted here.
+   ============================================================ */
+
+/* -----------------------------------------------------------
+   .switch-card — root container
+   Figma layout: flex row · gap --spacing-14 · padding --spacing-16 ·
+   align-items flex-start (top-aligned) · border-radius --radius-12
+   overflow hidden · width 360px canvas (100% in code).
+
+   Default state tokens:
+     bg      → --switch-card-bg        (L3 → --color-surface-white)
+     border  → --switch-card-border    (L3 → --color-border-stroke-soft)
+     shadow  → --shadow-below-sm       (confirmed Figma exact match)
+
+   CSS variable redefinition for nested Switch:
+     --switch-track-off → --switch-card-toggle-bg   (L3 → --color-surface-soft)
+     --switch-knob-bg   → --switch-card-toggle-ball (L3 → --color-surface-white)
+     Hover, On, Disabled track states use global --switch-track-hover /
+     --switch-track-on tokens unchanged.
+   ----------------------------------------------------------- */
+.switch-card {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--spacing-14);
+  padding: var(--spacing-16);
+  border-radius: var(--radius-12);
+  border: 1px solid var(--switch-card-border);
+  background-color: var(--switch-card-bg);
+  box-shadow: var(--shadow-below-sm);
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  /* Redefine Switch internal tokens to card-context values.
+     Scoped here so only .switch elements inside .switch-card are affected.
+     Switch.css track rule: background-color: var(--switch-track-off)
+     Switch.css thumb rule: background-color: var(--switch-knob-bg)          */
+  --switch-track-off: var(--switch-card-toggle-bg);
+  --switch-knob-bg:   var(--switch-card-toggle-ball);
+}
+
+/* -----------------------------------------------------------
+   STATE: Hover (switch Off / unchecked)
+   Figma: --bg/weak-50 background only. No border. No shadow.
+   Selector guards against Disabled via :not([data-disabled]).
+   ----------------------------------------------------------- */
+.switch-card:hover:not([data-disabled]) {
+  background-color: var(--switch-card-bg-hover);
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* Propagate hover track color to the nested Switch track.
+   Applies when card is hovered AND switch is Off (unchecked).
+   :not([data-checked]) prevents overriding the On/checked track color.
+   Hover/On case: Switch.css .switch--checked:not(.switch--disabled):hover
+   rule (background-color: var(--switch-track-on)) remains authoritative. */
+.switch-card:hover:not([data-disabled]):not([data-checked]) .switch__track {
+  background-color: var(--switch-track-hover);
+}
+
+.switch-card:hover:not([data-disabled]):not([data-checked]) .switch__dot {
+  background-color: var(--switch-track-hover);
+}
+
+/* -----------------------------------------------------------
+   STATE: Active (switch is On / checked)
+   Figma: --switch-card-bg bg · 1px --switch-card-border-active · no shadow.
+   data-checked is set by SwitchCard when isChecked is true.
+   ----------------------------------------------------------- */
+.switch-card[data-checked]:not([data-disabled]) {
+  background-color: var(--switch-card-bg);
+  border-color: var(--switch-card-border-active);
+  box-shadow: none;
+}
+
+/* Active + Hover: hover background with active border retained */
+.switch-card[data-checked]:not([data-disabled]):hover {
+  background-color: var(--switch-card-bg-hover);
+  border-color: var(--switch-card-border-active);
+  box-shadow: none;
+}
+
+/* -----------------------------------------------------------
+   STATE: Disabled
+   Figma: --switch-card-bg bg · 1px --switch-card-border · no shadow.
+   data-disabled is set by SwitchCard when disabled=true.
+   cursor: not-allowed mirrors the Switch input cursor.
+   ----------------------------------------------------------- */
+.switch-card[data-disabled] {
+  background-color: var(--switch-card-bg);
+  border-color: var(--switch-card-border);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* Disabled switch track precision override.
+   Switch.css Disabled: track bg = --switch-knob-bg (= --switch-card-toggle-ball
+   = white ✓), ring = 0 0 0 1px --switch-track-off (= --switch-card-toggle-bg
+   = #f4f4f6). Figma Disabled shows ring at --switch-card-border (#f5f5f5).
+   Override the ring color to match exactly.                                    */
+.switch-card[data-disabled] .switch--disabled .switch__track {
+  background-color: var(--switch-card-bg);
+  box-shadow: 0 0 0 1px var(--switch-card-border);
+}
+
+/* -----------------------------------------------------------
+   .switch-card__left-slot — left asset container
+   Holds: KeyIcon (40×40 at size=m), Avatar (40×40), Mastercard (32×24),
+   TripAdvisor (32×32 → scaled to 40×40 via .switch-card--brand rule),
+   Catalyst (40×40 natural).
+   flex-shrink: 0 prevents compression at narrow widths.
+   align-items: flex-start keeps asset top-aligned with card items-start.
+   ----------------------------------------------------------- */
+.switch-card__left-slot {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Brand type: TripAdvisor natural size is 32×32 (viewBox="0 0 32 32").
+   Figma brand slot renders at 40×40. Scale via CSS — viewBox preserves ratio.
+   Selector is type-specific to avoid affecting other SVG-based left slots.   */
+.switch-card--brand .switch-card__left-slot svg {
+  width: 40px;
+  height: 40px;
+}
+
+/* -----------------------------------------------------------
+   .switch-card__content — text content area
+   Flex-1 grows to fill horizontal space between left slot and switch.
+   min-width: 0 prevents text overflow with long label/description strings.
+   Vertical stack. itemSpacing = 0 per Figma (line heights provide separation).
+   ----------------------------------------------------------- */
+.switch-card__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* -----------------------------------------------------------
+   .switch-card__title-row — label + sublabel + badge
+   Figma: flex row · items-center · gap 4px · flex-wrap for overflow safety.
+   ----------------------------------------------------------- */
+.switch-card__title-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+}
+
+/* -----------------------------------------------------------
+   .switch-card__label — primary label
+   Figma: body/medium/md → Open Sans SemiBold 600 · 14px · line-height 1.43
+   Token: --switch-card-text-label (L3 → --color-text-strong → #1c1c1c)
+   Disabled: Figma uses description token for muted label text.
+             → --switch-card-text-description (L3 → --color-text-subtle → #a3a3a3)
+   ----------------------------------------------------------- */
+.switch-card__label {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.43;
+  color: var(--switch-card-text-label);
+}
+
+.switch-card[data-disabled] .switch-card__label {
+  color: var(--switch-card-text-description);
+}
+
+/* -----------------------------------------------------------
+   .switch-card__sublabel — secondary inline text in title row
+   Figma: caption/regular → Open Sans Regular 400 · 12px · lh 1.33 · ls 0.024px
+   Token: --switch-card-text-description (subtle)
+   ----------------------------------------------------------- */
+.switch-card__sublabel {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.33;
+  letter-spacing: 0.024px;
+  color: var(--switch-card-text-description);
+}
+
+/* -----------------------------------------------------------
+   .switch-card__description — body text below title row
+   Figma: caption/regular — same type spec as sublabel.
+   Token: --switch-card-text-description (subtle)
+   ----------------------------------------------------------- */
+.switch-card__description {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.33;
+  letter-spacing: 0.024px;
+  color: var(--switch-card-text-description);
+}

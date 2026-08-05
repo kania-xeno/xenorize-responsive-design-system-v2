@@ -1,0 +1,178 @@
+/* ============================================================
+   SwitchLabel — switch + label row wrapper
+   Figma: ↳switch-label ComponentSet node 2278:71, page ❖ Switch. DS v2.1.0.
+   Tokens: L3 vars from tokens.css only — no :root block in this file.
+
+   Layer geometry (Figma):
+     Root wrapper  HORIZONTAL Auto Layout, gap: 8px, counterAxisAlignItems: CENTER
+     Control slot  32×20px (↳switch, flex-shrink: 0)
+     Content FRAME VERTICAL, gap: 10px (label row + description)
+     Text FRAME    HORIZONTAL, gap: 4px, CENTER (label + sublabel + badge inline)
+     Canvas        300×20px (Description=Off) · 300×66px (Description=On)
+                   Implement as width: 100%.
+
+   Variant axes:
+     🟢 Active      → checked prop (Switch handles visual)
+     📝 Description → description prop (Off=absent, On=span rendered)
+     🔄 Switch      → flip prop (Off=switch left, On=switch right / row-reverse)
+     — No Disabled axis in Figma. Disabled cursor on root only; Switch handles visual.
+
+   Typography (Figma confirmed, DS v2.1.0):
+     Label     Open Sans Regular 14px, line-height 143% (hardcoded — DS gap G-13)
+     Sublabel  Open Sans Regular 12px, line-height 133% (hardcoded — DS gap G-13)
+     Desc      Open Sans Regular 12px, line-height 133% (hardcoded — DS gap G-13)
+
+   Token ownership:
+     --switch-card-text-label        → label text color  (Figma: switch-card/text/label)
+     --switch-card-text-description  → description color (Figma: switch-card/text/description)
+     --switch-*                      → owned by Switch.css — do NOT override here
+   ⚠ switch-card/text/* tokens are shared between ↳switch-label and ↳switch-card in Figma.
+     No switch-label/* namespace exists (DS design decision). Do not create one without
+     DS owner approval.
+
+   Sublabel, badge, linkButton: not in Figma ↳switch-label component set.
+     Forward-compat slots implemented without dedicated tokens.
+     Sublabel color follows description token (closest semantic match).
+   ============================================================ */
+
+/* -----------------------------------------------------------
+   .switch-label — root <label> element
+   HORIZONTAL Auto Layout from Figma → flex-direction: row.
+   counterAxisAlignItems: CENTER → align-items: center.
+   gap: 8px between control and text column.
+   width: 100% — canvas 300px is a layout placeholder.
+   cursor: pointer flows to the full label row (native label behavior).
+   ----------------------------------------------------------- */
+.switch-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;   /* counterAxisAlignItems: CENTER in Figma */
+  gap: var(--spacing-8); /* 8px — Figma root Auto Layout gap */
+  width: 100%;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+/* Flip — 🔄 Switch=On: switch moves to the right side.
+   flex-direction: row-reverse reverses the visual order of control + text column
+   without changing DOM order (assistive technology reads left-to-right). */
+.switch-label--flip {
+  flex-direction: row-reverse;
+}
+
+/* Disabled — cursor only. Switch handles its own Disabled visual. */
+.switch-label--disabled {
+  cursor: not-allowed;
+}
+
+/* -----------------------------------------------------------
+   .switch-label__control — wraps the ↳switch instance
+   flex-shrink: 0 prevents the 32×20 switch from compressing.
+   No padding-top — align-items: center on root provides correct
+   optical alignment between the 20px switch and label text.
+   ----------------------------------------------------------- */
+.switch-label__control {
+  flex-shrink: 0;
+  display: flex;
+}
+
+/* -----------------------------------------------------------
+   .switch-label__text — Content FRAME (VERTICAL, gap: 10px)
+   Stacks the label row and description text.
+   flex: 1 fills remaining row space.
+   min-width: 0 enables text ellipsis/wrap if container is narrow.
+   gap: 10px — Figma Content FRAME gap between label row and description.
+   ----------------------------------------------------------- */
+.switch-label__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-10); /* 10px — Figma Content FRAME gap (label row → description) */
+  flex: 1;
+  min-width: 0;
+}
+
+/* -----------------------------------------------------------
+   .switch-label__label-row — Text FRAME (HORIZONTAL, gap: 4px, CENTER)
+   Contains label + optional sublabel + optional badge inline.
+   flex-wrap: wrap allows sublabel/badge to wrap on narrow widths.
+   ----------------------------------------------------------- */
+.switch-label__label-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-4); /* 4px — Figma Text FRAME gap */
+  flex-wrap: wrap;
+}
+
+/* -----------------------------------------------------------
+   .switch-label__label — primary label text
+   Figma: Open Sans Regular 14px, line-height 143%, fill: switch-card/text/label.
+   ⚠ font-weight: 400 (Regular) — differs from SwitchCard label (600 SemiBold).
+   ⚠ line-height: 1.43 is hardcoded (143%) — DS gap G-13; not tokenized.
+   ⚠ Uses --switch-card-text-label because Figma binds ↳switch-label label text
+     to the switch-card/text/label L3 variable. No switch-label/* text token exists.
+   ----------------------------------------------------------- */
+.switch-label__label {
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 400;   /* Regular — Figma: VariableID:1784:6548 fontStyle regular */
+  line-height: 1.43;  /* 143% — Figma hardcoded; see G-13 */
+  letter-spacing: 0;  /* 0% — Figma hardcoded; see G-13 */
+  color: var(--switch-card-text-label); /* switch-card/text/label → text/neutral/strong */
+}
+
+/* -----------------------------------------------------------
+   .switch-label__sublabel — inline secondary text (not in Figma ↳switch-label)
+   Not present in the Figma ↳switch-label component set (no variant axis, no anatomy layer).
+   Implemented as a forward-compat slot. Styled as caption/regular to match DS description text.
+   Color follows --switch-card-text-description (closest semantic match for secondary text).
+   ⚠ Not in DS — do not apply until DS owner confirms or adds a sublabel layer.
+   ----------------------------------------------------------- */
+.switch-label__sublabel {
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;  /* 133% — matches description line-height; hardcoded per G-13 */
+  color: var(--switch-card-text-description); /* ~#a3a3a3 — closest available token */
+}
+
+/* -----------------------------------------------------------
+   .switch-label__badge — badge slot in label row (not in Figma ↳switch-label)
+   Badge owns its own tokens — SwitchLabel does NOT configure badge fill/text.
+   inline-flex aligns the badge center with the label cap-height.
+   ⚠ Not in DS ↳switch-label — forward-compat slot only.
+   ----------------------------------------------------------- */
+.switch-label__badge {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* -----------------------------------------------------------
+   .switch-label__description — description text (📝 Description=On)
+   Figma: Open Sans Regular 12px, line-height 133%, fill: switch-card/text/description.
+   ⚠ line-height: 1.33 is hardcoded (133%) — DS gap G-13; not tokenized.
+   ⚠ letter-spacing: 0.2% is hardcoded — DS gap G-13; not tokenized (0.2% ≈ 0.03em at 12px).
+   ⚠ Uses --switch-card-text-description because Figma binds ↳switch-label description
+     to the switch-card/text/description L3 variable. No switch-label/* text token exists.
+   ----------------------------------------------------------- */
+.switch-label__description {
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;          /* 133% — Figma hardcoded; see G-13 */
+  letter-spacing: 0.024px;    /* 0.2% of 12px ≈ 0.024px — Figma hardcoded; see G-13 */
+  color: var(--switch-card-text-description); /* switch-card/text/description → text/neutral/subtle */
+}
+
+/* -----------------------------------------------------------
+   .switch-label__link-button — action slot (not in Figma ↳switch-label)
+   ↳buttons-link appears only in ↳switch-integration, not ↳switch-label.
+   Implemented as a ReactNode slot. The consumer passes any element.
+   display: contents lets the consumer's element size itself naturally.
+   stopPropagation is handled in JSX (prevents wrapping <label> from toggling switch).
+   ⚠ Not in DS ↳switch-label — forward-compat slot only.
+   ----------------------------------------------------------- */
+.switch-label__link-button {
+  display: contents;
+}

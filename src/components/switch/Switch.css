@@ -1,0 +1,233 @@
+/* ============================================================
+   Switch — Atomic toggle control
+   Figma: ↳switch ComponentSet, page ❖ Switch. DS v2.1.0.
+   Tokens: L3 vars from tokens.css only — no :root block in this file.
+
+   Layer geometry (Figma, all 8 variants):
+     Container  32×20px — no fill, no stroke, layoutMode:NONE
+     Track      28×16px — at (2,2) within container, cornerRadius: radius/full
+     Thumb      12×12px — DROP_SHADOW black/4 (--shadow-below-sm)
+     Dot         4×4px  — fill matches Track, absent in Disabled
+
+   Thumb positions within Track (28×16):
+     Off: left=2px, top=2px   → container: (4,4)
+     On:  transform:translateX(12px) → left=14px, top=2px → container: (16,4)
+     Formula: Off=2, On=(28−12−2)=14, delta=12px ✓
+
+   Disabled state (Figma confirmed — both Off and On):
+     Track fill:  --switch-knob-bg  (white)
+     Thumb fill:  --switch-track-off (off-gray)
+     Track stroke: box-shadow 0 0 0 1px --switch-track-off
+     No thumb shadow. Dot absent (omitted by JSX).
+
+   Effect style components/toggle/switch (S:57a40f...) exists in DS but is NOT
+   applied to any variant. Use --shadow-below-sm (color/alpha/black/4) only.
+   Do not apply the richer effect style without DS owner confirmation.
+   ============================================================ */
+
+/* -----------------------------------------------------------
+   .switch — outer container
+   inline-flex centers the 28×16 Track within the 32×20 box.
+   position:relative is required for .switch__input (absolute fill).
+   ----------------------------------------------------------- */
+.switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  width: 32px;
+  height: 20px;
+}
+
+/* Size modifier — only 'medium' (32×20px) confirmed in DS v2.1.0.
+   Accepted for API compat; no visual difference between valid size values. */
+.switch--medium {
+  width: 32px;
+  height: 20px;
+}
+
+/* -----------------------------------------------------------
+   .switch__input — visually hidden native checkbox
+   Covers the full .switch area so all pointer + keyboard events
+   reach the native control. opacity:0 hides it; .switch__track
+   renders the custom visual.
+   z-index:1 ensures it sits above the visual track/thumb.
+   ----------------------------------------------------------- */
+.switch__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.switch__input:disabled {
+  cursor: not-allowed;
+}
+
+/* -----------------------------------------------------------
+   .switch__track — pill-shaped track background
+   Figma: RECTANGLE 28×16px, cornerRadius=radius/full (999px).
+   position:relative — .switch__thumb is absolutely positioned within it.
+   Transitions background-color for Off/On/Hover colour changes and
+   box-shadow for focus-ring appearance.
+   ----------------------------------------------------------- */
+.switch__track {
+  position: relative;
+  width: 28px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  background-color: var(--switch-track-off);
+  transition: background-color 200ms ease-out,
+              box-shadow 150ms ease-out;
+  flex-shrink: 0;
+}
+
+/* -----------------------------------------------------------
+   .switch__thumb — circular knob
+   Figma: ELLIPSE 12×12px, DROP_SHADOW (offset 0,1 / blur 2 / color/alpha/black/4).
+   Positioned at (2, 2) within .switch__track for the Off state.
+   translateX(12px) moves it to the On position (left: 14px = 28−12−2).
+   ----------------------------------------------------------- */
+.switch__thumb {
+  position: absolute;
+  top: 2px;   /* (16 − 12) / 2 = 2 — vertically centred within track */
+  left: 2px;  /* 2px gap from track left edge (Off position) */
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  background-color: var(--switch-knob-bg);
+  box-shadow: var(--shadow-below-sm); /* color/alpha/black/4: 0 1px 2px 0 rgba(23,23,23,0.04) */
+  transition: transform 200ms ease-out,
+              background-color 200ms ease-out,
+              box-shadow 150ms ease-out;
+}
+
+/* -----------------------------------------------------------
+   .switch__dot — 4×4 center dot (knob marker)
+   Figma: ELLIPSE 4×4px, fill = same as Track fill in all states.
+   Layer order: Dot is ABOVE Thumb in Figma (rendered after Thumb in JSX).
+
+   Visibility: fill matches Track → the dot renders as a small track-colored
+   circle ON TOP of the white Thumb. It is intentionally visible:
+     Off state   → track-off gray dot   inside white knob
+     On state    → track-on purple dot  inside white knob
+     Hover/Off   → track-hover gray dot inside white knob
+   Absent in Disabled per Figma (Disabled variants have no Dot layer).
+
+   Position: centred within the Thumb circle.
+     Thumb Off position: left=2px, top=2px (12×12px within 28×16 track)
+     Dot centre = thumb-offset + (thumb-size − dot-size)/2
+       left = 2 + (12−4)/2 = 6px
+       top  = 2 + (12−4)/2 = 6px
+   In the On (checked) state the dot translates by the same 12px as the thumb
+   so it stays centred within the knob throughout the slide animation.
+
+   pointer-events:none — input above handles all interaction.
+   ----------------------------------------------------------- */
+.switch__dot {
+  position: absolute;
+  top: 6px;   /* thumb-top(2) + (thumb-h(12)−dot-h(4))/2 = 6 */
+  left: 6px;  /* thumb-left(2) + (thumb-w(12)−dot-w(4))/2 = 6 — Off position */
+  width: 4px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background-color: var(--switch-track-off); /* track-off color → visible on white thumb */
+  pointer-events: none;
+  transition: transform 200ms ease-out,
+              background-color 200ms ease-out;
+}
+
+/* ============================================================
+   STATE: On (checked)
+   ============================================================ */
+
+/* Track fills with brand-primary (purple) */
+.switch--checked .switch__track {
+  background-color: var(--switch-track-on);
+}
+
+/* Thumb translates right: 2px + 12px = 14px from track left (28−12−2=14) */
+.switch--checked .switch__thumb {
+  transform: translateX(12px);
+}
+
+/* Dot matches On-state track colour — visible as a purple dot on the white thumb.
+   translateX(12px) keeps the dot centred within the Thumb as it slides right. */
+.switch--checked .switch__dot {
+  transform: translateX(12px);
+  background-color: var(--switch-track-on);
+}
+
+/* ============================================================
+   STATE: Hover
+   Hover/Off  → track fills with hover-gray  (--switch-track-hover)
+   Hover/On   → track stays brand-purple     (--switch-track-on)
+   Pressed    → visually identical to Default; no additional rule needed.
+   ============================================================ */
+
+/* Hover/Off — unchecked, not disabled */
+.switch:not(.switch--disabled):hover .switch__track {
+  background-color: var(--switch-track-hover);
+}
+
+.switch:not(.switch--disabled):hover .switch__dot {
+  background-color: var(--switch-track-hover);
+}
+
+/* Hover/On — overrides Hover/Off for checked state (higher specificity via .switch--checked) */
+.switch--checked:not(.switch--disabled):hover .switch__track {
+  background-color: var(--switch-track-on);
+}
+
+.switch--checked:not(.switch--disabled):hover .switch__dot {
+  background-color: var(--switch-track-on);
+}
+
+/* ============================================================
+   STATE: Disabled
+   Figma confirmed: Track and Thumb colours invert. Both Off and On
+   disabled variants share the same visual treatment.
+
+   Track fill:   --switch-knob-bg  (white) — same as thumb default
+   Track stroke: box-shadow 0 0 0 1px --switch-track-off (no dedicated token)
+   Thumb fill:   --switch-track-off (off-gray) — same as track default
+   No thumb drop-shadow.
+   Dot:          absent — omitted by JSX when disabled=true.
+   ============================================================ */
+
+.switch--disabled .switch__track {
+  background-color: var(--switch-knob-bg);
+  /* 1px inset ring — uses box-shadow (not border) to avoid layout shift.
+     Follows border-radius (radius/full) in all modern browsers. */
+  box-shadow: 0 0 0 1px var(--switch-track-off);
+}
+
+.switch--disabled .switch__thumb {
+  background-color: var(--switch-track-off);
+  box-shadow: none; /* no DROP_SHADOW on disabled variant */
+}
+
+/* Disabled/On — thumb still translates to the On position */
+.switch--checked.switch--disabled .switch__thumb {
+  transform: translateX(12px);
+}
+
+/* ============================================================
+   STATE: Focus-visible
+   Box-shadow on .switch__track via sibling combinator (~).
+   --shadow-focus-ring-primary: 0 0 0 2px #fff, 0 0 0 4px rgba(81,62,190,0.16).
+   Disabled inputs cannot receive focus; no Disabled + focus conflict.
+   ============================================================ */
+
+.switch__input:focus-visible ~ .switch__track {
+  /* Appends focus ring to any existing box-shadow on the track.
+     In Default/Hover/On states, .switch__track has no box-shadow — ring appears alone.
+     Note: disabled inputs cannot be focused, so disabled box-shadow never conflicts. */
+  box-shadow: var(--shadow-focus-ring-primary);
+  outline: none;
+}

@@ -974,9 +974,26 @@
   --checkbox-card-text-sublabel:     var(--color-text-muted);         /* text/neutral/muted */
   --checkbox-card-text-description:  var(--color-text-muted);         /* text/neutral/muted */
 
-  --switch-card-toggle-bg:   var(--color-surface-soft);     /* #f4f4f6 */
-  --switch-card-toggle-ball: var(--color-surface-white);    /* #ffffff */
-  --switch-card-text-label:  var(--color-text-strong);      /* #1c1c1c */
+  /* ── Switch (base control) ──
+     Source: VariableCollectionId:1902:2617, single mode "variable".
+     Figma namespace: switch/* · DS v2.1.0 · Naming applied 2026-08-03.
+     Deferred to Phase 0.5: switch-card/badge/surface, badge/text, icon
+     (L2 aliases unconfirmed — pending Figma variable inspection). */
+  --switch-knob-bg:     var(--color-surface-white);   /* switch/knob/bg     → surface/neutral/white  */
+  --switch-track-hover: var(--color-text-disabled);   /* switch/track/hover → text/neutral/disabled  */
+  --switch-track-off:   var(--color-border-subtle);   /* switch/track/off   → border/neutral/subtle  */
+  --switch-track-on:    var(--color-brand-primary);   /* switch/track/on    → brand/primary/base     */
+
+  /* ── Switch Card ──
+     Figma namespace: switch-card/* */
+  --switch-card-bg:               var(--color-surface-white);      /* switch-card/bg               → surface/neutral/white */
+  --switch-card-border:           var(--color-border-stroke-soft); /* switch-card/border           → border/neutral/soft   */
+  --switch-card-text-label:       var(--color-text-strong);        /* switch-card/text/label       → text/neutral/strong   */
+  --switch-card-text-description: var(--color-text-subtle);        /* switch-card/text/description → text/neutral/subtle   */
+  --switch-card-toggle-bg:        var(--color-surface-soft);       /* switch-card/toggle/bg        → surface/neutral/soft  */
+  --switch-card-toggle-ball:      var(--color-surface-white);      /* switch-card/toggle/ball      → surface/neutral/white */
+  --switch-card-bg-hover:         var(--color-bg-weak-50);         /* switch-card/bg-hover         → bg/weak-50 (01-Tokens lib) = neutral/25 = #f7f7f7 */
+  --switch-card-border-active:    var(--color-brand-primary);      /* switch-card/border-active    → color/brand/primary = #403297 */
 
 
   /* ── Key Component (label / hint / password strength) ──

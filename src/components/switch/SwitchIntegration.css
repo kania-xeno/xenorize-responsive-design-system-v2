@@ -1,0 +1,318 @@
+/* ============================================================
+   SwitchIntegration — ↳switch-integration
+   Figma: node 2278:30 · page ❖ Switch. DS v2.1.0.
+
+   4 variants: horizontal-card · horizontal-list · vertical-card · vertical-list
+
+   Layout:
+     Horizontal: flex-row — [Brand] [Text flex-1] [Link Button] [Switch]
+     Vertical:   flex-col — [Brand] [Text w-full] [Link Button w-full]
+                            ↑ Switch position: absolute top-right corner
+
+   Token chain: L3 --switch-card-* (shared namespace with SwitchCard per Figma)
+   Token gate:  All tokens confirmed present in tokens.css.
+                No --switch-integration/* namespace exists in the DS.
+                No tokens.json / tokens.css edits required for this component.
+
+   Switch override strategy:
+     CSS custom properties --switch-track-off and --switch-knob-bg are redefined
+     at .switch-integration scope. Switch.css reads these vars for track and thumb
+     fill colors, so the card-context colors apply automatically without modifying
+     the atomic Switch component. See Switch.jsx override note.
+
+   Typography:
+     Card  — title: body/medium/md (14px, 600, lh 1.43)
+           — description: caption/regular (12px, 400, lh 1.33, ls 0.024px)
+     List  — title: body/medium/lg (16px, 600, lh 1.5)
+           — description: body/regular/md (14px, 400, lh 1.43)
+
+   Brand logo sizing (CSS-controlled per style):
+     Card: logo content 24×24px → pill 40px (24 + 2×8 padding)
+     List: logo content 32×32px → pill 48px (32 + 2×8 padding)
+
+   Switch absolute position (Vertical only):
+     Card: top 19px, right 19px = border(1px) + padding(16px) + 2px visual inset.
+           Confirmed from Figma node 2278:51 (Vertical+Card).
+     List: top 12px, right 12px = direct margin from container edge (no padding/border).
+           Confirmed from Figma node 2278:61 (Vertical+List).
+   ============================================================ */
+
+
+/* -----------------------------------------------------------
+   .switch-integration — root container (shared base)
+
+   position: relative enables absolute positioning of Switch in Vertical variants.
+
+   Nested Switch token redefinition:
+     --switch-track-off → --switch-card-toggle-bg   (L3 → --color-surface-soft)
+     --switch-knob-bg   → --switch-card-toggle-ball (L3 → --color-surface-white)
+     Hover, On, Disabled track states use global --switch-track-hover /
+     --switch-track-on tokens unchanged.
+   ----------------------------------------------------------- */
+.switch-integration {
+  position: relative;
+  display: flex;
+  gap: var(--spacing-14);
+  overflow: hidden;
+  box-sizing: border-box;
+
+  /* Redefine Switch internal tokens to card-context values.
+     Scoped here so only .switch elements inside .switch-integration are affected.
+     Switch.css track rule: background-color: var(--switch-track-off)
+     Switch.css thumb rule: background-color: var(--switch-knob-bg)          */
+  --switch-track-off: var(--switch-card-toggle-bg);
+  --switch-knob-bg:   var(--switch-card-toggle-ball);
+}
+
+
+/* -----------------------------------------------------------
+   TYPE: horizontal
+   Flex row with cross-axis center alignment.
+   All slot children align to midline.
+   ----------------------------------------------------------- */
+.switch-integration--horizontal {
+  flex-direction: row;
+  align-items: center;
+}
+
+
+/* -----------------------------------------------------------
+   TYPE: vertical
+   Flex column with cross-axis start alignment.
+   Switch is removed from flow (absolute) and positioned at top-right.
+   ----------------------------------------------------------- */
+.switch-integration--vertical {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+
+/* -----------------------------------------------------------
+   STYLE: card
+   Visual chrome: bg · border · shadow · radius · padding.
+
+   Default state tokens:
+     bg     → --switch-card-bg     (L3 → --color-surface-white)
+     border → --switch-card-border (L3 → --color-border-stroke-soft)
+     shadow → --shadow-below-sm    (0 1px 2px 0 rgba(23,23,23,0.04))
+   ----------------------------------------------------------- */
+.switch-integration--card {
+  padding: var(--spacing-16);
+  border-radius: var(--radius-12);
+  border: 1px solid var(--switch-card-border);
+  background-color: var(--switch-card-bg);
+  box-shadow: var(--shadow-below-sm);
+}
+
+
+/* -----------------------------------------------------------
+   STYLE: list
+   No visual chrome — bare flex layout with token-driven typography only.
+   ----------------------------------------------------------- */
+.switch-integration--list {
+  /* intentionally empty — no bg, border, shadow, or padding */
+}
+
+
+/* -----------------------------------------------------------
+   DISABLED state
+   data-disabled is set on root when disabled=true.
+   Switch handles its own disabled visual. Link button uses HTML disabled.
+   cursor: not-allowed mirrors Switch input behavior.
+   ----------------------------------------------------------- */
+.switch-integration[data-disabled] {
+  cursor: not-allowed;
+}
+
+
+/* -----------------------------------------------------------
+   .switch-integration__brand — circular pill containing the brand logo
+
+   Figma: rounded-full, bg+border+shadow, padding 8px.
+   Structural: flex-shrink: 0 prevents compression at narrow widths.
+
+   Logo content size varies by style (Card=24px, List=32px).
+   Total pill dimensions:
+     Card: 24px logo + 2×8px padding = 40px diameter
+     List: 32px logo + 2×8px padding = 48px diameter
+
+   Token usage:
+     bg     → --switch-card-bg     (white)
+     border → --switch-card-border (soft grey)
+     shadow → --shadow-below-sm    (subtle depth)
+   ----------------------------------------------------------- */
+.switch-integration__brand {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-8);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--switch-card-border);
+  background-color: var(--switch-card-bg);
+  box-shadow: var(--shadow-below-sm);
+  overflow: hidden;
+}
+
+/* Card: pill targets 40×40px total (24px logo + 2×8px padding) */
+.switch-integration--card .switch-integration__brand {
+  width: 40px;
+  height: 40px;
+}
+
+/* List: pill targets 48×48px total (32px logo + 2×8px padding) */
+.switch-integration--list .switch-integration__brand {
+  width: 48px;
+  height: 48px;
+}
+
+/* Scale direct child (SVG/img) to fill the target logo area */
+.switch-integration--card .switch-integration__brand > * {
+  width: 24px;
+  height: 24px;
+}
+.switch-integration--list .switch-integration__brand > * {
+  width: 32px;
+  height: 32px;
+}
+
+
+/* -----------------------------------------------------------
+   .switch-integration__content — text content area
+
+   Horizontal: flex-1, min-width: 0 — grows to fill horizontal space
+   between brand, link button, and switch.
+   Vertical: full-width column (flex auto) — Switch is out-of-flow.
+   ----------------------------------------------------------- */
+.switch-integration__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Vertical: content fills the full width of the container column */
+.switch-integration--vertical .switch-integration__content {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+
+/* -----------------------------------------------------------
+   .switch-integration__title-row — title text + badge
+
+   Figma: flex row · items-center · gap 4px · flex-wrap for overflow safety.
+   ----------------------------------------------------------- */
+.switch-integration__title-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+}
+
+
+/* -----------------------------------------------------------
+   .switch-integration__title — primary label text
+
+   Card  → body/medium/md: Open Sans 600 · 14px · lh 1.43
+   List  → body/medium/lg: Open Sans 600 · 16px · lh 1.5
+   Token → --switch-card-text-label (L3 → --color-text-strong → #1c1c1c)
+   Disabled: muted to description token (same as SwitchCard pattern).
+   ----------------------------------------------------------- */
+.switch-integration__title {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: var(--font-size-body-md);    /* 14px — Card default */
+  line-height: 1.43;
+  color: var(--switch-card-text-label);
+  white-space: nowrap;
+}
+
+.switch-integration--list .switch-integration__title {
+  font-size: var(--font-size-body-lg);    /* 16px — List override */
+  line-height: 1.5;
+}
+
+.switch-integration[data-disabled] .switch-integration__title {
+  color: var(--switch-card-text-description);
+}
+
+
+/* -----------------------------------------------------------
+   .switch-integration__description — body text below title row
+
+   Card  → caption/regular: Open Sans 400 · 12px · lh 1.33 · ls 0.024px
+   List  → body/regular/md: Open Sans 400 · 14px · lh 1.43
+   Token → --switch-card-text-description (L3 → --color-text-subtle → #a3a3a3)
+   ----------------------------------------------------------- */
+.switch-integration__description {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: var(--font-size-body-sm);    /* 12px — Card default */
+  line-height: 1.33;
+  letter-spacing: 0.024px;
+  color: var(--switch-card-text-description);
+}
+
+.switch-integration--list .switch-integration__description {
+  font-size: var(--font-size-body-md);    /* 14px — List override */
+  line-height: 1.43;
+  letter-spacing: 0;
+}
+
+
+/* -----------------------------------------------------------
+   .switch-integration__link-btn — Manage button (Button component, neutral/outline)
+
+   Figma: general Button component, neutral style.
+     Horizontal variants: size="small"
+     Vertical variants:   size="medium"
+
+   The Button component owns its own visual styling (border, bg, typography,
+   hover, disabled). Only layout overrides are applied here.
+
+   Horizontal: Button naturally shrinks to content width (flex-shrink default).
+   Vertical:   must span full container width (w-full per Figma).
+   ----------------------------------------------------------- */
+
+/* Vertical variants: button spans full container width */
+.switch-integration--vertical .switch-integration__link-btn {
+  width: 100%;
+}
+
+
+/* -----------------------------------------------------------
+   .switch-integration__switch — nested Switch component
+
+   Horizontal: in document flow. flex-shrink prevents compression.
+   Vertical:   position: absolute, pinned to top-right corner.
+
+   Absolute coordinates (Vertical only):
+     Card — top: 19px · right: 19px
+             Figma node 2278:51 exact measurement.
+             = border(1px) + padding(16px) + 2px visual inset from content edge.
+     List — top: 12px · right: 12px
+             Figma node 2278:61 exact measurement.
+             = direct margin from container outer edge (no padding/border present).
+   ----------------------------------------------------------- */
+.switch-integration--horizontal .switch-integration__switch {
+  flex-shrink: 0;
+}
+
+.switch-integration--vertical .switch-integration__switch {
+  position: absolute;
+}
+
+.switch-integration--vertical.switch-integration--card .switch-integration__switch {
+  top: 19px;    /* Figma exact: border(1px) + padding(16px) + 2px inset */
+  right: 19px;
+}
+
+.switch-integration--vertical.switch-integration--list .switch-integration__switch {
+  top: 12px;    /* Figma exact: direct margin from container edge */
+  right: 12px;
+}

@@ -1,11 +1,31 @@
 import React from "react";
 import "../src/design-tokens/tokens.css";
 
-// Wraps every story in a themed surface so [data-theme="dark"] token
-// overrides (see src/design-tokens/tokens.css) apply, and gives the
-// canvas a matching background color.
+// Wraps every story in a themed surface and applies data-theme to the
+// document root so [data-theme="dark"] token overrides in tokens.css
+// take full effect.
+//
+// WHY document.documentElement is required (not just a wrapper div):
+// L3 component tokens are declared only in :root, e.g.:
+//   --checkbox-card-bg-default: var(--color-surface-white)
+// CSS resolves var() references inside custom-property values at their
+// *declaration element* (:root). A child [data-theme="dark"] div
+// re-declares L2 tokens, but L3 tokens were already frozen to the :root
+// light value during inheritance. Setting data-theme on <html> makes
+// :root match [data-theme="dark"], so L2 overrides propagate through
+// the entire L3 token chain.
 const withTheme = (Story, context) => {
   const theme = context.globals.theme || "light";
+
+  React.useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    document.body.setAttribute("data-theme", theme);
+    return () => {
+      document.documentElement.removeAttribute("data-theme");
+      document.body.removeAttribute("data-theme");
+    };
+  }, [theme]);
+
   return React.createElement(
     "div",
     {
@@ -44,6 +64,26 @@ const preview = {
     },
   },
   parameters: {
+    options: {
+      storySort: {
+        order: [
+          'Components',
+          [
+            'Checkbox',
+            [
+              'Overview',
+              'Checkbox',
+              ['Playground', 'States'],
+              'Checkbox Label',
+              ['Playground', 'Variants'],
+              'Checkbox Card',
+              ['Playground', 'Types', 'States', 'All Types × States'],
+              'Dark Mode',
+            ],
+          ],
+        ],
+      },
+    },
     backgrounds: {
       default: "white",
       values: [
