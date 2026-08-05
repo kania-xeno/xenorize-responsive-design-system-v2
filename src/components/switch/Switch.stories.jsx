@@ -221,7 +221,7 @@ function SwitchFamilyPlayground({
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default {
-  title: 'Components/Switch',
+  title: 'Components/Switch/General',
   component: Switch,
   parameters: {
     docs: {
