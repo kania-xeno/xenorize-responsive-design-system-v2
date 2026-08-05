@@ -11,7 +11,7 @@ import ChevronTopSmall from '../../icons/ChevronTopSmall.jsx';
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default {
-  title: 'Components/Button Group/General',
+  title: 'Components/Button/Button Group/General',
   parameters: {
     docs: {
       description: {

@@ -1,0 +1,255 @@
+/* ButtonLink.css
+ * Component: ↳buttons-link
+ * Token namespace: link-button/*
+ * Figma: 0aVnOgjVWH1YL8JCnjXTBi, component set node 1958:12240
+ * DS version: v2.1.0
+ *
+ * Token gap notes:
+ *   - --link-button-primary-disabled, --link-button-error-disabled,
+ *     --link-button-information-disabled are not yet in tokens.css (G-05 Figma-side
+ *     additions pending CSS emit). CSS fallback → --link-button-neutral-disabled
+ *     (same gray/500 resolved value). Remove fallbacks once tokens are emitted.
+ *   - --link-button-neutral-dissabled-border, --link-button-modifable-dissabled-border
+ *     are G-02 deferred tokens (typo preserved). Fallback → matching disabled token.
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Base
+───────────────────────────────────────────────────────────────────────── */
+
+.button-link {
+  /* Figma: horizontal auto-layout, HUG×HUG, 0 padding, 4px gap */
+  display: inline-flex;
+  align-items: center;
+  gap: 4px; /* hardcoded — Figma spacing/4; no gap token available */
+  padding: 0;
+  width: auto; /* never width: 100% — always content-driven (HUG) */
+
+  /* Reset button/anchor defaults */
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent; /* reserve space — avoids layout shift when underline toggles */
+  text-decoration: none;
+  cursor: pointer;
+
+  /* Typography — base
+   * Must be set explicitly — Storybook has no global font-family on <body>.
+   * Figma text node: font-family = "typography/font/Open Sans" → var(--font-family-body).
+   * Matches Button.css pattern which also sets font-family per text-style token.
+   */
+  font-family: var(--text-style-body-medium-md-font-family); /* "Open Sans", system-ui, sans-serif */
+  font-style: normal;
+  /* font-weight and size are set per size class below using --text-style-* tokens */
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Sizes
+   Medium (20): --text-style-body-medium-md-* → 14px / 143% / 0 / SemiBold 600
+   Small  (16): --text-style-caption-semibold-* → 12px / 133% / 0.002em / SemiBold 600
+   Both sizes render SemiBold 600 — DS naming mismatch: "medium" token = semibold rendering.
+   Using --text-style-body-medium-md-* for Medium maps to Figma typography/weight/medium chain.
+───────────────────────────────────────────────────────────────────────── */
+
+.button-link--medium {
+  font-weight:    var(--text-style-body-medium-md-font-weight);    /* --font-weight-semibold = 600 */
+  font-size:      var(--text-style-body-medium-md-font-size);      /* --font-size-body-md = 14px */
+  line-height:    var(--text-style-body-medium-md-line-height);    /* 143% */
+  letter-spacing: var(--text-style-body-medium-md-letter-spacing); /* 0 */
+}
+
+.button-link--small {
+  font-weight:    var(--text-style-caption-semibold-font-weight);    /* --font-weight-semibold = 600 */
+  font-size:      var(--text-style-caption-semibold-font-size);      /* --font-size-body-sm = 12px */
+  line-height:    var(--text-style-caption-semibold-line-height);    /* 133% */
+  letter-spacing: var(--text-style-caption-semibold-letter-spacing); /* 0.002em = 0.2% */
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Icons
+   Icons inherit color from the parent via currentColor (SVG fill/stroke).
+   Size scales with component size: 20px at Medium, 16px at Small.
+───────────────────────────────────────────────────────────────────────── */
+
+.button-link__label {
+  white-space: nowrap; /* Figma: whitespace-nowrap — keeps label on one line */
+}
+
+.button-link__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: inherit; /* icon color always matches text color via currentColor */
+}
+
+.button-link--medium .button-link__icon {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+}
+
+.button-link--small .button-link__icon {
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+}
+
+.button-link__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Style: Primary
+───────────────────────────────────────────────────────────────────────── */
+
+.button-link--primary {
+  color: var(--link-button-primary-default);
+}
+
+.button-link--primary:hover:not(.button-link--disabled) {
+  color: var(--link-button-primary-hover);
+}
+
+.button-link--primary.button-link--underline {
+  border-bottom-color: var(--link-button-primary-underline);
+}
+
+.button-link--primary.button-link--disabled {
+  /* G-05: --link-button-primary-disabled not yet in tokens.css; fallback = same gray/500 value */
+  color: var(--link-button-primary-disabled, var(--link-button-neutral-disabled));
+}
+
+.button-link--primary.button-link--underline.button-link--disabled {
+  border-bottom-color: var(--link-button-primary-disabled, var(--link-button-neutral-disabled));
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Style: Neutral
+───────────────────────────────────────────────────────────────────────── */
+
+.button-link--neutral {
+  color: var(--link-button-neutral-default);
+}
+
+.button-link--neutral:hover:not(.button-link--disabled) {
+  color: var(--link-button-neutral-hover);
+}
+
+.button-link--neutral.button-link--underline {
+  border-bottom-color: var(--link-button-neutral-underline);
+}
+
+.button-link--neutral.button-link--disabled {
+  color: var(--link-button-neutral-disabled);
+}
+
+.button-link--neutral.button-link--underline.button-link--disabled {
+  /* G-02 deferred: --link-button-neutral-dissabled-border typo not yet in tokens.css */
+  border-bottom-color: var(--link-button-neutral-dissabled-border, var(--link-button-neutral-disabled));
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Style: Information
+───────────────────────────────────────────────────────────────────────── */
+
+.button-link--information {
+  color: var(--link-button-information-default);
+}
+
+.button-link--information:hover:not(.button-link--disabled) {
+  /* G-04 accepted: information/hover = same token as default — no visual change by design */
+  color: var(--link-button-information-hover);
+}
+
+.button-link--information.button-link--underline {
+  border-bottom-color: var(--link-button-information-underline);
+}
+
+.button-link--information.button-link--disabled {
+  /* G-05: --link-button-information-disabled not yet in tokens.css; fallback = same gray/500 value */
+  color: var(--link-button-information-disabled, var(--link-button-neutral-disabled));
+}
+
+.button-link--information.button-link--underline.button-link--disabled {
+  border-bottom-color: var(--link-button-information-disabled, var(--link-button-neutral-disabled));
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Style: Error
+───────────────────────────────────────────────────────────────────────── */
+
+.button-link--error {
+  color: var(--link-button-error-default);
+}
+
+.button-link--error:hover:not(.button-link--disabled) {
+  color: var(--link-button-error-hover);
+}
+
+.button-link--error.button-link--underline {
+  border-bottom-color: var(--link-button-error-underline);
+}
+
+.button-link--error.button-link--disabled {
+  /* G-05: --link-button-error-disabled not yet in tokens.css; fallback = same gray/500 value */
+  color: var(--link-button-error-disabled, var(--link-button-neutral-disabled));
+}
+
+.button-link--error.button-link--underline.button-link--disabled {
+  border-bottom-color: var(--link-button-error-disabled, var(--link-button-neutral-disabled));
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Style: Modifable
+   ⚠️  Typo in DS Figma ("Modifable" not "Modifiable") — preserved intentionally.
+       Do not rename without DS owner approval.
+───────────────────────────────────────────────────────────────────────── */
+
+.button-link--modifable {
+  color: var(--link-button-modifable-default);
+}
+
+.button-link--modifable:hover:not(.button-link--disabled) {
+  color: var(--link-button-modifable-hover);
+}
+
+.button-link--modifable.button-link--underline {
+  border-bottom-color: var(--link-button-modifable-underline);
+}
+
+.button-link--modifable.button-link--disabled {
+  color: var(--link-button-modifable-disabled);
+}
+
+.button-link--modifable.button-link--underline.button-link--disabled {
+  /* G-02 deferred: --link-button-modifable-dissabled-border typo not yet in tokens.css */
+  border-bottom-color: var(--link-button-modifable-dissabled-border, var(--link-button-modifable-disabled));
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Disabled
+───────────────────────────────────────────────────────────────────────── */
+
+.button-link--disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Focus
+   DS Gap D-07 closed: Figma Focus variant is visually identical to Default
+   (no focus ring in Figma component). DT implements :focus-visible in code
+   only, using existing state/focus-ring/primary values.
+───────────────────────────────────────────────────────────────────────── */
+
+.button-link:focus {
+  outline: none;
+}
+
+.button-link:focus-visible {
+  outline: none;
+  border-radius: 2px;
+  box-shadow: var(--shadow-focus-ring-primary);
+}

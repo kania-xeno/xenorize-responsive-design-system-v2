@@ -69,6 +69,28 @@ const preview = {
         order: [
           'Components',
           [
+            // ── Alphabetical component list ──────────────────────────────────
+            // Add new components here in alphabetical order.
+            // Sub-arrays pin story order inside a group; '*' = remaining in default order.
+            'Accordion',
+            'Alert',
+            'Avatar',
+            'Badge',
+            'Breadcrumb',
+            'Button',
+            [
+              // Contextual order — not alphabetical.
+              // Overview → base → special → related sub-components.
+              'Overview',
+              'General',
+              'Special',
+              'Button Group',
+              ['General', ['Playground', 'Overview', '*']],
+              'Button Link',
+              ['General', ['Playground', 'Overview', '*']],
+              '*',
+            ],
+            'Chart Donut',
             'Checkbox',
             [
               'Overview',
@@ -80,6 +102,12 @@ const preview = {
               ['Playground', 'Types', 'States', 'All Types × States'],
               'Dark Mode',
             ],
+            'Dropdown',
+            'Input Text',
+            'Key Component',
+            'Switch',
+            ['General', ['Playground', 'Overview', '*']],
+            '*',
           ],
         ],
       },
