@@ -1,0 +1,94 @@
+/*
+ * DropdownList.css
+ *
+ * Panel container for the Dropdown component.
+ * Figma source: dropdown-list ComponentSet — ❖ Dropdown page
+ * DS version:   Scalable Design System — All Platform V.2.1.0
+ *
+ * L3 token namespace: dropdown-list/*
+ * Variable IDs:
+ *   dropdown-list/bg/default     → 3149:914  → background/base
+ *   dropdown-list/border/default → 3149:915  → border/neutral/soft
+ *   dropdown-list/shadow/default → Figma Effect Style: regular-shadow/medium
+ *
+ * L3 CSS custom properties are emitted in tokens.css (--dropdown-list-* variables).
+ * Dark mode auto-flips via the semantic cascade — no component-level overrides needed.
+ *
+ * DS gaps (values confirmed; do not invent):
+ *   - Panel corner radius (16px) is unbound in Figma — using --radius-16 value
+ *   - border/neutral/soft has no dedicated alias in tokens.css;
+ *     --color-border-neutral-default used as closest emitted equivalent
+ *   - background/base → --color-bg-base (slate-0, mode-invariant)
+ */
+
+/* ─── Panel ─── */
+
+.dropdown-list {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--dropdown-list-bg-default);
+  /* border: none — shadow-only treatment per visual QA 2026-08-06 */
+  box-shadow: var(--dropdown-list-shadow-default);
+  border-radius: var(--radius-16);     /* 16px — unbound in Figma (DS gap); using --radius-16 value */
+  width: 340px;                        /* Fixed in Figma */
+  padding: var(--spacing-8);           /* Figma panel padding: 8px all sides */
+  box-sizing: border-box;
+}
+
+/* Height variants */
+.dropdown-list--fixed {
+  max-height: 252px;          /* ~6 option rows */
+  gap: var(--spacing-12);     /* Figma: 12px gap between Search and options wrapper */
+}
+
+.dropdown-list--hug {
+  /* Hug-contents: no max-height constraint — panel sizes to its children */
+  gap: var(--spacing-4);
+  overflow-y: visible;
+  overflow-x: hidden;
+}
+
+/* ─── SearchInput — scoped adapter (.dropdown-list__search) ─────────────── */
+/* Scope: only the SearchInput instance inside DropdownList.                  */
+/* InputText.css owns all base component styles (size, states, typography).   */
+/* This block handles layout fit + xs visual corrections for this context:    */
+/*   • width 100%  — fills the panel width                                    */
+/*   • flex-shrink 0 — prevents search from collapsing in fixed height        */
+/*   • border-radius --radius-8 — 10px is visually round on 32px container   */
+/*   • icon slot 16px — proportional for xs height (InputText base is 20px)  */
+
+.dropdown-list .dropdown-list__search {
+  width: 100%;
+  flex-shrink: 0;
+  border-radius: var(--radius-8);
+}
+
+.dropdown-list .dropdown-list__search .input-text__icon-leading,
+.dropdown-list .dropdown-list__search .input-text__icon-trailing {
+  width: var(--spacing-16);
+  height: var(--spacing-16);
+}
+
+.dropdown-list .dropdown-list__search .input-text__icon-leading > svg,
+.dropdown-list .dropdown-list__search .input-text__icon-trailing > svg {
+  width: var(--spacing-16);
+  height: var(--spacing-16);
+}
+
+/* ─── Options wrapper (Fixed only — Search + scrollable list) ─────────────── */
+
+.dropdown-list__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);  /* Figma: 4px gap between items in the list */
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+  min-height: 0; /* required for flex child to scroll within a constrained parent */
+}
+
+/* Scroll — focused option must remain visible */
+.dropdown-list__options:focus-within {
+  scroll-padding-top: var(--spacing-4);
+  scroll-padding-bottom: var(--spacing-4);
+}

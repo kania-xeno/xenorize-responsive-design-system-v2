@@ -1,0 +1,312 @@
+/*
+ * DropdownOption.css
+ *
+ * Single option row (↳dropdown-items) — all 6 types × 5 states × 2 sizes.
+ * Figma source: Design System Scalable — All Platform V.2.1.0
+ *   Page:          ❖ Dropdown
+ *   Component set: ↳dropdown-items  (node 2090:6272)
+ *
+ * Token architecture: 4-layer (L1 Primitive → L2 Theme → L3 Component → L4 Binding)
+ * L3 namespace: dropdown-items/*
+ *
+ * L3 variables (18 total, IDs 3149:896–3149:913):
+ *   dropdown-items/bg/{state}             → Root fill per state
+ *   dropdown-items/text/{state}           → Label fill per state
+ *   dropdown-items/subtext/{state}        → Sublabel fill per state
+ *   dropdown-items/descriptions/{state}   → Descriptions fill per state (Large only)
+ *   dropdown-items/icon-border/default    → Icon frame stroke (Large non-Basic only)
+ *
+ * L3 CSS custom properties are emitted in tokens.css (--dropdown-items-* variables).
+ *
+ * DS gaps (do not implement until DS fixes):
+ *   G1 Row corner radius (8px) unbound — using --radius-8 value
+ *   G3 Chevron does not change to disabled color in Disabled state
+ *   G4 descriptions/default aliases icon/sub (icon token, not text token)
+ *   G5 Large Basic has no icon FRAME wrapper (inconsistent with other Large types)
+ *   G9 Globe icon — resolved. Globe.jsx added to src/icons/. Applied as default for Basic type.
+ *   G6 hover/selected aliases same L2 token (surface/neutral/soft) — confirmed
+ *
+ * Token gaps in tokens.css (emitted aliases used as substitutes):
+ *   text/neutral/subtle  → emitted as --color-text-subtle (semantic.color.text.subtle,
+ *                          prim-neutral-400, #a3a3a3) — no --color-text-neutral-subtle alias.
+ */
+
+/* ─── Row base ─── */
+
+.dropdown-option {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);           /* Figma itemSpacing: 8 (Small) */
+  padding: 0 var(--spacing-8);     /* Figma paddingLeft/Right: 8 — was incorrectly 12px */
+  border-radius: var(--radius-8);  /* 8px — unbound in Figma (G1); using --radius-8 */
+  background-color: var(--dropdown-items-bg-default);
+  box-sizing: border-box;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  position: relative;
+  width: 100%;
+}
+
+/* Focus ring — keyboard navigation */
+.dropdown-option:focus-visible {
+  outline: 2px solid var(--color-brand-primary-base);
+  outline-offset: -2px;
+}
+
+/* ─── Size variants ─── */
+
+.dropdown-option--small {
+  height: 40px;     /* Figma Small height: 40px */
+  min-height: 40px;
+}
+
+.dropdown-option--large {
+  height: 56px;
+  min-height: 56px;
+  gap: var(--spacing-12);           /* Figma itemSpacing: 12 for Large (Small uses base --spacing-8) */
+  border-radius: var(--radius-10);  /* Figma Large corner radius: 10px (--radius-10, confirmed tokens.css:284) */
+}
+
+/* Large label weight override — Figma Large: font-weight 600 (SemiBold) */
+.dropdown-option--large .dropdown-option__label {
+  font-weight: 600;
+}
+
+/* ─── State: Hover ─── */
+
+.dropdown-option:not([aria-disabled="true"]):hover,
+.dropdown-option:not(.dropdown-option--disabled):hover {
+  background-color: var(--dropdown-items-bg-hover);
+}
+
+/* ─── State: Selected ─── */
+
+.dropdown-option--selected,
+.dropdown-option[aria-selected="true"] {
+  background-color: var(--dropdown-items-bg-selected);
+}
+
+/* ─── State: Selected Hover ─── */
+
+.dropdown-option--selected:not([aria-disabled="true"]):hover,
+.dropdown-option[aria-selected="true"]:not([aria-disabled="true"]):hover {
+  background-color: var(--dropdown-items-bg-selected-hover);
+}
+
+/* ─── State: Disabled ─── */
+
+.dropdown-option--disabled,
+.dropdown-option[aria-disabled="true"] {
+  background-color: var(--dropdown-items-bg-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Label ─── */
+
+.dropdown-option__label {
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;        /* body/regular/md */
+  font-weight: 400;
+  line-height: 1.43;      /* Figma: 143% */
+  color: var(--dropdown-items-text-default);
+  flex: 0 1 auto;         /* natural width; shrinks on overflow; does NOT push sublabel away */
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdown-option:not([aria-disabled="true"]):hover .dropdown-option__label,
+.dropdown-option:not(.dropdown-option--disabled):hover .dropdown-option__label {
+  color: var(--dropdown-items-text-hover);
+}
+
+.dropdown-option--selected .dropdown-option__label,
+.dropdown-option[aria-selected="true"] .dropdown-option__label {
+  color: var(--dropdown-items-text-selected);
+}
+
+.dropdown-option--selected:not([aria-disabled="true"]):hover .dropdown-option__label,
+.dropdown-option[aria-selected="true"]:not([aria-disabled="true"]):hover .dropdown-option__label {
+  color: var(--dropdown-items-text-selected-hover);
+}
+
+.dropdown-option--disabled .dropdown-option__label,
+.dropdown-option[aria-disabled="true"] .dropdown-option__label {
+  color: var(--dropdown-items-text-disabled);
+}
+
+/* ─── Sublabel ─── */
+
+.dropdown-option__sublabel {
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px;        /* caption/regular */
+  font-weight: 400;
+  line-height: 1.33;      /* Figma: 133% */
+  color: var(--dropdown-items-subtext-default);
+  flex-shrink: 0;         /* stays at natural width to the right of label */
+  white-space: nowrap;
+}
+
+.dropdown-option:not([aria-disabled="true"]):hover .dropdown-option__sublabel,
+.dropdown-option:not(.dropdown-option--disabled):hover .dropdown-option__sublabel {
+  color: var(--dropdown-items-subtext-hover);
+}
+
+.dropdown-option--selected .dropdown-option__sublabel,
+.dropdown-option[aria-selected="true"] .dropdown-option__sublabel {
+  color: var(--dropdown-items-subtext-selected);
+}
+
+.dropdown-option--selected:not([aria-disabled="true"]):hover .dropdown-option__sublabel,
+.dropdown-option[aria-selected="true"]:not([aria-disabled="true"]):hover .dropdown-option__sublabel {
+  color: var(--dropdown-items-subtext-selected-hover);
+}
+
+.dropdown-option--disabled .dropdown-option__sublabel,
+.dropdown-option[aria-disabled="true"] .dropdown-option__sublabel {
+  color: var(--dropdown-items-subtext-disabled);
+}
+
+/* ─── Text block ───────────────────────────────────────────────────────────────
+ * Figma: Text FRAME → layoutMode: HORIZONTAL, gap: 4px
+ * Label and Sublabel are SIDE BY SIDE with 4px gap (not stacked).
+ * Label: flex: 0 1 auto — stays at natural width, sublabel follows 4px after.
+ * Text frame: flex: 1 — fills available space in the row.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+.dropdown-option__text {
+  display: flex;
+  flex-direction: row;      /* Figma: HORIZONTAL — label/sublabel on same line */
+  align-items: center;
+  gap: 4px;                 /* Figma: itemSpacing 4 */
+  flex: 1;
+  min-width: 0;
+}
+
+/* ─── Content block (Large: Content > Text + Descriptions) ─── */
+
+.dropdown-option__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+  gap: var(--spacing-4); /* Figma Content FRAME gap: 4px (was --spacing-2 = 2px) */
+}
+
+.dropdown-option__content .dropdown-option__text {
+  flex: none;    /* don't grow along column axis */
+  width: 100%;   /* fill content frame width (Figma: hSizing FILL on Text frame) */
+}
+
+/* ─── Description (Large only) ─── */
+
+.dropdown-option__description {
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px;        /* caption/regular */
+  font-weight: 400;
+  line-height: 1.33;
+  color: var(--dropdown-items-descriptions-default); /* icon/sub — G4 DS gap */
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdown-option--disabled .dropdown-option__description,
+.dropdown-option[aria-disabled="true"] .dropdown-option__description {
+  color: var(--dropdown-items-descriptions-disabled);
+}
+
+/* ─── Left slot (Small — bare INSTANCE, no frame) ─── */
+
+.dropdown-option__left-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Small slot: no forced size — icon content defines slot width (Provider 32×24, Brand 24×24) */
+
+.dropdown-option--large .dropdown-option__left-slot {
+  width: 40px;  /* Figma Large Basic Icon FRAME: 40×40 (also matches Avatar 40px) */
+  height: 40px;
+}
+
+/* Avatar type: bare INSTANCE, no frame, no border (all sizes) */
+.dropdown-option__left-slot--avatar {
+  overflow: hidden;
+  border-radius: var(--radius-full, 9999px);
+}
+
+/* ─── Left icon frame (Large non-Basic — FRAME with icon-border stroke) ─── */
+/* Types: country, provider, brand, company */
+/* Note: Large Basic also has no FRAME (DS gap G5) */
+
+.dropdown-option__left-frame {
+  border: 1px solid var(--dropdown-items-icon-border-default);
+  border-radius: var(--radius-full, 9999px);
+  box-shadow: 0 1px 2px 0 var(--color-alpha-black-4);
+  width: 40px;  /* Figma Large icon FRAME: 40×40 */
+  height: 40px;
+  overflow: hidden;
+}
+
+/* Icon inner — base: flex centering only, no forced size (bare slots) */
+.dropdown-option__left-icon-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Icon inner inside a frame: fill the frame so assets scale correctly */
+.dropdown-option__left-frame .dropdown-option__left-icon-inner {
+  width: 100%;
+  height: 100%;
+}
+
+.dropdown-option__left-frame .dropdown-option__left-icon-inner svg,
+.dropdown-option__left-frame .dropdown-option__left-icon-inner img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* ─── Right chevron ─── */
+
+.dropdown-option__right-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  /* Chevron color: brand/primary/base — state-invariant — DS architecture */
+  /* G3: does not change in Disabled state — DS gap, not overriding here */
+  color: var(--color-brand-primary-base);
+}
+
+.dropdown-option__right-icon svg {
+  width: 24px;  /* Figma chevron-right-small INSTANCE: 24×24 */
+  height: 24px;
+}
+
+/* ─── Toggle (Switch wrapper) ─── */
+/* Wraps <Switch> — stopPropagation handled in JSX */
+
+.dropdown-option__toggle {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ─── Checkbox wrapper ─── */
+/* Wraps <Checkbox> */
+
+.dropdown-option__checkbox {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}

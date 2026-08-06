@@ -103,6 +103,13 @@ const preview = {
               'Dark Mode',
             ],
             'Dropdown',
+            [
+              'Overview',
+              'Dropdown Items',
+              ['Playground', 'Basic', 'Country', 'Avatar', 'Provider', 'Brand', 'Company'],
+              'Dropdown List',
+              ['Playground', 'Fixed Height', 'Huge Height'],
+            ],
             'Input Text',
             'Key Component',
             'Switch',
