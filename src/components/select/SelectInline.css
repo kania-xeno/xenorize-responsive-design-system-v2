@@ -1,0 +1,201 @@
+/* =============================================================================
+   SelectInline.css — ↳inline-select trigger component
+   Source: Design System Scalable V.2.1.0 · Page: ❖ Select Field
+   ComponentSet node: 2174:4316
+   Token namespace: inline-select/* (11 L3 CSS vars)
+
+   Architecture:
+     --_is-text    — text color (set on root, inherited by .inline-select__text)
+     --_is-icon    — left icon color (set on root, inherited by icon slot)
+     --_is-chevron — chevron color (set separately — Figma has distinct chevron tokens)
+
+     State modifiers on root (.inline-select--*).
+
+   Anatomy: no border, no background, no padding, no size axis.
+   Horizontal button with left icon + [text + chevron sub-frame].
+
+   Types:
+     .inline-select--icon    → Globe icon, outer gap=4px (Figma-confirmed)
+     .inline-select--country → Singapore flag, outer gap=6px (Figma-confirmed)
+
+   States: Default · Hover · Open · Disabled
+   (No Filled, Error, Placeholder — not in Figma ComponentSet)
+
+   Outer gap (between icon and text-group): type-specific — 4px (Icon), 6px (Country)
+   Inner gap (between text and chevron):    2px (all variants, Figma-confirmed)
+
+   Chevron token pattern:
+     Default: --inline-select-chevron-default = color-icon-sub (muted)
+     Hover:   --inline-select-chevron-hover   = color-icon-strong (prominent)
+     Open:    --inline-select-chevron-open    = color-icon-strong (prominent)
+     Disabled: --inline-select-chevron-disabled = color-icon-disabled
+   The chevron changes on hover even though text/icon stay the same.
+   ============================================================================= */
+
+/* ── Root: trigger button ────────────────────────────────────────────────────
+   Inline, hug-content. No border, no background, no padding.
+   Gap is type-specific (overridden below by --icon / --country modifier).      */
+
+.inline-select {
+  /* Layout */
+  display:     inline-flex;
+  align-items: center;
+  box-sizing:  border-box;
+  width:       auto;
+
+  /* No border, no background, no padding */
+  border:          none;
+  background:      none;
+  padding:         0;
+  border-radius:   0;
+
+  /* Reset button defaults */
+  appearance:  none;
+  text-align:  left;
+  cursor:      pointer;
+  white-space: nowrap;
+
+  /* Typography — body/regular/md (14px) */
+  font-family:    var(--text-style-body-regular-md-font-family);
+  font-weight:    var(--text-style-body-regular-md-font-weight);
+  font-size:      var(--text-style-body-regular-md-font-size);
+  line-height:    var(--text-style-body-regular-md-line-height);
+  letter-spacing: var(--text-style-body-regular-md-letter-spacing);
+
+  /* Transition */
+  transition:
+    color 0.15s ease;
+
+  /* ── DEFAULT state tokens ── */
+  --_is-icon:    var(--inline-select-icon-default);
+  --_is-chevron: var(--inline-select-chevron-default);   /* muted by default */
+}
+
+/* ── Type → gap and default text token ──────────────────────────────────────
+   Outer gap = between left icon and text-group sub-frame.
+   Text token has type-specific names even though both currently resolve to
+   color-text-strong (per tokens.css). Applied per type for spec correctness. */
+
+/* 💠 Icon type: outer gap = 4px (Figma-confirmed) */
+.inline-select--icon {
+  gap: 4px;
+  --_is-text: var(--inline-select-text-default-icon);
+}
+
+/* 🌍 Country type: outer gap = 6px (Figma-confirmed) */
+.inline-select--country {
+  gap: 6px;
+  --_is-text: var(--inline-select-text-default-country);
+}
+
+/* ── Left icon slot ─────────────────────────────────────────────────────────
+   Fixed 20×20. Color via --_is-icon.                                          */
+
+.inline-select__icon-left {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  flex-shrink:     0;
+  width:           20px;
+  height:          20px;
+  color:           var(--_is-icon);
+}
+
+.inline-select__icon-left > svg,
+.inline-select__icon-left > img {
+  width:          20px;
+  height:         20px;
+  display:        block;
+  pointer-events: none;
+}
+
+/* ── Text + chevron sub-frame ────────────────────────────────────────────────
+   Inner flex container, gap=2 (Figma-confirmed for all 8 variants).           */
+
+.inline-select__text-group {
+  display:     inline-flex;
+  align-items: center;
+  gap:         2px;
+  min-width:   0;
+}
+
+/* ── Value text ──────────────────────────────────────────────────────────── */
+
+.inline-select__text {
+  overflow:      hidden;
+  white-space:   nowrap;
+  text-overflow: ellipsis;
+  color:         var(--_is-text);
+}
+
+/* ── Chevron icon ─────────────────────────────────────────────────────────── */
+
+.inline-select__chevron {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  flex-shrink:     0;
+  width:           20px;
+  height:          20px;
+  color:           var(--_is-chevron);   /* separate from --_is-icon */
+}
+
+.inline-select__chevron > svg {
+  width:          20px;
+  height:         20px;
+  display:        block;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   STATE RULES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── HOVER ───────────────────────────────────────────────────────────────── */
+
+/* Text and icon stay the same on hover (both = color-text/icon-strong).
+   Only the chevron changes: sub → strong.                                     */
+.inline-select:hover:not(:disabled) {
+  --_is-text:    var(--inline-select-text-hover);
+  --_is-chevron: var(--inline-select-chevron-hover);
+}
+
+/* ── OPEN ────────────────────────────────────────────────────────────────── */
+
+.inline-select--open {
+  --_is-text:    var(--inline-select-text-open);
+  --_is-chevron: var(--inline-select-chevron-open);
+}
+
+/* Open + hover: stays at open values */
+.inline-select--open:hover:not(:disabled) {
+  --_is-text:    var(--inline-select-text-open);
+  --_is-chevron: var(--inline-select-chevron-open);
+}
+
+/* ── DISABLED ────────────────────────────────────────────────────────────── */
+
+.inline-select--disabled,
+.inline-select--disabled:hover {
+  --_is-text:    var(--inline-select-text-disabled);
+  --_is-icon:    var(--inline-select-icon-disabled);
+  --_is-chevron: var(--inline-select-chevron-disabled);
+  cursor:        not-allowed;
+  pointer-events: none;
+}
+
+/* ── Focus-visible ring ──────────────────────────────────────────────────── */
+
+/* Inline-select has no border/focus token in its namespace (11 vars, no border).
+   Cross-namespace reference to the select family brand focus color is acceptable:
+   all select components share --color-border-brand-primary as the focus ring.
+   This is an a11y addition — not a Figma-visible state.                        */
+.inline-select:focus-visible {
+  outline:        2px solid var(--select-basic-border-focus);
+  outline-offset: 2px;
+  border-radius:  2px;
+}
+
+.inline-select:focus:not(:focus-visible) {
+  outline: none;
+}

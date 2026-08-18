@@ -26,13 +26,15 @@ export { default as EyeOffIcon }        from './EyeOffIcon.jsx';
 export { default as LinkIcon }          from './LinkIcon.jsx';
 export { default as LockIcon }          from './LockIcon.jsx';
 export { default as PhoneIcon }         from './PhoneIcon.jsx';
+export { default as ChevronRightSmall } from './ChevronRightSmall.jsx';
 export { default as SearchIcon }        from './SearchIcon.jsx';
 
 // ── extracted (Figma paths captured 2026-07-22) ───────────────────────────────
 export { default as Rose }              from './Rose.jsx';
 
-// ── derived (path not from Figma — needs verification) ───────────────────────
-export { default as ChevronRightSmall } from './ChevronRightSmall.jsx';
+// ── extracted (Figma paths captured 2026-08-13 — Select Family Phase 2) ──────
+export { default as ChevronLeftSmall }  from './ChevronLeftSmall.jsx';
+export { default as CryptoCoin }        from './CryptoCoin.jsx';
 
 // ── placeholder (Figma node known — temporary geometry) ──────────────────────
 export { default as CircleCheck }       from './CircleCheck.jsx';

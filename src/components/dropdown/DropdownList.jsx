@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import SearchInput from "../input-text/SearchInput.jsx";
 import "./DropdownList.css";
 
@@ -61,8 +61,26 @@ export default function DropdownList({
   // Default: show search only on fixed panels (matches Figma Fixed variant with Search)
   const hasSearch = showSearch !== undefined ? showSearch : height === "fixed";
 
+  // ── Scroll-to-selected on open ──────────────────────────────────────────────
+  // DropdownList is conditionally rendered ({isOpen && <DropdownList>}), so this
+  // mounts fresh every time the dropdown opens. On mount, locate the currently
+  // selected option (aria-selected="true") and bring it into view within the
+  // scroll container (.dropdown-list__options, overflow-y:auto). scrollIntoView
+  // with block:'nearest' is a no-op if the item is already visible, preventing
+  // unnecessary scroll. behavior:'instant' avoids animation on dropdown open.
+  const rootRef = useRef(null);
+  useEffect(() => {
+    const container = rootRef.current;
+    if (!container) return;
+    const selected = container.querySelector('[aria-selected="true"]');
+    if (selected) {
+      selected.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+    }
+  }, []);
+
   return (
     <div
+      ref={rootRef}
       role="listbox"
       id={id}
       aria-label={ariaLabel}

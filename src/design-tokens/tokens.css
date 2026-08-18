@@ -918,6 +918,102 @@
   --compact-select-border-error:   var(--color-status-danger);    /* #cb1515 */
   --compact-select-border-focus:   var(--color-brand-primary-light); /* #7263cc — Figma: compact-select/border/focus confirmed 2026-07-23 */
 
+  /* ── Select — Full-field L3 Namespaced Tokens ── */
+  /* 60 vars: select-{basic,country,coin,exchange}/* × 15 each              */
+  /* 2 compact-select additions: icon/default + icon/disabled                */
+  /* 11 inline-select vars                                                    */
+  /* Phase 1 — 2026-08-13. Pre-existing flat tokens above kept for legacy   */
+  /* compat — new Select components must use these namespaced vars.          */
+  /* S-17 fixed 2026-08-14: {ns}/border/hover confirmed #eceaf8 via Figma     */
+  /*   getCSSAsync on ↳basic variant 2174:17304 — was color-brand-primary     */
+  /*   (#403297), corrected to color-brand-primary-lighter (#eceaf8 = stpatrick-50) */
+  /* S-04 accepted: icon/dissabled typo in Figma theme collection — do not rename */
+
+  /* ↳ select-basic (15) */
+  --select-basic-bg-default:            var(--color-surface-white);         /* surface/neutral/white          */
+  --select-basic-bg-hover:              var(--color-surface-weak);          /* surface/neutral/weak           */
+  --select-basic-bg-selected:           var(--color-surface-soft);          /* surface/neutral/soft           */
+  --select-basic-bg-selected-hover:     var(--color-surface-soft-alt);      /* surface/neutral/soft-alt       */
+  --select-basic-bg-disabled:           var(--color-state-disabled-bg);     /* state/disabled-bg              */
+  --select-basic-border-default:        var(--color-border-subtle);         /* border/neutral/subtle          */
+  --select-basic-border-hover:          var(--color-brand-primary-lighter); /* #eceaf8 — S-17 fixed 2026-08-14 */
+  --select-basic-border-focus:          var(--color-border-brand-primary);  /* border/brand/default-primary   */
+  --select-basic-border-error:          var(--color-status-danger);         /* status/danger/base             */
+  --select-basic-border-disabled:       var(--color-state-disabled-border); /* state/disabled-border          */
+  --select-basic-icon-default:          var(--color-icon-strong);           /* icon/strong                    */
+  --select-basic-icon-disabled:         var(--color-icon-disabled);         /* icon/dissabled — S-04          */
+  --select-basic-text-placeholder:      var(--color-text-muted);            /* text/neutral/muted             */
+  --select-basic-text-filled:           var(--color-text-strong);           /* text/neutral/strong            */
+  --select-basic-text-disabled:         var(--color-text-disabled);         /* text/neutral/disabled          */
+
+  /* ↳ select-country (15) */
+  --select-country-bg-default:          var(--color-surface-white);         /* surface/neutral/white          */
+  --select-country-bg-hover:            var(--color-surface-weak);          /* surface/neutral/weak           */
+  --select-country-bg-selected:         var(--color-surface-soft);          /* surface/neutral/soft           */
+  --select-country-bg-selected-hover:   var(--color-surface-soft-alt);      /* surface/neutral/soft-alt       */
+  --select-country-bg-disabled:         var(--color-state-disabled-bg);     /* state/disabled-bg              */
+  --select-country-border-default:      var(--color-border-subtle);         /* border/neutral/subtle          */
+  --select-country-border-hover:        var(--color-brand-primary-lighter); /* #eceaf8 — S-17 fixed 2026-08-14 */
+  --select-country-border-focus:        var(--color-border-brand-primary);  /* border/brand/default-primary   */
+  --select-country-border-error:        var(--color-status-danger);         /* status/danger/base             */
+  --select-country-border-disabled:     var(--color-state-disabled-border); /* state/disabled-border          */
+  --select-country-icon-default:        var(--color-icon-strong);           /* icon/strong                    */
+  --select-country-icon-disabled:       var(--color-icon-disabled);         /* icon/dissabled — S-04          */
+  --select-country-text-placeholder:    var(--color-text-muted);            /* text/neutral/muted             */
+  --select-country-text-filled:         var(--color-text-strong);           /* text/neutral/strong            */
+  --select-country-text-disabled:       var(--color-text-disabled);         /* text/neutral/disabled          */
+
+  /* ↳ select-coin (15) — D-03 accepted: Open+Error use text-placeholder at component level */
+  --select-coin-bg-default:             var(--color-surface-white);         /* surface/neutral/white          */
+  --select-coin-bg-hover:               var(--color-surface-weak);          /* surface/neutral/weak           */
+  --select-coin-bg-selected:            var(--color-surface-soft);          /* surface/neutral/soft           */
+  --select-coin-bg-selected-hover:      var(--color-surface-soft-alt);      /* surface/neutral/soft-alt       */
+  --select-coin-bg-disabled:            var(--color-state-disabled-bg);     /* state/disabled-bg              */
+  --select-coin-border-default:         var(--color-border-subtle);         /* border/neutral/subtle          */
+  --select-coin-border-hover:           var(--color-brand-primary-lighter); /* #eceaf8 — S-17 fixed 2026-08-14 */
+  --select-coin-border-focus:           var(--color-border-brand-primary);  /* border/brand/default-primary   */
+  --select-coin-border-error:           var(--color-status-danger);         /* status/danger/base             */
+  --select-coin-border-disabled:        var(--color-state-disabled-border); /* state/disabled-border          */
+  --select-coin-icon-default:           var(--color-icon-strong);           /* icon/strong                    */
+  --select-coin-icon-disabled:          var(--color-icon-disabled);         /* icon/dissabled — S-04          */
+  --select-coin-text-placeholder:       var(--color-text-muted);            /* text/neutral/muted             */
+  --select-coin-text-filled:            var(--color-text-strong);           /* text/neutral/strong            */
+  --select-coin-text-disabled:          var(--color-text-disabled);         /* text/neutral/disabled          */
+
+  /* ↳ select-exchange (15) — D-03 accepted: same Open+Error behavior as coin */
+  --select-exchange-bg-default:         var(--color-surface-white);         /* surface/neutral/white          */
+  --select-exchange-bg-hover:           var(--color-surface-weak);          /* surface/neutral/weak           */
+  --select-exchange-bg-selected:        var(--color-surface-soft);          /* surface/neutral/soft           */
+  --select-exchange-bg-selected-hover:  var(--color-surface-soft-alt);      /* surface/neutral/soft-alt       */
+  --select-exchange-bg-disabled:        var(--color-state-disabled-bg);     /* state/disabled-bg              */
+  --select-exchange-border-default:     var(--color-border-subtle);         /* border/neutral/subtle          */
+  --select-exchange-border-hover:       var(--color-brand-primary-lighter); /* #eceaf8 — S-17 fixed 2026-08-14 */
+  --select-exchange-border-focus:       var(--color-border-brand-primary);  /* border/brand/default-primary   */
+  --select-exchange-border-error:       var(--color-status-danger);         /* status/danger/base             */
+  --select-exchange-border-disabled:    var(--color-state-disabled-border); /* state/disabled-border          */
+  --select-exchange-icon-default:       var(--color-icon-strong);           /* icon/strong                    */
+  --select-exchange-icon-disabled:      var(--color-icon-disabled);         /* icon/dissabled — S-04          */
+  --select-exchange-text-placeholder:   var(--color-text-muted);            /* text/neutral/muted             */
+  --select-exchange-text-filled:        var(--color-text-strong);           /* text/neutral/strong            */
+  --select-exchange-text-disabled:      var(--color-text-disabled);         /* text/neutral/disabled          */
+
+  /* ↳ compact-select additions (2 — icon vars missing from pre-L3 flat block above) */
+  --compact-select-icon-default:        var(--color-icon-strong);           /* icon/strong                    */
+  --compact-select-icon-disabled:       var(--color-icon-disabled);         /* icon/dissabled — S-04          */
+
+  /* ↳ inline-select (11) */
+  --inline-select-icon-default:         var(--color-icon-strong);           /* icon/strong                    */
+  --inline-select-icon-disabled:        var(--color-icon-disabled);         /* icon/dissabled — S-04          */
+  --inline-select-text-default-icon:    var(--color-text-strong);           /* text/neutral/strong            */
+  --inline-select-text-default-country: var(--color-text-strong);           /* text/neutral/strong            */
+  --inline-select-text-hover:           var(--color-text-strong);           /* text/neutral/strong            */
+  --inline-select-text-open:            var(--color-text-strong);           /* text/neutral/strong            */
+  --inline-select-text-disabled:        var(--color-text-disabled);         /* text/neutral/disabled          */
+  --inline-select-chevron-default:      var(--color-icon-sub);              /* icon/sub                       */
+  --inline-select-chevron-hover:        var(--color-icon-strong);           /* icon/strong                    */
+  --inline-select-chevron-open:         var(--color-icon-strong);           /* icon/strong                    */
+  --inline-select-chevron-disabled:     var(--color-icon-disabled);         /* icon/dissabled — S-04          */
+
   /* ── Tab Menu ── */
   --tab-menu-bg:                   var(--color-surface-white);    /* #ffffff */
   --tab-menu-border:               var(--color-border-subtle);    /* #eaeaea */

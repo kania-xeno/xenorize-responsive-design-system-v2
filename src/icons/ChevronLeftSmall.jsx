@@ -1,18 +1,16 @@
 import React from "react";
 
 /**
- * ChevronRightSmall — "chevron-right-small" icon from Icon System V.2.0.0
- * Variant: filled=off, stroke=1, radius=0, join=square (variantId 9:2334)
- * componentSetId: 9:2293
+ * ChevronLeftSmall — "chevron-left-small" icon from Icon System V.2.0.0
+ * Variant: filled=off, stroke=1, radius=0, join=square (variantId 9:2395)
+ * componentSetId: 9:2354
  *
- * ✅ VERIFIED — path confirmed against Figma Icon System V.2.0.0, 2026-08-13.
  * Vector at offset (x=10, y=8) within the 24×24 frame.
- * Local path: M 0 8 L 4 4 L 0 0 → absolute: M 10 8 L 14 12 L 10 16
- *
- * Used as the Arrow divider in the Breadcrumb component.
+ * Local path: M 4 8 L 0 4 L 4 0 → absolute: M 14 8 L 10 12 L 14 16
+ * Extracted from Icon System V.2.0.0 — 2026-08-13.
  * Color inherited via `currentColor` (stroke only, no fill).
  */
-export default function ChevronRightSmall(props) {
+export default function ChevronLeftSmall(props) {
   return (
     <svg
       width="20"
@@ -24,7 +22,7 @@ export default function ChevronRightSmall(props) {
       {...props}
     >
       <path
-        d="M 10 8 L 14 12 L 10 16"
+        d="M 14 8 L 10 12 L 14 16"
         stroke="currentColor"
         strokeWidth="1"
         strokeLinecap="square"

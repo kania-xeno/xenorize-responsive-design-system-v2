@@ -1,0 +1,223 @@
+/* =============================================================================
+   CompactSelect.css — ↳compact-select trigger component
+   Source: Design System Scalable V.2.1.0 · Page: ❖ Select Field
+   ComponentSet node: 2174:4038
+   Token namespace: compact-select/* (13 L3 CSS vars, shared with CompactSelectForInput)
+
+   Architecture:
+     --_cs-text / --_cs-icon — internal custom props; set on root button,
+                               inherited by .compact-select__text and icon slots.
+     State modifiers on root (.compact-select--*).
+     .compact-select--has-icon controls left-padding difference (icon/country
+     vs. basic layout).
+     Root element is the <button> itself (no wrapper div — trigger IS component).
+
+   Sizes:  md (40px) · sm (36px) · xs (32px)
+   States: placeholder · filled · hover · open · error · disabled
+           Placeholder and Filled share identical token bindings — no CSS
+           modifier needed for Filled state (only text content differs).
+
+   Padding (confirmed from Figma node 2174:4038):
+     Size      Icon(L/R)  Country(L/R)  Basic(L/R)  V    gap
+     Medium    10/10      10/10         12/10       10   4
+     Small      8/8        8/8          12/8         8   4
+     X-Small    6/6        8/6          10/6         6   2
+
+   Icon and Country share identical padding at Medium and Small.
+   X-Small differs: Icon=6, Country=8, Basic=10 (left side only).
+
+   No box-shadow on trigger — docs §15 token matrix has no shadow column.
+   (DROP_SHADOW found in Figma inspection data is on hidden ↳badge child,
+   not on the trigger frame itself.)
+
+   DS gaps carried forward (non-blocking):
+     compact-select/text/default not bound to text layers in Icon/Country type
+     Figma variants. Code uses the correct token per docs §15.
+
+     X-Small gap: Figma = 2px; OQ9 map says spacing/4 (4px). Figma wins.
+   ============================================================================= */
+
+/* ── Root: trigger button ────────────────────────────────────────────────────
+   Horizontal auto layout. Width is hug-content (width: auto).
+   border-radius and padding overridden per size below.                        */
+
+.compact-select {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: auto;
+
+  /* Reset button defaults */
+  appearance: none;
+  background: none;
+  border: 1px solid;
+  text-align: left;
+  cursor: pointer;
+  white-space: nowrap;
+
+  /* Typography — body/regular/md (14px) */
+  font-family:    var(--text-style-body-regular-md-font-family);
+  font-weight:    var(--text-style-body-regular-md-font-weight);
+  font-size:      var(--text-style-body-regular-md-font-size);
+  line-height:    var(--text-style-body-regular-md-line-height);
+  letter-spacing: var(--text-style-body-regular-md-letter-spacing);
+
+  /* Transition */
+  transition:
+    background-color 0.15s ease,
+    border-color     0.15s ease,
+    color            0.15s ease;
+
+  /* ── DEFAULT state tokens (Placeholder + Filled share same bindings) ── */
+  background-color: var(--compact-select-bg-default);
+  border-color:     var(--compact-select-border-default);
+  --_cs-text: var(--compact-select-text-default);
+  --_cs-icon: var(--compact-select-icon-default);
+}
+
+/* ── Sizes ──────────────────────────────────────────────────────────────────
+   Padding L defaults to Basic layout; .compact-select--has-icon overrides.
+   Right padding and vertical padding are the same for all types per size.    */
+
+/* Medium (40px): V=10, R=10, gap=4, radius=10 */
+.compact-select--md {
+  height:         40px;
+  padding-top:    10px;
+  padding-bottom: 10px;
+  padding-right:  10px;
+  padding-left:   12px;   /* Basic layout — overridden to 10px with .has-icon */
+  gap:            4px;
+  border-radius:  var(--radius-10);
+}
+.compact-select--md.compact-select--has-icon { padding-left: 10px; }
+
+/* Small (36px): V=8, R=8, gap=4, radius=8 */
+.compact-select--sm {
+  height:         36px;
+  padding-top:    8px;
+  padding-bottom: 8px;
+  padding-right:  8px;
+  padding-left:   12px;   /* Basic layout — overridden to 8px with .has-icon */
+  gap:            4px;
+  border-radius:  var(--radius-8);
+}
+.compact-select--sm.compact-select--has-icon { padding-left: 8px; }
+
+/* X-Small (32px): V=6, R=6, gap=2, radius=8 */
+.compact-select--xs {
+  height:         32px;
+  padding-top:    6px;
+  padding-bottom: 6px;
+  padding-right:  6px;
+  padding-left:   10px;   /* Basic layout — overridden per type with .has-icon */
+  gap:            2px;
+  border-radius:  var(--radius-8);
+}
+.compact-select--xs.compact-select--has-icon                        { padding-left: 6px; } /* Icon */
+.compact-select--xs.compact-select--has-icon.compact-select--country { padding-left: 8px; } /* Country */
+
+/* ── Value / Placeholder text ───────────────────────────────────────────────
+   Fills remaining space between icon and chevron within the hug-content button.
+   Truncates with ellipsis when text overflows.                               */
+
+.compact-select__text {
+  flex:         1 1 0;
+  min-width:    0;
+  overflow:     hidden;
+  white-space:  nowrap;
+  text-overflow: ellipsis;
+  color:        var(--_cs-text);
+}
+
+/* ── Icon slots (left + chevron) ────────────────────────────────────────────
+   Both fixed 20×20. color=currentColor via --_cs-icon so stroke icons
+   respond to state changes.                                                  */
+
+.compact-select__icon-left,
+.compact-select__icon-chevron {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  flex-shrink:     0;
+  width:           20px;
+  height:          20px;
+  color:           var(--_cs-icon);
+}
+
+.compact-select__icon-left  > svg,
+.compact-select__icon-chevron > svg {
+  width:          20px;
+  height:         20px;
+  display:        block;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   STATE RULES
+   Specificity notes:
+     default:               .compact-select        (0,1,0)
+     hover:                 :hover:not(:disabled)  (0,3,0) — overrides default
+     open / error modifier: .compact-select--*     (0,2,0)
+     open/error + hover:    .compact-select--*:hover:not(:disabled) (0,4,0)
+                            — suppresses hover bg/border on open/error.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── HOVER ──────────────────────────────────────────────────────────────────
+   Figma Hover state: bg=bg/hover, border=(—) no border token.
+   border-color:transparent preserves 1px space to prevent layout shift.     */
+
+.compact-select:hover:not(:disabled) {
+  background-color: var(--compact-select-bg-hover);
+  border-color:     transparent;
+}
+
+/* ── OPEN ────────────────────────────────────────────────────────────────── */
+
+.compact-select--open {
+  border-color: var(--compact-select-border-focus);
+}
+
+/* Open + hover: border and bg stay stable at Open values */
+.compact-select--open:hover:not(:disabled) {
+  background-color: var(--compact-select-bg-default);
+  border-color:     var(--compact-select-border-focus);
+}
+
+/* ── ERROR ───────────────────────────────────────────────────────────────── */
+
+.compact-select--error {
+  border-color: var(--compact-select-border-error);
+}
+
+/* Error + hover: bg changes to hover; error border persists */
+.compact-select--error:hover:not(:disabled) {
+  background-color: var(--compact-select-bg-hover);
+  border-color:     var(--compact-select-border-error);
+}
+
+/* ── DISABLED ────────────────────────────────────────────────────────────── */
+
+/* Figma Disabled state: bg=bg/disabled, border=(—) no border token,
+   text and icon use disabled tokens.                                         */
+
+.compact-select--disabled,
+.compact-select--disabled:hover {
+  background-color: var(--compact-select-bg-disabled);
+  border-color:     transparent;
+  cursor:           not-allowed;
+  pointer-events:   none;
+  --_cs-text: var(--compact-select-text-disabled);
+  --_cs-icon: var(--compact-select-icon-disabled);
+}
+
+/* ── Focus-visible ring (keyboard navigation) ────────────────────────────── */
+
+.compact-select:focus-visible {
+  outline:        2px solid var(--compact-select-border-focus);
+  outline-offset: 1px;
+}
+
+.compact-select:focus:not(:focus-visible) {
+  outline: none;
+}

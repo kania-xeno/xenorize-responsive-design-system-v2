@@ -1,0 +1,257 @@
+/* =============================================================================
+   SelectBasic.css — ↳basic trigger component
+   Source: Design System Scalable V.2.1.0 · Page: ❖ Select Field
+   ComponentSet node: 2174:17255
+   Token namespace: select-basic/* (15 L3 CSS vars, added Phase 1)
+   Spacing/radius source: responsive collection — OQ9 binding map (2026-08-13)
+
+   Architecture:
+     --_sb-text / --_sb-icon  — internal custom props; set on trigger, inherited
+                                 by .select-basic__text and icon slots.
+     State modifiers on root (.select-basic--*); trigger reads via descendant.
+     Hover uses :hover:not(:disabled) on the <button> (works because disabled
+     attr is set on the element in the disabled state).
+
+   States:   default · hover · open · filled · disabled · error
+   Sizes:    md (40px) · sm (36px) · xs (32px)
+
+   Shadows: Default + Filled use --shadow-custom-input-default (dropshadow/8 + /4).
+   Open uses --shadow-focus-ring-neutral (color/alpha/slate/16, spread=4).
+   Hover, Error, Disabled: no shadow. Focus-visible keyboard outline via outline.
+   ↳badge layer exists in Figma but is visible:false in all 18 variants — not implemented.
+   ============================================================================= */
+
+/* ── Root: vertical stack (LabelKey + trigger + HintText) ──────────────────
+   gap=4 matches spacing/4 from OQ9 binding map (root COMPONENT itemSpacing).  */
+
+.select-basic {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Trigger button ─────────────────────────────────────────────────────────
+   Matches the Figma "Default" FRAME (the main interactive field).
+   border-radius and padding are overridden per size below.                    */
+
+.select-basic__trigger {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+
+  /* Reset button defaults */
+  appearance: none;
+  background: none;
+  border: 1px solid;
+  border-radius: var(--radius-10);   /* Medium default; overridden by size */
+  text-align: left;
+  cursor: pointer;
+
+  /* Typography — body/regular/md (14px), consistent with InputText */
+  font-family:    var(--text-style-body-regular-md-font-family);
+  font-weight:    var(--text-style-body-regular-md-font-weight);
+  font-size:      var(--text-style-body-regular-md-font-size);
+  line-height:    var(--text-style-body-regular-md-line-height);
+  letter-spacing: var(--text-style-body-regular-md-letter-spacing);
+
+  /* Transition */
+  transition:
+    background-color 0.15s ease,
+    border-color     0.15s ease,
+    box-shadow       0.15s ease,
+    color            0.15s ease;
+
+  /* ── DEFAULT state tokens ── */
+  /* Figma Default: no CSS border — the shadow's 0 0 0 1px layer provides the ring.    */
+  /* --select-basic-border-default token exists for semantic completeness (L3 spec) but */
+  /* the trigger must be visually borderless. Pattern matches InputText --basic Default. */
+  background-color: var(--select-basic-bg-default);
+  border-color:     transparent;
+  box-shadow:       var(--shadow-custom-input-default);   /* dropshadow/8 + dropshadow/4 */
+  --_sb-text: var(--select-basic-text-placeholder);
+  --_sb-icon: var(--select-basic-icon-default);
+}
+
+/* ── Sizes ──────────────────────────────────────────────────────────────────
+   Padding / gap / radius from OQ9 binding map (responsive collection).
+   Heights are implicit (content fills padded container).                      */
+
+/* Medium (40px): paddingL=12, paddingR=10, paddingV=10, gap=8, radius=10 */
+.select-basic--md .select-basic__trigger {
+  height:         40px;
+  padding-top:    10px;
+  padding-bottom: 10px;
+  padding-left:   12px;
+  padding-right:  10px;
+  gap:            8px;
+  border-radius:  var(--radius-10);
+}
+
+/* Small (36px): paddingL=10, paddingR=8, paddingV=8, gap=8, radius=8 */
+.select-basic--sm .select-basic__trigger {
+  height:         36px;
+  padding-top:    8px;
+  padding-bottom: 8px;
+  padding-left:   10px;
+  padding-right:  8px;
+  gap:            8px;
+  border-radius:  var(--radius-8);
+}
+
+/* X-Small (32px): paddingL=8, paddingR=6, paddingV=6, gap=6, radius=8 */
+.select-basic--xs .select-basic__trigger {
+  height:         32px;
+  padding-top:    6px;
+  padding-bottom: 6px;
+  padding-left:   8px;
+  padding-right:  6px;
+  gap:            6px;
+  border-radius:  var(--radius-8);
+}
+
+/* ── Value / Placeholder text ───────────────────────────────────────────────
+   Fills remaining trigger width; truncates with ellipsis.                     */
+
+.select-basic__text {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--_sb-text);
+}
+
+/* ── Icon slots (left + chevron) ────────────────────────────────────────────
+   Both 20×20. color=currentColor is set by --_sb-icon so stroke icons respond
+   to state. Left icon and chevron share the same color token.                 */
+
+.select-basic__icon-left,
+.select-basic__icon-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--_sb-icon);
+}
+
+.select-basic__icon-left > svg,
+.select-basic__icon-chevron > svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  pointer-events: none;
+}
+
+/* ── Badge slot ─────────────────────────────────────────────────────────────
+   ↳badge (INSTANCE, node 2174:17261) exists in Figma but is visible:false /
+   _hidden:true in all 18 variants. Not implemented as a prop.                 */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   STATE RULES
+   State modifiers are on root (.select-basic--*).
+   Trigger reads them as descendant selectors.
+   Specificity notes:
+     default hover: (0,1,0)+(0,0,1) = 1 class + 1 pseudo
+     open/filled/error modifier: (0,2,0)+(0,0,1) = 2 classes + 1 pseudo
+     modifier always wins over plain hover. ✅
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── HOVER (default / placeholder state) ────────────────────────────────────
+   :hover:not(:disabled) — :disabled fires because <button disabled> is set.  */
+
+.select-basic__trigger:hover:not(:disabled) {
+  background-color: var(--select-basic-bg-hover);
+  border-color:     var(--select-basic-border-hover);
+  box-shadow:       none;    /* Figma Hover state: no drop-shadow effects */
+  /* --_sb-text stays as-is (placeholder or filled, per parent modifier) */
+}
+
+/* ── FILLED (value selected, dropdown closed) ────────────────────────────── */
+
+.select-basic--filled .select-basic__trigger {
+  border-color: var(--select-basic-border-focus);
+  --_sb-text:   var(--select-basic-text-filled);
+}
+
+/* Filled + hover: bg/border go to hover; text stays filled (no override needed —
+   --_sb-text is already set to text-filled by the filled modifier above and
+   the hover rule does not reset it).                                          */
+
+/* ── OPEN (dropdown expanded) ────────────────────────────────────────────── */
+
+/* Figma Open state: border/focus + color/alpha/slate/16 focus ring effect */
+.select-basic--open .select-basic__trigger {
+  border-color: var(--select-basic-border-focus);
+  box-shadow:   var(--shadow-focus-ring-neutral);   /* color/alpha/slate/16 → neutral ring */
+  --_sb-text:   var(--select-basic-text-filled);
+}
+
+/* Suppress hover bg/border when open — focus ring and border stay stable */
+.select-basic--open .select-basic__trigger:hover:not(:disabled) {
+  background-color: var(--select-basic-bg-default);
+  border-color:     var(--select-basic-border-focus);
+  box-shadow:       var(--shadow-focus-ring-neutral);
+}
+
+/* ── ERROR ───────────────────────────────────────────────────────────────── */
+
+/* Figma Error state: no drop-shadow effects */
+.select-basic--error .select-basic__trigger {
+  border-color: var(--select-basic-border-error);
+  box-shadow:   none;
+  --_sb-text:   var(--select-basic-text-filled);
+}
+
+/* Error + hover: error border persists; bg changes to hover */
+.select-basic--error .select-basic__trigger:hover:not(:disabled) {
+  background-color: var(--select-basic-bg-hover);
+  border-color:     var(--select-basic-border-error);
+}
+
+/* ── DISABLED ────────────────────────────────────────────────────────────── */
+
+.select-basic--disabled .select-basic__trigger,
+.select-basic--disabled .select-basic__trigger:hover {
+  background-color: var(--select-basic-bg-disabled);
+  border-color:     var(--select-basic-border-disabled);
+  box-shadow:       none;    /* Figma Disabled state: no drop-shadow effects */
+  cursor:           not-allowed;
+  pointer-events:   none;        /* belt + suspenders with disabled attr */
+  --_sb-text: var(--select-basic-text-disabled);
+  --_sb-icon: var(--select-basic-icon-disabled);
+}
+
+/* ── Focus-visible ring (keyboard navigation) ────────────────────────────── */
+
+.select-basic__trigger:focus-visible {
+  outline:        2px solid var(--select-basic-border-focus);
+  outline-offset: 1px;
+}
+
+/* Suppress default browser outline — we provide our own above */
+.select-basic__trigger:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ── Dropdown panel — fill parent width when embedded in Select ─────────────
+   Figma: dropdown-list INSTANCE uses layoutSizingHorizontal=FILL in all four
+   Open variants (↳basic · ↳country · ↳coin · ↳exchange). The master
+   DropdownList component has a standalone width of 340px (DropdownList.css);
+   this rule overrides only when mounted as a direct child of .select-basic.
+
+   SelectCountry / SelectCoin / SelectExchange inherit automatically — their
+   root <div> always carries the .select-basic class, so no separate rules
+   are needed for those three wrappers.
+
+   The child > combinator prevents this from affecting any DropdownList nested
+   deeper (e.g. inside a DropdownOption sub-menu, if one were ever added).    */
+
+.select-basic > .dropdown-list {
+  width: 100%;
+}

@@ -1,0 +1,36 @@
+import React from 'react';
+
+/**
+ * Angola — country flag asset (SVG component)
+ *
+ * Source: Assets V.2.0.0 → ↪️ ❖ Country Flags → Angola (node 2:3091)
+ * Natural size: 24×24px (circular flag icon).
+ * Structure: red/black halves + gold machete, gear and star emblem.
+ *
+ * Asset colors are asset-owned — do NOT apply DS tokens to fill values.
+ */
+export default function Angola({ width = 24, height = 24 }) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <g clipPath="url(#clip0_2_3091)">
+        <path d="M0 12C0 5.37262 5.37262 0 12 0C18.6274 0 24 5.37262 24 12C23.4783 12 12 13.5652 12 13.5652L0 12Z" fill="#D80027"/>
+        <path d="M24 12C24 18.6274 18.6274 24 12 24C5.37262 24 0 18.6274 0 12" fill="black"/>
+        <path d="M10.3546 9.54426L11.3719 10.2825L10.9842 11.4782L12.0008 10.7387L13.0181 11.477L12.629 10.2817L13.6454 9.54229L12.3885 9.54304L11.9993 8.34778L11.6116 9.54347L10.3546 9.54426Z" fill="#FFDA44"/>
+        <path d="M15 6.80381C14.0544 6.25785 13.0205 6.00018 12 6.00196V7.56684C12.7543 7.56548 13.5184 7.75579 14.2174 8.15938C16.3351 9.38207 17.0633 12.0997 15.8406 14.2174C14.6179 16.3351 11.9004 17.0633 9.7826 15.8407C9.16563 15.4844 8.66759 15.0008 8.30046 14.4426L6.99377 15.3053C7.49051 16.0604 8.16532 16.7142 9.00002 17.1961C11.8652 18.8503 15.5419 17.8651 17.1961 14.9999C18.8503 12.1348 17.8652 8.45803 15 6.80381Z" fill="#FFDA44"/>
+        <path d="M8.5402 10.9564C8.12536 11.7148 8.40389 12.666 9.16223 13.0808L14.2458 15.8586C13.9001 16.4905 14.0837 17.2597 14.7156 17.6054L16.0888 18.3566C16.7207 18.7023 17.5134 18.4702 17.8591 17.8382L18.6103 16.4651L8.5402 10.9564Z" fill="#FFDA44"/>
+      </g>
+      <defs>
+        <clipPath id="clip0_2_3091">
+          <rect width="24" height="24" fill="white"/>
+        </clipPath>
+      </defs>
+    </svg>
+  );
+}

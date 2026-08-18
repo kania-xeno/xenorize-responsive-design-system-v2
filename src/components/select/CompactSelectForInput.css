@@ -1,0 +1,212 @@
+/* =============================================================================
+   CompactSelectForInput.css — ↳compact-select-for-input trigger component
+   Source: Design System Scalable V.2.1.0 · Page: ❖ Select Field
+   ComponentSet node: 1971:7724
+   Token namespace: compact-select/* (shared with CompactSelect — tokens.css)
+
+   Architecture:
+     --_csfi-text / --_csfi-icon — internal custom props; set on root button,
+                                   inherited by text and icon slots.
+     State modifiers on root (.compact-select-for-input--*).
+     Inner .compact-select-for-input__text-group sub-frame groups text + chevron
+     with gap=2, matching Figma "Text" sub-frame anatomy.
+     Root has gap per size (outer gap, between flag and text-group).
+
+   MUST be embedded inside ↳input-text (InputText parent).
+   No border, no border-radius — parent InputText provides both.
+
+   Sizes:  md (40px) · sm (36px) · xs (32px)
+   States: default · hover · open · disabled
+           (No Placeholder / Filled / Error states — not in Figma ComponentSet)
+
+   Padding (confirmed from Figma node 1971:7724):
+     Medium:  L=10, R=8, V=10, outer-gap=8, inner-gap=2
+     Small:   L=8,  R=8, V=8,  outer-gap=8, inner-gap=2
+     X-Small: L=8,  R=6, V=6,  outer-gap=6, inner-gap=2
+
+   Token bindings per state (Figma-confirmed):
+     Default:  bg=compact-select/bg/default
+     Hover:    bg=compact-select/bg/hover
+     Open:     bg=compact-select/bg/active  ← bg/active, not bg/default
+     Disabled: bg=compact-select/bg/disabled, text/icon = disabled tokens
+     No border token on any state — parent InputText provides border.
+
+   Reuse note: shares compact-select/* token namespace with CompactSelect
+   but is a separate ComponentSet with sub-frame anatomy. Token reuse only.
+   ============================================================================= */
+
+/* ── Root: trigger button ────────────────────────────────────────────────────
+   Horizontal auto layout. No border, no border-radius (parent provides both).
+   Padding and outer gap overridden per size below.                           */
+
+.compact-select-for-input {
+  /* Layout */
+  display:         inline-flex;
+  align-items:     center;
+  box-sizing:      border-box;
+  width:           auto;
+
+  /* No border — parent InputText provides it */
+  border:          none;
+  border-radius:   0;
+
+  /* Reset button defaults */
+  appearance:      none;
+  background:      none;
+  text-align:      left;
+  cursor:          pointer;
+  white-space:     nowrap;
+
+  /* Typography — body/regular/md (14px) */
+  font-family:    var(--text-style-body-regular-md-font-family);
+  font-weight:    var(--text-style-body-regular-md-font-weight);
+  font-size:      var(--text-style-body-regular-md-font-size);
+  line-height:    var(--text-style-body-regular-md-line-height);
+  letter-spacing: var(--text-style-body-regular-md-letter-spacing);
+
+  /* Transition */
+  transition:
+    background-color 0.15s ease,
+    color            0.15s ease;
+
+  /* ── DEFAULT state tokens ── */
+  background-color: var(--compact-select-bg-default);
+  --_csfi-text: var(--compact-select-text-default);
+  --_csfi-icon: var(--compact-select-icon-default);
+}
+
+/* ── Sizes ──────────────────────────────────────────────────────────────────
+   Outer gap = between flag/icon and text-group sub-frame.
+   Inner gap = between text value and chevron (in .text-group).               */
+
+/* Medium (40px): L=10, R=8, V=10, outer-gap=8 */
+.compact-select-for-input--md {
+  height:         40px;
+  padding-top:    10px;
+  padding-bottom: 10px;
+  padding-left:   10px;
+  padding-right:  8px;
+  gap:            8px;   /* outer: flag → text-group */
+}
+
+/* Small (36px): L=8, R=8, V=8, outer-gap=8 */
+.compact-select-for-input--sm {
+  height:         36px;
+  padding-top:    8px;
+  padding-bottom: 8px;
+  padding-left:   8px;
+  padding-right:  8px;
+  gap:            8px;
+}
+
+/* X-Small (32px): L=8, R=6, V=6, outer-gap=6 */
+.compact-select-for-input--xs {
+  height:         32px;
+  padding-top:    6px;
+  padding-bottom: 6px;
+  padding-left:   8px;
+  padding-right:  6px;
+  gap:            6px;
+}
+
+/* ── Left icon slot (flag / icon) ───────────────────────────────────────────
+   20×20, flex-shrink:0. color via --_csfi-icon.                              */
+
+.compact-select-for-input__icon-left {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  flex-shrink:     0;
+  width:           20px;
+  height:          20px;
+  color:           var(--_csfi-icon);
+}
+
+.compact-select-for-input__icon-left > svg,
+.compact-select-for-input__icon-left > img {
+  width:          20px;
+  height:         20px;
+  display:        block;
+  pointer-events: none;
+}
+
+/* ── Text+chevron sub-frame ─────────────────────────────────────────────────
+   Matches Figma "Text" sub-frame: inner flex container, gap=2 (all sizes).   */
+
+.compact-select-for-input__text-group {
+  display:     inline-flex;
+  align-items: center;
+  gap:         2px;   /* inner: value text → chevron */
+  min-width:   0;
+}
+
+/* ── Value text ─────────────────────────────────────────────────────────────  */
+
+.compact-select-for-input__text {
+  overflow:      hidden;
+  white-space:   nowrap;
+  text-overflow: ellipsis;
+  color:         var(--_csfi-text);
+}
+
+/* ── Chevron icon ────────────────────────────────────────────────────────── */
+
+.compact-select-for-input__icon-chevron {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  flex-shrink:     0;
+  width:           20px;
+  height:          20px;
+  color:           var(--_csfi-icon);
+}
+
+.compact-select-for-input__icon-chevron > svg {
+  width:          20px;
+  height:         20px;
+  display:        block;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   STATE RULES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── HOVER ───────────────────────────────────────────────────────────────── */
+
+.compact-select-for-input:hover:not(:disabled) {
+  background-color: var(--compact-select-bg-hover);
+}
+
+/* ── OPEN (uses bg/active — Figma-confirmed, differs from ↳compact-select) ── */
+
+.compact-select-for-input--open {
+  background-color: var(--compact-select-bg-active);
+}
+
+/* Open + hover: bg stays at active */
+.compact-select-for-input--open:hover:not(:disabled) {
+  background-color: var(--compact-select-bg-active);
+}
+
+/* ── DISABLED ────────────────────────────────────────────────────────────── */
+
+.compact-select-for-input--disabled,
+.compact-select-for-input--disabled:hover {
+  background-color: var(--compact-select-bg-disabled);
+  cursor:           not-allowed;
+  pointer-events:   none;
+  --_csfi-text: var(--compact-select-text-disabled);
+  --_csfi-icon: var(--compact-select-icon-disabled);
+}
+
+/* ── Focus-visible ring ──────────────────────────────────────────────────── */
+
+.compact-select-for-input:focus-visible {
+  outline:        2px solid var(--compact-select-border-focus);
+  outline-offset: -2px;   /* inset — button has no border, ring goes inside */
+}
+
+.compact-select-for-input:focus:not(:focus-visible) {
+  outline: none;
+}

@@ -1,0 +1,91 @@
+/* =============================================================================
+   SelectExchange.css — ↳exchange trigger component
+   Source: Design System Scalable V.2.1.0 · Page: ❖ Select Field
+   ComponentSet node: 2176:35457
+   Token namespace: select-exchange/* (15 L3 CSS vars)
+
+   Architecture:
+     Composes SelectBasic. Applies select-exchange/* token namespace by overriding
+     SelectBasic's --_sb-text / --_sb-icon / background-color / border-color
+     via the .select-exchange modifier class on the root div.
+
+   ⚠️ DS gap C-01 — implemented as-designed:
+     Figma ↳exchange Open and Error states bind the text layer to
+     select-exchange/text/placeholder (color-text-muted), NOT text/filled.
+     This is a DS gap in the original design — same behavior as ↳coin.
+     Both Open and Error overrides below use text-placeholder to match Figma.
+
+   Specificity:
+     default root:     0,2,0   (beats SelectBasic 0,1,0)
+     hover:            0,4,0   (beats SelectBasic hover 0,3,0)
+     state modifier:   0,3,0   (beats SelectBasic state 0,2,0)
+     state + hover:    0,5,0   (beats SelectBasic state+hover 0,4,0)
+     disabled:         0,3,0   (beats SelectBasic disabled 0,2,0)
+
+   Figma left icon: "icn-exchange-Upbit Symbol" = Upbit asset (20×20).
+   ============================================================================= */
+
+/* ── Root trigger — apply select-exchange/* namespace ───────────────────── */
+
+.select-exchange .select-basic__trigger {
+  background-color: var(--select-exchange-bg-default);
+  border-color:     transparent;   /* Default: visually borderless — shadow ring from SelectBasic provides visual ring */
+  --_sb-text: var(--select-exchange-text-placeholder);
+  --_sb-icon: var(--select-exchange-icon-default);
+}
+
+/* ── HOVER ───────────────────────────────────────────────────────────────── */
+
+.select-exchange .select-basic__trigger:hover:not(:disabled) {
+  background-color: var(--select-exchange-bg-hover);
+  border-color:     var(--select-exchange-border-hover);
+}
+
+/* ── FILLED ──────────────────────────────────────────────────────────────── */
+
+.select-exchange.select-basic--filled .select-basic__trigger {
+  border-color: var(--select-exchange-border-focus);
+  --_sb-text:   var(--select-exchange-text-filled);
+}
+
+/* ── OPEN — DS gap C-01: text uses placeholder color, not filled ─────────── */
+
+.select-exchange.select-basic--open .select-basic__trigger {
+  border-color: var(--select-exchange-border-focus);
+  --_sb-text:   var(--select-exchange-text-placeholder);   /* C-01: muted, not strong */
+}
+
+/* Open + hover: stable border and bg */
+.select-exchange.select-basic--open .select-basic__trigger:hover:not(:disabled) {
+  background-color: var(--select-exchange-bg-default);
+  border-color:     var(--select-exchange-border-focus);
+}
+
+/* ── ERROR — DS gap C-01: text uses placeholder color, not filled ────────── */
+
+.select-exchange.select-basic--error .select-basic__trigger {
+  border-color: var(--select-exchange-border-error);
+  --_sb-text:   var(--select-exchange-text-placeholder);   /* C-01: muted, not strong */
+}
+
+/* Error + hover: error border persists; bg changes to hover */
+.select-exchange.select-basic--error .select-basic__trigger:hover:not(:disabled) {
+  background-color: var(--select-exchange-bg-hover);
+  border-color:     var(--select-exchange-border-error);
+}
+
+/* ── DISABLED ────────────────────────────────────────────────────────────── */
+
+.select-exchange.select-basic--disabled .select-basic__trigger,
+.select-exchange.select-basic--disabled .select-basic__trigger:hover {
+  background-color: var(--select-exchange-bg-disabled);
+  border-color:     var(--select-exchange-border-disabled);
+  --_sb-text: var(--select-exchange-text-disabled);
+  --_sb-icon: var(--select-exchange-icon-disabled);
+}
+
+/* ── Focus-visible ring ──────────────────────────────────────────────────── */
+
+.select-exchange .select-basic__trigger:focus-visible {
+  outline-color: var(--select-exchange-border-focus);
+}

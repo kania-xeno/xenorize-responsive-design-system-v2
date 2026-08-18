@@ -1,0 +1,93 @@
+/* =============================================================================
+   SelectCoin.css — ↳coin trigger component
+   Source: Design System Scalable V.2.1.0 · Page: ❖ Select Field
+   ComponentSet node: 2175:29967
+   Token namespace: select-coin/* (15 L3 CSS vars)
+
+   Architecture:
+     Composes SelectBasic. Applies select-coin/* token namespace by overriding
+     SelectBasic's --_sb-text / --_sb-icon / background-color / border-color
+     via the .select-coin modifier class on the root div.
+
+   ⚠️ DS gap C-01 — implemented as-designed:
+     Figma ↳coin Open and Error states bind the text layer to
+     select-coin/text/placeholder (color-text-muted), NOT text/filled.
+     This is a DS gap in the original design — the text reverts to muted
+     color when the dropdown opens, regardless of filled state.
+     Both Open and Error overrides below use text-placeholder to match Figma.
+
+   Specificity:
+     default root:     0,2,0   (beats SelectBasic 0,1,0)
+     hover:            0,4,0   (beats SelectBasic hover 0,3,0)
+     state modifier:   0,3,0   (beats SelectBasic state 0,2,0)
+     state + hover:    0,5,0   (beats SelectBasic state+hover 0,4,0)
+     disabled:         0,3,0   (beats SelectBasic disabled 0,2,0)
+
+   Figma left icon: "crypto-coin" = CryptoCoin (Icon System icon, 20×20).
+   Note: do NOT use CoinPlaceholder.jsx — node 21:4686 is a credit card asset.
+   ============================================================================= */
+
+/* ── Root trigger — apply select-coin/* namespace ────────────────────────── */
+
+.select-coin .select-basic__trigger {
+  background-color: var(--select-coin-bg-default);
+  border-color:     transparent;   /* Default: visually borderless — shadow ring from SelectBasic provides visual ring */
+  --_sb-text: var(--select-coin-text-placeholder);
+  --_sb-icon: var(--select-coin-icon-default);
+}
+
+/* ── HOVER ───────────────────────────────────────────────────────────────── */
+
+.select-coin .select-basic__trigger:hover:not(:disabled) {
+  background-color: var(--select-coin-bg-hover);
+  border-color:     var(--select-coin-border-hover);
+}
+
+/* ── FILLED ──────────────────────────────────────────────────────────────── */
+
+.select-coin.select-basic--filled .select-basic__trigger {
+  border-color: var(--select-coin-border-focus);
+  --_sb-text:   var(--select-coin-text-filled);
+}
+
+/* ── OPEN — DS gap C-01: text uses placeholder color, not filled ─────────── */
+
+.select-coin.select-basic--open .select-basic__trigger {
+  border-color: var(--select-coin-border-focus);
+  --_sb-text:   var(--select-coin-text-placeholder);   /* C-01: muted, not strong */
+}
+
+/* Open + hover: stable border and bg */
+.select-coin.select-basic--open .select-basic__trigger:hover:not(:disabled) {
+  background-color: var(--select-coin-bg-default);
+  border-color:     var(--select-coin-border-focus);
+}
+
+/* ── ERROR — DS gap C-01: text uses placeholder color, not filled ────────── */
+
+.select-coin.select-basic--error .select-basic__trigger {
+  border-color: var(--select-coin-border-error);
+  --_sb-text:   var(--select-coin-text-placeholder);   /* C-01: muted, not strong */
+}
+
+/* Error + hover: error border persists; bg changes to hover */
+.select-coin.select-basic--error .select-basic__trigger:hover:not(:disabled) {
+  background-color: var(--select-coin-bg-hover);
+  border-color:     var(--select-coin-border-error);
+}
+
+/* ── DISABLED ────────────────────────────────────────────────────────────── */
+
+.select-coin.select-basic--disabled .select-basic__trigger,
+.select-coin.select-basic--disabled .select-basic__trigger:hover {
+  background-color: var(--select-coin-bg-disabled);
+  border-color:     var(--select-coin-border-disabled);
+  --_sb-text: var(--select-coin-text-disabled);
+  --_sb-icon: var(--select-coin-icon-disabled);
+}
+
+/* ── Focus-visible ring ──────────────────────────────────────────────────── */
+
+.select-coin .select-basic__trigger:focus-visible {
+  outline-color: var(--select-coin-border-focus);
+}
