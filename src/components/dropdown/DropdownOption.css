@@ -9,18 +9,22 @@
  * Token architecture: 4-layer (L1 Primitive → L2 Theme → L3 Component → L4 Binding)
  * L3 namespace: dropdown-items/*
  *
- * L3 variables (18 total, IDs 3149:896–3149:913):
+ * L3 variables (20 total):
+ *   IDs 3149:896–3149:913 (original 18):
  *   dropdown-items/bg/{state}             → Root fill per state
  *   dropdown-items/text/{state}           → Label fill per state
  *   dropdown-items/subtext/{state}        → Sublabel fill per state
  *   dropdown-items/descriptions/{state}   → Descriptions fill per state (Large only)
  *   dropdown-items/icon-border/default    → Icon frame stroke (Large non-Basic only)
+ *   IDs 3337:1189–3337:1190 (added 2026-08-18 by DS Auditor):
+ *   dropdown-items/icon/default           → Basic left icon color (icon/strong)
+ *   dropdown-items/chevron/default        → Right chevron color (brand/primary/base)
  *
  * L3 CSS custom properties are emitted in tokens.css (--dropdown-items-* variables).
  *
  * DS gaps (do not implement until DS fixes):
  *   G1 Row corner radius (8px) unbound — using --radius-8 value
- *   G3 Chevron does not change to disabled color in Disabled state
+ *   DI-03 (was G3) Chevron does not change to disabled color in Disabled state — accepted
  *   G4 descriptions/default aliases icon/sub (icon token, not text token)
  *   G5 Large Basic has no icon FRAME wrapper (inconsistent with other Large types)
  *   G9 Globe icon — resolved. Globe.jsx added to src/icons/. Applied as default for Basic type.
@@ -228,6 +232,12 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  /* Basic/currentColor icons (Globe) inherit this via currentColor.
+   * Self-colored assets (flags, avatars, exchange/coin logos) use explicit SVG
+   * fills/strokes and are unaffected by this property.
+   * Token: dropdown-items/icon/default → icon/strong → --color-icon-strong.
+   * State-invariant — Figma defines no per-state icon color variants. */
+  color: var(--dropdown-items-icon-default);
 }
 
 /* Small slot: no forced size — icon content defines slot width (Provider 32×24, Brand 24×24) */
@@ -283,9 +293,10 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  /* Chevron color: brand/primary/base — state-invariant — DS architecture */
-  /* G3: does not change in Disabled state — DS gap, not overriding here */
-  color: var(--color-brand-primary-base);
+  /* Chevron color: dropdown-items/chevron/default → brand/primary/base → --color-brand-primary-base.
+   * State-invariant — Figma defines no per-state chevron color variants.
+   * DI-03: chevron does not change in Disabled state — accepted DS gap. */
+  color: var(--dropdown-items-chevron-default);
 }
 
 .dropdown-option__right-icon svg {

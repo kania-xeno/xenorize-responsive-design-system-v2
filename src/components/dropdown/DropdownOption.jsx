@@ -22,7 +22,8 @@ import "./DropdownOption.css";
  *   Sublabel      → dropdown-items/subtext/{state}
  *   Descriptions  → dropdown-items/descriptions/{state}  (Large only)
  *   Icon frame    → dropdown-items/icon-border/default   (Large non-Basic only)
- *   Chevron color → brand/primary/base (state-invariant — DS architecture)
+ *   Left icon     → dropdown-items/icon/default → icon/strong (Basic type, state-invariant)
+ *   Chevron       → dropdown-items/chevron/default → brand/primary/base (state-invariant)
  *
  * Nested components (each owns its own tokens):
  *   ↳checkbox    — Checkbox ✅
@@ -35,7 +36,7 @@ import "./DropdownOption.css";
  *
  * DS gaps (do not implement until DS Auditor fixes):
  *   G1 Row corner radius (8px) — unbound in Figma; using --radius-8 value
- *   G3 Chevron stroke does not change in Disabled state — by design (DS gap)
+ *   DI-03 Chevron color does not change in Disabled state — accepted DS gap
  *   G4 dropdown-items/descriptions/default aliases icon/sub (not a text token)
  *   G5 Large Basic has a 40×40 Icon FRAME in Figma but no icon-border stroke.
  *      Code renders a bare left-slot at 40×40 (same visual result; no frame div needed)

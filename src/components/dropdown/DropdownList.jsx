@@ -19,8 +19,8 @@ import "./DropdownList.css";
  * Layout (Figma-confirmed):
  *   Panel: display flex, flex-direction column, padding 8px
  *   Fixed variant: gap 12px (search + options wrapper stacked)
- *   Huge variant:  gap 8px, overflow-y scroll (no search)
- *   Options wrapper: flex column, gap 8px, overflow-y auto
+ *   Hug variant:   gap 4px, overflow-y visible (no search)
+ *   Options wrapper: flex column, gap 4px, overflow-y auto
  *
  * @param {"fixed"|"hug"} [height="fixed"]
  *   "fixed" = 252px max (~6 option rows) — includes Search input

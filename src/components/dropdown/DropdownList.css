@@ -12,13 +12,15 @@
  *   dropdown-list/shadow/default → Figma Effect Style: regular-shadow/medium
  *
  * L3 CSS custom properties are emitted in tokens.css (--dropdown-list-* variables).
- * Dark mode auto-flips via the semantic cascade — no component-level overrides needed.
+ * Dark mode: background/base resolves correctly via semantic cascade after 2026-08-18 fix.
+ *   --color-bg-base added to [data-theme="dark"] block in tokens.css → slate/900 (#1b1c22).
+ *   No component-level dark overrides needed or present.
  *
  * DS gaps (values confirmed; do not invent):
  *   - Panel corner radius (16px) is unbound in Figma — using --radius-16 value
  *   - border/neutral/soft has no dedicated alias in tokens.css;
  *     --color-border-neutral-default used as closest emitted equivalent
- *   - background/base → --color-bg-base (slate-0, mode-invariant)
+ *   - background/base: light = slate/0 (#ffffff), dark = slate/900 (#1b1c22)
  */
 
 /* ─── Panel ─── */

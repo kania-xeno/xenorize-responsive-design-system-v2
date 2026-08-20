@@ -1645,11 +1645,14 @@
 
   /* ═══════════════════════════════════════════════════════════════════════
      LAYER 3 — COMPONENT: DROPDOWN (light mode)
-     ↳dropdown-items:  18 tokens (Figma L3 IDs 3149:896–3149:913)
+     ↳dropdown-items:  20 tokens (IDs 3149:896–3149:913 + 3337:1189–3337:1190)
+       — icon/default (3337:1189) + chevron/default (3337:1190) added 2026-08-18 by DS Auditor
      dropdown-list:     3 tokens (Figma L3 IDs 3149:914–3149:915 + shadow)
      Figma source: ❖ Dropdown page — Design System Scalable V.2.1.0
-     Dark mode: auto-flips via semantic cascade — no [data-theme="dark"] overrides needed.
+     Dark mode: ↳dropdown-items auto-flips via semantic cascade (icon/strong, surface/neutral/*).
+       dropdown-list/bg/default dark fix: --color-bg-base added to [data-theme="dark"] 2026-08-18.
      DS gap G4: descriptions-default aliases icon/sub (icon token, not text token).
+     DS gap DI-03: icon-border/default is state-invariant — accepted per DS Auditor.
      DS gap: border/neutral/soft has no dedicated alias; border-neutral-default used.
      ═══════════════════════════════════════════════════════════════════════ */
 
@@ -1681,12 +1684,16 @@
   --dropdown-items-descriptions-disabled:  var(--color-text-neutral-disabled);    /* text/neutral/disabled → 3149:912 */
 
   /* — dropdown-items: icon frame border (Large non-Basic, all states) — */
-  --dropdown-items-icon-border-default:    var(--color-border-neutral-subtle);    /* border/neutral/subtle → 3149:913 */
+  --dropdown-items-icon-border-default:    var(--color-border-neutral-subtle);    /* border/neutral/subtle  → 3149:913 */
+
+  /* — dropdown-items: Basic icon + right chevron colors (added 2026-08-18) — */
+  --dropdown-items-icon-default:           var(--color-icon-strong);              /* icon/strong            → 3337:1189 */
+  --dropdown-items-chevron-default:        var(--color-brand-primary-base);       /* brand/primary/base     → 3337:1190 */
 
   /* — dropdown-list: panel — */
-  /* background/base → semantic.color.bg.base → --color-bg-base (slate-0 in both modes) */
+  /* background/base → --color-bg-base. Dark override added 2026-08-18: see [data-theme="dark"]. */
   /* border/neutral/soft: no dedicated alias; --color-border-neutral-default is closest emitted equivalent */
-  --dropdown-list-bg-default:              var(--color-bg-base);                  /* background/base       → 3149:914 */
+  --dropdown-list-bg-default:              var(--color-bg-base);                  /* background/base        → 3149:914 */
   --dropdown-list-border-default:          var(--color-border-neutral-default);   /* border/neutral/soft   → 3149:915 */
   --dropdown-list-shadow-default:          var(--shadow-regular-medium);          /* regular-shadow/medium (Figma Effect Style) */
 
@@ -1720,6 +1727,15 @@
   --color-surface-neutral-soft:       var(--prim-slate-700);    /* legacy alias */
   --color-surface-soft-alt:           var(--prim-slate-600);    /* #515567 */
   --color-surface-neutral-soft-alt:   var(--prim-slate-600);    /* legacy alias */
+
+  /* ── BG (legacy flat namespace) — dark overrides ── */
+  /* background/base dark: slate/900 per Figma VariableID:1892:31 — fixed 2026-08-18 */
+  --color-bg-base:                    var(--prim-slate-900);    /* #1b1c22 */
+
+  /* ── Brand primary — dark overrides ── */
+  /* brand/primary/base dark: stpatrick/300 per Figma VariableID:1781:5863 — fixed 2026-08-18 */
+  --color-brand-primary:              var(--prim-brand-stpatrick-300);   /* #9589d9 */
+  --color-brand-primary-base:         var(--prim-brand-stpatrick-300);   /* #9589d9 — legacy alias */
 
   --color-text-strong:                var(--prim-slate-0);      /* #ffffff */
   --color-text-neutral-strong:        var(--prim-slate-0);      /* legacy alias */

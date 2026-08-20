@@ -103,7 +103,7 @@ All 6 item types (Small + Large) and both DropdownList height variants at a glan
 
 **Item types:** basic · country · avatar · provider · brand · company
 
-**List heights:** fixed (max 252px) · huge (max 104px)
+**List heights:** fixed (max 252px) · hug (wraps content)
         `,
       },
     },
@@ -181,10 +181,10 @@ All 6 item types (Small + Large) and both DropdownList height variants at a glan
             </DropdownList>
           </div>
 
-          {/* Huge */}
+          {/* Hug */}
           <div>
-            <div style={SUB_LABEL_STYLE}>Huge — max 104px</div>
-            <DropdownList height="huge" aria-label="Overview — huge height">
+            <div style={SUB_LABEL_STYLE}>Hug — wraps content</div>
+            <DropdownList height="hug" aria-label="Overview — hug height">
               {["Option one", "Option two", "Option three", "Option four"].map((label, i) => (
                 <DropdownOption
                   key={label}

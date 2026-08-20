@@ -4,7 +4,7 @@
 **DS version:** Scalable Design System — All Platform V.2.1.0
 **Figma file:** `0aVnOgjVWH1YL8JCnjXTBi` — page `❖ Dropdown`
 **Implementation date:** 2026-07-30
-**Last updated:** 2026-08-06 — Phase 2 runtime fixes (Globe icon, spacing, avatar size, DropdownList layout + Search)
+**Last updated:** 2026-08-20 — Phase 3 Dark Mode cleanup (hug rename, L3 icon/chevron tokens, bg-base dark override, brand/primary dark fix)
 **Status:** Implemented — L3 tokens emitted in tokens.css
 
 ---
@@ -33,7 +33,7 @@ Two components on the `❖ Dropdown` Figma page:
 | `↳dropdown-items` node | `2090:6272` |
 | `dropdown-list` node | Confirm during intake (deep-inspect exceeds token limit) |
 | `↳dropdown-items` variants | 60 (6 types × 5 states × 2 sizes) |
-| `dropdown-list` variants | 2 (fixed height · huge height) |
+| `dropdown-list` variants | 2 (fixed height · hug height) |
 | L3 variable collection | `component` (`VariableCollectionId:1902:2617`, modeId `1902:0`) |
 
 **Figma inspection completed:** 2026-07-30
@@ -54,15 +54,15 @@ Two components on the `❖ Dropdown` Figma page:
   ├── box-shadow: var(--dropdown-list-shadow-default)    ← regular-shadow/medium
   ├── border-radius: var(--radius-16)     ← 16px (unbound in Figma — DS gap)
   ├── width: 340px                        ← Figma fixed width (confirm OQ2)
-  ├── max-height: 252px (fixed) | 104px (huge)
+  ├── max-height: 252px (fixed) | no max-height (hug)
   │
   ├── [Fixed only] gap: 12px
   │   ├── <SearchInput size="xs" placeholder="Search..." />   ← 324×32px
-  │   └── .dropdown-list__options                             ← flex col, gap 8, overflow scroll
+  │   └── .dropdown-list__options                             ← flex col, gap 4, overflow auto
   │       └── [DropdownOption children]
   │
-  └── [Huge] gap: 8px, overflow-y auto
-      └── [DropdownOption children] (no search)
+  └── [Hug] gap: 4px, overflow-y visible (no search)
+      └── [DropdownOption children]
 ```
 
 ### 3.2 DropdownOption — Small (40px)
@@ -118,7 +118,7 @@ Figma layer path: `↳dropdown-items > {layers below}`
 
 | Axis | Figma label | Prop | Values |
 |---|---|---|---|
-| Height | `size` | `height` | `fixed` (252px) · `huge` (104px) |
+| Height | `size` | `height` | `fixed` (252px) · `hug` (wraps content) |
 
 ---
 
@@ -166,13 +166,12 @@ L3 variables are emitted in `tokens.css` under the `--dropdown-items-*` and `--d
 | `dropdown-items/descriptions/default` | `3149:911` | `icon/sub` | `--color-icon-sub` | All except Disabled |
 | `dropdown-items/descriptions/disabled` | `3149:912` | `text/neutral/disabled` | `--color-text-neutral-disabled` | Disabled |
 | `dropdown-items/icon-border/default` | `3149:913` | `border/neutral/subtle` | `--color-border-neutral-subtle` | All (state-invariant) |
+| `dropdown-items/icon/default` | `3337:1189` | `icon/strong` | `--color-icon-strong` | All (state-invariant) |
+| `dropdown-items/chevron/default` | `3337:1190` | `brand/primary/base` | `--color-brand-primary-base` | All (state-invariant) |
 
 Note: `text/neutral/subtle` has no dedicated `--color-text-neutral-subtle` alias in tokens.css. `--color-text-subtle` (semantic.color.text.subtle → prim-neutral-400, #a3a3a3) is the correct emitted equivalent and is used here.
 
-**Variables NOT created (nested instances own their own tokens):**
-- `dropdown-items/icon/*` — left-slot icons are nested INSTANCEs
-- `dropdown-items/right-icon/*` — chevron-right-small is a nested INSTANCE
-- `dropdown-items/border/*` — no direct-owned stroke on root frame
+**Variable update (added 2026-08-18):** `dropdown-items/icon/default` and `dropdown-items/chevron/default` were added as L3 component tokens, wiring `icon/strong` and `brand/primary/base` through the component layer. `dropdown-items/border/*` remains absent — no direct-owned stroke on root frame.
 
 ### 6.3 DropdownList — L3 token table (confirmed in Figma 2026-07-30)
 
@@ -183,13 +182,15 @@ Note: `text/neutral/subtle` has no dedicated `--color-text-neutral-subtle` alias
 | `dropdown-list/shadow/default` | — | Figma Effect: `regular-shadow/medium` | `--dropdown-list-shadow-default` → `--shadow-regular-medium` |
 
 Notes:
-- `background/base` → `semantic.color.bg.base` → `--color-bg-base` (slate-0, #ffffff, mode-invariant).
+- `background/base` → `semantic.color.bg.base` → `--color-bg-base`. Light: slate/0 (#ffffff). Dark: slate/900 (#1b1c22) — dark override added 2026-08-18.
 - `border/neutral/soft` has no dedicated alias in tokens.css; `--color-border-neutral-default` (semantic.color.border.default) is the closest emitted equivalent.
 - Shadow: Figma panel uses Effect Style `regular-shadow/medium` → `0 16px 32px -12px rgba(23,23,23,0.10)`.
 
-### 6.4 Special token — chevron stroke
+### 6.4 Chevron and icon tokens (updated 2026-08-18)
 
-The `chevron-right-small` stroke is bound directly to `brand/primary/base` (a theme/L2 token), not through an L3 component token. This is state-invariant across all 5 states — the chevron color does not change. **Do not re-tokenize.** Code uses `--color-brand-primary-base` directly on `.dropdown-option__right-icon`.
+The `chevron-right-small` stroke is now bound through L3: `dropdown-items/chevron/default → brand/primary/base → --color-brand-primary-base`. State-invariant across all 5 states (accepted DS gap DI-03: color unchanged in Disabled).
+
+The Basic left-slot icon is also bound through L3: `dropdown-items/icon/default → icon/strong → --color-icon-strong`. Both tokens adapt to dark mode via the semantic layer — no component-level dark override needed.
 
 ---
 
@@ -224,9 +225,9 @@ The `chevron-right-small` stroke is bound directly to `brand/primary/base` (a th
 | Panel width | 340px | — | Fixed in Figma (confirm OQ2) |
 | Panel padding | 8px | — | All sides — Figma confirmed |
 | Panel height — fixed | 252px max | — | `dropdown-list--fixed` (includes Search + options) |
-| Panel height — huge | 104px max | — | `dropdown-list--huge` (no Search) |
+| Panel height — hug | no max-height | — | `dropdown-list--hug` (no Search) |
 | Panel gap — fixed | 12px | — | Gap between SearchInput and options wrapper |
-| Panel gap — huge | 8px | — | Gap between options |
+| Panel gap — hug | 4px | — | Gap between options |
 | Panel corner radius | 16px | `--radius-16` | Unbound in Figma (G2) |
 | Panel border | 1px | `--dropdown-list-border-default` | `border/neutral/soft` |
 | Panel shadow | `regular-shadow/medium` | `--dropdown-list-shadow-default` | Figma Effect Style — `0 16px 32px -12px rgba(23,23,23,0.10)` |
@@ -256,8 +257,8 @@ These appear as nested INSTANCE children in the Figma component. Do not re-token
 
 ```ts
 interface DropdownListProps {
-  height?: "fixed" | "huge";       // default: "fixed" (252px)
-  showSearch?: boolean;            // default: true when height="fixed", false when height="huge"
+  height?: "fixed" | "hug";        // default: "fixed" (252px)
+  showSearch?: boolean;            // default: true when height="fixed", false when height="hug"
   searchValue?: string;            // controlled search input value
   onSearch?: (e: ChangeEvent) => void;
   searchPlaceholder?: string;      // default: "Search..."
@@ -361,7 +362,7 @@ Assets (flags, logos) are NOT system icons. Do not put them in `src/icons/`.
 |---|---|---|---|
 | G1 | Medium | Row corner radius (8px) unbound in Figma | Use `--radius-8` value until DS binds |
 | G2 | Medium | Panel corner radius (16px) unbound in Figma | Use `--radius-16` value until DS binds |
-| G3 | Medium | `chevron-right-small` stroke does not change in Disabled state | No override — DS gap; report to DS |
+| DI-03 (was G3) | Medium | `chevron-right-small` color does not change in Disabled state | Accepted DS gap — no override needed |
 | G4 | Low | `dropdown-items/descriptions/default` aliases `icon/sub` (icon token, not text token) | Uses `--color-icon-sub`; flag to DS for review |
 | G5 | Low | Large Basic has a 40×40 Icon FRAME in Figma but no icon-border stroke (unlike other Large types) | Code renders bare left-slot at 40×40 — no frame wrapper div needed. CSS `.dropdown-option--large .dropdown-option__left-slot` set to 40×40 |
 | G6 | Info | `dropdown-items/bg/hover` and `dropdown-items/bg/selected` alias same L2 token | Both use `surface/neutral/soft` — confirmed design intent |
@@ -381,7 +382,7 @@ Assets (flags, logos) are NOT system icons. Do not put them in `src/icons/`.
 | OQ4 | Toggle inside row: is `onToggle` intentionally separate from `onClick`? | Yes — implemented as separate handlers |
 | OQ5 | `type=avatar`: confirm size (32px Large / 24px Small) | ✅ Resolved — Large 40px, Small 20px. Confirmed Phase 1B Figma inspection. |
 | OQ6 | `type=brand`: are both 24px and 32px logo sizes shown simultaneously? | DT to inspect in Figma |
-| OQ7 | Token approval: when will dropdown-items/* and dropdown-list/* tokens be added to tokens.css? | ✅ Resolved — 21 L3 tokens emitted in tokens.css |
+| OQ7 | Token approval: when will dropdown-items/* and dropdown-list/* tokens be added to tokens.css? | ✅ Resolved — 20 L3 tokens emitted in tokens.css (18 original + icon/default + chevron/default added 2026-08-18) |
 | OQ8 | When will Checkbox and Toggle components be implemented in code? | Blocks removing placeholder slots |
 | OQ9 | Do asset directories (flags, logos/exchanges, logos/providers, logos/coins) exist in `src/assets/`? | ✅ Resolved — `src/assets/logos/` confirmed. `src/assets/flags/` created Phase 2D. No dedicated exchange/provider/coin subdirectories — all logos flat in `src/assets/logos/` |
 
@@ -398,10 +399,10 @@ Assets (flags, logos) are NOT system icons. Do not put them in `src/icons/`.
 - [x] `--dropdown-list-bg-default` applied to background
 - [x] `--dropdown-list-border-default` applied to border
 - [x] `--radius-16` applied to corner radius
-- [x] Two height variants: `fixed` (252px) / `huge` (104px)
+- [x] Two height variants: `fixed` (252px, with Search) / `hug` (wraps content, no Search)
 - [x] Flex column layout with 8px padding (Phase 2)
-- [x] Fixed variant: SearchInput (size=xs) + options wrapper (flex col, gap 8, overflow scroll) (Phase 2)
-- [x] Huge variant: no Search, overflow-y auto
+- [x] Fixed variant: SearchInput (size=xs) + options wrapper (flex col, gap 4, overflow auto) (Phase 2)
+- [x] Hug variant: no Search, overflow-y visible
 - [x] `--dropdown-list-shadow-default` applied via `box-shadow` (Figma: `regular-shadow/medium`)
 - [x] L3 tokens emitted in `tokens.css` (`--dropdown-list-*`)
 - [x] Storybook story (`Dropdown.stories.jsx` — stories: Playground, Overview, Dropdown Items, Dropdown Item Types, Dropdown Item States, Dropdown Item Nested Components, Dropdown List, Dropdown List Heights, Disabled / Dark Mode QA)
@@ -449,6 +450,6 @@ src/components/dropdown/
   ├── DropdownOption.css        Row styles (L3 tokens in tokens.css)
   ├── Dropdown.stories.jsx      Storybook — 9 stories (Playground · BasicList · AllTypesSmall ·
   │                             AllTypesLarge · AllStates · WithControls · ScrollFixed ·
-  │                             ScrollHuge · DarkMode)
+  │                             ScrollHug · DarkMode)
   └── dropdown-spec.md          This file
 ```
