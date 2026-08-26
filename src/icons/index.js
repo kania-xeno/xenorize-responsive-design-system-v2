@@ -36,6 +36,12 @@ export { default as Rose }              from './Rose.jsx';
 export { default as ChevronLeftSmall }  from './ChevronLeftSmall.jsx';
 export { default as CryptoCoin }        from './CryptoCoin.jsx';
 
+// ── extracted (Figma paths captured 2026-08-25 — Drawer D1.3 icon audit) ─────
+export { default as CloseLine }         from './CloseLine.jsx';        // close-line DS:2097:204 — FILLED polygon; required for Drawer dismiss
+export { default as HistoryLine }       from './HistoryLine.jsx';      // history-line DS:2097:202 — FILLED path; Drawer header sample icon
+export { default as ArrowLeftSLine }    from './ArrowLeftSLine.jsx';   // arrow-left-s-line DS:1941:85 — FILLED chevron; Drawer link-button slot (hidden)
+export { default as ArrowRightSLine }   from './ArrowRightSLine.jsx';  // arrow-right-s-line DS:1941:83 — FILLED chevron; Drawer link-button slot (hidden)
+
 // ── placeholder (Figma node known — temporary geometry) ──────────────────────
 export { default as CircleCheck }       from './CircleCheck.jsx';
 export { default as CircleX }           from './CircleX.jsx';

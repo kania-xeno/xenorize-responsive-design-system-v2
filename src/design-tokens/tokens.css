@@ -195,6 +195,8 @@
   --prim-alpha-slate16:     #82879c29;   /* Figma: alpha/slate/16 — corrected value (#99a0ae29 was wrong) */
   --prim-alpha-gray16:      #8f8f8f29;   /* Figma: alpha/gray/16 — unchanged, was correct */
   --prim-alpha-devil16:     #ea343429;   /* Figma: alpha/devil/16 — unchanged, was correct */
+  --prim-alpha-slate10:     #82879c1a;   /* Figma: alpha/slate/10 — overlay/default light */
+  --prim-alpha-stpatrick10: #513ebe1a;   /* Figma: alpha/stpatrick/10 — overlay/default dark */
 
   /* LEGACY alpha — original names kept for backward compat (do not add new refs) */
   --prim-alpha-black4:    #1717170a;    /* LEGACY — 4% opacity original; use --prim-alpha-black10 for corrected Figma value */
@@ -765,6 +767,9 @@
   /* ── Extra ── */
   --color-extra-alpha-black-4:    var(--prim-alpha-black4);   /* #1717170a — 4% opacity; distinct from --prim-alpha-black10 (6.5%) */
 
+  /* ── Overlay ── */
+  --color-overlay-default:        var(--prim-alpha-slate10);  /* #82879c1a — rgba(130,135,156,0.10) */
+
   /* ── Status — legacy flat namespace (--status-*) ── */
   --status-danger-lighter:   var(--prim-devil-50);           /* #fcdfdf */
   --status-danger-base:      var(--prim-devil-400);          /* #cb1515 */
@@ -1028,10 +1033,13 @@
   --tab-vert-items-indicator-active: var(--color-brand-primary-dark); /* #302571 */
 
   /* ── Drawer / Checkbox / Switch ── */
-  --drawer-text-title:       var(--color-text-strong);      /* #1c1c1c */
-  --drawer-text-description: var(--color-icon-sub);         /* #5c5c5c */
-  --drawer-surface-bg:       var(--color-surface-white);    /* #ffffff */
+  --drawer-border-divider:   var(--color-border-subtle);    /* #eaeaea */
   --drawer-footer-border:    var(--color-border-subtle);    /* #eaeaea */
+  --drawer-mobile-handle:    var(--color-surface-soft-alt); /* #ebecef */
+  --drawer-surface-bg:       var(--color-surface-white);    /* #ffffff */
+  --drawer-surface-overlay:  var(--color-overlay-default);  /* #82879c1a light / #513ebe1a dark */
+  --drawer-text-description: var(--color-text-muted);       /* #7b7b7b */
+  --drawer-text-title:       var(--color-text-strong);      /* #1c1c1c */
 
   /* ↳checkbox — L3 tokens (7 vars).
      Figma: ComponentSet node 2113:34056, page ❖ Checkbox. Variable IDs 2609:4299–2609:4304, 3166:188.
@@ -1766,6 +1774,8 @@
   --color-state-disabled-bg:          var(--prim-slate-700);    /* #2d2f39 */
   --color-state-disabled-text:        var(--prim-neutral-400);  /* #a3a3a3 */
   --color-state-disabled-border:      var(--prim-neutral-600);  /* #5c5c5c */
+
+  --color-overlay-default:            var(--prim-alpha-stpatrick10); /* #513ebe1a — rgba(81,62,190,0.10) */
 
   /* Status overrides */
   --color-status-danger:          var(--prim-devil-200);          /* #ea3434 */

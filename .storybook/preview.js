@@ -91,6 +91,8 @@ const preview = {
               '*',
             ],
             'Chart Donut',
+            'Drawer',
+            ['Desktop', 'Mobile', 'Long Content', 'Settings', 'Details', 'Filter', 'Responsive Guidance', '*'],
             'Checkbox',
             [
               'Overview',

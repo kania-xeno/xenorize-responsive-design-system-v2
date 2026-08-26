@@ -1,0 +1,190 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Drawer — ↳overlay-drawer shell
+ * Figma: ComponentSet 2605:3611 | Standalone ref 2499:13695 | ❖  Drawer page
+ * Token namespace: --drawer-*
+ *
+ * Responsive system (designer-approved):
+ *   HD (>1440px) / Desktop (1280–1440px) / Tablet (768–1279px) → side Drawer ≥768px
+ *   Mobile (<768px) → bottom sheet
+ *
+ * Animation:
+ *   Desktop:  translateX(100%) → translateX(0)  (300ms ease)
+ *   Mobile:   translateY(100%) → translateY(0)  (300ms ease)
+ *   Overlay:  opacity 0 → 1  (300ms ease)
+ *   @media (prefers-reduced-motion: reduce) → all transitions off
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Overlay (backdrop) ──────────────────────────────────────────────────── */
+/* Fixed, full-viewport, dims content behind drawer panel.
+ * Color: --drawer-surface-overlay (overlay/default → #82879c light / #513ebe dark, 10% alpha).
+ * Starts transparent; .drawer-overlay--open adds opacity:1 via transition.
+ *
+ * Backdrop blur — confirmed across ALL variants via Figma Desktop Bridge:
+ *   Desktop  (2499:13606): BACKGROUND_BLUR radius 5 ✓
+ *   Mobile Half (2605:3610): BACKGROUND_BLUR radius 5 ✓  (designer-updated)
+ *   Mobile Full (2605:3609): BACKGROUND_BLUR radius 5 ✓  (designer-updated)
+ * All three variants use the same value → applied to base rule, not media-scoped.
+ * -webkit-backdrop-filter required for Safari.                                      */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: var(--drawer-surface-overlay);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  /* Pointer events off when not open so overlay doesn't block interaction */
+  pointer-events: none;
+}
+
+.drawer-overlay--open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Panel ───────────────────────────────────────────────────────────────── */
+/* Desktop: fixed right-side panel. Figma: x:854, y:16, 570px wide, FILL height.
+ * Production: right:16, top:16, bottom:16, width:min(570px,calc(100vw - 32px)).
+ * DR-10: Figma hardcodes 570px; DT uses min() for safety at narrow desktop widths.       */
+.drawer-panel {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  bottom: 16px;
+  width: min(570px, calc(100vw - 32px));
+  background-color: var(--drawer-surface-bg);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Slide in from right — starts off-screen to the right */
+  transform: translateX(calc(100% + 16px));
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Panel sits above overlay */
+  z-index: 1;
+  /* Ensure panel is focusable as fallback when no interactive children */
+  outline: none;
+}
+
+/* Open state: panel at final position */
+.drawer-overlay--open .drawer-panel {
+  transform: translateX(0);
+}
+
+/* ── Panel interior ──────────────────────────────────────────────────────── */
+.drawer-panel__handle-area {
+  /* Mobile only: shown via mobile breakpoint below */
+  display: none;
+}
+
+.drawer-panel__handle {
+  display: block;
+  width: 36px;
+  height: 4px;
+  background-color: var(--drawer-mobile-handle);
+  border-radius: 2px;
+}
+
+.drawer-panel__header {
+  flex-shrink: 0;
+}
+
+/* Content slot — FILL in both axes, scrollable */
+.drawer-panel__body {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Smooth scrolling for internal content */
+  -webkit-overflow-scrolling: touch;
+}
+
+.drawer-panel__footer {
+  flex-shrink: 0;
+}
+
+/* ── Mobile: bottom sheet ────────────────────────────────────────────────── */
+/* Breakpoint: <768px — confirmed responsive system (designer-approved):
+ *   HD (>1440px) / Desktop (1280–1440px) / Tablet (768–1279px) → side Drawer
+ *   Mobile (<768px) → bottom sheet
+ * DR-06: Figma uses layoutMode:NONE with absolute y positioning.
+ *        Production uses CSS fixed + bottom:0 + transform for animation.          */
+@media (max-width: 767px) {
+  .drawer-panel {
+    /* Reset desktop positioning */
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /* Mobile half: ~406px (≈50% of 812px reference canvas) */
+    /* Mobile full: ~730px (≈90% of 812px reference canvas) */
+    /* Radius only on top corners (bottom sheet) */
+    border-radius: 16px 16px 0 0;
+    /* Slide from bottom */
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .drawer-overlay--open .drawer-panel {
+    transform: translateY(0);
+  }
+
+  /* Mobile height variants */
+  .drawer-panel--mobile-half {
+    height: 50vh;
+    max-height: 406px;
+  }
+
+  .drawer-panel--mobile-full {
+    height: 90vh;
+    max-height: 730px;
+  }
+
+  /* Handle area: visible on mobile (26px handle wrapper, centered) */
+  .drawer-panel__handle-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 26px;
+    flex-shrink: 0;
+    background-color: var(--drawer-surface-bg);
+    /* Handle area sits above header */
+    order: -1;
+    /* D3.2: drag interaction */
+    cursor: grab;
+    /* Prevent native scroll from initiating while dragging the handle */
+    touch-action: none;
+    /* Prevent text selection during drag */
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* D3.2: while actively dragging, show grabbing cursor on the handle area */
+  .drawer-panel--dragging .drawer-panel__handle-area {
+    cursor: grabbing;
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+/* Disable all transitions and effects when user prefers reduced motion.
+ * Drawer still opens/closes — just without animation or blur.                      */
+@media (prefers-reduced-motion: reduce) {
+  .drawer-overlay {
+    transition: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .drawer-panel {
+    transition: none;
+  }
+}
+
+/* ── Dark mode ───────────────────────────────────────────────────────────── */
+/* All drawer tokens cascade automatically through the 3-layer token architecture.
+ * --drawer-surface-bg, --drawer-surface-overlay, --drawer-mobile-handle,
+ * --drawer-text-title, --drawer-text-description, --drawer-border-divider,
+ * --drawer-footer-border all resolve to correct dark values via [data-theme="dark"].
+ * No overrides needed here.                                                         */

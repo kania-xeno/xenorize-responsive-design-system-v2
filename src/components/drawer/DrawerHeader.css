@@ -1,0 +1,153 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+ * DrawerHeader — ↳drawer-header
+ * Figma: ComponentSet 2097:769 | ❖  Drawer page
+ * Token namespace: --drawer-*
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Root ────────────────────────────────────────────────────────────────────
+ * HORIZONTAL auto layout, padding 20px, align-items: center
+ * Width adapts to FILL container (drawer panel).
+ * Height is fixed per size variant:
+ *   Small → 68px  (padding 20 top/bottom, title row 28px)
+ *   Large → 92px  (padding 20 top/bottom, title + desc 52px)
+ * ─────────────────────────────────────────────────────────────────────────── */
+.drawer-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--drawer-surface-bg);
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Size: Small (68px, gap 12px) ─────────────────────────────────────────── */
+.drawer-header--small {
+  min-height: 68px;
+  gap: 12px;
+}
+
+/* ── Size: Large (92px, gap 16px) ─────────────────────────────────────────── */
+.drawer-header--large {
+  min-height: 92px;
+  gap: 16px;
+}
+
+/* ── Content Divider DEFERRED ────────────────────────────────────────────── */
+/* ↳drawer-header "➖ Divider" prop uses Content Divider [1.1] in Figma.
+ * Content Divider is intentionally deferred — not yet implemented.
+ * .drawer-header--divider and any CSS border fallback have been removed.
+ * Do not re-add interim border here. Implement when Content Divider ships.   */
+
+/* ── Left icon slot (Small, type=left-icon) ──────────────────────────────── */
+/* Bare 24×24 icon — no background container */
+.drawer-header__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--drawer-text-title);
+}
+
+/* ── Left icon container (Large, type=left-icon) ─────────────────────────── */
+/* Key Icons [1.0]: 48×48 frame, padding 12px, with surface bg */
+/* Figma fill: component collection 8a5f22.../192704:1 (drawer-surface-bg in DS context) */
+/* Visual: subtle tinted background for the icon — using soft-alt neutral */
+.drawer-header__icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 12px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background-color: var(--color-surface-soft-alt, #ebecef);
+  color: var(--drawer-text-title);
+}
+
+/* ── Title area (FILL) ───────────────────────────────────────────────────── */
+.drawer-header__title-area {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ── Title row: title text + optional badge ──────────────────────────────── */
+.drawer-header__title-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.drawer-header__title {
+  font-family: "Sofia Pro", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4; /* 28px */
+  color: var(--drawer-text-title);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.drawer-header__badge {
+  flex-shrink: 0;
+}
+
+/* ── Description text (Large size, 👁️ Show Description = true) ──────────── */
+.drawer-header__description {
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43; /* ~20px */
+  color: var(--drawer-text-description);
+}
+
+/* ── Link Button slot (🧩 Button = true) — hidden by default ─────────────── */
+.drawer-header__link-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Close button (↳button-compact: 24×24, 2px padding) ─────────────────── */
+.drawer-header__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 2px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 4px;
+  color: var(--drawer-text-title);
+  transition: opacity 0.15s ease;
+}
+
+.drawer-header__close:hover {
+  opacity: 0.65;
+}
+
+.drawer-header__close:focus-visible {
+  outline: 2px solid var(--color-border-brand-primary-base, currentColor);
+  outline-offset: 2px;
+}
+
+.drawer-header__close:active {
+  opacity: 0.5;
+}
