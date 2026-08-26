@@ -20,7 +20,7 @@ export default {
 
 Small is for compact or dense UI elements where Medium would be too heavy — data table rows, filter bars, tag groups, compact panels, or inline actions.
 
-**Sizing:** padding 6px · font 12px · radius 6px (unique) · icon 16×16px (unique) · icon-only 28×28px
+**Sizing:** padding 6px · font 12px · radius 6px (unique) · icon 20×20px · icon-only 32×32px
 
 **Note:** Badge is **not** supported on Small — this is a DS constraint, not a code limitation. Do not add Badge to Small without DS Auditor approval.
 
@@ -55,7 +55,7 @@ Small is for compact or dense UI elements where Medium would be too heavy — da
     },
     onlyIcon: {
       control: "boolean",
-      description: "Renders a 28×28 icon-only button. Requires `icon` and `aria-label`.",
+      description: "Renders a 32×32 icon-only button. Requires `icon` and `aria-label`.",
     },
     // Badge is NOT supported on Small — hide from controls
     badge:      { table: { disable: true } },
@@ -204,7 +204,7 @@ export const WithLeftIcon = {
   parameters: {
     docs: {
       description: {
-        story: "Icon on the left — 16×16px at Small size (unique to Small). Icon must semantically match the action.",
+        story: "Icon on the left — 20×20px (same as Large and Medium). Icon must semantically match the action.",
       },
     },
   },
@@ -258,7 +258,7 @@ export const IconOnly = {
   parameters: {
     docs: {
       description: {
-        story: "Small icon-only = 28×28px. Exceeds WCAG 24×24px minimum touch target. Must include `aria-label`.",
+        story: "Small icon-only = 32×32px. Exceeds WCAG 24×24px minimum touch target. Must include `aria-label`.",
       },
     },
   },

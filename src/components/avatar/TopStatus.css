@@ -5,7 +5,7 @@
    Badge anatomy (all types):
      Container:  32×32 SVG viewBox
      Padding:    2px transparent on each side — clearance for drop shadow
-     Stroke:     white separation ring (surface/neutral/white)
+     Stroke:     white separation ring (content/always-white — theme-invariant #fff)
      BG:         colored fill per type (status/* or text/neutral/muted tokens)
      Icon:       white vector icon (text/neutral/inverse)
 
@@ -13,13 +13,16 @@
    Notification exception: white circle + red dot only — no outer Stroke ring.
 
    Tokens used:
-     surface/neutral/white  → --color-surface-neutral-white  (Stroke ring + Notification bg)
+     content/always-white   → --color-content-always-white   (Stroke ring + Notification bg — theme-invariant #fff)
      text/neutral/inverse   → --color-text-neutral-inverse   (icon fills)
      text/neutral/muted     → --color-text-neutral-muted     (Add badge bg)
      status/sky/base        → --status-sky-base              (Verified bg)
      status/feature/base    → --status-feature-base          (Pin bg)
      status/success/base    → --status-success-base          (Favorite bg)
      status/danger/base     → --status-danger-base           (Remove bg · Notification dot)
+
+   Designer decision 2026-08-26: separation rings must remain #ffffff in both light and dark mode.
+   surface/neutral/white was replaced by content/always-white — the former goes dark (#24262e) in dark mode.
 */
 
 .top-status {

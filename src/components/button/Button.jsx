@@ -25,7 +25,8 @@ import "./Button.css";
  *   Where the icon appears. Ignored when `onlyIcon` is true or `badge` is set.
  *
  * @param {boolean} [onlyIcon=false]
- *   Renders a standalone 40×40 icon button with no label or badge.
+ *   Renders a standalone icon-only button with no label or badge.
+ *   Size: 40×40 (large) · 36×36 (medium) · 32×32 (small).
  *   Requires `icon` and `aria-label`.
  *
  * @param {number|string} [badge]
@@ -38,8 +39,8 @@ import "./Button.css";
  * @param {string} [aria-label]  Required for `onlyIcon` buttons.
  *
  * Content slot precedence (matches Figma):
- * 1. `onlyIcon` true  → icon only (40×40). `badge` and `children` are ignored.
- * 2. `badge` set      → label + badge only. `icon` is ignored.
+ * 1. `onlyIcon` true  → icon only (40×40 large / 36×36 medium / 32×32 small). `badge` and `children` are ignored.
+ * 2. `badge` set      → label + badge only. `icon` is ignored. Badge is suppressed on Small (DS rule).
  * 3. Otherwise        → icon? (left or right) + label.
  */
 export default function Button({
@@ -69,10 +70,18 @@ export default function Button({
   }
 
   const hasIcon = Boolean(icon);
-  const hasBadge = badge !== undefined && badge !== null && badge !== "";
+  // Badge is a DS-supported feature on Large and Medium only — suppress on Small.
+  const hasBadge =
+    badge !== undefined && badge !== null && badge !== "" && size !== "small";
   const hasLabel = Boolean(children);
 
   if (process.env.NODE_ENV !== "production") {
+    if (size === "small" && badge !== undefined && badge !== null && badge !== "") {
+      console.warn(
+        "Button: Badge is not supported on Small (DS constraint). The badge prop is ignored. " +
+        "Use Large or Medium if a badge is required."
+      );
+    }
     if (onlyIcon && !ariaLabel) {
       console.warn("Button: icon-only buttons require an `aria-label` for accessibility.");
     }

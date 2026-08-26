@@ -56,8 +56,8 @@ const ARIA_LABELS = {
 function CircleBadge({ bgVar, children }) {
   return (
     <>
-      {/* Stroke: white separation ring — surface/neutral/white */}
-      <ellipse cx="16" cy="16" rx="14" ry="14" fill="var(--color-surface-neutral-white)" />
+      {/* Stroke: always-white separation ring — content/always-white (#fff in all themes) */}
+      <ellipse cx="16" cy="16" rx="14" ry="14" fill="var(--color-content-always-white)" />
       {/* BG: colored circle */}
       <ellipse cx="16" cy="16" rx="12" ry="12" fill={`var(${bgVar})`} />
       {/* Icon: white fill via text/neutral/inverse */}
@@ -71,7 +71,7 @@ const BADGE_CONTENTS = {
   // Stroke 27×27 at (2,2) · BG 23×23 at (4,4) · Check 10×8 at (11,12)
   verified: () => (
     <>
-      <path transform="translate(2,2)" d={VERIFIED_STROKE} fill="var(--color-surface-neutral-white)" />
+      <path transform="translate(2,2)" d={VERIFIED_STROKE} fill="var(--color-content-always-white)" />
       <path transform="translate(4,4)" d={VERIFIED_BG}     fill="var(--status-sky-base)" />
       <path transform="translate(11,12)" d={VERIFIED_CHECK} fill="var(--color-text-neutral-inverse)" />
     </>
@@ -105,11 +105,11 @@ const BADGE_CONTENTS = {
     </CircleBadge>
   ),
 
-  // Notification: white circle (r=8) + red dot (r=6) — no bell icon (per DS source)
+  // Notification: always-white circle (r=8) + red dot (r=6) — no bell icon (per DS source)
   // White BG 16×16 at (8,8) · Red dot 12×12 at (10,10) · both centered at (16,16)
   notification: () => (
     <>
-      <circle cx="16" cy="16" r="8" fill="var(--color-surface-neutral-white)" />
+      <circle cx="16" cy="16" r="8" fill="var(--color-content-always-white)" />
       <circle cx="16" cy="16" r="6" fill="var(--status-danger-base)" />
     </>
   ),
@@ -118,21 +118,30 @@ const BADGE_CONTENTS = {
 // ─── Component ───────────────────────────────────────────────────────────────
 
 /**
- * @param {object} props
+ * @param {object}  props
  * @param {'verified'|'pin'|'favorite'|'add'|'remove'|'notification'} props.type
- * @param {string} [props.className] — Additional class names (e.g. 'avatar__top-status' for positioning)
+ * @param {string}  [props.className]   — Additional class names (e.g. 'avatar__top-status' for positioning)
+ * @param {boolean} [props.visualOnly]  — When true, suppresses role="img" and aria-label, adds aria-hidden.
+ *                                        Use ONLY when rendering inside <Avatar>: the outer role="img"
+ *                                        composes the full label; a nested role="img" would be swallowed by AT.
+ *                                        Standalone usage must NOT pass visualOnly.
  */
-export default function TopStatus({ type, className = '' }) {
+export default function TopStatus({ type, className = '', visualOnly = false }) {
   if (!type || !BADGE_CONTENTS[type]) return null;
 
   const renderContents = BADGE_CONTENTS[type];
   const label = ARIA_LABELS[type] ?? type;
 
+  // visualOnly: used inside Avatar — outer role="img" carries the full label;
+  // nested role="img" is suppressed to avoid AT swallowing the inner label.
+  const a11yProps = visualOnly
+    ? { 'aria-hidden': true }
+    : { role: 'img', 'aria-label': label };
+
   return (
     <span
       className={`top-status top-status--${type}${className ? ` ${className}` : ''}`}
-      role="img"
-      aria-label={label}
+      {...a11yProps}
     >
       <svg
         viewBox="0 0 32 32"

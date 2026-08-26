@@ -82,7 +82,7 @@ Avatar binds directly to theme tokens — no \`avatar/*\` component namespace:
 \`\`\`
 surface/neutral/weak   → container background (text + icon + solidBg)
 text/neutral/strong    → initials text
-surface/neutral/white  → status ring + notification/company bg + icon silhouette
+content/always-white   → status ring + notification/company bg + icon silhouette (theme-invariant #fff)
 status/{type}/base     → status badge colour
 radius/full            → border-radius (999px)
 \`\`\`
@@ -92,7 +92,7 @@ radius/full            → border-radius (999px)
 ### Do
 - Always provide \`alt\`, \`aria-label\`, or \`name\` — never leave an avatar without an accessible label
 - Use **48** as the default size; only go larger when the avatar is the focal point
-- Provide \`aria-label\` on status badges — colour alone must not convey meaning
+- Use \`topStatus\` and \`bottomStatus\` normally — Avatar automatically composes their semantic meaning into its outer \`aria-label\` (e.g. \`"James Brown, Verified, Online"\`). No manual aria work is needed on the status props.
 - Use \`solidBg\` only on coloured or transparent surfaces that need contrast
 
 ### Don't
@@ -426,11 +426,22 @@ export const AccessibleLabels = {
         story: `
 Demonstrates correct accessible label patterns. Inspect with a screen reader or accessibility tree.
 
+**Avatar with statuses — composed label:**
+
+Avatar composes a single \`aria-label\` from identity + active status descriptions. AT announces the full context from the outer element without needing to traverse into badge sub-components.
+
+\`\`\`
+role="img" aria-label="James Brown, Verified, Online"
+  └─ nested TopStatus  → aria-hidden="true"  (not independently announced)
+  └─ nested BottomStatus → aria-hidden="true"  (not independently announced)
+\`\`\`
+
+**Standalone TopStatus / BottomStatus** (used outside Avatar): retain their own \`role="img"\` + \`aria-label\` and are announced normally by AT.
+
 **Rules:**
-- Every avatar must have \`aria-label\` or \`alt\` describing the person
-- Icon mode (unknown user) must use \`aria-label="Unknown user"\` — never empty
-- Every status badge renders \`role="img"\` with an \`aria-label\` describing the state
-- Status colour must never be the sole communication of meaning
+- Every avatar must have \`aria-label\` or \`alt\` describing the person — never leave it empty
+- Icon mode (unknown user) must use \`aria-label="Unknown user"\` or equivalent
+- Status meaning is announced via the composed outer label — status colour is never the sole communication of meaning
         `,
       },
     },
@@ -440,9 +451,8 @@ Demonstrates correct accessible label patterns. Inspect with a screen reader or 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         <Avatar src={SAMPLE_SRC} name="James Brown" size={48} topStatus="verified" bottomStatus="online" />
         <code style={{ fontSize: 11, color: '#888', fontFamily: 'monospace' }}>
-          aria-label="James Brown"<br />
-          topStatus aria-label="Verified"<br />
-          bottomStatus aria-label="Online"
+          aria-label="James Brown, Verified, Online"<br />
+          nested status visuals: aria-hidden="true"
         </code>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -454,8 +464,8 @@ Demonstrates correct accessible label patterns. Inspect with a screen reader or 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         <Avatar src={SAMPLE_SRC} size={48} alt="Profile photo of Jane Doe" bottomStatus="busy" />
         <code style={{ fontSize: 11, color: '#888', fontFamily: 'monospace' }}>
-          alt="Profile photo of Jane Doe"<br />
-          bottomStatus aria-label="Busy"
+          aria-label="Profile photo of Jane Doe, Busy"<br />
+          nested status visual: aria-hidden="true"
         </code>
       </div>
     </div>

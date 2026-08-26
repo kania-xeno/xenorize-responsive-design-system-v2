@@ -90,7 +90,7 @@ Medium is the default size for most UI contexts — forms, cards, dialogs, side 
 
 export const Playground = {
   args: {
-    showBadge: true
+    showBadge: false,
   },
   parameters:{
     docs: {

@@ -48,8 +48,8 @@ const DOT_TOKEN = {
 function StatusDot({ tokenVar }) {
   return (
     <>
-      {/* Stroke: white separation ring — surface/neutral/white · r=10 (20px visible) */}
-      <circle cx="16" cy="16" r="10" fill="var(--color-surface-neutral-white)" />
+      {/* Stroke: always-white separation ring — content/always-white (#fff in all themes) · r=10 (20px visible) */}
+      <circle cx="16" cy="16" r="10" fill="var(--color-content-always-white)" />
       {/* Colored dot — r=6 (12px visible) */}
       <circle cx="16" cy="16" r="6"  fill={`var(${tokenVar})`} />
     </>
@@ -71,29 +71,39 @@ const BADGE_CONTENTS = {
 
   // Company — white circle only in V1 (Synergy brand icon pending)
   // BG 28×28 at (2,2) → cx=16, cy=16, r=14
+  // always-white bg — content/always-white (#fff in all themes). Designer decision 2026-08-26.
   company: () => (
-    <circle cx="16" cy="16" r="14" fill="var(--color-surface-neutral-white)" />
+    <circle cx="16" cy="16" r="14" fill="var(--color-content-always-white)" />
   ),
 };
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
 /**
- * @param {object} props
+ * @param {object}  props
  * @param {'online'|'idle'|'busy'|'away'|'company'} props.type
- * @param {string} [props.className] — Additional class names (e.g. 'avatar__bottom-status' for positioning)
+ * @param {string}  [props.className]  — Additional class names (e.g. 'avatar__bottom-status' for positioning)
+ * @param {boolean} [props.visualOnly] — When true, suppresses role="img" and aria-label, adds aria-hidden.
+ *                                       Use ONLY when rendering inside <Avatar>: the outer role="img"
+ *                                       composes the full label; a nested role="img" would be swallowed by AT.
+ *                                       Standalone usage must NOT pass visualOnly.
  */
-export default function BottomStatus({ type, className = '' }) {
+export default function BottomStatus({ type, className = '', visualOnly = false }) {
   if (!type || !BADGE_CONTENTS[type]) return null;
 
   const renderContents = BADGE_CONTENTS[type];
   const label = ARIA_LABELS[type] ?? type;
 
+  // visualOnly: used inside Avatar — outer role="img" carries the full label;
+  // nested role="img" is suppressed to avoid AT swallowing the inner label.
+  const a11yProps = visualOnly
+    ? { 'aria-hidden': true }
+    : { role: 'img', 'aria-label': label };
+
   return (
     <span
       className={`bottom-status bottom-status--${type}${className ? ` ${className}` : ''}`}
-      role="img"
-      aria-label={label}
+      {...a11yProps}
     >
       <svg
         viewBox="0 0 32 32"

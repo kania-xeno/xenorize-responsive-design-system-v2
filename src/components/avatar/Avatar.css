@@ -19,7 +19,7 @@
 
    Tokens used:
      surface/neutral/weak  → --color-surface-neutral-weak   (container bg: text + icon + solidBg)
-     surface/neutral/white → --color-surface-neutral-white  (icon silhouette)
+     content/always-white  → --color-content-always-white   (icon silhouette — theme-invariant #fff)
      text/neutral/strong   → --color-text-neutral-strong    (initials text)
      radius/full           → --radius-full                  (all border-radius)
 
@@ -211,7 +211,8 @@
 /* ─────────────────────────────────────────────────────────────────────────────
    Icon silhouette (Icon mode — generic fallback)
    Body + Head ellipses: hardcoded #FFFFFF in Figma (DS gap — no variable binding).
-   Using --color-surface-neutral-white as the approved token replacement.
+   Using --color-content-always-white: resolves #ffffff in ALL themes (light + dark).
+   Designer decision 2026-08-26: silhouette must remain white in dark mode.
    ───────────────────────────────────────────────────────────────────────────── */
 
 .avatar__icon {
@@ -225,7 +226,7 @@
 .avatar__icon svg {
   width: 100%;
   height: 100%;
-  fill: var(--color-surface-neutral-white);
+  fill: var(--color-content-always-white);
   overflow: visible; /* allow head circle to render above body clip */
 }
 

@@ -53,7 +53,7 @@ interface ButtonProps {
   size?:          "large" | "medium" | "small"; // all three sizes implemented
   icon?:          React.ReactNode;    // single icon — use iconPosition to place left or right
   iconPosition?:  "left" | "right";  // default "left". Ignored when onlyIcon is true.
-  onlyIcon?:      boolean;            // renders icon-only square (40/36/28px per size)
+  onlyIcon?:      boolean;            // renders icon-only square (40/36/32px per size)
   badge?:         number | string;    // pill counter — Large and Medium only, not Small
   disabled?:      boolean;
   children?:      React.ReactNode;    // label text
@@ -80,6 +80,8 @@ Approved combinations per DS Auditor handoff (2026-06-24):
 ---
 
 ## Color tokens — Light mode
+
+> **`:active` state — not currently implemented.** The `bg:active` values in the tables below are token definitions captured from Figma. Runtime `:active` CSS is not applied in the current implementation — no `:active` rule exists in `Button.css`. The tokens are reserved for a future approved implementation pass. Do not add `:active` CSS without DS Auditor sign-off.
 
 ### Filled (solid background)
 
@@ -161,7 +163,7 @@ Dark mode is handled via `[data-theme="dark"]` overrides in `tokens.css`. The sa
 
 | Priority | Condition | Renders | Ignored |
 |---|---|---|---|
-| 1 | `onlyIcon` is true | Single icon in a square (40/36/28px per size) | badge, children |
+| 1 | `onlyIcon` is true | Single icon in a square (40/36/32px per size) | badge, children |
 | 2 | `badge` is set (and not onlyIcon) | Label text + badge pill | icon |
 | 3 | Otherwise | icon (left or right) + label | — |
 

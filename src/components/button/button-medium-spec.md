@@ -53,7 +53,7 @@ Colors, variants, types, states, and all tokens are identical to Large.
 interface ButtonProps {
   type?:         "primary" | "error" | "neutral";
   variant?:      "filled" | "outline" | "lighter" | "ghost";
-  size?:         "large" | "medium";   // ← use "medium"
+  size?:         "large" | "medium" | "small";   // ← use "medium" for this spec
   icon?:         React.ReactNode;
   iconPosition?: "left" | "right";
   onlyIcon?:     boolean;
@@ -118,4 +118,4 @@ Identical to Large. See `button-large-spec.md`.
 
 ## Open items
 
-- Size `small` not yet built — `size` prop reserved
+None — all three sizes (large, medium, small) are implemented.

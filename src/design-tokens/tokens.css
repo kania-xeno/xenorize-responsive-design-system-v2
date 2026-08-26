@@ -718,6 +718,13 @@
   --color-text-brand-primary:     var(--prim-brand-stpatrick-700);    /* legacy alias */
   --color-text-danger:            var(--prim-devil-400);       /* #cb1515 */
 
+  /* ── Content (theme-invariant) ── */
+  /* content/always-white: resolves #ffffff in ALL themes.
+     Use ONLY for elements that must remain white regardless of mode:
+     status separation rings, avatar icon silhouette.
+     Do NOT add a [data-theme="dark"] override for this token. */
+  --color-content-always-white: var(--prim-slate-0); /* #ffffff — light and dark */
+
   /* ── Surface ── */
   --color-surface-white:              var(--prim-slate-0);       /* #ffffff */
   --color-surface-neutral-white:      var(--prim-slate-0);       /* legacy alias */

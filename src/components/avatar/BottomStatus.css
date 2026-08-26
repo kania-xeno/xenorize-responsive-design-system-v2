@@ -5,7 +5,7 @@
    Badge anatomy (online/idle/busy/away):
      Container:  32×32 SVG viewBox
      Padding:    2px transparent on each side — clearance for drop shadow
-     Stroke:     white circle r=10 (surface/neutral/white) — 20px visible diameter
+     Stroke:     white circle r=10 (content/always-white) — 20px visible diameter, theme-invariant #fff
      Dot:        colored circle r=6 — 12px visible diameter
 
    Company exception:
@@ -13,11 +13,14 @@
      No inner icon in V1 (Synergy brand icon pending product-level supply)
 
    Tokens used:
-     surface/neutral/white  → --color-surface-neutral-white  (Stroke ring + Company bg)
+     content/always-white   → --color-content-always-white   (Stroke ring + Company bg — theme-invariant #fff)
      status/success/base    → --status-success-base          (Online dot)
      text/neutral/muted     → --color-text-neutral-muted     (Idle dot)
      status/danger/base     → --status-danger-base           (Busy dot)
      status/warning/base    → --status-warning-base          (Away dot · light: #684E00 · dark: #B28600)
+
+   Designer decision 2026-08-26: separation rings must remain #ffffff in both light and dark mode.
+   surface/neutral/white was replaced by content/always-white — the former goes dark (#24262e) in dark mode.
 */
 
 .bottom-status {

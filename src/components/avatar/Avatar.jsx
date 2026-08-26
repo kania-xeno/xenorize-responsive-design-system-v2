@@ -31,21 +31,76 @@ import BottomStatus from './BottomStatus.jsx';
 
 /**
  * Derives initials from a display name.
- * - Two+ words: first initial + last initial (e.g. "James Brown" → "JB")
- * - Single word: first 2 letters (e.g. "Phoenix" → "PH")
- * - Symbols/special characters are stripped before processing.
- * - Result is always uppercase, max 2 characters.
+ *
+ * Algorithm: split-first-then-clean (per spec).
+ * - Split on whitespace FIRST, then strip non-letters from each word.
+ *   This correctly handles dotted initials: "Ö. Müller" splits into ["Ö.", "Müller"],
+ *   strip gives ["", "Mller"], filter empty → ["Mller"], single word → "ML".
+ *   Wait — spec requires "Ö. Müller" → "M". Let's trace:
+ *   words = ["Ö.", "Müller"], stripped = ["", "Mller"], filtered = ["Mller"],
+ *   single word path → first 2 chars → "ML". But spec wants "M".
+ *   Spec requirement: dotted initial ("Ö.") strips to empty → discarded,
+ *   leaving only "Müller" → single remaining token → first 2 chars "ML"? No.
+ *   Spec table says "Ö. Müller" → "M" (only first char of single-token path).
+ *   Resolution: single-char result after strip gets only 1 char, not 2.
+ *   But "Sophia" → "SO" (2 chars). The difference: "Mller" has 5 chars so
+ *   2-char path gives "ML", not "M". The spec says "M" for "Ö. Müller" which
+ *   implies the leading stripped-to-empty "Ö." token still reduces the result
+ *   to one initial. Correct interpretation: multi-word path (≥2 input words),
+ *   but only 1 non-empty stripped token → return that single token's first char.
+ *
+ * Cases:
+ *   - James Brown    → ["James","Brown"]  → initials [J,B] → "JB"
+ *   - Sophia         → ["Sophia"]         → single word    → "SO"
+ *   - Ö. Müller      → ["Ö.","Müller"]   → stripped ["","Mller"] → 1 initial M → "M"
+ *   - María García   → ["María","García"] → stripped ["Mara","Garca"] → "MG"
+ *   - Jean-Luc Picard→ ["Jean-Luc","Picard"] → stripped ["JeanLuc","Picard"] → "JP"
+ *   - O'Connor       → ["O'Connor"]       → stripped ["OConnor"] → single → "OC"
+ *   - "" / whitespace→ ''                 → icon fallback
  */
 function getInitials(name) {
   if (!name) return '';
-  const cleaned = name.replace(/[^a-zA-Z\s]/g, '').trim();
-  const parts = cleaned.split(/\s+/).filter(Boolean);
-  if (parts.length === 0) return '';
-  if (parts.length >= 2) {
-    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  const words = name.split(/\s+/).filter(Boolean);
+  if (words.length === 0) return '';
+
+  if (words.length === 1) {
+    // Single word: strip non-letters, take first 2 chars
+    const cleaned = words[0].replace(/[^a-zA-Z]/g, '');
+    return cleaned.substring(0, 2).toUpperCase();
   }
-  return parts[0].substring(0, 2).toUpperCase();
+
+  // Multiple words: extract first letter of each non-empty stripped token
+  const initials = words
+    .map(w => w.replace(/[^a-zA-Z]/g, ''))
+    .filter(Boolean)
+    .map(w => w[0]);
+
+  if (initials.length === 0) return '';
+  if (initials.length === 1) return initials[0].toUpperCase();
+  return (initials[0] + initials[initials.length - 1]).toUpperCase();
 }
+
+// ── Status ARIA label maps ────────────────────────────────────────────────────
+// Used to compose the outer Avatar aria-label: "James Brown, Verified, Online".
+// Mirrors the labels used in TopStatus.jsx / BottomStatus.jsx ARIA_LABELS,
+// kept here to avoid importing from sub-components (no runtime coupling).
+
+const TOP_STATUS_ARIA = {
+  verified:     'Verified',
+  pin:          'Pinned',
+  favorite:     'Favourite',
+  add:          'Add user',
+  remove:       'Remove user',
+  notification: 'Notification',
+};
+
+const BOTTOM_STATUS_ARIA = {
+  online:  'Online',
+  idle:    'Idle',
+  busy:    'Busy',
+  away:    'Away',
+  company: 'Company account',
+};
 
 // ── Component ────────────────────────────────────────────────────────────────
 
@@ -78,8 +133,14 @@ export default function Avatar({
   const hasText     = initials.length > 0;
   const contentMode = hasImage ? 'image' : hasText ? 'text' : 'icon';
 
-  // Accessible label
-  const accessibleLabel = ariaLabel || alt || name || 'User avatar';
+  // Accessible label — composed from base identity + active status labels.
+  // e.g. "James Brown, Verified, Online" so AT announces the full picture
+  // without relying on nested role="img" (which parent role="img" suppresses).
+  const statusParts = [
+    topStatus    && TOP_STATUS_ARIA[topStatus],
+    bottomStatus && BOTTOM_STATUS_ARIA[bottomStatus],
+  ].filter(Boolean);
+  const accessibleLabel = [ariaLabel || alt || name || 'User avatar', ...statusParts].join(', ');
 
   // Outer wrapper classes (overflow: visible — allows badges to protrude)
   const outerClasses = [
@@ -113,7 +174,7 @@ export default function Avatar({
 
         {contentMode === 'icon' && (
           <span className="avatar__icon" aria-hidden="true">
-            {/* Generic person silhouette — fills use --color-surface-neutral-white via CSS */}
+            {/* Generic person silhouette — fills use --color-content-always-white via CSS (theme-invariant #fff) */}
             <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <circle cx="20" cy="14" r="7" />
               <ellipse cx="20" cy="34" rx="14" ry="10" />
@@ -123,13 +184,15 @@ export default function Avatar({
 
       </div>
 
-      {/* ── Status badges — outside the clip circle, overflow is allowed ── */}
+      {/* ── Status badges — outside the clip circle, overflow is allowed.
+           visualOnly suppresses nested role="img"/aria-label on sub-components —
+           the full accessible description is composed in the outer aria-label above. ── */}
       {topStatus && (
-        <TopStatus type={topStatus} className="avatar__top-status" />
+        <TopStatus type={topStatus} className="avatar__top-status" visualOnly />
       )}
 
       {bottomStatus && (
-        <BottomStatus type={bottomStatus} className="avatar__bottom-status" />
+        <BottomStatus type={bottomStatus} className="avatar__bottom-status" visualOnly />
       )}
 
     </div>

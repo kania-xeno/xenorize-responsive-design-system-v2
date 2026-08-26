@@ -99,7 +99,7 @@ Note: sizes 80–64 use the display font (Sofia Pro); sizes 56 and below use the
 - **Both statuses** can appear simultaneously
 - **All sizes supported**: badges render at all 9 sizes (80–20). No suppression at 24 or 20.
 - **SVG scaling**: TopStatus and BottomStatus SVGs use `viewBox="0 0 32 32"` with `width="100%" height="100%"`. The container `<span>` is sized by `--_status-sz` CSS custom property. SVG scales proportionally to the custom property value.
-- **White ring**: rendered as Stroke layer inside the SVG (`surface/neutral/white` fill), not via CSS box-shadow
+- **White ring**: rendered as Stroke layer inside the SVG (`content/always-white` fill — `--color-content-always-white`, resolves `#ffffff` in all themes), not via CSS box-shadow
 - **Drop shadow**: `filter: drop-shadow(0 1px 2px rgba(23,23,23,0.04))` on badge `<span>` wrapper
 
 ### Badge Geometry — Figma source of truth
@@ -128,7 +128,7 @@ Applied via CSS custom properties on `.avatar--size-{n}` selectors.
 | `favorite`    | ⭐️ Favorite      | `--status-success-base`       | `#0F6D32` | `#57E88C` |
 | `add`         | ➕ Add           | `--color-text-neutral-muted`  | `#7B7B7B` | `#989DAE` |
 | `remove`      | ❌ Remove         | `--status-danger-base`        | `#CB1515` | `#EA3434` |
-| `notification`| 🔔 Notification  | `--color-surface-neutral-white` (outer) + `--status-danger-base` (dot) | `#FFFFFF` + `#CB1515` | same |
+| `notification`| 🔔 Notification  | `--color-content-always-white` (outer) + `--status-danger-base` (dot) | `#FFFFFF` + `#CB1515` | `#FFFFFF` + `#EA3434` |
 
 ### Bottom Status — dot token per type
 
@@ -138,7 +138,7 @@ Applied via CSS custom properties on `.avatar--size-{n}` selectors.
 | `idle`     | ⚪️ White Not    | `--color-text-neutral-muted`  | `#7B7B7B` | `#989DAE` |
 | `busy`     | 🔴 Red Not      | `--status-danger-base`        | `#CB1515` | `#EA3434` |
 | `away`     | 🟡 Yellow Not   | `--status-warning-base`       | `#684E00` | `#B28600` |
-| `company`  | 🏢 Company      | `--color-surface-neutral-white` | `#FFFFFF` | `#FFFFFF` |
+| `company`  | 🏢 Company      | `--color-content-always-white`  | `#FFFFFF` | `#FFFFFF` |
 
 ---
 
@@ -147,7 +147,8 @@ Applied via CSS custom properties on `.avatar--size-{n}` selectors.
 | Token (DS name)         | CSS variable                     | Light       | Dark        | Used for |
 |-------------------------|----------------------------------|-------------|-------------|----------|
 | `surface/neutral/weak`  | `--color-surface-neutral-weak`   | `#F6F7F8`   | `#2D2F39`   | Container bg (text + icon + solidBg) |
-| `surface/neutral/white` | `--color-surface-neutral-white`  | `#FFFFFF`   | `#FFFFFF`   | Status ring + icon silhouette + notification/company bg |
+| `surface/neutral/white` | `--color-surface-neutral-white`  | `#FFFFFF`   | `#24262e`   | General purpose white surface (mode-adaptive — goes dark in dark mode) |
+| `content/always-white`  | `--color-content-always-white`   | `#FFFFFF`   | `#FFFFFF`   | Status separation rings, icon silhouette, notification/company white bg — theme-invariant. Designer decision 2026-08-26. |
 | `text/neutral/strong`   | `--color-text-neutral-strong`    | `#1C1C1C`   | `#FFFFFF`   | Initials text |
 | `text/neutral/inverse`  | `--color-text-neutral-inverse`   | `#FFFFFF`   | `#FFFFFF`   | Status badge icon fills (referenced in handoff, not explicitly used in CSS V1) |
 | `text/neutral/muted`    | `--color-text-neutral-muted`     | `#7B7B7B`   | `#989DAE`   | Add badge bg + Idle dot |
@@ -164,7 +165,7 @@ Applied via CSS custom properties on `.avatar--size-{n}` selectors.
 
 The `Body` and `Head` ellipses inside the Icon mode `image` frame in Figma have **no bound variable** — fills are hardcoded `#FFFFFF`.
 
-**Resolution in code:** `fill: var(--color-surface-neutral-white)` applied via `.avatar__icon svg` in `Avatar.css`. This is the correct semantic token (white fill, mode-agnostic) and avoids replicating the hardcoded value.
+**Resolution in code:** `fill: var(--color-content-always-white)` applied via `.avatar__icon svg` in `Avatar.css`. This token resolves `#ffffff` in both light and dark mode (no `[data-theme="dark"]` override by design). `surface/neutral/white` was previously used here but goes dark (`#24262e`) in dark mode, causing a near-invisible silhouette — replaced per designer decision 2026-08-26.
 
 Flagged to DS Auditor for official variable binding in Figma.
 
@@ -178,12 +179,13 @@ Flagged to DS Auditor for official variable binding in Figma.
 
 ## Accessibility
 
-- All avatars render with `role="img"` and `aria-label` (derived from `alt`, `name`, or default "User avatar")
-- Icon mode uses `aria-label="User avatar"` unless overridden
-- Top and bottom status badges each render with `role="img"` and semantic `aria-label`
-- Status colour is never the sole communication of meaning
-- At sizes 24 and 20, interactive usage requires adequate padding or wrapper touch target (min 44×44px)
-- Do not wrap Avatar in an interactive element for V1 — wrap at product level when needed
+- All avatars render with `role="img"` and a **composed `aria-label`** that includes identity + active status descriptions, e.g. `"James Brown, Verified, Online"`. Status meaning is announced via the outer label — AT does not need to enter the badge sub-components.
+- Label derivation priority: `aria-label` prop → `alt` prop → `name` prop → `"User avatar"`. Status labels are appended automatically when `topStatus` / `bottomStatus` are present.
+- **`visualOnly` prop**: When `<TopStatus>` or `<BottomStatus>` render inside `<Avatar>`, they receive `visualOnly={true}`, which suppresses `role="img"` and `aria-label` on the badge span and adds `aria-hidden="true"`. This prevents AT from entering a nested `role="img"` (which would be swallowed by the parent). When either component is used **standalone** (outside Avatar), do NOT pass `visualOnly` — full accessibility is preserved.
+- Icon mode uses `aria-label="User avatar"` unless the `name` or `aria-label` prop overrides it.
+- Status colour is never the sole communication of meaning — status type is announced in text.
+- At sizes 24 and 20, interactive usage requires adequate padding or wrapper touch target (min 44×44px).
+- Do not wrap Avatar in an interactive element for V1 — wrap at product level when needed.
 
 ---
 
