@@ -296,12 +296,30 @@
   --radius-52:   52px;
   --radius-full: 999px;
 
-  /* ── Breakpoints (reference only — use in @media / JS) ── */
+  /* ── Breakpoints ──────────────────────────────────────────────────────────
+     --breakpoint-mobile/tablet/desktop are the Figma device-canvas widths.
+     They drive the typography @media overrides below (760px / 412px).
+     Component layout CSS (Modal.css, Drawer.css) uses 768px media queries —
+     the standard CSS tablet boundary (iPad) — intentionally separate from
+     these Figma reference values. Do not align them without designer sign-off.
+  ── */
   --breakpoint-mobile:  412px;
   --breakpoint-tablet:  760px;
   --breakpoint-desktop: 1440px;
 
-  /* Modal sizing — desktop defaults; see tokens.json for tablet/mobile */
+  /* ── Modal sizing (desktop defaults only) ─────────────────────────────────
+     These CSS variables emit desktop values only. Responsive overrides are
+     applied inline in Modal.css via media queries, not via variable reassignment.
+
+     Responsive height reference (Figma live components + tokens.json):
+       sm: desktop=480px  tablet=440px  mobile=440px
+       md: desktop=640px  tablet=580px  mobile=580px
+       lg: desktop=720px  tablet=640px  mobile=640px
+
+     Responsive width reference:
+       sm/md:  desktop/tablet = fixed (400/560/720px)
+       all:    mobile = fluid (max-width: 100%) inside 16px overlay padding
+  ── */
   --modal-max-width-sm:  400px;
   --modal-max-width-md:  560px;
   --modal-max-width-lg:  720px;
@@ -884,17 +902,27 @@
   --table-header-bg-default:    var(--color-surface-weak);       /* #f6f7f8 */
 
   /* ── Modal ── */
-  --modal-text-title:      var(--color-text-strong);           /* #1c1c1c */
-  --modal-text-body:       var(--color-icon-sub);              /* #5c5c5c */
-  --modal-bg:              var(--color-surface-white);         /* #ffffff */
-  --modal-border:          var(--color-border-subtle);         /* #eaeaea */
-  --modal-overlay:         rgba(130,135,156,0.10);
-  --modal-footer-bg:       var(--color-surface-white);         /* #ffffff */
-  --modal-footer-border:   var(--color-border-subtle);         /* #eaeaea */
-  --modal-icon-bg-error:   var(--color-status-danger-surface); /* #fcdfdf */
-  --modal-icon-bg-warning: var(--color-status-warning-surface); /* #fddc69 */
-  --modal-icon-bg-success: var(--color-status-success-surface); /* #edfdf3 */
-  --modal-icon-bg-info:    var(--color-status-info-surface);   /* #deebfc */
+  /* Synced from live Figma 2026-08-28 (D0.1 preflight).
+     Collection: VariableCollectionId:1902:2617. All 17 modal/* tokens present in Figma. */
+  --modal-text-title:        var(--color-text-strong);              /* text/neutral/strong    · L: #1c1c1c  D: #ffffff */
+  --modal-text-body:         var(--color-text-default);             /* text/neutral/default   · L: #333333  D: #ccced7 — was color-icon-sub (#5c5c5c, wrong) */
+  --modal-bg:                var(--color-surface-white);            /* surface/neutral/white  · L: #ffffff  D: #24262e */
+  --modal-border:            var(--color-border-subtle);            /* border/neutral/subtle  · L: #eaeaea  D: #515567 */
+  --modal-overlay:           var(--color-overlay-default);          /* overlay/default        · L: rgba(130,135,156,.10)  D: rgba(81,62,190,.10) — was hardcoded */
+  --modal-footer-bg:         var(--color-surface-white);            /* surface/neutral/white  · L: #ffffff  D: #24262e */
+  --modal-footer-border:     var(--color-border-subtle);            /* border/neutral/subtle  · L: #eaeaea  D: #515567 */
+  /* Icon background fills */
+  --modal-icon-bg-default:   var(--color-surface-soft);             /* surface/neutral/soft   · L: #f4f4f6  D: #2d2f39 — new */
+  --modal-icon-bg-error:     var(--color-status-danger-surface);    /* status/danger/lighter  · L: #fcdfdf  D: #6f0c0c */
+  --modal-icon-bg-warning:   var(--color-status-warning-surface);   /* status/warning/lighter · L: #fddc69  D: #3c2e00 */
+  --modal-icon-bg-success:   var(--color-status-success-surface);   /* status/success/lighter · L: #edfdf3  D: #09421e */
+  --modal-icon-bg-info:      var(--color-status-info-surface);      /* status/info/lighter    · L: #deebfc  D: #0a3671 */
+  /* Icon fills */
+  --modal-icon-default:      var(--color-icon-sub);                 /* icon/sub               · L: #5c5c5c  D: #ccced7 — new */
+  --modal-icon-error:        var(--color-status-danger);            /* status/danger/base     · L: #cb1515  D: #ea3434 — new */
+  --modal-icon-warning:      var(--color-status-warning);           /* status/warning/base    · L: #684e00  D: #b28600 — new */
+  --modal-icon-success:      var(--color-status-success);           /* status/success/base    · L: #0f6d32  D: #57e88c — new */
+  --modal-icon-info:         var(--color-status-info);              /* status/info/base       · L: #1264ce  D: #3182ed — new */
 
   /* ── Date Picker ── */
   --date-picker-text-day-label:    var(--color-text-subtle);           /* #a3a3a3 */
