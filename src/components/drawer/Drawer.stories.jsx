@@ -307,7 +307,7 @@ const FilterContent = () => (
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default {
-  title: 'Components/Drawer',
+  title: 'Components/Drawer/General',
   component: Drawer,
   tags: ['autodocs'],
   parameters: {
