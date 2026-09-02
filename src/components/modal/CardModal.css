@@ -1,0 +1,65 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   CardModal.css
+
+   Token reference:
+     --modal-bg      → grabber surface (matches panel background)
+     --modal-border  → grabber bar color
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Scrollable body slot ── */
+/*
+ * Hug mode (default — no height modifier on .modal-panel):
+ *   flex: 0 1 auto — body takes its intrinsic content height.
+ *   Panel grows to fit header + body + footer, capped by max-height.
+ *   flex-shrink: 1 + min-height: 0 allow body to compress and scroll
+ *   if total content approaches the viewport max-height constraint.
+ *
+ * Fixed-height mode (.modal-panel--h-short/tall/venti):
+ *   Override to flex: 1 1 0 so body fills all remaining space between
+ *   the fixed-size header and footer. Overflow-y auto then owns scroll.
+ */
+.card-modal__body {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fixed-height presets: body must fill remaining space */
+.modal-panel--h-short .card-modal__body,
+.modal-panel--h-tall  .card-modal__body,
+.modal-panel--h-venti .card-modal__body {
+  flex: 1 1 0;
+}
+
+/* ── xsmall grabber affordance (visual-only — drag gesture deferred to post-D2) ── */
+/* Hidden by default on all breakpoints */
+.card-modal__grabber {
+  display: none;
+}
+
+/* Mobile only: visible when inside an xsmall bottom-sheet panel */
+@media (max-width: 767px) {
+  .modal-panel--xsmall .card-modal__grabber {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+    flex-shrink: 0;
+    background-color: var(--modal-bg);
+    /* Render above header via flex order */
+    order: -1;
+    cursor: default;
+  }
+
+  .card-modal__grabber-bar {
+    display: block;
+    width: 32px;
+    height: 4px;
+    border-radius: 2px;
+    /* Grabber uses --modal-bg token per handoff (not L2 surface/neutral/white) */
+    background-color: var(--modal-border);
+    opacity: 0.4;
+  }
+}

@@ -1,0 +1,180 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Modal.css — shared overlay + panel base styles
+   Consumed by CardModal and StatusModal via Modal shell.
+
+   Token reference (all from tokens.css):
+     --modal-overlay        → background-color of overlay
+     --modal-bg             → panel surface
+     --modal-border         → panel border + inner dividers
+
+   Shadow (hardcoded — no shadow token exists):
+     box-shadow: 0 16px 32px -12px rgba(23, 23, 23, 0.10)
+
+   Size tokens (from tokens.css):
+     --modal-max-width-sm   → 400px
+     --modal-max-width-md   → 560px
+     --modal-max-width-lg   → 720px
+     --modal-max-height-sm  → 480px (desktop; 440px tablet/mobile)
+     --modal-max-height-md  → 640px (desktop; 580px tablet/mobile)
+     --modal-max-height-lg  → 720px (desktop; 640px tablet/mobile)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Overlay ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background-color: var(--modal-overlay);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.modal-overlay--open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Panel ── */
+.modal-panel {
+  position: relative;
+  width: 100%;
+  background-color: var(--modal-bg);
+  border: 1px solid var(--modal-border);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 16px 32px -12px rgba(23, 23, 23, 0.10);
+  outline: none;
+  /* Viewport safety clamp: panel never taller than viewport minus overlay padding */
+  max-height: calc(100dvh - 48px);
+  /* Entrance animation: scale + fade */
+  transform: scale(0.96) translateY(-8px);
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.modal-overlay--open .modal-panel {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+/* ── Size variants ── */
+.modal-panel--small  { max-width: var(--modal-max-width-sm, 400px); }
+.modal-panel--medium { max-width: var(--modal-max-width-md, 560px); }
+.modal-panel--large  { max-width: var(--modal-max-width-lg, 720px); }
+
+/* xsmall: mobile-only bottom-sheet.
+   On desktop/tablet (no media query): fallback to small width. */
+.modal-panel--xsmall {
+  max-width: var(--modal-max-width-sm, 400px);
+}
+
+/* ── Height variants — desktop ──
+   Figma source of truth (2026-09-01, node 2477:26041 canvas heights):
+     Hug Content = 264px (content-fitting, AUTO)
+     Short       = 480px, Tall = 640px, Venti = 720px  (all fixed — much taller than 264px content)
+   FIXED semantics confirmed: panel renders at the target height even when content is short.
+   Body (.card-modal__body) owns flex: 1 1 0, min-height: 0, overflow-y: auto → fills remaining space.
+   min() clamps the fixed target against available viewport so the panel never overflows the screen.
+   Global .modal-panel max-height (100dvh - 48px) remains as the Hug-content viewport safety. */
+.modal-panel--h-short { height: min(var(--modal-max-height-sm, 480px), calc(100dvh - 48px)); }
+.modal-panel--h-tall  { height: min(var(--modal-max-height-md, 640px), calc(100dvh - 48px)); }
+.modal-panel--h-venti { height: min(var(--modal-max-height-lg, 720px), calc(100dvh - 48px)); }
+
+/* ── Tablet (768–1279px): large max-width + height adjustments ── */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .modal-panel--large {
+    max-width: 640px;
+  }
+
+  .modal-panel--h-short { height: min(440px, calc(100dvh - 48px)); }
+  .modal-panel--h-tall  { height: min(580px, calc(100dvh - 48px)); }
+  .modal-panel--h-venti { height: min(640px, calc(100dvh - 48px)); }
+}
+
+/* ── Mobile (<768px) ── */
+@media (max-width: 767px) {
+  .modal-overlay {
+    padding: 0 16px;
+    align-items: center;
+  }
+
+  /* Bottom-sheet overlay: scoped to mobile only — align to bottom edge, no padding */
+  .modal-overlay--bottom-sheet {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  /* All standard sizes: fluid width (side padding on overlay provides margins) */
+  .modal-panel--small,
+  .modal-panel--medium,
+  .modal-panel--large {
+    max-width: 100%;
+  }
+
+  /* Viewport safety clamp at mobile (no vertical overlay padding) */
+  .modal-panel {
+    max-height: calc(100dvh - 16px);
+  }
+
+  /* Height overrides for mobile (overlay has no vertical padding → 16px safety margin) */
+  .modal-panel--h-short { height: min(440px, calc(100dvh - 16px)); }
+  .modal-panel--h-tall  { height: min(580px, calc(100dvh - 16px)); }
+  .modal-panel--h-venti { height: min(640px, calc(100dvh - 16px)); }
+
+  /* xsmall: bottom-sheet behavior (mobile only) */
+  .modal-panel--xsmall {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 16px 16px 0 0;
+    /* Override scale+opacity with translateY slide */
+    transform: translateY(100%);
+    opacity: 1;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-sizing: border-box;
+  }
+
+  .modal-overlay--open .modal-panel--xsmall {
+    transform: translateY(0);
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .modal-overlay {
+    transition: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .modal-panel {
+    transform: none;
+    opacity: 0;
+    transition: opacity 0.01ms;
+  }
+
+  .modal-overlay--open .modal-panel {
+    opacity: 1;
+  }
+
+  .modal-panel--xsmall {
+    transform: none;
+    transition: none;
+  }
+
+  .modal-overlay--open .modal-panel--xsmall {
+    transform: none;
+  }
+}

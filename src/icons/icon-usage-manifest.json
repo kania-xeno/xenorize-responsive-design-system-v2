@@ -362,6 +362,168 @@
       "notes": "Leading icon in SearchInput."
     }
   ],
+  "_modalD1": {
+    "title": "Modal Family D1 — Icon Sync",
+    "extractedAt": "2026-08-28",
+    "figmaSource": "DS file 0aVnOgjVWH1YL8JCnjXTBi",
+    "note": "9 icons added: 1 close button, 4 bespoke Status Modal icons, 3 Modal Header status icons (stroke=2 variants distinct from existing stroke=1 files), 1 Left Icon placeholder. Triangle-exclamation confirmed for both Error and Warning header variants. CircleCheckFilled and CircleInfoFilled are geometrically distinct from CircleCheck/CircleInfo — do not merge."
+  },
+  "modalIcons": [
+    {
+      "canonicalName": "cross-small",
+      "exportName": "CrossSmall",
+      "filePath": "src/icons/CrossSmall.jsx",
+      "category": "ui",
+      "variant": {
+        "filled": "off",
+        "stroke": 1,
+        "radius": 0,
+        "join": "square"
+      },
+      "nodeId": "1991:615",
+      "componentSetId": "1991:594",
+      "status": "extracted",
+      "verifiedAt": "2026-08-28",
+      "usedBy": ["Modal"],
+      "notes": "ModalHeader close button. Stroke-only X icon, 24×24. ComponentSet name: 'cross-small, crossed small, delete, remove'."
+    },
+    {
+      "canonicalName": "error-warning-fill",
+      "exportName": "ErrorWarningFill",
+      "filePath": "src/icons/ErrorWarningFill.jsx",
+      "category": "status",
+      "variant": {
+        "filled": "on",
+        "bespoke": true
+      },
+      "nodeId": "2467:2215",
+      "componentSetId": null,
+      "status": "extracted",
+      "verifiedAt": "2026-08-28",
+      "usedBy": ["Modal"],
+      "notes": "Bespoke Status Modal icon — standalone COMPONENT on Modal page, not part of Icon System V.2.0.0. Circle with exclamation bar + dot. StatusModal type='error'."
+    },
+    {
+      "canonicalName": "alert-fill",
+      "exportName": "AlertFill",
+      "filePath": "src/icons/AlertFill.jsx",
+      "category": "status",
+      "variant": {
+        "filled": "on",
+        "bespoke": true
+      },
+      "nodeId": "2467:2218",
+      "componentSetId": null,
+      "status": "extracted",
+      "verifiedAt": "2026-08-28",
+      "usedBy": ["Modal"],
+      "notes": "Bespoke Status Modal icon — standalone COMPONENT on Modal page. Triangle with exclamation bar + dot. StatusModal type='warning'."
+    },
+    {
+      "canonicalName": "select-box-circle-fill",
+      "exportName": "SelectBoxCircleFill",
+      "filePath": "src/icons/SelectBoxCircleFill.jsx",
+      "category": "status",
+      "variant": {
+        "filled": "on",
+        "bespoke": true
+      },
+      "nodeId": "2467:2220",
+      "componentSetId": null,
+      "status": "extracted",
+      "verifiedAt": "2026-08-28",
+      "usedBy": ["Modal"],
+      "notes": "Bespoke Status Modal icon — standalone COMPONENT on Modal page. Circle with checkmark cutout. StatusModal type='success'."
+    },
+    {
+      "canonicalName": "information-fill",
+      "exportName": "InformationFill",
+      "filePath": "src/icons/InformationFill.jsx",
+      "category": "status",
+      "variant": {
+        "filled": "on",
+        "bespoke": true
+      },
+      "nodeId": "2467:2222",
+      "componentSetId": null,
+      "status": "extracted",
+      "verifiedAt": "2026-08-28",
+      "usedBy": ["Modal"],
+      "notes": "Bespoke Status Modal icon — standalone COMPONENT on Modal page. Circle with 'i' bar + dot. StatusModal type='info'."
+    },
+    {
+      "canonicalName": "triangle-exclamation",
+      "exportName": "TriangleExclamation",
+      "filePath": "src/icons/TriangleExclamation.jsx",
+      "category": "status",
+      "variant": {
+        "filled": "on",
+        "stroke": 2,
+        "radius": 0,
+        "join": "round"
+      },
+      "nodeId": "1990:382",
+      "componentSetId": "1990:378",
+      "status": "extracted",
+      "verifiedAt": "2026-08-28",
+      "usedBy": ["Modal"],
+      "notes": "Icon System V.2.0.0 stroke=2 variant. EVENODD filled path. ComponentSet name includes 'error, warning, alert' — confirmed single icon covers both ModalHeader type='error' and type='warning'."
+    },
+    {
+      "canonicalName": "circle-check-filled",
+      "exportName": "CircleCheckFilled",
+      "filePath": "src/icons/CircleCheckFilled.jsx",
+      "category": "status",
+      "variant": {
+        "filled": "on",
+        "stroke": 2,
+        "radius": 0,
+        "join": "round"
+      },
+      "nodeId": "1957:587",
+      "componentSetId": "1957:583",
+      "status": "extracted",
+      "verifiedAt": "2026-08-28",
+      "usedBy": ["Modal"],
+      "notes": "Icon System V.2.0.0 stroke=2 variant. GEOMETRICALLY DISTINCT from CircleCheck (node 9:96443, stroke=1, 20×20 coords). Do not merge. ModalHeader type='success'."
+    },
+    {
+      "canonicalName": "circle-info-filled",
+      "exportName": "CircleInfoFilled",
+      "filePath": "src/icons/CircleInfoFilled.jsx",
+      "category": "status",
+      "variant": {
+        "filled": "on",
+        "stroke": 2,
+        "radius": 0,
+        "join": "round"
+      },
+      "nodeId": "1945:3461",
+      "componentSetId": "1945:3457",
+      "status": "extracted",
+      "verifiedAt": "2026-08-28",
+      "usedBy": ["Modal"],
+      "notes": "Icon System V.2.0.0 stroke=2 variant. GEOMETRICALLY DISTINCT from CircleInfo (node 9:98583, stroke=1, 20×20 coords). Do not merge. ModalHeader type='info'."
+    },
+    {
+      "canonicalName": "settings-gear-2",
+      "exportName": "SettingsGear2",
+      "filePath": "src/icons/SettingsGear2.jsx",
+      "category": "ui",
+      "variant": {
+        "filled": "off",
+        "stroke": 1,
+        "radius": 0,
+        "join": "square"
+      },
+      "nodeId": "1990:314",
+      "componentSetId": "1990:293",
+      "status": "extracted",
+      "verifiedAt": "2026-08-28",
+      "usedBy": ["Modal"],
+      "notes": "ModalHeader Left Icon default/example placeholder. Stroke-only gear + inner circle. ComponentSet name: 'settings-gear-2, preferences'."
+    }
+  ],
   "futureExpansion": {
     "note": "The following represents the known gap to reach the full product-used icon set.",
     "totalProductUsedTarget": 58,

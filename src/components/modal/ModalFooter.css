@@ -1,0 +1,58 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   ModalFooter.css
+
+   Token reference:
+     --modal-footer-bg      → footer surface
+     --modal-footer-border  → top separator stroke
+
+   Height: 68px (padding 16px top+bottom = 36px, leaving 32px for button row)
+   Padding: 16px top, 20px right, 16px bottom, 20px left
+   Gap: 12px between actions
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Base ── */
+.modal-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background-color: var(--modal-footer-bg);
+  border-top: 1px solid var(--modal-footer-border);
+  flex-shrink: 0;
+  min-height: 68px;
+  box-sizing: border-box;
+}
+
+/* ── Left slot ── */
+.modal-footer__left {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Actions row ── */
+.modal-footer__actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+/* Stretch type: actions fill all available width */
+.modal-footer__actions--stretch {
+  flex: 1 1 0;
+  width: 100%;
+  margin-left: 0;
+}
+
+/* Stretch type: each button fills equal share */
+.modal-footer__btn--stretch {
+  flex: 1 1 0;
+}
+
+/* ── Stretch type: no left slot, actions fill entire row ── */
+.modal-footer--stretch .modal-footer__actions {
+  margin-left: 0;
+}

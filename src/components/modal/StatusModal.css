@@ -1,0 +1,123 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   StatusModal.css
+
+   Shadow rule:
+     variant="overlay"  → shadow provided by .modal-panel in Modal.css (default)
+     variant="default"  → shadow removed via .status-modal--default override here
+
+   Token reference:
+     --modal-text-title       → heading color
+     --modal-text-body        → body copy color
+     --modal-icon-bg-error    → icon frame bg (error)
+     --modal-icon-bg-warning  → icon frame bg (warning)
+     --modal-icon-bg-success  → icon frame bg (success)
+     --modal-icon-bg-info     → icon frame bg (information)
+     --modal-icon-error       → icon color (error)
+     --modal-icon-warning     → icon color (warning)
+     --modal-icon-success     → icon color (success)
+     --modal-icon-info        → icon color (information)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Default variant: no shadow + larger corner radius (Figma confirmed) ──
+   Overlay variant: cornerRadius=16px (inherits .modal-panel base)
+   Default variant: cornerRadius=20px (Figma 2480:33749 live value) ── */
+.status-modal--default {
+  box-shadow: none;
+  border-radius: 20px;
+}
+
+/* ── No-backdrop overlay (used by StatusModal variant="default") ──
+   Removes the visual overlay so Default renders standalone without a backdrop.
+   Runtime behavior (portal, focus trap, scroll lock, ARIA) is unchanged. ── */
+.modal-overlay--no-backdrop {
+  background-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* ── Content area ── */
+.status-modal__content {
+  display: flex;
+  padding: 24px;
+  gap: 16px;
+}
+
+/* Horizontal: icon left, text right */
+.status-modal--horizontal .status-modal__content {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+/* Vertical: icon top, text below */
+.status-modal--vertical .status-modal__content {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* ── Icon frame (48×48) ── */
+.status-modal__icon-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+/* Icon frame backgrounds per status */
+.status-modal--error       .status-modal__icon-frame { background-color: var(--modal-icon-bg-error); }
+.status-modal--warning     .status-modal__icon-frame { background-color: var(--modal-icon-bg-warning); }
+.status-modal--success     .status-modal__icon-frame { background-color: var(--modal-icon-bg-success); }
+.status-modal--information .status-modal__icon-frame { background-color: var(--modal-icon-bg-info); }
+
+/* Icon colors per status (currentColor flows into SVG fill) */
+.status-modal--error       .status-modal__icon-frame { color: var(--modal-icon-error); }
+.status-modal--warning     .status-modal__icon-frame { color: var(--modal-icon-warning); }
+.status-modal--success     .status-modal__icon-frame { color: var(--modal-icon-success); }
+.status-modal--information .status-modal__icon-frame { color: var(--modal-icon-info); }
+
+/* Icon SVG sizing */
+.status-modal__icon-svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* ── Text block ── */
+.status-modal__text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.status-modal--horizontal .status-modal__text {
+  flex: 1 1 0;
+}
+
+.status-modal__title {
+  display: block;
+  color: var(--modal-text-title);
+  font-size: var(--font-size-body-lg);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--text-style-body-semibold-lg-line-height);
+}
+
+.status-modal__body {
+  margin: 0;
+  padding: 0;
+  color: var(--modal-text-body);
+  font-size: var(--font-size-body-md);
+  line-height: var(--text-style-body-regular-md-line-height);
+}
+
+/* ── Actions row ── */
+.status-modal__actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding: 0 24px 24px;
+}

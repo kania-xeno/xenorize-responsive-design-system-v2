@@ -1,0 +1,178 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   ModalHeader.css
+
+   Token reference:
+     --modal-bg             → header surface
+     --modal-border         → bottom separator stroke
+     --modal-text-title     → title + close icon color
+     --modal-text-body      → description text
+
+   Icon frame bg tokens (applied via CSS data-type-based classes):
+     --modal-icon-bg-default    → left-icon type
+     --modal-icon-bg-error      → error type
+     --modal-icon-bg-warning    → warning type
+     --modal-icon-bg-success    → success type
+     --modal-icon-bg-info       → information type
+
+   Icon color tokens (applied to icon via currentColor):
+     --modal-icon-default
+     --modal-icon-error
+     --modal-icon-warning
+     --modal-icon-success
+     --modal-icon-info
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Base ── */
+.modal-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: var(--modal-bg);
+  border-bottom: 1px solid var(--modal-border);
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+/* ── Medium (76px) ── */
+.modal-header--medium {
+  min-height: 76px;
+  padding: 16px 16px 16px 20px;
+  gap: 16px;
+}
+
+/* Status types and left-icon in medium: tighter gap */
+.modal-header--medium.modal-header--error,
+.modal-header--medium.modal-header--warning,
+.modal-header--medium.modal-header--success,
+.modal-header--medium.modal-header--information,
+.modal-header--medium.modal-header--left-icon {
+  gap: 14px;
+}
+
+/* ── Small (56px) ── */
+.modal-header--small {
+  min-height: 56px;
+  padding: 16px 16px 16px 20px;
+  gap: 12px;
+}
+
+/* ── Icon frame (Medium, non-basic — 40×40) ── */
+.modal-header__icon-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+/* Icon frame background per type */
+.modal-header--error       .modal-header__icon-frame { background-color: var(--modal-icon-bg-error); }
+.modal-header--warning     .modal-header__icon-frame { background-color: var(--modal-icon-bg-warning); }
+.modal-header--success     .modal-header__icon-frame { background-color: var(--modal-icon-bg-success); }
+.modal-header--information .modal-header__icon-frame { background-color: var(--modal-icon-bg-info); }
+.modal-header--left-icon   .modal-header__icon-frame { background-color: var(--modal-icon-bg-default); }
+
+/* ── Direct icon (Small, non-basic — 24×24) ── */
+.modal-header__icon-direct {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* Icon SVG: force 24×24, inherit color */
+.modal-header__icon-svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* Icon color per type — applied via currentColor on the icon wrapper */
+.modal-header--error       .modal-header__icon-frame,
+.modal-header--error       .modal-header__icon-direct {
+  color: var(--modal-icon-error);
+}
+
+.modal-header--warning     .modal-header__icon-frame,
+.modal-header--warning     .modal-header__icon-direct {
+  color: var(--modal-icon-warning);
+}
+
+.modal-header--success     .modal-header__icon-frame,
+.modal-header--success     .modal-header__icon-direct {
+  color: var(--modal-icon-success);
+}
+
+.modal-header--information .modal-header__icon-frame,
+.modal-header--information .modal-header__icon-direct {
+  color: var(--modal-icon-info);
+}
+
+.modal-header--left-icon   .modal-header__icon-frame,
+.modal-header--left-icon   .modal-header__icon-direct {
+  color: var(--modal-icon-default);
+}
+
+/* ── Text area ── */
+.modal-header__text {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.modal-header__title {
+  display: block;
+  color: var(--modal-text-title);
+  font-size: var(--font-size-body-md);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--text-style-body-semibold-md-line-height);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modal-header__description {
+  margin: 0;
+  padding: 0;
+  color: var(--modal-text-body);
+  font-size: var(--font-size-body-md);
+  line-height: var(--text-style-body-regular-md-line-height);
+}
+
+/* ── Close button ── */
+.modal-header__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--modal-text-title);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease;
+}
+
+.modal-header__close:hover {
+  background-color: var(--modal-icon-bg-default);
+}
+
+.modal-header__close:focus-visible {
+  outline: 2px solid var(--modal-text-title);
+  outline-offset: 2px;
+}
+
+.modal-header__close svg {
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+}

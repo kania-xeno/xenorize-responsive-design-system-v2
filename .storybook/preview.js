@@ -1,5 +1,5 @@
 import React from "react";
-import "../src/design-tokens/tokens.css";
+import "../src/index.css";
 
 // Wraps every story in a themed surface and applies data-theme to the
 // document root so [data-theme="dark"] token overrides in tokens.css
@@ -92,7 +92,10 @@ const preview = {
             ],
             'Chart Donut',
             'Drawer',
-            ['Desktop', 'Mobile', 'Long Content', 'Settings', 'Details', 'Filter', 'Responsive Guidance', '*'],
+            [
+              'General',
+              ['Desktop', 'Mobile', 'Long Content', 'Settings', 'Details', 'Filter', 'Responsive Guidance', '*'],
+            ],
             'Checkbox',
             [
               'Overview',
@@ -114,6 +117,28 @@ const preview = {
             ],
             'Input Text',
             'Key Component',
+            'Modal',
+            [
+              'Card Modal',
+              [
+                'Overview',
+                'Size / Small', 'Size / Medium', 'Size / Large', 'Size / XSmall (Mobile Bottom Sheet)',
+                'Height / Hug Content', 'Height / Short (480px)', 'Height / Tall (640px)', 'Height / Venti (720px)',
+                'Header / Basic', 'Header / Left Icon', 'Header / Error', 'Header / Warning', 'Header / Success', 'Header / Information', 'Header / Small Size',
+                'Footer / Basic', 'Footer / Stretch', 'Footer / Checkbox', 'Footer / Toggle', 'Footer / Information', 'Footer / Link Button', 'Footer / Primary Only', 'Footer / Primary Disabled',
+                'Custom Slot / Header + aria-labelledby', 'Custom Slot / Header + aria-label', 'Custom Slot / Footer',
+                'Behaviour / Escape disabled', 'Behaviour / Overlay click disabled', 'Behaviour / Long scrollable content',
+                '*',
+              ],
+              'Status Modal',
+              [
+                'Variant / Default', 'Variant / Overlay',
+                'Status / Error', 'Status / Warning', 'Status / Success', 'Status / Information',
+                'Alignment / Horizontal', 'Alignment / Vertical',
+                'Content / Title only', 'Content / With secondary action', 'Behaviour / Overlay click disabled',
+                '*',
+              ],
+            ],
             'Select',
             [
               'Select Basic',

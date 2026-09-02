@@ -45,3 +45,14 @@ export { default as ArrowRightSLine }   from './ArrowRightSLine.jsx';  // arrow-
 // ── placeholder (Figma node known — temporary geometry) ──────────────────────
 export { default as CircleCheck }       from './CircleCheck.jsx';
 export { default as CircleX }           from './CircleX.jsx';
+
+// ── extracted (Figma paths captured 2026-08-28 — Modal Family D1 icon sync) ──
+export { default as CrossSmall }          from './CrossSmall.jsx';          // cross-small DS:1991:615 — STROKE; ModalHeader close button
+export { default as ErrorWarningFill }    from './ErrorWarningFill.jsx';    // bespoke DS:2467:2215 — FILLED; StatusModal type="error"
+export { default as AlertFill }           from './AlertFill.jsx';           // bespoke DS:2467:2218 — FILLED; StatusModal type="warning"
+export { default as SelectBoxCircleFill } from './SelectBoxCircleFill.jsx'; // bespoke DS:2467:2220 — FILLED; StatusModal type="success"
+export { default as InformationFill }     from './InformationFill.jsx';     // bespoke DS:2467:2222 — FILLED; StatusModal type="info"
+export { default as TriangleExclamation } from './TriangleExclamation.jsx'; // DS:1990:382 filled=on stroke=2 — FILLED EVENODD; ModalHeader type="error"|"warning"
+export { default as CircleCheckFilled }   from './CircleCheckFilled.jsx';   // DS:1957:587 filled=on stroke=2 — FILLED EVENODD; ModalHeader type="success" (≠ CircleCheck stroke=1)
+export { default as CircleInfoFilled }    from './CircleInfoFilled.jsx';    // DS:1945:3461 filled=on stroke=2 — FILLED EVENODD; ModalHeader type="info" (≠ CircleInfo stroke=1)
+export { default as SettingsGear2 }       from './SettingsGear2.jsx';       // DS:1990:314 filled=off stroke=1 — STROKE; ModalHeader Left Icon default placeholder
