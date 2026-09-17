@@ -1,0 +1,387 @@
+/* CompactButton — Icon-only compact action button
+   Source of truth: design-tokens/tokens.css (import once at app root)
+   Figma: ↳button-compact · node 2285:642 · page ❖ Button
+   Preflight: DT-R0-F + DT-R1 + DT-R2-A + DT-R2-A.1 (2026-09-17)
+
+   Variants  (🏵️ Style):    ghost | stroke | modifiable | white
+   Sizes     (📏 Size):     large (24×24 px, 2 px padding, 20×20 icon slot)
+                             medium (20×20 px, 1 px padding, 18×18 icon slot)
+   Radius    (⭕️ Full):    Off → --radius-6 (6 px) | On → --radius-full (999 px)
+   States    (📌 State):    default | :hover | :active | :disabled
+
+   GEOMETRY NOTE (R2-A.6):
+   Figma uses strokeAlign=INSIDE on all variants. In Figma auto-layout, the stroke
+   is drawn inside the frame boundary but does NOT consume padding/content space.
+   Content area = frame_size - 2×padding regardless of stroke presence.
+   In CSS, a `border` with box-sizing:border-box DOES consume content space.
+   Fix: no `border` on .compact-button base. Visible borders use `box-shadow:inset`
+   so they do not affect the icon slot dimensions.
+   Result: Large icon slot = 24 - 2×2px = 20×20. Medium = 20 - 2×1px = 18×18.
+
+   FOCUS COMPOSITION NOTE (R2-A.1):
+   Focus-visible rules are collected in a single block AFTER all variant×state rules.
+   This ensures compound selectors (specificity 0,3,0–0,4,0) correctly beat the
+   hover/active box-shadow resets (specificity 0,3,0) that appeared before them.
+   Without this, Stroke/White hover+active and Modifiable active would overwrite the
+   focus ring with `box-shadow: none` or a bare inset shadow with no ring.
+   Specificity summary:
+     .compact-button:focus-visible                              = 0,2,0
+     .compact-button--stroke:focus-visible                      = 0,2,0
+     .compact-button--stroke:hover:not(:disabled)               = 0,3,0  ← would win
+     .compact-button--stroke:hover:not(:disabled):focus-visible = 0,4,0  ← focus wins
+
+   TOKEN REFERENCES — L3 block (tokens.css lines 1754–1762):
+     --button-compact-bg-dark        surface/neutral/strong-950  L:#161616 D:#989dae
+     --button-compact-bg-default     surface/neutral/white       L:#ffffff
+     --button-compact-bg-hover       surface/neutral/weak        L:#f6f7f8
+     --button-compact-bg-hover-dark  surface/neutral/soft        L:#f4f4f6
+     --button-compact-border         border/neutral/soft         L:#f5f5f5 D:#2d2f39
+     --button-compact-icon-active    icon/strong                 L:#1c1c1c (on :hover — SEM-02)
+     --button-compact-icon-default   icon/sub                    L:#5c5c5c
+     --button-compact-icon-disabled  icon/disabled               L:#d1d1d1
+     --button-compact-icon-inverse   icon/inverse                L:#f7f7f7 D:#1b1c22 (on :active — SEM-02)
+
+   DESIGNER DECISIONS PRESERVED (do not correct):
+     MOD-01    — Modifiable/Active border = --button-compact-bg-default (fill token as border)
+     SEM-02    — icon-active on :hover; icon-inverse on :active (naming inverted vs state)
+     DD-VIS-01 — Modifiable/Active: 1.03:1 (L) / 1.28:1 (D) contrast ratio.
+                 This is NOT WCAG 1.4.11 compliant. Designer-accepted exception.
+                 Active is a transient interaction state, not a persistent visual.              */
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   BASE
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.compact-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;                   /* Figma itemSpacing=2 — no visual effect with single child */
+  box-sizing: border-box;
+  /* UA browser reset: <button> elements get a default border and -webkit-appearance:button
+     in Chrome/Safari/Firefox on macOS. Without these two resets the native border/chrome
+     bleeds through as a visible gray layer — absent in Figma.
+     `border: none` replaces the UA border without adding layout cost (visible borders are
+     implemented via box-shadow:inset on Stroke/White variants, which are unaffected).
+     `appearance: none` suppresses the full native button rendering (macOS pill shape etc.).
+     Root cause confirmed: compiled CSS audit 2026-09-17 (Live Figma-to-Storybook Visual Match). */
+  border: none;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: var(--radius-6);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    background-color 0.15s ease,
+    color            0.15s ease,
+    box-shadow       0.15s ease;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   SIZES  (R2-A.6)
+   Container is fixed. Padding creates the icon slot: slot = container - 2×padding.
+   Large: 24 - 2×2 = 20×20. Medium: 20 - 2×1 = 18×18.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* Large: 24×24 container, 2 px padding → 20×20 icon slot */
+.compact-button--large {
+  width: 24px;
+  height: 24px;
+  padding: 2px;
+}
+
+/* Medium: 20×20 container, 1 px padding → 18×18 icon slot */
+.compact-button--medium {
+  width: 20px;
+  height: 20px;
+  padding: 1px;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   RADIUS
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.compact-button--full-radius {
+  border-radius: var(--radius-full);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   ICON WRAPPER  (R2-A.5 + R2-A.6)
+   Fixed pixel dimensions per size class so consumer SVG fills the correct slot.
+   Supports fill-based and stroke-based currentColor icons (CloseLine, CrossSmall, etc.).
+   The span is aria-hidden — accessible name comes from the button's aria-label/labelledby.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.compact-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  pointer-events: none;
+  color: inherit;
+}
+
+/* Large icon slot: 20×20 */
+.compact-button--large .compact-button__icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Medium icon slot: 18×18 */
+.compact-button--medium .compact-button__icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Force any consumer icon element (svg, img, etc.) to fill the slot exactly.
+   Direct child only — avoids polluting deeply nested elements. */
+.compact-button__icon > * {
+  display: block;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   GHOST VARIANT
+   Default: transparent bg, no border, no shadow.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.compact-button--ghost {
+  background: transparent;
+  color: var(--button-compact-icon-default);
+}
+
+/* Hover: surface/weak bg (SEM-02: icon-active token applies on :hover) */
+.compact-button--ghost:hover:not(:disabled) {
+  background: var(--button-compact-bg-hover);
+  color: var(--button-compact-icon-active);
+}
+
+/* Active: surface/strong-950 bg + inverse icon (SEM-02: icon-inverse on :active) */
+.compact-button--ghost:active:not(:disabled) {
+  background: var(--button-compact-bg-dark);
+  color: var(--button-compact-icon-inverse);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   STROKE VARIANT
+   Default: white bg, 1 px inset border (no layout impact), drop shadow.
+   Border via box-shadow:inset so icon slot stays 20×20 / 18×18 (R2-A.6).
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.compact-button--stroke {
+  background: var(--button-compact-bg-default);
+  box-shadow: inset 0 0 0 1px var(--button-compact-border), var(--shadow-below-xs);
+  color: var(--button-compact-icon-default);
+}
+
+/* Hover: bg-hover; border and shadow both drop */
+.compact-button--stroke:hover:not(:disabled) {
+  background: var(--button-compact-bg-hover);
+  box-shadow: none;
+  color: var(--button-compact-icon-active);
+}
+
+/* Active: bg-dark; border and shadow both drop */
+.compact-button--stroke:active:not(:disabled) {
+  background: var(--button-compact-bg-dark);
+  box-shadow: none;
+  color: var(--button-compact-icon-inverse);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   MODIFIABLE VARIANT
+   Default: transparent (same visual as Ghost at rest). No border, no shadow.
+   Hover:   surface/soft (hover-dark) tint — distinct from Ghost/Stroke hover bg.
+   Active:  same hover-dark bg + 1 px inset white border (MOD-01 + DD-VIS-01).
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.compact-button--modifiable {
+  background: transparent;
+  color: var(--button-compact-icon-default);
+}
+
+/* Hover: surface/soft (hover-dark) tint */
+.compact-button--modifiable:hover:not(:disabled) {
+  background: var(--button-compact-bg-hover-dark);
+  color: var(--button-compact-icon-active);
+}
+
+/* Active: hover-dark bg + inset white border (MOD-01: fill token reused as border color)
+   ⚠ DD-VIS-01: bg-hover-dark + icon-inverse contrast is ~1.03:1 (L) / ~1.28:1 (D).
+     This does NOT meet WCAG 1.4.11 Non-Text Contrast. Designer-accepted exception.
+     Active is a transient interaction state, not a persistent visual. */
+.compact-button--modifiable:active:not(:disabled) {
+  background: var(--button-compact-bg-hover-dark);
+  box-shadow: inset 0 0 0 1px var(--button-compact-bg-default); /* MOD-01 */
+  color: var(--button-compact-icon-inverse);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   WHITE VARIANT
+   Default: white bg, drop shadow (same Effect Style as Stroke/Default). No border.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.compact-button--white {
+  background: var(--button-compact-bg-default);
+  box-shadow: var(--shadow-below-xs);
+  color: var(--button-compact-icon-default);
+}
+
+/* Hover: bg-hover; shadow drops */
+.compact-button--white:hover:not(:disabled) {
+  background: var(--button-compact-bg-hover);
+  box-shadow: none;
+  color: var(--button-compact-icon-active);
+}
+
+/* Active: bg-dark; shadow drops */
+.compact-button--white:active:not(:disabled) {
+  background: var(--button-compact-bg-dark);
+  box-shadow: none;
+  color: var(--button-compact-icon-inverse);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   FOCUS COMPOSITION  (R2-A.1)
+   Placed AFTER all variant×state rules.
+
+   Why this ordering matters:
+   Hover/active rules above use specificity 0,3,0.  Any :focus-visible rule
+   with the same or lower specificity would lose when both pseudos are active
+   simultaneously.  The compound selectors below carry specificity 0,4,0 and
+   therefore safely override the box-shadow resets from hover/active states.
+
+   Specificity reference:
+     .compact-button:focus-visible                               = 0,2,0
+     .compact-button--stroke:focus-visible                       = 0,2,0
+     .compact-button--stroke:hover:not(:disabled)                = 0,3,0 ← would beat above
+     .compact-button--stroke:hover:not(:disabled):focus-visible  = 0,4,0 ← focus wins
+
+   Ghost hover/active do NOT set box-shadow, so the base 0,2,0 rule at the top
+   of this block already survives for them — no compound rules needed for Ghost.
+   Modifiable default/hover also do not set box-shadow — same reasoning.
+
+   Required composition per the DT-R2-A.1 spec:
+     Ghost Default/Hover/Active         → focus ring only
+     Stroke Default                     → inset border + below-xs + focus ring
+     Stroke Hover/Active                → focus ring only
+     Modifiable Default/Hover           → focus ring only
+     Modifiable Active                  → MOD-01 inset border + focus ring
+     White Default                      → below-xs + focus ring
+     White Hover/Active                 → focus ring only
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* Base — covers Ghost (all states) + Modifiable (default + hover) + any future
+   variant whose hover/active does not write box-shadow. Specificity 0,2,0. */
+.compact-button:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus-ring-neutral);
+}
+
+/* Stroke Default — preserve inset border + drop shadow alongside the ring.
+   Specificity 0,2,0; wins over .compact-button--stroke (0,1,0) via later order. */
+.compact-button--stroke:focus-visible {
+  outline: none;
+  box-shadow:
+    inset 0 0 0 1px var(--button-compact-border),
+    var(--shadow-below-xs),
+    var(--shadow-focus-ring-neutral);
+}
+
+/* Stroke Hover/Active + focus — Figma drops inset border and shadow at these
+   states, so only the ring remains. Specificity 0,4,0 beats hover/active (0,3,0). */
+.compact-button--stroke:hover:not(:disabled):focus-visible,
+.compact-button--stroke:active:not(:disabled):focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus-ring-neutral);
+}
+
+/* Modifiable Active + focus — MOD-01 inset border is preserved (designer decision);
+   ring is added on top. Specificity 0,4,0 beats active rule (0,3,0).
+   ⚠ DD-VIS-01 contrast exception documented in Modifiable block above — unchanged. */
+.compact-button--modifiable:active:not(:disabled):focus-visible {
+  outline: none;
+  box-shadow:
+    inset 0 0 0 1px var(--button-compact-bg-default), /* MOD-01 */
+    var(--shadow-focus-ring-neutral);
+}
+
+/* White Default — preserve drop shadow alongside the ring.
+   Specificity 0,2,0; wins over .compact-button--white (0,1,0) via later order. */
+.compact-button--white:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-below-xs), var(--shadow-focus-ring-neutral);
+}
+
+/* White Hover/Active + focus — shadow drops at these states, ring remains.
+   Specificity 0,4,0 beats hover/active (0,3,0). */
+.compact-button--white:hover:not(:disabled):focus-visible,
+.compact-button--white:active:not(:disabled):focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus-ring-neutral);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   DISABLED (all variants)  (R2-A.8)
+   Figma: all Disabled variants have fill=none, stroke=none, shadow=none.
+   CSS: transparent bg, no box-shadow, disabled icon color.
+   pointer-events:none matches repo Button.css convention. Native <button disabled>
+   already blocks activation; pointer-events:none also routes hover events to the
+   parent (tooltip wrappers on parent elements continue to function).
+   Disabled buttons are not keyboard-focusable (HTML spec). The !important on
+   box-shadow ensures that any edge case where focus rules might match is overridden.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.compact-button:disabled {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--button-compact-icon-disabled) !important;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   FORCED COLORS — Windows Contrast Themes  (R2-A.1 Task 3)
+   box-shadow is suppressed in forced-colors mode (UA resets paint properties).
+   forced-color-adjust:auto restores system-color FILLS AND BORDERS but does NOT
+   undo CSS `outline:none`. A real outline is required here so keyboard focus
+   remains visible when the user has a Windows contrast theme active.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+@media (forced-colors: active) {
+  .compact-button {
+    forced-color-adjust: auto;
+  }
+
+  /* Restore visible outline: overrides the `outline:none` from focus composition block.
+     ButtonText is the system high-contrast text color — guaranteed visible on any
+     forced-colors surface. 2px + 2px offset matches the visual weight of the
+     shadow-based ring in standard mode. */
+  .compact-button:focus-visible {
+    outline: 2px solid ButtonText;
+    outline-offset: 2px;
+    box-shadow: none; /* box-shadow paints are suppressed; no need to layer it */
+  }
+
+  .compact-button__icon {
+    color: ButtonText;
+  }
+
+  .compact-button:disabled .compact-button__icon {
+    color: GrayText;
+  }
+}

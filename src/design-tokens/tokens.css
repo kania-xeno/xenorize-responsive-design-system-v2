@@ -774,6 +774,7 @@
   --color-icon-sub-600:           var(--prim-neutral-600);   /* legacy alias */
   --color-icon-soft:              var(--prim-neutral-400);   /* #a3a3a3 */
   --color-icon-disabled:          var(--prim-neutral-300);   /* #d1d1d1 */
+  --color-icon-inverse:           var(--prim-neutral-25);    /* #f7f7f7 */
   --color-icon-brand:             var(--prim-brand-stpatrick-600);    /* #403297 */
 
   /* ── State ── */
@@ -1740,6 +1741,26 @@
   --dropdown-list-border-default:          var(--color-border-neutral-default);   /* border/neutral/soft   → 3149:915 */
   --dropdown-list-shadow-default:          var(--shadow-regular-medium);          /* regular-shadow/medium (Figma Effect Style) */
 
+  /* ── Compact Button — L3 component tokens ──────────────────────────────────────
+     Synced 2026-09-16 (D1 token sync). Repaired 2026-09-16 (D1-A: L2 alias repair).
+     All 9 tokens follow full L3 → L2 → L1 chain. No direct L1 bypasses.
+     SEM-02: icon/active is applied on :hover; icon/inverse is applied on :active.
+     Shadow (--prim-alpha-black10) binds directly to DROP_SHADOW on Stroke/Default +
+     White/Default — not a component token, not listed here.
+     TYP-01: Figma L2 alias for icon/disabled is 'icon/dissabled' (double-s typo);
+     CSS property below uses the correct spelling.
+     DD-VIS-01: Modifiable/Active bg/hover-dark + icon/inverse → 1.03:1 (light) /
+     1.28:1 (dark) — designer-accepted WCAG 1.4.11 exception.                     */
+  --button-compact-bg-dark:       var(--color-surface-strong);    /* bg/dark        · surface/neutral/strong-950 · L: #161616 D: #989dae */
+  --button-compact-bg-default:    var(--color-surface-white);     /* bg/default     · surface/neutral/white      · L: #ffffff */
+  --button-compact-bg-hover:      var(--color-surface-weak);      /* bg/hover       · surface/neutral/weak       · L: #f6f7f8 */
+  --button-compact-bg-hover-dark: var(--color-surface-soft);      /* bg/hover-dark  · surface/neutral/soft       · L: #f4f4f6 */
+  --button-compact-border:        var(--color-border-stroke-soft); /* border        · border/neutral/soft        · L: #f5f5f5 */
+  --button-compact-icon-active:   var(--color-icon-strong);       /* icon/active    · icon/strong               · L: #1c1c1c */
+  --button-compact-icon-default:  var(--color-icon-sub);          /* icon/default   · icon/sub                  · L: #5c5c5c */
+  --button-compact-icon-disabled: var(--color-icon-disabled);     /* icon/disabled  · icon/dissabled (TYP-01)   · L: #d1d1d1 */
+  --button-compact-icon-inverse:  var(--color-icon-inverse);      /* icon/inverse   · icon/inverse               · L: #f7f7f7 D: #1b1c22 */
+
 } /* end :root */
 
 
@@ -1770,6 +1791,8 @@
   --color-surface-neutral-soft:       var(--prim-slate-700);    /* legacy alias */
   --color-surface-soft-alt:           var(--prim-slate-600);    /* #515567 */
   --color-surface-neutral-soft-alt:   var(--prim-slate-600);    /* legacy alias */
+  --color-surface-strong:             var(--prim-slate-400);    /* #989dae — Figma: surface/neutral/strong-950 dark value. Added D1-A 2026-09-16. */
+  --color-surface-neutral-strong-950: var(--prim-slate-400);    /* legacy alias */
 
   /* ── BG (legacy flat namespace) — dark overrides ── */
   /* background/base dark: slate/900 per Figma VariableID:1892:31 — fixed 2026-08-18 */
@@ -1805,6 +1828,7 @@
   --color-icon-sub-600:               var(--prim-slate-300);    /* legacy alias */
   --color-icon-soft:                  var(--prim-slate-400);    /* #989dae */
   --color-icon-disabled:              var(--prim-slate-600);    /* #515567 */
+  --color-icon-inverse:               var(--prim-slate-900);    /* #1b1c22 — Figma: icon/inverse dark value. Added D1-A 2026-09-16. */
 
   --color-state-disabled-bg:          var(--prim-slate-700);    /* #2d2f39 */
   --color-state-disabled-text:        var(--prim-neutral-400);  /* #a3a3a3 */
@@ -1896,7 +1920,6 @@
   /* disabled · text/border — bespoke dark values (slate, not neutral) */
   --button-disabled-text:   var(--prim-slate-400);               /* #989dae */
   --button-disabled-border: var(--prim-slate-600);               /* #515567 */
-
 
   /* ── Badge — dark mode component overrides ── */
 
