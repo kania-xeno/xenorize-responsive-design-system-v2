@@ -1,0 +1,149 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Tooltip — component CSS
+   Source:   Figma ↳tooltip (2267:38, 32 variants = 8 placements × 2 sizes × 2 modes)
+   Tokens:   --tooltip-light-*, --tooltip-dark-*, --shadow-components-tooltip-*
+   D1-A ref: component-tooltip-d1-token-source-reconciliation.md
+
+   Rules:
+   • NO hardcoded color, shadow layers, or radius values — use CSS custom properties.
+   • Shadow is appearance-static: selected by .tooltip--light / .tooltip--dark class,
+     NOT by a [data-theme] override. The `appearance` prop drives the class.
+   • DD-01 RESOLVED: box-shadow on .tooltip surface only — NOT on .tooltip-tail SVG.
+   • DD-04 RESOLVED: dark mode has no border and no ring. Light mode has a subtle
+     1-px ring baked into its shadow token (0 0 0 1px #f5f5f5) but no CSS border.
+     Designer correction 2026-09-22: dark shadow token has NO ring layer at all.
+   • D2-A: Removed `border: 1px solid` from .tooltip--light. Keeping it caused a
+     2-px height/width discrepancy vs dark (content-box adds border to layout size)
+     and a double-ring (CSS border inside + shadow ring outside). Shadow ring alone
+     matches Figma's OUTSIDE stroke which also does not affect frame dimensions.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* ── Root / floating element ────────────────────────────────────────────── */
+.tooltip {
+  /* Floating UI sets position/top/left via inline style — this is a safe fallback */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* matches Modal, Drawer, Alert — no CSS custom property exists */
+
+  /* Layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+
+  /* Typography base */
+  font-family: var(--font-family-body);
+  font-weight: var(--font-weight-regular);
+  font-style: normal;
+  text-align: left;
+
+  /* Pointer events off while closed (guard against hover during fade) */
+  pointer-events: none;
+
+  /* Entrance / exit fade */
+  opacity: 0;
+  transition: opacity 120ms ease;
+  will-change: opacity;
+}
+
+/* ── Visible state ─────────────────────────────────────────────────────── */
+.tooltip--open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Reduced-motion override ───────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .tooltip {
+    transition: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Appearance
+   Light: box-shadow token (8 layers) includes 1-px ring layer
+     `0 0 0 1px var(--prim-neutral-75)` (#f5f5f5). Figma: outer stroke.
+   Dark:  box-shadow token (7 layers) has NO ring layer.
+     Designer correction 2026-09-22 (D2-A): dark ring intentionally removed.
+     Figma Tooltip frame retains 8 effects (cannot mutate Figma) — runtime
+     diverges by design.
+   No CSS border on either — shadow ring matches Figma's OUTSIDE stroke
+   without affecting layout box dimensions.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Light */
+/* No CSS border: the shadow token already contains the 1-px ring layer
+   (0 0 0 1px var(--prim-neutral-75)). Adding a CSS border would double
+   the ring and add 2px to each axis relative to dark mode. */
+.tooltip--light {
+  background: var(--tooltip-light-bg);
+  color:      var(--tooltip-light-text);
+  /* DD-01: shadow on SURFACE only — ring provided by shadow token layer 2 */
+  box-shadow: var(--shadow-components-tooltip-light);
+}
+
+/* Dark — DD-04: no border, no ring (designer correction 2026-09-22; shadow token has no ring layer) */
+.tooltip--dark {
+  background: var(--tooltip-dark-bg);
+  color:      var(--tooltip-dark-text);
+  /* DD-01: shadow on SURFACE only */
+  box-shadow: var(--shadow-components-tooltip-dark);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Size
+   Geometry confirmed from live Figma (2267:82 XS-Light, 2267:118 XS-Dark):
+     xs (2X-Small): padding 2/6 px, gap 6 px, radius-4, 12 px / 133% / LS 0.2%
+     sm (X-Small):  padding 4/10 px, gap 6 px, radius-6, 14 px / 143%
+   Note: A3 §4.3 lists gap=10 for X-Small — live Figma (itemSpacing:6) wins.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* 2X-Small (size='xs') — 24 px total height, 8×4 px tail */
+.tooltip--xs {
+  padding:        2px 6px;
+  gap:            6px;
+  border-radius:  var(--radius-4); /* 4 px — Figma VariableID:2086:46 */
+  font-size:      var(--font-size-body-sm);   /* 12 px */
+  line-height:    133%;
+  letter-spacing: 0.002em;                    /* 0.2% — Figma node 2267:88 */
+}
+
+/* X-Small (size='sm') — 34 px total height, 12×6 px tail */
+.tooltip--sm {
+  padding:        4px 10px;
+  gap:            6px;
+  border-radius:  var(--radius-6); /* 6 px — Figma VariableID:2086:47 */
+  font-size:      var(--font-size-body-md);   /* 14 px */
+  line-height:    143%;
+  letter-spacing: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Tail (custom TooltipTail SVG — NOT FloatingArrow)
+   TooltipTail renders a custom <svg> with position: absolute. Dimensions
+   are orientation-aware: for left/right placements the DOM element is
+   svgH×safeW (swapped) so arrowMiddleware measures the correct footprint.
+   Geometry is rotated via an internal <g transform> — NOT CSS rotation on
+   the outer element (which would leave the layout bounding box unrotated).
+   arrowMiddleware still drives x/y positioning.
+   Light tail: filled with --tooltip-light-bg, stroke --tooltip-light-border (1px).
+   Dark tail:  filled with --tooltip-dark-bg, no stroke (strokeWidth=0).
+   Shadow: NOT applied here per DD-01 constraint (shadow on surface only).
+
+   D2-A.1 layering: .tooltip-tail is DOM-first (before .tooltip__content),
+   z-index: 0 keeps it below content. .tooltip__content z-index: 1 ensures
+   the seam-cover rect never overlaps visible text.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.tooltip-tail {
+  /* Position: absolute set via inline style in TooltipTail component */
+  /* No box-shadow: shadow lives on .tooltip surface only (DD-01) */
+  z-index: 0; /* must paint below .tooltip__content */
+}
+
+.tooltip__content {
+  position: relative; /* establishes stacking context within tooltip surface */
+  z-index: 1;         /* paints above .tooltip-tail and seam-cover rect (D2-A.1) */
+}

@@ -1,0 +1,236 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   InfoPopover — component CSS
+   Source:   Figma ↳info-popover (3486:74, 16 variants = 8 placements × 2 appearances)
+   Tokens:   --info-popover-light-*, --info-popover-dark-*, --shadow-components-tooltip-*
+   D3 ref:   component-info-popover-dt-d3-runtime-implementation.md
+
+   Rules:
+   • NO hardcoded color, shadow, or radius values — use CSS custom properties only.
+   • SINGLE-MODE tokens: appearance-static, driven by .info-popover--light /
+     .info-popover--dark class (from `appearance` prop). NOT overridden via
+     [data-theme]. This is the same SINGLE-MODE pattern as the Tooltip component.
+   • No CSS border on the surface — the light shadow token already contains a
+     1-px ring layer (0 0 0 1px var(--prim-neutral-75)).
+     Dark shadow token has no ring. Neither appearance uses a CSS border.
+   • Shadow on surface only — NOT on .info-popover-tail SVG (consistent with
+     Tooltip DD-01 constraint).
+   • CompactButton ghost icon color override: scoped CSS custom property
+     --button-compact-icon-default on each appearance class ensures the dismiss
+     button icon inherits the correct appearance-static icon token.
+   • AE-01: --info-popover-light-text-description → #A3A3A3 on #FFFFFF = 2.53:1.
+     KNOWN ACCESSIBILITY EXCEPTION — DESIGNER ACCEPTED.
+     Do not alter, darken, or report as WCAG AA.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* ── Root / floating element ────────────────────────────────────────────── */
+.info-popover {
+  /* Floating UI sets position/top/left via inline style — absolute is fallback */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* matches Modal, Drawer, Alert z-index level */
+
+  /* Surface layout — Figma: HORIZONTAL auto-layout, 12 px padding all sides, 12 px gap */
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 12px;
+  gap: 12px;
+
+  /* Geometry — Figma: radius 12 px, max-width 280 px, width: max-content */
+  border-radius: var(--radius-12);
+  max-width: 280px;
+  width: max-content;
+
+  /* Typography base */
+  font-family: var(--font-family-body);
+  font-style:  normal;
+  text-align:  left;
+
+  /* Pointer events off while closed (guard against click during fade) */
+  pointer-events: none;
+
+  /* Entrance / exit fade */
+  opacity:    0;
+  transition: opacity 120ms ease;
+  will-change: opacity;
+}
+
+/* ── Visible state ─────────────────────────────────────────────────────── */
+.info-popover--open {
+  opacity:        1;
+  pointer-events: auto;
+}
+
+/* ── Reduced-motion override ───────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .info-popover {
+    transition: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Appearance — SINGLE-MODE (no [data-theme] override)
+   Light: shadow token (8 layers) includes 1-px ring layer.
+   Dark:  shadow token (7 layers) has NO ring. No CSS border on either.
+   CompactButton icon color: scoped via --button-compact-icon-default
+   override so the dismiss button icon respects the appearance-specific
+   info-popover icon token regardless of surrounding theme context.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Light */
+.info-popover--light {
+  background: var(--info-popover-light-bg);
+  box-shadow: var(--shadow-components-tooltip-light);
+
+  /* Dismiss button icon color override:
+     CompactButton ghost uses color: var(--button-compact-icon-default).
+     Light: --info-popover-light-icon = #5c5c5c (matches --button-compact-icon-default).
+     Override is explicit for clarity and future-proofing. */
+  --button-compact-icon-default: var(--info-popover-light-icon);
+}
+
+/* Dark */
+.info-popover--dark {
+  background: var(--info-popover-dark-bg);
+  box-shadow: var(--shadow-components-tooltip-dark);
+
+  /* Dismiss button icon color override:
+     Dark: --info-popover-dark-icon = #a3a3a3.
+     Without this override CompactButton ghost would use --button-compact-icon-default
+     (#5c5c5c) which is wrong in dark appearance. */
+  --button-compact-icon-default: var(--info-popover-dark-icon);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Tail (custom InfoPopoverTail SVG — NOT FloatingArrow)
+   InfoPopoverTail renders a custom <svg> with position: absolute inline style.
+   Geometry is orientation-aware: left/right placements swap DOM w/h; geometry
+   is rotated via internal <g transform> (NOT CSS rotation on outer element).
+   Light tail: filled with --info-popover-light-bg, 1 px stroke --info-popover-light-border.
+   Dark tail:  filled with --info-popover-dark-bg, no stroke.
+   Shadow: NOT applied here — shadow lives on .info-popover surface only.
+
+   Layering: .info-popover-tail is DOM-first (before flex children),
+   z-index: 0 keeps it below content. Flex children use position: relative;
+   z-index: 1 to paint above the tail seam-cover rect.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.info-popover-tail {
+  /* position: absolute set via inline style in InfoPopoverTail component */
+  /* No box-shadow — shadow on .info-popover surface only */
+  z-index: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Content layers — stacking above .info-popover-tail
+   All direct content children need relative + z-index: 1 so they paint
+   above the tail SVG and seam-cover rect even when the tail SVG extends
+   visually behind the surface edge.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.info-popover__left-icon,
+.info-popover__label,
+.info-popover__dismiss {
+  position: relative;
+  z-index:  1;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Left icon slot
+   Figma: INSTANCE 20×20 (CircleInfo mainComp 1957:9502).
+   Color driven by appearance via currentColor on the icon's fill/stroke.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.info-popover__left-icon {
+  display:     flex;
+  align-items: center;
+  flex-shrink: 0;
+  width:       20px;
+  height:      20px;
+  /* Icon color: set here so CircleInfo (fill=currentColor) inherits it */
+}
+
+.info-popover--light .info-popover__left-icon {
+  color: var(--info-popover-light-icon);
+}
+
+.info-popover--dark .info-popover__left-icon {
+  color: var(--info-popover-dark-icon);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Label column (Title + Description)
+   Figma: VERTICAL auto-layout FRAME, gap 4 px, fills remaining surface width.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.info-popover__label {
+  display:        flex;
+  flex-direction: column;
+  gap:            4px;
+  flex:           1; /* fills remaining width between left-icon and dismiss button */
+  min-width:      0; /* allows text truncation when content overflows */
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Title
+   Figma: Open Sans SemiBold 14 px, line-height ~143%.
+   Fill: --info-popover-light-text (#1c1c1c) / --info-popover-dark-text (#ffffff).
+   ───────────────────────────────────────────────────────────────────────── */
+
+.info-popover__title {
+  display:       block;
+  font-size:     var(--font-size-body-md);  /* 14 px */
+  font-weight:   var(--font-weight-semibold); /* 600 */
+  line-height:   143%;
+  letter-spacing: 0;
+}
+
+.info-popover--light .info-popover__title {
+  color: var(--info-popover-light-text);
+}
+
+.info-popover--dark .info-popover__title {
+  color: var(--info-popover-dark-text);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Description
+   Figma: Open Sans Regular 12 px, line-height ~133%.
+   AE-01: light description = var(--info-popover-light-text-description)
+          = var(--prim-neutral-400) = #a3a3a3 on #ffffff = 2.53:1.
+          KNOWN ACCESSIBILITY EXCEPTION — DESIGNER ACCEPTED.
+          Do not alter color, darken, or report as WCAG AA compliant.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.info-popover__description {
+  display:     block;
+  font-size:   var(--font-size-body-sm);    /* 12 px */
+  font-weight: var(--font-weight-regular);  /* 400 */
+  line-height: 133%;
+  letter-spacing: 0;
+}
+
+.info-popover--light .info-popover__description {
+  /* AE-01: #a3a3a3 on #ffffff = 2.53:1 — KNOWN ACCESSIBILITY EXCEPTION */
+  color: var(--info-popover-light-text-description);
+}
+
+.info-popover--dark .info-popover__description {
+  color: var(--info-popover-dark-text-description);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Dismiss button
+   Figma: CompactButton [1.1] INSTANCE 24×24, ghost/large/fullRadius=Off.
+   Icon: CrossSmall (1991:617), stroke=currentColor (24×24 viewport).
+   No additional sizing rules needed — CompactButton ghost/large is self-sized
+   to 24×24 by its own stylesheet.
+   Icon color: driven by --button-compact-icon-default scoped above on
+   .info-popover--light / .info-popover--dark.
+   flex-shrink: 0 prevents the button from collapsing when label text is long.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.info-popover__dismiss {
+  flex-shrink: 0;
+}

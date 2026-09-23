@@ -12,6 +12,7 @@
     "autopush": "node autopush.mjs"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.27.20",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },

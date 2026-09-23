@@ -1761,6 +1761,69 @@
   --button-compact-icon-disabled: var(--color-icon-disabled);     /* icon/disabled  · icon/dissabled (TYP-01)   · L: #d1d1d1 */
   --button-compact-icon-inverse:  var(--color-icon-inverse);      /* icon/inverse   · icon/inverse               · L: #f7f7f7 D: #1b1c22 */
 
+  /* ═══════════════════════════════════════════════════════════════════════
+     LAYER 3 — COMPONENT: TOOLTIP + INFO-POPOVER
+     5 tooltip tokens + 9 info-popover tokens = 14 total.
+     SINGLE-MODE: light/dark are separate static tokens — NOT overridden in
+     [data-theme="dark"]. All refs use --prim-* to prevent semantic cascade flip.
+     Figma: ↳tooltip (2267:38, 32 variants) + ↳info-popover (3486:74, 16 variants).
+     Source file: 0aVnOgjVWH1YL8JCnjXTBi. Synced 2026-09-17 (D1 token sync).
+     DD-04 RESOLVED: dark tooltip/info-popover has no border by design.
+     DD-05/AE-01 ACCEPTED: info-popover/light/text/description = #a3a3a3 on #ffffff
+       (2.53:1 WCAG fail) — designer-accepted; do not alter.
+     Shadow: --shadow-components-tooltip-light (8-layer, includes 0 0 0 1px ring) and
+       --shadow-components-tooltip-dark (7-layer, no ring — designer correction 2026-09-22)
+       ARE CSS custom properties, defined in the shadow block below. Tooltip.css consumes
+       them via box-shadow: var(--shadow-components-tooltip-light/dark) on
+       .tooltip--light / .tooltip--dark. NOT applied inline. D2-A.1 2026-09-22.
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  /* ── Tooltip (5 tokens) ── */
+  --tooltip-light-bg:           var(--prim-slate-0);      /* tooltip/light/bg          · #ffffff — static white, no cascade flip */
+  --tooltip-light-border:       var(--prim-neutral-75);   /* tooltip/light/border      · #f5f5f5 — border/neutral/soft */
+  --tooltip-light-text:         var(--prim-neutral-800);  /* tooltip/light/text        · #1c1c1c */
+  --tooltip-dark-bg:            var(--prim-neutral-950);  /* tooltip/dark/bg           · #161616 — static dark, no cascade flip */
+  --tooltip-dark-text:          var(--prim-white);        /* tooltip/dark/text         · #ffffff */
+
+  /* ── InfoPopover (9 tokens) ── */
+  --info-popover-light-bg:               var(--prim-slate-0);     /* info-popover/light/bg             · #ffffff */
+  --info-popover-light-border:           var(--prim-neutral-75);  /* info-popover/light/border         · #f5f5f5 */
+  --info-popover-light-icon:             var(--prim-neutral-600); /* info-popover/light/icon           · #5c5c5c */
+  --info-popover-light-text:             var(--prim-neutral-800); /* info-popover/light/text           · #1c1c1c */
+  --info-popover-light-text-description: var(--prim-neutral-400); /* info-popover/light/text/description · #a3a3a3 — AE-01 accepted (2.53:1) */
+  --info-popover-dark-bg:                var(--prim-neutral-950); /* info-popover/dark/bg              · #161616 */
+  --info-popover-dark-icon:              var(--prim-neutral-400); /* info-popover/dark/icon            · #a3a3a3 */
+  --info-popover-dark-text:              var(--prim-white);       /* info-popover/dark/text            · #ffffff */
+  --info-popover-dark-text-description:  var(--prim-neutral-400); /* info-popover/dark/text/description · #a3a3a3 */
+
+  /* --- Shadow tokens (Figma: components/tooltip 8-layer effect, D1-A Option C 2026-09-18) -------- */
+  /* Appearance-static: each token is an appearance-locked snapshot. Layer 2 ring color is            */
+  /* hardcoded per token — does NOT follow global [data-theme]. Correct when light/dark               */
+  /* appearance is rendered inside any app theme.                                                     */
+  /* Light ring: --prim-neutral-75 (#f5f5f5). Dark: NO ring — designer correction 2026-09-22.        */
+  /* D2-A.1: Live Figma inspection confirmed dark Figma effects show rgba(245,245,245,1) ring,        */
+  /* but designer explicitly confirmed dark appearance must have NO outer ring at runtime.             */
+  /* Figma effect-style inconsistency; runtime follows designer intent over Figma effect data.         */
+  /* Both tokens are shared by Tooltip and InfoPopover. D2 applies per component appearance prop.     */
+  /* tokens.json stores resolved hex literals (requirement 8 — cannot embed var() in JSON strings).  */
+  --shadow-components-tooltip-light:
+    inset 0 -1px 1px -0.5px rgba(23,23,23,0.059),
+    0 0 0 1px var(--prim-neutral-75),
+    0 48px 48px -24px rgba(23,23,23,0.039),
+    0 24px 24px -12px rgba(23,23,23,0.039),
+    0 12px 12px -6px rgba(23,23,23,0.039),
+    0 6px 6px -3px rgba(23,23,23,0.039),
+    0 3px 3px -1.5px rgba(23,23,23,0.020),
+    0 1px 1px 0.5px rgba(23,23,23,0.039);
+  --shadow-components-tooltip-dark:
+    inset 0 -1px 1px -0.5px rgba(23,23,23,0.059),
+    0 48px 48px -24px rgba(23,23,23,0.039),
+    0 24px 24px -12px rgba(23,23,23,0.039),
+    0 12px 12px -6px rgba(23,23,23,0.039),
+    0 6px 6px -3px rgba(23,23,23,0.039),
+    0 3px 3px -1.5px rgba(23,23,23,0.020),
+    0 1px 1px 0.5px rgba(23,23,23,0.039);
+
 } /* end :root */
 
 
