@@ -1,4 +1,5 @@
 import React from 'react';
+import Tooltip from '../tooltip/Tooltip';
 import './ChartDonut.css';
 
 /**
@@ -19,14 +20,40 @@ import './ChartDonut.css';
  *   Outer corner: dao = asin(cr / (outerR-cr)), tangent internally to outer arc.
  *   Inner corner: dai = asin(cr / innerR), matches Figma's bezier transition point.
  *
- * V1 scope: display-only. No Hover or Focus states — not defined in Figma.
+ * C2 — Dynamic per-slice Tooltip (designer-approved):
+ *   Each slice opens its own Tooltip on pointer hover and keyboard focus.
+ *   `showTooltip` is an enable/disable flag (not a permanent open state).
+ *   Tooltip placement is computed from each slice's radial midpoint angle.
+ *   Content format: `${label} · ${percentage}%`
+ *   Visual: size="xs", appearance="light", showTail={true}.
+ *   Only one Tooltip is open at a time — each slice owns its own Floating UI instance.
+ *
+ * Interaction contract:
+ *   Hover → opens after 300 ms (default openDelay). Mouse-leave → closes immediately.
+ *   Keyboard focus (Tab) → opens immediately. Blur / Escape → closes.
+ *   Touch → tap-to-open, second tap / outside tap / scroll → closes.
+ *   No desktop click required.
+ *
+ * Data API (C2):
+ *   data={null}                          — equal distribution, labels "Series 1" … "Series N"
+ *   data={[40, 25, 20, 15]}              — legacy number[] (backwards compat), fallback labels
+ *   data={[{label:'A',value:40}, ...]}   — full C2 format; count inferred from data.length
+ *   Zero/invalid values are silently skipped (no arc rendered, no tab stop).
+ *
+ * Accessibility:
+ *   SVG role="img" with aria-label summary.
+ *   Each path role="img" aria-label="${label}: ${pct}" for AT announcement.
+ *   tabIndex={0} on every slice when showTooltip=true; tabIndex={-1} when disabled.
+ *   Tooltip aria-describedby lifecycle managed by the production Tooltip component.
+ *
+ * @deprecated tooltipLabel — unused in C2. Supply per-slice labels via data[].label.
  */
 
 // ── Arc constants (confirmed from Figma Plugin API) ───────────────────────────
 
-const INNER_RADIUS_RATIO = 0.52;   // arcData.innerRadius = 0.5199999809...
+const INNER_RADIUS_RATIO = 0.52;   // arcData.innerRadius = 0.5199999809…
 const SLICE_GAP_RAD     = 0.04;    // gap between adjacent slices (measured from arcData)
-const CORNER_RADIUS     = 8;       // cornerRadius = 8, bound to DS token "number/size-8"
+const CORNER_RADIUS     = 8;       // cornerRadius = 8 → DS token "number/size-8"
 const TWO_PI            = Math.PI * 2;
 
 // ── Polar → Cartesian ─────────────────────────────────────────────────────────
@@ -52,7 +79,7 @@ function p2c(cx, cy, r, angle) {
 //   M outerFaceS → [A corner CW] → outerArcS → [A outer CW] → outerArcE
 //   → [A corner CW] → outerFaceE → L innerFaceE
 //   → [A corner CCW] → innerArcE → [A inner CCW] → innerArcS
-//   → [A corner CCW] → innerFaceS → Z  (Z closes: innerFaceS → outerFaceS = start face)
+//   → [A corner CCW] → innerFaceS → Z
 //
 // Falls back to flat ends when span < 2·dai (inner corner is the binding constraint).
 
@@ -88,9 +115,9 @@ function roundedArcPath(cx, cy, outerR, innerR, startA, endA, cr) {
     `A ${outerR} ${outerR} 0 ${largeOuter} 1 ${f(outerArcE.x)} ${f(outerArcE.y)}`,
     `A ${cr} ${cr} 0 0 1 ${f(outerFaceE.x)} ${f(outerFaceE.y)}`,
     `L ${f(innerFaceE.x)} ${f(innerFaceE.y)}`,
-    `A ${cr} ${cr} 0 0 1 ${f(innerArcE.x)} ${f(innerArcE.y)}`,   // inner end corner — sweep CW (fixed: was CCW, caused convex bump into hole)
+    `A ${cr} ${cr} 0 0 1 ${f(innerArcE.x)} ${f(innerArcE.y)}`,
     `A ${innerR} ${innerR} 0 ${largeInner} 0 ${f(innerArcS.x)} ${f(innerArcS.y)}`,
-    `A ${cr} ${cr} 0 0 1 ${f(innerFaceS.x)} ${f(innerFaceS.y)}`,  // inner start corner — sweep CW (fixed: was CCW, caused convex bump into hole)
+    `A ${cr} ${cr} 0 0 1 ${f(innerFaceS.x)} ${f(innerFaceS.y)}`,
     'Z',
   ].join(' ');
 }
@@ -111,10 +138,9 @@ function flatArcPath(cx, cy, outerR, innerR, startA, endA) {
   ].join(' ');
 }
 
-// Full 360° donut ring (single-slice or empty state helper)
+// Full 360° donut ring (single-slice or empty state)
 function fullRingPath(cx, cy, outerR, innerR) {
   const f = (n) => n.toFixed(4);
-  // Two full arcs, evenodd fill creates the hole
   return [
     `M ${f(cx + outerR)} ${f(cy)}`,
     `A ${outerR} ${outerR} 0 1 1 ${f(cx - outerR)} ${f(cy)}`,
@@ -128,21 +154,15 @@ function fullRingPath(cx, cy, outerR, innerR) {
 
 // ── Arc computation ───────────────────────────────────────────────────────────
 
-// Single-slice: full 360° (matches Figma arcData.startingAngle=-π/2, endingAngle=3π/2)
-// Multi-slice:  0.04 rad gap between adjacent slices, each slice inset 0.02 rad per boundary
-
 function computeArcs(data, total) {
   const count = data.length;
-
   if (count === 1) {
-    // Matches Figma single-slice: full circle, no gap, no corners
     return [{ start: -Math.PI / 2, end: 3 * Math.PI / 2, full: true }];
   }
-
   const usableAngle = TWO_PI - count * SLICE_GAP_RAD;
   let cursor = -Math.PI / 2;
   return data.map((value) => {
-    const span = (value / total) * usableAngle;
+    const span  = (value / total) * usableAngle;
     const start = cursor + SLICE_GAP_RAD / 2;
     const end   = start + span;
     cursor += span + SLICE_GAP_RAD;
@@ -153,10 +173,10 @@ function computeArcs(data, total) {
 // ── Size config ───────────────────────────────────────────────────────────────
 
 const SIZE_MAP = {
-  s:  { dim: 120, tooltipX: 122 },
-  m:  { dim: 180, tooltipX: 182 },
-  l:  { dim: 240, tooltipX: 242 },
-  xl: { dim: 300, tooltipX: 302 },
+  s:  { dim: 120 },
+  m:  { dim: 180 },
+  l:  { dim: 240 },
+  xl: { dim: 300 },
 };
 
 // ── Series color tokens ───────────────────────────────────────────────────────
@@ -172,42 +192,141 @@ const SERIES_COLORS = [
   'var(--chart-series-8-default)',
 ];
 
+// ── C2 utilities ─────────────────────────────────────────────────────────────
+
+/**
+ * Maps a slice midpoint angle to a Tooltip placement direction.
+ * 8 compass sectors of 22.5° each, centered on the 8 compass points.
+ * Angle convention: -π/2 = 12 o'clock (top), clockwise = positive.
+ *
+ * Expected results for 4 equal slices (starting at top, clockwise):
+ *   upper-right (mid ≈ -45°) → 'top-end'
+ *   lower-right (mid ≈ +45°) → 'bottom-end'
+ *   lower-left  (mid ≈ +135°) → 'bottom-start'
+ *   upper-left  (mid ≈ -135°) → 'top-start'
+ */
+function getSlicePlacement(midAngle) {
+  const deg = (midAngle * 180) / Math.PI;
+  if (deg >= -157.5 && deg < -112.5) return 'top-start';  // NW
+  if (deg >= -112.5 && deg < -67.5)  return 'top';         // N
+  if (deg >= -67.5  && deg < -22.5)  return 'top-end';     // NE
+  if (deg >= -22.5  && deg <  22.5)  return 'right';        // E
+  if (deg >=  22.5  && deg <  67.5)  return 'bottom-end';   // SE
+  if (deg >=  67.5  && deg < 112.5)  return 'bottom';       // S
+  if (deg >= 112.5  && deg < 157.5)  return 'bottom-start'; // SW
+  return 'left';                                             // W
+}
+
+/**
+ * Formats a percentage for Tooltip display.
+ * Whole numbers: "25%". Fractional: up to 1 decimal, no trailing zero.
+ */
+function formatPercent(value, total) {
+  if (!total || total <= 0) return '—';
+  const pct = (value / total) * 100;
+  return `${+pct.toFixed(1)}%`;
+}
+
+/**
+ * Normalizes the data prop to { values, labels } for sliceCount entries.
+ * Accepts: null, number[], or {label,value}[].
+ * Zero-value entries are preserved here; filtered in the component.
+ */
+function normalizeSliceData(data, sliceCount) {
+  const fallbackLabels = (n) => Array.from({ length: n }, (_, i) => `Series ${i + 1}`);
+
+  if (!data || data.length === 0) {
+    return { values: null, labels: fallbackLabels(sliceCount) };
+  }
+
+  if (typeof data[0] === 'object' && data[0] !== null) {
+    // C2 format: {label, value}[] — count inferred from data.length, not slices prop
+    return {
+      values: data.map((d) =>
+        typeof d.value === 'number' && isFinite(d.value) && d.value > 0 ? d.value : 0
+      ),
+      labels: data.map((d, i) =>
+        typeof d.label === 'string' && d.label.trim() ? d.label.trim() : `Series ${i + 1}`
+      ),
+    };
+  }
+
+  // Legacy number[] format — values only, fallback labels
+  return {
+    values: data.slice(0, sliceCount),
+    labels: fallbackLabels(sliceCount),
+  };
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function ChartDonutMulticolor({
   /**
-   * Number of slices to display, or 'empty' for the no-data state.
-   * In multicolor, Series = SLICE COUNT (not palette).
+   * Number of slices, or 'empty' for the no-data state.
+   * Ignored when data is supplied as {label,value}[] (count inferred from data.length).
    */
   slices = 3,
   /** Fixed size variant. Maps to 120/180/240/300px. */
   size = 'm',
   /**
-   * Array of numeric values (one per slice).
-   * Length should match `slices`. If omitted, equal distribution is used.
+   * Slice data. Three accepted formats:
+   *   null                      — equal distribution; labels: "Series 1", "Series 2"…
+   *   number[]                  — values only (backwards compat); fallback labels used
+   *   {label: string, value: number}[]  — C2 format; supplies both values and Tooltip labels
+   * Zero or negative values are silently skipped.
    */
   data = null,
-  /** Show the tooltip overlay. In code, control with hover/event logic. */
+  /**
+   * Enable per-slice Tooltip interaction.
+   * true  → hover/focus/touch open per-slice Tooltip; tabIndex=0 on each slice.
+   * false → all slice Tooltips disabled; slices are not keyboard focusable.
+   */
   showTooltip = false,
-  /** Tooltip text content. */
-  tooltipLabel = 'Series',
+  /**
+   * @deprecated since C2. Superseded by data[].label. This prop is accepted for
+   * backwards compatibility but is not used. Remove from call sites.
+   */
+  tooltipLabel, // eslint-disable-line no-unused-vars
   className = '',
 }) {
   const isEmpty = slices === 'empty';
-  const count = isEmpty ? 0 : Math.min(Number(slices), 8);
-  const { dim, tooltipX } = SIZE_MAP[size] ?? SIZE_MAP.m;
+  const { dim } = SIZE_MAP[size] ?? SIZE_MAP.m;
   const cx = dim / 2;
   const cy = dim / 2;
   const outerR = dim / 2;
   const innerR = outerR * INNER_RADIUS_RATIO;
 
-  // Normalise data
-  const sliceData = isEmpty
-    ? []
-    : (data && data.length >= count ? data.slice(0, count) : Array(count).fill(1));
+  // ── Resolve slice count ────────────────────────────────────────────────
+  // C2 format: count comes from data.length; legacy: count comes from `slices`.
+  let sliceCount;
+  if (!isEmpty && Array.isArray(data) && data.length > 0 && typeof data[0] === 'object') {
+    sliceCount = Math.min(data.length, 8);
+  } else {
+    sliceCount = isEmpty ? 0 : Math.min(Number(slices), 8);
+  }
 
-  const total = sliceData.reduce((s, v) => s + v, 0) || 1;
-  const arcs  = isEmpty ? [] : computeArcs(sliceData, total);
+  // ── Normalize and resolve data ─────────────────────────────────────────
+  const { values, labels } = !isEmpty
+    ? normalizeSliceData(data, sliceCount)
+    : { values: null, labels: [] };
+
+  const rawValues = isEmpty
+    ? []
+    : (values && values.length >= sliceCount
+        ? values.slice(0, sliceCount)
+        : Array(sliceCount).fill(1));
+
+  // Filter zero/invalid entries; preserve original color index for series consistency
+  const entries = rawValues
+    .map((v, i) => ({
+      value: typeof v === 'number' && isFinite(v) && v > 0 ? v : 0,
+      label: labels[i] ?? `Series ${i + 1}`,
+      colorIndex: i,
+    }))
+    .filter((e) => e.value > 0);
+
+  const total = entries.reduce((s, e) => s + e.value, 0) || 1;
+  const arcs  = !isEmpty && entries.length > 0 ? computeArcs(entries.map((e) => e.value), total) : [];
 
   return (
     <div
@@ -219,7 +338,12 @@ export default function ChartDonutMulticolor({
         height={dim}
         viewBox={`0 0 ${dim} ${dim}`}
         xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
+        role="img"
+        aria-label={
+          isEmpty
+            ? 'Empty donut chart'
+            : `Donut chart — ${entries.length} series`
+        }
         style={{ display: 'block' }}
       >
         {isEmpty ? (
@@ -228,42 +352,57 @@ export default function ChartDonutMulticolor({
             d={fullRingPath(cx, cy, outerR, innerR)}
             fill="var(--chart-empty)"
             fillRule="evenodd"
+            aria-hidden="true"
           />
         ) : (
-          arcs.map((arc, i) =>
-            arc.full ? (
-              /* Single-slice: full donut ring — matches Figma Series=1 */
+          entries.map((entry, i) => {
+            const arc = arcs[i];
+            if (!arc) return null;
+
+            // Full ring (single valid slice) uses stable placement "top"
+            const midAngle = arc.full ? null : (arc.start + arc.end) / 2;
+            const placement = arc.full ? 'top' : getSlicePlacement(midAngle);
+            const pct     = formatPercent(entry.value, total);
+            const content = `${entry.label} · ${pct}`;
+            const ariaLabel = `${entry.label}: ${pct}`;
+
+            const pathProps = {
+              fill: SERIES_COLORS[entry.colorIndex] ?? SERIES_COLORS[0],
+              className: 'chart-donut__slice',
+              tabIndex: showTooltip ? 0 : -1,
+              role: 'img',
+              'aria-label': ariaLabel,
+            };
+
+            const pathNode = arc.full ? (
               <path
-                key={i}
                 d={fullRingPath(cx, cy, outerR, innerR)}
-                fill={SERIES_COLORS[i]}
                 fillRule="evenodd"
+                {...pathProps}
               />
             ) : (
-              /* Multi-slice: rounded arc path — cornerRadius=8, gap=0.04 rad */
               <path
-                key={i}
                 d={roundedArcPath(cx, cy, outerR, innerR, arc.start, arc.end, CORNER_RADIUS)}
-                fill={SERIES_COLORS[i]}
+                {...pathProps}
               />
-            )
-          )
+            );
+
+            return (
+              <Tooltip
+                key={entry.colorIndex}
+                content={content}
+                size="xs"
+                appearance="light"
+                placement={placement}
+                showTail={true}
+                disabled={!showTooltip}
+              >
+                {pathNode}
+              </Tooltip>
+            );
+          })
         )}
       </svg>
-
-      {showTooltip && !isEmpty && (
-        <div
-          className="chart-donut__tooltip"
-          style={{
-            position: 'absolute',
-            left: tooltipX,
-            top: '50%',
-            transform: 'translateY(-50%)',
-          }}
-        >
-          {tooltipLabel}
-        </div>
-      )}
     </div>
   );
 }

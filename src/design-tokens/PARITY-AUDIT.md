@@ -41,7 +41,9 @@ All `--button-group-*` variables (border-radius, gap, border, bg, text for group
 
 ### Chart — 54+ vars, no `component.chart` block
 
-`tokens.css` contains `--chart-tooltip-bg`, `--chart-tooltip-border`, `--chart-tooltip-text`, `--chart-series-1` through `--chart-series-8`, `--chart-up-color`, `--chart-down-color`, and `--chart-grid-*`. `tokens.json` has `primitive.color.chart.*` (raw scale), but no semantic `component.chart` or `semantic.color.chart` block.
+`tokens.css` contains `--chart-series-1` through `--chart-series-8`, `--chart-up-color`, `--chart-down-color`, and `--chart-grid-*`. `tokens.json` has `primitive.color.chart.*` (raw scale), but no semantic `component.chart` or `semantic.color.chart` block.
+
+> ⚠️ **Stale entry (updated 2026-09-25):** `--chart-tooltip-bg`, `--chart-tooltip-border`, `--chart-tooltip-text` were present when this audit was written but have since been **removed and deferred** from `tokens.css`. A `DEFERRED` comment at lines 1455–1457 confirms removal. These tokens are no longer active in CSS. See Dimension 3 entry below.
 
 Includes chart tooltip tokens (see Dimension 3 for deferral status).
 
@@ -121,9 +123,11 @@ CSS vars that exist and are valid, but reference component variants or features 
 
 ### Chart tooltip — `--chart-tooltip-bg`, `--chart-tooltip-border`, `--chart-tooltip-text`
 
-Chart tooltip is **not an approved component** in DS V2.1.0. These 3 vars are active in CSS, have no JSON source, and produce UI behavior in any chart component that references them.
+> ⚠️ **Stale entry (updated 2026-09-25):** These 3 tokens were active in `tokens.css` at the time of audit but have since been **removed and deferred**. A `DEFERRED` comment block at lines 1455–1457 reads: "Tooltip tokens removed from Chart scope. Tooltip is a separate component and will be handled in its own handoff/audit. Do not add --chart-tooltip-* vars here." No CSS variable definitions remain in `tokens.css` or `tokens.json`. Zero consumers reference these tokens. The Chart Donut C2 implementation uses the production `Tooltip` component, which manages its own `--tooltip-*` token chain.
 
-**Recommendation:** Move to a `/* DEFERRED */` comment block until chart tooltip is formally approved.
+Chart tooltip is **not an approved component** in DS V2.1.0. These 3 vars were active in CSS at time of audit, had no JSON source, and would have produced UI behavior in any chart component that referenced them.
+
+**Recommendation:** ~~Move to a `/* DEFERRED */` comment block until chart tooltip is formally approved.~~ **COMPLETE** — tokens removed and deferred as of Chart Donut C2 (2026-09-25).
 
 ### Button secondary fill — `--button-fill-secondary-*` (6 vars, both modes)
 
@@ -221,7 +225,7 @@ These are recommendations only. No changes should be made until each step is con
 **Priority 1 — Remove stale tokens (no risk, no design dependency)**
 1. Remove `--color-extra-purple-500: #7d52f4` from `tokens.css` — stale, no component ref, no JSON source.
 2. Comment-defer `--button-fill-secondary-*`, `--button-ghost-secondary-*`, `--button-outline-secondary-*` — not approved in Figma V2.1.0.
-3. Comment-defer `--chart-tooltip-bg/border/text` — chart tooltip not approved.
+3. ~~Comment-defer `--chart-tooltip-bg/border/text` — chart tooltip not approved.~~ **COMPLETE** — removed and deferred (2026-09-25).
 
 **Priority 2 — Restore 3-layer architecture for existing components**
 4. Add `component.badge` block to `tokens.json` — 144 CSS vars need a JSON source.

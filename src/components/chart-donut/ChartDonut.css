@@ -29,55 +29,26 @@
   height: 100%;
 }
 
-/* ── Tooltip ──────────────────────────────────────────────────────────────── */
+/* ── Slice interaction (C2) ───────────────────────────────────────────────── */
 /*
- * Tooltip tokens are intentionally FIXED (not theme-adaptive).
- * tooltip/light/* tokens are a designer choice — single mode only.
- * No [data-theme="dark"] override should be added here.
+ * C2 adds per-slice Tooltip interaction. Each interactive SVG path receives
+ * `.chart-donut__slice` and is keyboard-focusable (tabIndex=0) when showTooltip=true.
+ *
+ * Hover fill/scale changes are NOT defined in Figma DS — do not add without approval.
+ * Focus ring is required for WCAG 2.4.7 Focus Visible compliance.
  */
 
-.chart-donut__tooltip {
-  position: absolute;
-  /* x/y set inline in JSX (x = dim + 2, y = 50% with translateY(-50%)) */
-
-  /* Layout */
-  display: inline-flex;
-  align-items: center;
-  padding: 6px 8px;
-  gap: 4px;
-  white-space: nowrap;
-
-  /* Tokens: tooltip/light/* — fixed, no dark override */
-  background-color: var(--chart-tooltip-bg);
-  border: 1px solid var(--chart-tooltip-border);
-  color: var(--chart-tooltip-text);
-
-  /* Typography: caption/regular (Open Sans 12px Regular) */
-  font-family: 'Open Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.5; /* 18px / 12px */
-
-  /* Shape */
-  border-radius: 6px;
-
-  /*
-   * Shadow: DS effect style `components/tooltip`
-   * Approximate rendering of the layered shadow stack from Figma.
-   * effect[1] → border/neutral/soft → matches --chart-tooltip-border channel.
-   * This is a best-effort approximation — verify against DS shadow tokens.
-   */
-  box-shadow:
-    0 0 0 1px var(--chart-tooltip-border),
-    0 2px 4px rgba(0, 0, 0, 0.08),
-    0 4px 12px rgba(0, 0, 0, 0.06);
-
-  /* Prevent tooltip from interfering with chart hit target */
-  pointer-events: none;
+.chart-donut__slice {
+  cursor: default;
+  /* fill/stroke: sourced from series/shade tokens — do not override here */
 }
 
-/* ── No hover or focus states ─────────────────────────────────────────────── */
-/*
- * Hover (Gap B) and Focus states are not defined in Figma DS V1.
- * Do not add :hover, :focus, or :focus-visible rules without DS Auditor approval.
- */
+/* Keyboard focus indicator — visible only on keyboard navigation (not mouse click) */
+.chart-donut__slice:focus {
+  outline: none; /* suppress default browser outline; replaced by focus-visible below */
+}
+
+.chart-donut__slice:focus-visible {
+  outline: 2px solid var(--color-border-brand-primary, currentColor);
+  outline-offset: 2px;
+}

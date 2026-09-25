@@ -183,6 +183,10 @@ export const DarkModeAllCombinations = {
 };
 
 // ── Playground — Multicolor ───────────────────────────────────────────────────
+//
+// C2: data[] replaces tooltipLabel. Provide data as JSON in the controls panel.
+// Example: [{"label":"Enterprise","value":50},{"label":"SMB","value":30},{"label":"Other","value":20}]
+// When data is null, equal distribution is used with "Series N" fallback labels.
 
 export const PlaygroundMulticolor = {
   name: 'Playground — Multicolor',
@@ -190,19 +194,26 @@ export const PlaygroundMulticolor = {
     slices: 4,
     size: 'm',
     showTooltip: false,
-    tooltipLabel: 'Series',
+    data: null,
   },
   argTypes: {
     slices: {
       control: { type: 'select' },
       options: [1, 2, 3, 4, 5, 6, 7, 8, 'empty'],
+      description: 'Slice count (ignored when data is {label,value}[] format).',
     },
     size: {
       control: { type: 'select' },
       options: ['s', 'm', 'l', 'xl'],
     },
-    showTooltip: { control: 'boolean' },
-    tooltipLabel: { control: 'text' },
+    showTooltip: {
+      control: 'boolean',
+      description: 'Enable per-slice Tooltip interaction.',
+    },
+    data: {
+      control: 'object',
+      description: 'null = equal distribution. number[] = legacy. {label,value}[] = C2 format.',
+    },
     theme: {
       control: { type: 'select' },
       options: ['light', 'dark'],
@@ -224,6 +235,10 @@ export const PlaygroundMulticolor = {
 };
 
 // ── Playground — Single Color ─────────────────────────────────────────────────
+//
+// C2: data[] replaces tooltipLabel. Provide data as JSON in the controls panel.
+// Example: [{"label":"Q1","value":50},{"label":"Q2","value":30},{"label":"Q3","value":20}]
+// When data is null, shade-weight distribution is used with shade name fallback labels.
 
 export const PlaygroundSingleColor = {
   name: 'Playground — Single Color',
@@ -233,12 +248,13 @@ export const PlaygroundSingleColor = {
     size: 'm',
     isEmpty: false,
     showTooltip: false,
-    tooltipLabel: 'Category',
+    data: null,
   },
   argTypes: {
     series: {
       control: { type: 'select' },
       options: [1, 2, 3, 4, 5, 6, 7, 8, 'up', 'down', 'empty'],
+      description: 'Color palette (not slice count). "empty" triggers no-data state.',
     },
     shades: {
       control: { type: 'select' },
@@ -249,8 +265,14 @@ export const PlaygroundSingleColor = {
       options: ['s', 'm', 'l', 'xl'],
     },
     isEmpty: { control: 'boolean' },
-    showTooltip: { control: 'boolean' },
-    tooltipLabel: { control: 'text' },
+    showTooltip: {
+      control: 'boolean',
+      description: 'Enable per-shade Tooltip interaction.',
+    },
+    data: {
+      control: 'object',
+      description: 'null = shade-weight distribution. number[] = legacy. {label,value}[] = C2 format.',
+    },
     theme: {
       control: { type: 'select' },
       options: ['light', 'dark'],

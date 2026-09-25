@@ -1,4 +1,5 @@
 import React from 'react';
+import Tooltip from '../tooltip/Tooltip';
 import './ChartDonut.css';
 
 /**
@@ -11,10 +12,9 @@ import './ChartDonut.css';
  *   • innerRadius:   0.52 (arcData.innerRadius)
  *   • cornerRadius:  8px fixed, all sizes → DS primitive token "number/size-8"
  *   • strokeCap:     NONE  →  stroke-linecap="round" is WRONG; use filled path + corner arcs
- *   • gap:           0.04 rad (~2.29°) between adjacent slices
+ *   • gap:           0.04 rad (~2.29°) between adjacent shade segments
  *   • single shade:  full 360° circle (arcData = full circle, no gap, no corners)
  *   • face geometry: radial line pt(outerR-cr, angle) → pt(innerR+cr, angle) at each end
- *   • dao = asin(cr/(outerR-cr)), dai = asin(cr/innerR) — see ChartDonutMulticolor.jsx
  *
  * ⚠️ `series` here = COLOR PALETTE, NOT slice count.
  *    In ChartDonutMulticolor, `slices` = slice count.
@@ -26,7 +26,21 @@ import './ChartDonut.css';
  *   shades=4: default (40%) · light (25%) · lighter (20%) · dark (15%)
  *   shades=5: default (35%) · light (25%) · lighter (20%) · dark (12%) · darker (8%)
  *
- * V1 scope: display-only. No Hover or Focus states — not defined in Figma.
+ * C2 — Dynamic per-shade Tooltip (designer-approved):
+ *   Each shade segment opens its own Tooltip on pointer hover and keyboard focus.
+ *   `showTooltip` is an enable/disable flag (not a permanent open state).
+ *   Tooltip placement is computed from each shade's radial midpoint angle.
+ *   Content format: `${shadeLabel} · ${percentage}%`
+ *   Visual: size="xs", appearance="light", showTail={true}.
+ *
+ * Fallback labels: shade names are capitalized — "Default", "Light", "Lighter", "Dark", "Darker".
+ * Custom labels override shade names when data={[{label,value},…]} is supplied.
+ *
+ * Interaction contract: identical to ChartDonutMulticolor C2.
+ *   One Tooltip open at a time (each shade is a separate Floating UI instance).
+ *   Hover 300 ms delay → open. Mouse-leave → close. Focus → open. Blur/Esc → close.
+ *
+ * @deprecated tooltipLabel — unused in C2. Supply per-shade labels via data[].label.
  */
 
 // ── Arc constants (confirmed from Figma Plugin API) ───────────────────────────
@@ -79,9 +93,9 @@ function roundedArcPath(cx, cy, outerR, innerR, startA, endA, cr) {
     `A ${outerR} ${outerR} 0 ${largeOuter} 1 ${f(outerArcE.x)} ${f(outerArcE.y)}`,
     `A ${cr} ${cr} 0 0 1 ${f(outerFaceE.x)} ${f(outerFaceE.y)}`,
     `L ${f(innerFaceE.x)} ${f(innerFaceE.y)}`,
-    `A ${cr} ${cr} 0 0 1 ${f(innerArcE.x)} ${f(innerArcE.y)}`,   // inner end corner — sweep CW (fixed: was CCW, caused convex bump into hole)
+    `A ${cr} ${cr} 0 0 1 ${f(innerArcE.x)} ${f(innerArcE.y)}`,   // inner end corner — CW
     `A ${innerR} ${innerR} 0 ${largeInner} 0 ${f(innerArcS.x)} ${f(innerArcS.y)}`,
-    `A ${cr} ${cr} 0 0 1 ${f(innerFaceS.x)} ${f(innerFaceS.y)}`,  // inner start corner — sweep CW (fixed: was CCW, caused convex bump into hole)
+    `A ${cr} ${cr} 0 0 1 ${f(innerFaceS.x)} ${f(innerFaceS.y)}`, // inner start corner — CW
     'Z',
   ].join(' ');
 }
@@ -137,10 +151,10 @@ function computeArcs(data, total) {
 // ── Size config ───────────────────────────────────────────────────────────────
 
 const SIZE_MAP = {
-  s:  { dim: 120, tooltipX: 122 },
-  m:  { dim: 180, tooltipX: 182 },
-  l:  { dim: 240, tooltipX: 242 },
-  xl: { dim: 300, tooltipX: 302 },
+  s:  { dim: 120 },
+  m:  { dim: 180 },
+  l:  { dim: 240 },
+  xl: { dim: 300 },
 };
 
 // ── Tonal shade pattern ───────────────────────────────────────────────────────
@@ -182,6 +196,75 @@ function getToken(series, shade) {
   return `var(--chart-series-${series}-${shade})`;
 }
 
+// ── C2 utilities ──────────────────────────────────────────────────────────────
+
+/**
+ * Capitalizes the first letter of a shade name.
+ * "default" → "Default", "lighter" → "Lighter"
+ */
+function capitalizeShade(shade) {
+  if (!shade) return shade;
+  return shade.charAt(0).toUpperCase() + shade.slice(1);
+}
+
+/**
+ * Maps a shade midpoint angle to a Tooltip placement direction.
+ * 8 compass sectors of 22.5° each, centered on each compass point.
+ * Angle convention: -π/2 = 12 o'clock (top), clockwise = positive.
+ */
+function getSlicePlacement(midAngle) {
+  const deg = (midAngle * 180) / Math.PI;
+  if (deg >= -157.5 && deg < -112.5) return 'top-start';  // NW
+  if (deg >= -112.5 && deg < -67.5)  return 'top';         // N
+  if (deg >= -67.5  && deg < -22.5)  return 'top-end';     // NE
+  if (deg >= -22.5  && deg <  22.5)  return 'right';        // E
+  if (deg >=  22.5  && deg <  67.5)  return 'bottom-end';   // SE
+  if (deg >=  67.5  && deg < 112.5)  return 'bottom';       // S
+  if (deg >= 112.5  && deg < 157.5)  return 'bottom-start'; // SW
+  return 'left';                                             // W
+}
+
+/**
+ * Formats a percentage for Tooltip display.
+ * Whole numbers: "50%". Fractional: up to 1 decimal, no trailing zero.
+ */
+function formatPercent(value, total) {
+  if (!total || total <= 0) return '—';
+  const pct = (value / total) * 100;
+  return `${+pct.toFixed(1)}%`;
+}
+
+/**
+ * Normalizes the data prop for shade segments.
+ * Falls back to shade names ("Default", "Light", …) when no custom labels are provided.
+ *
+ * @param {null|number[]|{label,value}[]} data
+ * @param {Array<{shade:string,weight:number}>} pattern
+ * @returns {{ values: number[]|null, labels: string[] }}
+ */
+function normalizeShadeData(data, pattern) {
+  const shadeLabels = pattern.map((p) => capitalizeShade(p.shade));
+
+  if (!data || data.length === 0) {
+    return { values: null, labels: shadeLabels };
+  }
+
+  if (typeof data[0] === 'object' && data[0] !== null) {
+    // {label, value}[] — C2 format
+    return {
+      values: data.map((d) =>
+        typeof d.value === 'number' && isFinite(d.value) && d.value > 0 ? d.value : 0
+      ),
+      labels: data.map((d, i) =>
+        typeof d.label === 'string' && d.label.trim() ? d.label.trim() : shadeLabels[i] ?? capitalizeShade(`shade${i + 1}`)
+      ),
+    };
+  }
+
+  // Legacy number[] format — values only, shade name fallback labels
+  return { values: data, labels: shadeLabels };
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function ChartDonutSingleColor({
@@ -195,8 +278,11 @@ export default function ChartDonutSingleColor({
   /** Fixed size variant. Maps to 120/180/240/300px. */
   size = 'm',
   /**
-   * Array of numeric values (one per shade segment).
-   * Falls back to weight-based distribution if omitted.
+   * Shade data. Three accepted formats:
+   *   null                      — pattern-weighted distribution; labels: shade names
+   *   number[]                  — values only (backwards compat); shade name labels used
+   *   {label: string, value: number}[]  — C2 format; supplies both values and Tooltip labels
+   * Zero or negative values are silently skipped.
    */
   data = null,
   /**
@@ -204,30 +290,51 @@ export default function ChartDonutSingleColor({
    * Matches Figma's `empty states=true` axis.
    */
   isEmpty = false,
-  /** Show the tooltip overlay. */
+  /**
+   * Enable per-shade Tooltip interaction.
+   * true  → hover/focus/touch open per-shade Tooltip; tabIndex=0 on each shade segment.
+   * false → all shade Tooltips disabled; segments are not keyboard focusable.
+   */
   showTooltip = false,
-  /** Tooltip text content. */
-  tooltipLabel = 'Series',
+  /**
+   * @deprecated since C2. Superseded by data[].label and shade-name fallbacks.
+   * Accepted for backwards compatibility but is not used. Remove from call sites.
+   */
+  tooltipLabel, // eslint-disable-line no-unused-vars
   className = '',
 }) {
   const isEmptyState = isEmpty || series === 'empty';
   const shadeCount   = Math.min(Math.max(Number(shades), 1), 5);
   const pattern      = SHADE_PATTERNS[shadeCount] ?? SHADE_PATTERNS[3];
-  const { dim, tooltipX } = SIZE_MAP[size] ?? SIZE_MAP.m;
+  const { dim } = SIZE_MAP[size] ?? SIZE_MAP.m;
   const cx = dim / 2;
   const cy = dim / 2;
   const outerR = dim / 2;
   const innerR = outerR * INNER_RADIUS_RATIO;
 
-  const sliceData = isEmptyState
+  // ── Normalize data and resolve values ─────────────────────────────────
+  const { values, labels } = !isEmptyState
+    ? normalizeShadeData(data, pattern)
+    : { values: null, labels: [] };
+
+  const rawValues = isEmptyState
     ? []
-    : (data && data.length >= shadeCount
-        ? data.slice(0, shadeCount)
+    : (values && values.length >= shadeCount
+        ? values.slice(0, shadeCount)
         : pattern.map((p) => p.weight));
 
-  const total = sliceData.reduce((s, v) => s + v, 0) || 1;
-  const arcs  = isEmptyState ? [] : computeArcs(sliceData, total);
-  const fills = pattern.map((p) => getToken(series, p.shade));
+  // Filter zero/invalid entries; preserve original shade index for color token lookup
+  const entries = rawValues
+    .map((v, i) => ({
+      value: typeof v === 'number' && isFinite(v) && v > 0 ? v : 0,
+      label: labels[i] ?? capitalizeShade(pattern[i]?.shade ?? `Shade ${i + 1}`),
+      fill: getToken(series, pattern[i]?.shade ?? 'default'),
+      shadeIndex: i,
+    }))
+    .filter((e) => e.value > 0);
+
+  const total = entries.reduce((s, e) => s + e.value, 0) || 1;
+  const arcs  = !isEmptyState && entries.length > 0 ? computeArcs(entries.map((e) => e.value), total) : [];
 
   return (
     <div
@@ -239,7 +346,12 @@ export default function ChartDonutSingleColor({
         height={dim}
         viewBox={`0 0 ${dim} ${dim}`}
         xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
+        role="img"
+        aria-label={
+          isEmptyState
+            ? 'Empty donut chart'
+            : `Donut chart — ${entries.length} shade${entries.length !== 1 ? 's' : ''}, Series ${series}`
+        }
         style={{ display: 'block' }}
       >
         {isEmptyState ? (
@@ -248,42 +360,57 @@ export default function ChartDonutSingleColor({
             d={fullRingPath(cx, cy, outerR, innerR)}
             fill="var(--chart-empty)"
             fillRule="evenodd"
+            aria-hidden="true"
           />
         ) : (
-          arcs.map((arc, i) =>
-            arc.full ? (
-              /* Single-shade (shades=1): full donut ring — matches Figma Shades=1 */
+          entries.map((entry, i) => {
+            const arc = arcs[i];
+            if (!arc) return null;
+
+            // Full ring (single shade) uses stable placement "top"
+            const midAngle = arc.full ? null : (arc.start + arc.end) / 2;
+            const placement = arc.full ? 'top' : getSlicePlacement(midAngle);
+            const pct     = formatPercent(entry.value, total);
+            const content = `${entry.label} · ${pct}`;
+            const ariaLabel = `${entry.label}: ${pct}`;
+
+            const pathProps = {
+              fill: entry.fill,
+              className: 'chart-donut__slice',
+              tabIndex: showTooltip ? 0 : -1,
+              role: 'img',
+              'aria-label': ariaLabel,
+            };
+
+            const pathNode = arc.full ? (
               <path
-                key={i}
                 d={fullRingPath(cx, cy, outerR, innerR)}
-                fill={fills[i]}
                 fillRule="evenodd"
+                {...pathProps}
               />
             ) : (
-              /* Multi-shade: rounded arc path — cornerRadius=8, gap=0.04 rad */
               <path
-                key={i}
                 d={roundedArcPath(cx, cy, outerR, innerR, arc.start, arc.end, CORNER_RADIUS)}
-                fill={fills[i]}
+                {...pathProps}
               />
-            )
-          )
+            );
+
+            return (
+              <Tooltip
+                key={entry.shadeIndex}
+                content={content}
+                size="xs"
+                appearance="light"
+                placement={placement}
+                showTail={true}
+                disabled={!showTooltip}
+              >
+                {pathNode}
+              </Tooltip>
+            );
+          })
         )}
       </svg>
-
-      {showTooltip && !isEmptyState && (
-        <div
-          className="chart-donut__tooltip"
-          style={{
-            position: 'absolute',
-            left: tooltipX,
-            top: '50%',
-            transform: 'translateY(-50%)',
-          }}
-        >
-          {tooltipLabel}
-        </div>
-      )}
     </div>
   );
 }

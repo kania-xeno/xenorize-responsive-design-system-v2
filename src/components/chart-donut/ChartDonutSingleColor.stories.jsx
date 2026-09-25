@@ -36,11 +36,11 @@ export default {
     },
     showTooltip: {
       control: 'boolean',
-      description: 'Show tooltip overlay.',
+      description: 'Enable per-shade Tooltip interaction. Each shade shows its own Tooltip on hover and keyboard focus.',
     },
     tooltipLabel: {
-      control: 'text',
-      description: 'Tooltip text content.',
+      control: false, // deprecated in C2 — hidden from controls
+      description: '⚠️ DEPRECATED in C2. Use data[].label for per-shade labels. This prop is ignored.',
     },
   },
 };
@@ -196,11 +196,144 @@ export const AllShadesDown = {
   ),
 };
 
-// ── Tooltip ───────────────────────────────────────────────────────────────────
+// ── Tooltip (C2) ──────────────────────────────────────────────────────────────
+//
+// C2 — Dynamic per-shade Tooltip (designer-approved).
+//
+// Each rendered shade segment owns its own production Tooltip instance
+// (Floating UI, uncontrolled hover/focus/touch mode). `showTooltip` enables
+// or disables all shade Tooltips simultaneously.
+//
+// Interaction: identical to ChartDonutMulticolor C2.
+//   Hover 300 ms → opens. Mouse-leave → closes immediately.
+//   Keyboard focus (Tab) → opens. Blur / Escape → closes.
+//   One Tooltip open at a time.
+//
+// Visual contract:
+//   size="xs", appearance="light", showTail={true}
+//   placement: computed from 8-sector compass midAngle per shade
+//   Single-shade full ring → stable placement "top"
+//
+// Content: `${shadeLabel} · ${pct}%`
+//   shadeLabel — from data[].label, else capitalized shade name ("Default", "Light", …)
+//   pct        — value / total × 100
+//
+// Backwards compat: `tooltipLabel` is deprecated and ignored in C2.
 
-export const WithTooltip = {
-  args: { series: 3, shades: 3, size: 'm', showTooltip: true, tooltipLabel: 'Category A' },
-  name: 'With Tooltip',
+// ── C2 tooltip — shades=3 default weights (shade name fallback labels) ─────────
+
+export const TooltipShades3 = {
+  name: 'Tooltip — Shades 3 (shade name labels)',
+  args: { series: 1, shades: 3, size: 'm', showTooltip: true },
+};
+
+// ── C2 tooltip — all 5 shades ────────────────────────────────────────────────
+
+export const TooltipShades5 = {
+  name: 'Tooltip — Shades 5 (all compass sectors)',
+  args: { series: 2, shades: 5, size: 'm', showTooltip: true },
+};
+
+// ── C2 tooltip — custom labels via data ──────────────────────────────────────
+
+export const TooltipCustomLabels = {
+  name: 'Tooltip — Custom Labels via data[]',
+  args: {
+    series: 3,
+    shades: 3,
+    size: 'm',
+    showTooltip: true,
+    data: [
+      { label: 'Q1', value: 50 },
+      { label: 'Q2', value: 25 },
+      { label: 'Q3', value: 25 },
+    ],
+  },
+};
+
+// ── C2 tooltip — single shade (100% ring, placement=top) ─────────────────────
+
+export const TooltipSingleShade = {
+  name: 'Tooltip — Single Shade 100% (placement: top)',
+  args: { series: 1, shades: 1, size: 'm', showTooltip: true },
+};
+
+// ── C2 tooltip — disabled ────────────────────────────────────────────────────
+
+export const TooltipDisabled = {
+  name: 'Tooltip — Disabled (showTooltip=false)',
+  args: { series: 2, shades: 3, size: 'm', showTooltip: false },
+};
+
+// ── C2 tooltip — empty chart (no Tooltips rendered) ──────────────────────────
+
+export const TooltipEmptyChart = {
+  name: 'Tooltip — Empty Chart (no Tooltips rendered)',
+  args: { series: 'empty', shades: 1, isEmpty: true, size: 'm', showTooltip: true },
+};
+
+// ── C2 tooltip — zero-value shade skipped ────────────────────────────────────
+
+export const TooltipZeroValueSkipped = {
+  name: 'Tooltip — Zero Value Shade Skipped',
+  args: {
+    series: 1,
+    shades: 3,
+    size: 'm',
+    showTooltip: true,
+    data: [
+      { label: 'Active',   value: 70 },
+      { label: 'Inactive', value: 0  },  // filtered — no arc, no Tooltip
+      { label: 'Pending',  value: 30 },
+    ],
+  },
+};
+
+// ── C2 tooltip — all four sizes ───────────────────────────────────────────────
+
+export const TooltipAllSizes = {
+  name: 'Tooltip — All 4 Sizes',
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 40, alignItems: 'center' }}>
+      {['s', 'm', 'l', 'xl'].map((sz) => (
+        <div key={sz} style={{ textAlign: 'center' }}>
+          <ChartDonutSingleColor series={3} shades={3} size={sz} showTooltip={true} />
+          <div style={{ marginTop: 8, fontSize: 12, color: '#666', fontFamily: 'Open Sans, sans-serif' }}>
+            {sz.toUpperCase()}
+          </div>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+// ── C2 tooltip — all palette options ─────────────────────────────────────────
+
+export const TooltipAllPalettes = {
+  name: 'Tooltip — All Palettes (hover to inspect labels)',
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'center' }}>
+      {[1, 2, 3, 4, 5, 6, 7, 8, 'up', 'down'].map((s) => (
+        <div key={s} style={{ textAlign: 'center' }}>
+          <ChartDonutSingleColor series={s} shades={3} size="m" showTooltip={true} />
+          <div style={{ marginTop: 8, fontSize: 12, color: '#666', fontFamily: 'Open Sans, sans-serif' }}>
+            {typeof s === 'number' ? `S${s}` : s.charAt(0).toUpperCase() + s.slice(1)}
+          </div>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+// ── C2 tooltip — viewport right edge ─────────────────────────────────────────
+
+export const TooltipViewportRight = {
+  name: 'Tooltip — Viewport Right Edge (Floating UI flip)',
+  render: () => (
+    <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+      <ChartDonutSingleColor series={3} shades={3} size="m" showTooltip={true} />
+    </div>
+  ),
 };
 
 // ── Dark mode ─────────────────────────────────────────────────────────────────
