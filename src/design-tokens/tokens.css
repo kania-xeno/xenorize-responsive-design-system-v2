@@ -1762,6 +1762,75 @@
   --button-compact-icon-inverse:  var(--color-icon-inverse);      /* icon/inverse   · icon/inverse               · L: #f7f7f7 D: #1b1c22 */
 
   /* ═══════════════════════════════════════════════════════════════════════
+     LAYER 3 — COMPONENT: BUTTON SPECIAL (↳buttons-special)
+     18 Figma-backed tokens (Hover+Disabled states; Default states bind L2/L1
+     directly — no L3) + 8 production-only effect tokens (HC-01 through HC-04).
+     Figma: VariableCollectionId:1902:2617 (component), IDs 2609:4188–2609:4205.
+     Source: 0aVnOgjVWH1YL8JCnjXTBi · page ❖ Button · node 2015:333 (36 variants).
+     Synced 2026-10-07 (DT-D1 token sync). Spec: component-button-special-a3-...md.
+     TYP-01 (DD-10): Figma alias 'icon/dissabled' typo → CSS uses --color-icon-disabled.
+     GAP-01: surface/neutral/sub has no semantic L2 in production → border tokens use
+       --prim-neutral-750 (L: #262626) directly; dark override = --prim-slate-600 (#515567).
+       Matches existing --button-fill-neutral-bg / --button-stroke-neutral-border-hover pattern.
+     GAP-02: text/neutral/inverse → --color-text-white (value-equiv canonical; legacy alias:
+       --color-text-neutral-inverse). --color-text-white adapts in both modes (#ffffff).
+     DD-04 (HC-01): Gradient stroke via ::before pseudo-element in D2 — border-image
+       incompatible with border-radius. Neutral/Primary/Destructive non-disabled only.
+       Never Basic. Never Disabled.
+     DD-05: Loading state OUT OF SCOPE — no Loading tokens.
+     DD-08: Primary overlay stop 0.611 preserved exactly.
+     DD-09: icon/destructive+neutral+primary/hover → --color-icon-inverse (semantic,
+       value-equivalent to text/neutral/inverse per live Figma resolvedValues).
+     Dark mode border overrides in [data-theme="dark"] block below.
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  /* ── bg / disabled (Figma IDs 2609:4188–2609:4191) ── */
+  --button-special-bg-basic-disabled:       var(--color-surface-weak);      /* bg/basic/disabled       · surface/neutral/weak · L: #f6f7f8 */
+  --button-special-bg-destructive-disabled: var(--color-surface-weak);      /* bg/destructive/disabled · surface/neutral/weak · L: #f6f7f8 */
+  --button-special-bg-neutral-disabled:     var(--color-surface-soft);      /* bg/neutral/disabled     · surface/neutral/soft · L: #f4f4f6 */
+  --button-special-bg-primary-disabled:     var(--color-surface-weak);      /* bg/primary/disabled     · surface/neutral/weak · L: #f6f7f8 */
+
+  /* ── border / neutral (Figma IDs 2609:4192–2609:4193; GAP-01) ── */
+  --button-special-border-neutral-default:  var(--prim-neutral-750);        /* border/neutral/default · surface/neutral/sub · L: #262626 D: #515567 */
+  --button-special-border-neutral-hover:    var(--prim-neutral-750);        /* border/neutral/hover   · surface/neutral/sub · L: #262626 D: #515567 */
+
+  /* ── icon (Figma IDs 2609:4194–2609:4201) ── */
+  --button-special-icon-basic-disabled:       var(--color-icon-disabled);   /* icon/basic/disabled       · icon/dissabled (TYP-01) · L: #d1d1d1 */
+  --button-special-icon-basic-hover:          var(--color-icon-sub);        /* icon/basic/hover          · icon/sub               · L: #5c5c5c */
+  --button-special-icon-destructive-disabled: var(--color-icon-disabled);   /* icon/destructive/disabled · icon/dissabled (TYP-01) · L: #d1d1d1 */
+  --button-special-icon-destructive-hover:    var(--color-icon-inverse);    /* icon/destructive/hover    · icon/inverse (DD-09)   · L: #f7f7f7 */
+  --button-special-icon-neutral-disabled:     var(--color-icon-disabled);   /* icon/neutral/disabled     · icon/dissabled (TYP-01) · L: #d1d1d1 */
+  --button-special-icon-neutral-hover:        var(--color-icon-inverse);    /* icon/neutral/hover        · icon/inverse (DD-09)   · L: #f7f7f7 */
+  --button-special-icon-primary-disabled:     var(--color-icon-disabled);   /* icon/primary/disabled     · icon/dissabled (TYP-01) · L: #d1d1d1 */
+  --button-special-icon-primary-hover:        var(--color-icon-inverse);    /* icon/primary/hover        · icon/inverse (DD-09)   · L: #f7f7f7 */
+
+  /* ── text (Figma IDs 2609:4202–2609:4205) ── */
+  --button-special-text-basic-hover:       var(--color-text-default);       /* text/basic/hover       · text/neutral/default  · L: #333333 */
+  --button-special-text-destructive-hover: var(--color-text-white);         /* text/destructive/hover · text/neutral/inverse  · L: #ffffff (GAP-02) */
+  --button-special-text-neutral-hover:     var(--color-text-white);         /* text/neutral/hover     · text/neutral/inverse  · L: #ffffff (GAP-02) */
+  --button-special-text-primary-hover:     var(--color-text-white);         /* text/primary/hover     · text/neutral/inverse  · L: #ffffff (GAP-02) */
+
+  /* ── HC-01: gradient stroke (DD-04) ── */
+  /* Applied via ::before pseudo-element in D2 (border-image ≠ border-radius). */
+  /* Neutral/Primary/Destructive non-disabled only. Never Basic. Never Disabled. */
+  --button-special-stroke-gradient: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 100%);
+
+  /* ── HC-02: Neutral ambient shadow ── */
+  --button-special-shadow-neutral: 0 1px 2px rgba(27,28,29,0.48);
+
+  /* ── HC-03: Primary gradient overlay (DD-08: stop 0.611 preserved exactly) ── */
+  --button-special-overlay-primary-default: linear-gradient(180deg, rgba(255,255,255,0.16) 61.1%, rgba(255,255,255,0) 100%);
+  --button-special-overlay-primary-hover:   linear-gradient(180deg, rgba(255,255,255,0.24) 61.1%, rgba(255,255,255,0) 100%);
+
+  /* ── HC-04: Destructive gradient overlay ── */
+  --button-special-overlay-destructive-default: linear-gradient(180deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 100%);
+  --button-special-overlay-destructive-hover:   linear-gradient(180deg, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0) 100%);
+
+  /* ── Neutral gradient overlay (same shape as Destructive, different type bg) ── */
+  --button-special-overlay-neutral-default: linear-gradient(180deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 100%);
+  --button-special-overlay-neutral-hover:   linear-gradient(180deg, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0) 100%);
+
+  /* ═══════════════════════════════════════════════════════════════════════
      LAYER 3 — COMPONENT: TOOLTIP + INFO-POPOVER
      5 tooltip tokens + 9 info-popover tokens = 14 total.
      SINGLE-MODE: light/dark are separate static tokens — NOT overridden in
@@ -1966,6 +2035,10 @@
 
   /* stroke · neutral · border-hover — prim-neutral-750 (light) → slate-600 (dark) */
   --button-stroke-neutral-border-hover: var(--prim-slate-600);   /* #515567 */
+
+  /* button-special · border · neutral (GAP-01: surface/neutral/sub → prim-slate-600 dark) */
+  --button-special-border-neutral-default: var(--prim-slate-600);  /* #515567 */
+  --button-special-border-neutral-hover:   var(--prim-slate-600);  /* #515567 */
 
   /* lighter · primary */
   --button-lighter-primary-text:     var(--prim-brand-stpatrick-300);     /* #9589d9 */

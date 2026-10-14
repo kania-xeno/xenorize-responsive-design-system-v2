@@ -1,0 +1,383 @@
+/* =============================================================================
+   ButtonSpecial — Design System: ↳buttons-special
+   Figma: node 2015:333 · file 0aVnOgjVWH1YL8JCnjXTBi · page ❖ Button
+   DT phase: D2 Runtime Implementation (2026-10-07)
+   Spec: component-button-special-a3-consolidated-handoff-specification.md
+   Tokens: src/design-tokens/tokens.css — consumes --button-special-* vars
+   ========================================================================== */
+
+/* ────────────────────────────────────────────────────────────────────────────
+   BASE BUTTON
+   Shared structure, typography, and transition for all 36 variants.
+   Geometry (height, padding, radius) is set by size modifiers below.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.button-special {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;                    /* Figma item spacing — constant across all sizes (A3.5) */
+  width: max-content;          /* HUG horizontal — content-driven width (A3.5) */
+
+  /* Stacking context for ::before / ::after pseudo-element layers */
+  position: relative;
+  isolation: isolate;
+
+  /* Typography — D1-approved (DD-02 / SM-01 closed)
+     Open Sans 14px SemiBold/600 via --text-style-body-semibold-md-* tokens */
+  font-family:    var(--text-style-body-semibold-md-font-family);
+  font-weight:    var(--font-weight-semibold);         /* 600  (DD-02) */
+  font-size:      var(--text-style-body-semibold-md-font-size);
+  line-height:    var(--text-style-body-semibold-md-line-height);
+  letter-spacing: 0;                                   /* HC-07 — hardcoded 0% */
+  white-space: nowrap;
+
+  /* Reset / normalize */
+  border: none;
+  outline: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+
+  /* Hover transition — DISSOLVE 200ms EASE_OUT (Figma prototype reactions, A3.13) */
+  transition:
+    background-color 200ms ease-out,
+    color            200ms ease-out,
+    box-shadow       200ms ease-out;
+}
+
+.button-special:disabled {
+  cursor: not-allowed;
+  pointer-events: auto; /* keep cursor: not-allowed visible */
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   SIZE MODIFIERS
+   Figma geometry (A3.5): height, padding (all sides), and border-radius.
+   Width remains content-driven (HUG). No min-width per spec.
+   DD-11: Medium=--radius-10, Small=--radius-8, X-Small=--radius-8.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.button-special--medium {
+  height: 40px;
+  padding: 10px;
+  border-radius: var(--radius-10);
+}
+
+.button-special--small {
+  height: 36px;
+  padding: 8px;
+  border-radius: var(--radius-8);
+}
+
+.button-special--x-small {
+  height: 32px;
+  padding: 6px;
+  border-radius: var(--radius-8);
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   CONTENT SLOTS
+   Icon slots are 20×20px fixed at every size (A3.4).
+   Label gets 4px horizontal padding (matches Figma Text frame paddingLeft/Right=4).
+   Slots are raised above pseudo-element layers via position: relative.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.button-special__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  position: relative; /* stacks above ::before / ::after z-index: 0 layers */
+}
+
+.button-special__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.button-special__label {
+  padding-inline: 4px; /* matches Figma Text frame paddingLeft=4 / paddingRight=4 (A3.4) */
+  position: relative;  /* stacks above ::before / ::after z-index: 0 layers */
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   EFFECT PSEUDO-ELEMENTS — shared definition
+   ::before = HC-01 gradient stroke (Neutral, Primary, Destructive non-disabled)
+   ::after  = gradient overlay      (Neutral, Primary, Destructive non-disabled)
+
+   Technique for ::before (gradient border with border-radius — border-image avoided
+   as it breaks border-radius per DD-04):
+     - padding: 1px defines the 1px border zone
+     - CSS mask removes the center, exposing gradient only in the padding ring
+
+   Both layers are pointer-events: none so they never intercept pointer events.
+   z-index: 0 on pseudo-elements + position: relative on children ensures content
+   always renders above the effect layers.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* HC-01 — Gradient stroke: Neutral, Primary, Destructive non-disabled only.
+   Basic has NO gradient stroke (A3.9 / D2 D2.8). */
+.button-special--neutral:not(:disabled)::before,
+.button-special--primary:not(:disabled)::before,
+.button-special--destructive:not(:disabled)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  padding: 1px; /* 1px INSIDE stroke width (A3.9 — 1px INSIDE) */
+  background: var(--button-special-stroke-gradient);
+  /* Mask: show gradient only in the 1px border area, hide the center */
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Gradient overlay: Neutral, Primary, Destructive non-disabled only.
+   Background is driven by the per-type/state custom property --bs-overlay.
+   Basic has NO gradient overlay (A3.7 Fill[1] / D2 D2.8). */
+.button-special--neutral:not(:disabled)::after,
+.button-special--primary:not(:disabled)::after,
+.button-special--destructive:not(:disabled)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: var(--bs-overlay, none);
+  pointer-events: none;
+  transition: background 200ms ease-out;
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   TYPE: NEUTRAL
+   Fill: --prim-neutral-950 (#161616 = gray/0, DD-01)
+   Default text: --color-text-white
+   Default icon: --color-icon-inverse (#f7f7f7)
+   Hover text: --button-special-text-neutral-hover (same white)
+   Hover icon: --button-special-icon-neutral-hover (--color-icon-inverse, DD-09)
+   Shadow: HC-02 --button-special-shadow-neutral
+   Ring (Effect 1): spread=0, blur=0, offset=(0,0) → invisible; no box-shadow ring added
+   Gradient stroke (::before): --button-special-stroke-gradient (HC-01)
+   Overlay (::after): --button-special-overlay-neutral-default / hover
+   Focus: --shadow-focus-ring-neutral (DD-03)
+   ────────────────────────────────────────────────────────────────────────── */
+
+.button-special--neutral {
+  background-color: var(--prim-neutral-950);          /* #161616 = gray/0 (DD-01) */
+  color: var(--color-text-white);
+  box-shadow: var(--button-special-shadow-neutral);   /* HC-02: 0 1px 2px rgba(27,28,29,0.48) */
+  --bs-overlay: var(--button-special-overlay-neutral-default);
+}
+
+.button-special--neutral .button-special__icon {
+  color: var(--color-icon-inverse);                   /* #f7f7f7 (icon/inverse) */
+}
+
+.button-special--neutral:hover:not(:disabled) {
+  color: var(--button-special-text-neutral-hover);    /* --color-text-white */
+  --bs-overlay: var(--button-special-overlay-neutral-hover);
+}
+
+.button-special--neutral:hover:not(:disabled) .button-special__icon {
+  color: var(--button-special-icon-neutral-hover);    /* --color-icon-inverse (DD-09) */
+}
+
+.button-special--neutral:focus-visible {
+  outline: none;
+  box-shadow:
+    var(--button-special-shadow-neutral),
+    var(--shadow-focus-ring-neutral);                 /* DD-03 */
+}
+
+.button-special--neutral:disabled {
+  background-color: var(--button-special-bg-neutral-disabled); /* --color-surface-soft */
+  color: var(--color-text-disabled);
+  box-shadow: none;
+}
+
+.button-special--neutral:disabled .button-special__icon {
+  color: var(--button-special-icon-neutral-disabled); /* --color-icon-disabled */
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   TYPE: BASIC
+   Fill Default: --color-surface-white (#ffffff)
+   Fill Hover:   --color-surface-soft-alt (#ebecef = surface/neutral/sub → gray/50)
+   Text Default: --color-text-default (#333333)
+   Icon Default: inherits text color (A3.7 "matches text")
+   Icon Hover:   --button-special-icon-basic-hover (--color-icon-sub, #5c5c5c)
+   Box-shadow Default: ring spread=1 + ambient shadow (A3.8)
+   Box-shadow Hover:   ZERO effects (A3.8 — confirmed Basic/Hover has zero effects)
+   NO gradient stroke, NO gradient overlay (A3.7 Fill[1], A3.9)
+   Focus: --shadow-focus-ring-neutral (DD-03)
+   ────────────────────────────────────────────────────────────────────────── */
+
+.button-special--basic {
+  background-color: var(--color-surface-white);       /* surface/neutral/white = #ffffff */
+  color: var(--color-text-default);                   /* text/neutral/strong = #333333 */
+  /* Ring (Effect 1): spread=1, surface/neutral/weak; Ambient (Effect 2): blur=3, alpha/black/10 */
+  box-shadow:
+    0 0 0 1px var(--color-surface-weak),              /* #f6f7f8 outward ring */
+    0 1px 3px var(--prim-alpha-black10);              /* rgba(23,23,23,0.10) ambient */
+}
+
+/* Basic icon inherits `color` from button → --color-text-default (#333333) */
+
+.button-special--basic:hover:not(:disabled) {
+  background-color: var(--color-surface-soft-alt);    /* #ebecef = surface/neutral/sub hover fill */
+  color: var(--button-special-text-basic-hover);      /* --color-text-default (#333333) */
+  box-shadow: none;                                   /* ZERO effects on Basic/Hover (A3.8) */
+}
+
+.button-special--basic:hover:not(:disabled) .button-special__icon {
+  color: var(--button-special-icon-basic-hover);      /* --color-icon-sub (#5c5c5c) */
+}
+
+.button-special--basic:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 1px var(--color-surface-weak),
+    0 1px 3px var(--prim-alpha-black10),
+    var(--shadow-focus-ring-neutral);                 /* DD-03 */
+}
+
+.button-special--basic:disabled {
+  background-color: var(--button-special-bg-basic-disabled); /* --color-surface-weak */
+  color: var(--color-text-disabled);
+  box-shadow: none;
+}
+
+.button-special--basic:disabled .button-special__icon {
+  color: var(--button-special-icon-basic-disabled);   /* --color-icon-disabled */
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   TYPE: PRIMARY
+   Fill Default: --button-fill-primary-bg (#302571 = brand/primary/base → stpatrick-700)
+   Fill Hover:   --button-fill-primary-bg-hover (#403297 = brand/primary/hover → stpatrick-600)
+   Text: --color-text-white
+   Icon: --color-icon-inverse (#f7f7f7, DD-09)
+   Ring (Effect 1): spread=1, brand/primary/base → --color-brand-primary (#403297)
+   Ambient (Effect 2): blur=2, alpha/black/24 → --prim-alpha-black24
+   Gradient stroke (::before): HC-01 --button-special-stroke-gradient
+   Overlay (::after): HC-03 — stop at exactly 61.1% preserved (DD-08)
+   Focus: --shadow-focus-ring-primary (DD-03)
+   ────────────────────────────────────────────────────────────────────────── */
+
+.button-special--primary {
+  background-color: var(--button-fill-primary-bg);    /* #302571 */
+  color: var(--color-text-white);
+  box-shadow:
+    0 0 0 1px var(--color-brand-primary),             /* ring: brand/primary/base #403297 */
+    0 1px 2px var(--prim-alpha-black24);              /* ambient: rgba(23,23,23,0.24) */
+  --bs-overlay: var(--button-special-overlay-primary-default); /* 61.1% stop (DD-08) */
+}
+
+.button-special--primary .button-special__icon {
+  color: var(--color-icon-inverse);                   /* #f7f7f7 */
+}
+
+.button-special--primary:hover:not(:disabled) {
+  background-color: var(--button-fill-primary-bg-hover); /* #403297 */
+  color: var(--button-special-text-primary-hover);    /* --color-text-white */
+  --bs-overlay: var(--button-special-overlay-primary-hover); /* 61.1% stop, 0.24 opacity (DD-08) */
+}
+
+.button-special--primary:hover:not(:disabled) .button-special__icon {
+  color: var(--button-special-icon-primary-hover);    /* --color-icon-inverse (DD-09) */
+}
+
+.button-special--primary:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 1px var(--color-brand-primary),
+    0 1px 2px var(--prim-alpha-black24),
+    var(--shadow-focus-ring-primary);                 /* DD-03 */
+}
+
+.button-special--primary:disabled {
+  background-color: var(--button-special-bg-primary-disabled); /* --color-surface-weak */
+  color: var(--color-text-disabled);
+  box-shadow: none;
+}
+
+.button-special--primary:disabled .button-special__icon {
+  color: var(--button-special-icon-primary-disabled); /* --color-icon-disabled */
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────────
+   TYPE: DESTRUCTIVE
+   Fill Default+Hover: --button-fill-destructive-bg (#cb1515 = status/danger)
+   Note: Destructive Default and Hover share the same base fill (A3.7).
+         Hover differentiation is via overlay opacity change only (0.16 → 0.24).
+   Text: --color-text-white
+   Icon: --color-icon-inverse (#f7f7f7, DD-09 — Figma text/neutral/inverse = same resolved value)
+   Ring (Effect 1): spread=1, status/danger/base → --status-danger-base (#cb1515)
+   Ambient (Effect 2): blur=2, alpha/black/24 → --prim-alpha-black24
+   Gradient stroke (::before): HC-01 --button-special-stroke-gradient
+   Overlay (::after): HC-04 — stop at 0.0%
+   Focus: --shadow-focus-ring-error (DD-03)
+   ────────────────────────────────────────────────────────────────────────── */
+
+.button-special--destructive {
+  background-color: var(--button-fill-destructive-bg);  /* #cb1515 */
+  color: var(--color-text-white);
+  box-shadow:
+    0 0 0 1px var(--status-danger-base),               /* ring: status/danger/base #cb1515 */
+    0 1px 2px var(--prim-alpha-black24);               /* ambient: rgba(23,23,23,0.24) */
+  --bs-overlay: var(--button-special-overlay-destructive-default);
+}
+
+.button-special--destructive .button-special__icon {
+  color: var(--color-icon-inverse);                    /* #f7f7f7 (DD-09) */
+}
+
+.button-special--destructive:hover:not(:disabled) {
+  /* Fill stays the same (status/danger, A3.7). Overlay opacity changes. */
+  color: var(--button-special-text-destructive-hover); /* --color-text-white */
+  --bs-overlay: var(--button-special-overlay-destructive-hover);
+}
+
+.button-special--destructive:hover:not(:disabled) .button-special__icon {
+  color: var(--button-special-icon-destructive-hover); /* --color-icon-inverse (DD-09) */
+}
+
+.button-special--destructive:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 1px var(--status-danger-base),
+    0 1px 2px var(--prim-alpha-black24),
+    var(--shadow-focus-ring-error);                    /* DD-03 */
+}
+
+.button-special--destructive:disabled {
+  background-color: var(--button-special-bg-destructive-disabled); /* --color-surface-weak */
+  color: var(--color-text-disabled);
+  box-shadow: none;
+}
+
+.button-special--destructive:disabled .button-special__icon {
+  color: var(--button-special-icon-destructive-disabled); /* --color-icon-disabled */
+}
