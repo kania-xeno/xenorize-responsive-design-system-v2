@@ -132,11 +132,6 @@ const preview = {
               '*',
             ],
             'Chart Donut',
-            'Drawer',
-            [
-              'General',
-              ['Desktop', 'Mobile', 'Long Content', 'Settings', 'Details', 'Filter', 'Responsive Guidance', '*'],
-            ],
             'Checkbox',
             [
               'Overview',
@@ -147,6 +142,18 @@ const preview = {
               'Checkbox Card',
               ['Playground', 'Types', 'States', 'All Types × States'],
               'Dark Mode',
+            ],
+            'Date Picker',
+            [
+              'Overview',
+              ['Playground', 'Date Picker', 'Range Picker', 'Disabled', 'Without Footer', 'Dark Theme'],
+              'Validation',
+              '*',
+            ],
+            'Drawer',
+            [
+              'General',
+              ['Desktop', 'Mobile', 'Long Content', 'Settings', 'Details', 'Filter', 'Responsive Guidance', '*'],
             ],
             'Dropdown',
             [

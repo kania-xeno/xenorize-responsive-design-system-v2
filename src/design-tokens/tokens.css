@@ -925,18 +925,22 @@
   --modal-icon-success:      var(--color-status-success);           /* status/success/base    · L: #0f6d32  D: #57e88c — new */
   --modal-icon-info:         var(--color-status-info);              /* status/info/base       · L: #1264ce  D: #3182ed — new */
 
-  /* ── Date Picker ── */
-  --date-picker-text-day-label:    var(--color-text-subtle);           /* #a3a3a3 */
-  --date-picker-text-default:      var(--color-text-muted);            /* #7b7b7b */
-  --date-picker-text-hover:        var(--color-text-strong);           /* #1c1c1c */
-  --date-picker-text-active:       var(--color-text-white);            /* #ffffff */
-  --date-picker-text-disabled:     var(--color-text-disabled);         /* #d1d1d1 */
-  --date-picker-surface-bg:        var(--color-surface-white);         /* #ffffff */
-  --date-picker-surface-bg-hover:  var(--color-surface-weak);          /* #f6f7f8 */
-  --date-picker-surface-bg-active: var(--color-brand-primary);         /* #403297 */
-  --date-picker-surface-disabled:  var(--color-border-default);        /* #d1d1d1 — Figma-confirmed 2026-07-23 */
-  --date-picker-range-bg-selected: var(--color-brand-primary-lighter); /* #eceaf8 */
-  --date-picker-border-default:    var(--color-border-subtle);         /* #eaeaea */
+  /* ── Date Picker ── DT-D1.1 sync 2026-11-04 · 15 L3 vars · Figma VariableCollectionId:1902:2617 ── */
+  --date-picker-text-day-label:    var(--color-text-subtle);           /* text/neutral/subtle      · L: #a3a3a3  D: #6b7189 */
+  --date-picker-text-default:      var(--color-text-muted);            /* text/neutral/muted       · L: #7b7b7b  D: #989dae */
+  --date-picker-text-hover:        var(--color-text-strong);           /* text/neutral/strong      · L: #1c1c1c  D: #ffffff */
+  --date-picker-text-active:       var(--color-text-white);            /* text/neutral/inverse     · L: #ffffff  D: #1b1c22 — L3 dark override in [data-theme=dark] */
+  --date-picker-text-disabled:     var(--color-text-disabled);         /* text/neutral/disabled    · L: #d1d1d1  D: #515567 */
+  --date-picker-text-range-label:  var(--color-text-muted);            /* text/neutral/muted       · L: #7b7b7b  D: #989dae — NEW D1.1 (A3.2 addition) */
+  --date-picker-text-range-value:  var(--color-text-strong);           /* text/neutral/strong      · L: #1c1c1c  D: #ffffff — NEW D1.1 (A3.2 addition) */
+  --date-picker-surface-bg:        var(--color-surface-white);         /* surface/neutral/white    · L: #ffffff  D: #24262e */
+  --date-picker-surface-bg-hover:  var(--color-surface-weak);          /* surface/neutral/weak     · L: #f6f7f8  D: #2d2f39 */
+  --date-picker-surface-bg-active: var(--color-brand-primary);         /* brand/primary/base       · L: #403297  D: #9589d9 */
+  --date-picker-surface-disabled:  var(--color-text-disabled);         /* text/neutral/disabled    · L: #d1d1d1  D: #515567 — D1.1 FIX: was --color-border-default (dark was #6b7189 wrong) */
+  --date-picker-range-bg-selected: var(--color-brand-primary-lighter); /* surface/brand/primary    · L: #eceaf8  D: #0f0c24 — L3 dark override in [data-theme=dark] */
+  --date-picker-range-bg-hover:    var(--color-brand-primary);         /* brand/primary/base       · L: #403297  D: #9589d9 — NEW D1.1 (L3-DEFINED-UNBOUND in Figma) */
+  --date-picker-border-default:    var(--color-border-subtle);         /* border/neutral/subtle    · L: #eaeaea  D: #515567 */
+  --date-picker-border-disabled:   var(--color-text-disabled);         /* text/neutral/disabled    · L: #d1d1d1  D: #515567 — NEW D1.1 (L3-DEFINED-UNBOUND in Figma) */
 
   /* ── Select Field ── */
   --select-text-placeholder: var(--color-text-muted);            /* #7b7b7b */
@@ -1904,8 +1908,11 @@
    SEMANTIC overrides (simple components inherit automatically):
    ─────────────────────────────────────────────────────────────
    Overriding semantic tokens here means accordion, modal, table, drawer,
-   checkbox, switch, tab, select, key-component, button-group, breadcrumb,
-   date-picker all flip to dark automatically without extra CSS.
+   checkbox, switch, tab, select, key-component, button-group, breadcrumb
+   flip to dark automatically. Date Picker mostly auto-adapts but requires
+   two L3-scoped overrides below (text/active + range/bg-selected) because
+   --color-text-white and --color-brand-primary-lighter have no semantic
+   dark counterpart (by design — see line 743 note + Button-special GAP-02).
 
    COMPONENT overrides (badge, alert, chart, button):
    ─────────────────────────────────────────────────────────────
@@ -2243,6 +2250,13 @@
   --chart-down-lighter:       var(--prim-chart-crimpson-900);   --chart-down-light:         var(--prim-chart-crimpson-700);
   --chart-down-default:       var(--prim-chart-crimpson-400);   --chart-down-dark:          var(--prim-chart-crimpson-300);
   --chart-down-darker:        var(--prim-chart-crimpson-100);
+
+  /* ── Date Picker L3 dark-mode overrides (DT-D1.1 2026-11-04) ── */
+  /* Two vars require explicit L3 overrides because their semantic source      */
+  /* tokens (--color-text-white, --color-brand-primary-lighter) intentionally  */
+  /* have no dark counterpart — see line 743 note + Button-special GAP-02.    */
+  --date-picker-text-active:       var(--prim-slate-900);             /* text/neutral/inverse dark = #1b1c22 */
+  --date-picker-range-bg-selected: var(--prim-brand-stpatrick-900);   /* surface/brand/primary dark = #0f0c24 */
 
 } /* end [data-theme="dark"] */
 

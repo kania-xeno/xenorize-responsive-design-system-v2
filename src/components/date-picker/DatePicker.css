@@ -1,0 +1,592 @@
+/* DatePicker.css — Date Picker + Range Picker family styles
+   Source of truth: Figma ↳date-picker node 2397:2096 · Page ❖ Date Picker
+   Figma file: Design System Scalable - All Platform-V.2.1.0 (key: 0aVnOgjVWH1YL8JCnjXTBi)
+   Phase: DT-D2 · 2026-11-04
+
+   Token layer: All colors from --date-picker-* (DT-D1.1 · 15 L3 vars · tokens.css lines 928–943)
+   Typography:  --text-style-body-medium-md-* (Open Sans SemiBold 600, 14px, 143% LH — A3.6.1)
+   Radius:      --radius-20 (root, remote radius-20 token value=20px), --radius-8 (cells/rows)
+   Shadow:      regular-shadow/medium — 0px 16px 32px -12px rgba(14, 18, 27, 0.10) (A3.6.3)
+
+   Geometry (Figma A3.4 / DT-D2-A.1 live gate):
+     Date Picker root:        368 × 432 px (HUG height)
+     Range Picker root:       936 × 432 px (HUG height)
+     Calendar panel:          368 × 364 px
+     Panel padding:           20px all sides (T/R/B/L = 20)
+     Panel gap:               8px (between header, weekday row, week rows)
+     Header (↳date-selector): 328×36, padding=6px all, gap=6px between buttons and label
+     Footer:                  68px height, pad 16px all sides, gap 16px
+     DP footer buttons:       160 × 36 px each
+     RP footer buttons:       108 × 36 px each
+     Time Filter:             200 × 432, padT:20 padL/R:16, padB:2, gap:8
+     Day cell:                40 × 40 px, cr:8
+     Week row cr:             8px
+     Date selector:           full-width × 36px
+
+   Column order: Mon → Sun (Monday-first — CONFIRMED IN FIGMA A3.9.1)
+
+   Semantic mismatches preserved from Figma (do not "correct" — A3.5.5):
+     SM-06: Range/Default text uses surface/bg-active token (--date-picker-surface-bg-active)
+     SM-05: period-range Active and Hover share surface/bg-hover background
+     F01:   Basic/Hover+Marked uses text/default not text/hover on the text node
+
+   DESIGNER DECISIONS PRESERVED — do not alter:
+     O-05: RP footer padL=24 (not 16) — 8px left-padding asymmetry vs DP footer
+     O-09: ↳period-range padL:12, padR:8 — asymmetric horizontal padding
+     O-06: Time Filter padB:2 — 2px bottom vs 20px top  */
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   ROOT CONTAINERS
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.date-picker,
+.range-picker {
+  position: relative;              /* establishes containing block for ::after border overlay */
+  display: inline-flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  background: var(--date-picker-surface-bg);
+  border-radius: var(--radius-20, 20px);
+  /* regular-shadow/medium — Figma effect style S:db7835b95af1177386115f15bed114d33042e783
+     DT-D2-A.2 gate: DROP_SHADOW · x:0 y:16 blur:32 spread:-12 · rgba(23,23,23,0.10)
+     Token: --shadow-regular-medium = 0 16px 32px -12px rgba(23,23,23,0.10) ✓ MATCH
+     Outer stroke is handled by ::after overlay below — not retained here. */
+  box-shadow: var(--shadow-regular-medium);
+  overflow: hidden;  /* clip children to radius */
+}
+
+/* DT-D2-A.2: Outer border overlay.
+   Figma stroke census (DT-D2-A.2 gate, 2026-11-05):
+     DP root 2397:2097: SOLID INSIDE · 1px all sides · VariableID:2609:4318 → --date-picker-border-default
+     RP root 2397:2151: identical — same variable, same weight, same alignment
+   Light: rgb(234,234,234) · Dark: rgb(81,85,103)
+
+   Why inset box-shadow (DT-D2-A.1) failed visually:
+     All direct children (.time-filter, .calendar-panel, .calendar-footer) carry
+     background:var(--date-picker-surface-bg), which completely covers the inner surface
+     of the root on all 4 edges — the inset shadow was obscured by child backgrounds.
+
+   Solution: ::after pseudo-element positioned above child backgrounds.
+   - inset:0 → fills root exactly, zero layout impact
+   - border:1px solid → paints a 1px ring at the content edge (layout-neutral, matches INSIDE)
+   - border-radius:inherit → follows the 20px root radius exactly
+   - pointer-events:none → no interaction blockage
+   - z-index:1 → above child backgrounds (z-index:auto); interior focus rings (outline) are
+     on day cells (position:relative, z-index:auto = group 6) so they remain visible;
+     the overlay's 1px ring is at the outermost edge — ≥16px from any interior element */
+.date-picker::after,
+.range-picker::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--date-picker-border-default);
+  border-radius: inherit;
+  box-sizing: border-box;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.date-picker {
+  width: 368px;
+}
+
+.range-picker {
+  width: 936px;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   TIME FILTER SIDEBAR (Range Picker only)
+   Figma: 2397:2152 · 200×432 · padT:20 padL/R:16 padB:2 · gap:8 · right-border
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.time-filter {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 200px;
+  flex-shrink: 0;
+  padding: 20px 16px 2px 16px;         /* O-06: padB=2 asymmetric — Figma spec */
+  gap: 8px;
+  border-right: 1px solid var(--date-picker-border-default);
+  background: var(--date-picker-surface-bg);
+}
+
+/* ↳period-range item (168×36, cr:8, padL:12 padR:8 asymmetric — O-09) */
+.period-range {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 168px;
+  height: 36px;
+  padding: 8px 8px 8px 12px;           /* O-09: padL:12 padR:8 asymmetric — Figma spec */
+  border-radius: var(--radius-8, 8px);
+  cursor: pointer;
+  user-select: none;
+  color: var(--date-picker-text-default);
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--text-style-body-medium-md-font-family);
+  font-weight: var(--text-style-body-medium-md-font-weight);
+  font-size:   var(--text-style-body-medium-md-font-size);
+  line-height: var(--text-style-body-medium-md-line-height);
+  text-align: left;
+  transition:
+    background-color 0.15s ease,
+    color            0.15s ease;
+}
+
+/* SM-05: Hover and Active share surface/bg-hover background — preserved from Figma */
+.period-range:hover:not(:disabled):not([aria-disabled="true"]) {
+  background: var(--date-picker-surface-bg-hover);
+}
+
+.period-range--active,
+.period-range[aria-pressed="true"] {
+  background: var(--date-picker-surface-bg-hover);  /* SM-05: same bg as hover */
+  color: var(--date-picker-text-hover);
+}
+
+.period-range:focus-visible {
+  outline: 2px solid var(--date-picker-surface-bg-active);
+  outline-offset: 2px;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   RANGE PICKER CONTENT AREA (736px)
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.range-picker__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.range-picker__dual-calendar {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  /* DT-D2-A.1: border-bottom removed — divider moved to .calendar-footer border-top.
+     When showFooter=false, CalendarFooter returns null so no border renders. */
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   CALENDAR PANEL (single month view — used in DP and RP)
+   Figma: 368×364 · padding:20px all sides (T/R/B/L=20) · gap:8
+   DT-D2-A.1: paddingBottom corrected from 0→20 (live Figma gate node 2397:2098)
+   Vertical equation (5-week): 20T + 36 header + 8 + 40 weekday + 5×(40+8)−8 + 20B = 364
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.calendar-panel {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 20px;
+  gap: 8px;
+  background: var(--date-picker-surface-bg);
+}
+
+/* RP Panel 1: right border divider between the two months */
+.range-picker .calendar-panel--left {
+  border-right: 1px solid var(--date-picker-border-default);
+}
+
+.range-picker .calendar-panel--right {
+  /* no extra borders — Panel 1's right border is the divider */
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   CALENDAR HEADER (↳date-selector)
+   Figma: 328×36 · FILL width · surface/bg-hover fill · text/default text · cr:8
+   Contains: CompactButton (prev) + month-year heading + CompactButton (next)
+   DT-D2-A.1 live gate (node 3896:326 placed instance):
+     padding=6px all (T=6, R=6, B=6, L=6)
+     itemSpacing=6px between buttons and text label
+     Buttons: 24×24px. Left@x=6, Right@x=298 (in 328px FILL container)
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.calendar-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 36px;
+  padding: 6px;
+  gap: 6px;
+  border-radius: var(--radius-8, 8px);
+  background: var(--date-picker-surface-bg-hover);
+}
+
+.calendar-header__label {
+  flex: 1;
+  text-align: center;
+  color: var(--date-picker-text-default);
+  font-family: var(--text-style-body-medium-md-font-family);
+  font-weight: var(--text-style-body-medium-md-font-weight);
+  font-size:   var(--text-style-body-medium-md-font-size);
+  line-height: var(--text-style-body-medium-md-line-height);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* textAutoResize:HEIGHT set in Figma — allow wrapping if month name overflows (A3.10 O-26) */
+}
+
+/* Nav button wrappers — no extra padding; CompactButton handles its own sizing */
+.calendar-header__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   WEEKDAY LABEL ROW (↳day label × 7)
+   Figma: 328×40, 7 cells at 40×40 · cr:10 on COMPONENT master (R13 resolved)
+   Text: text/day-label (#A3A3A3)
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.weekday-labels {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.weekday-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  /* cr:10 matches --radius-10 (C6 DT-D2.1: replaced hardcoded 10px with token) */
+  border-radius: var(--radius-10, 10px);
+  color: var(--date-picker-text-day-label);
+  font-family: var(--text-style-body-medium-md-font-family);
+  font-weight: var(--text-style-body-medium-md-font-weight);
+  font-size:   var(--text-style-body-medium-md-font-size);
+  line-height: var(--text-style-body-medium-md-line-height);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   CALENDAR GRID
+   Week rows: 328×40 · cr:8 · HORIZONTAL · itemSpacing:8
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.calendar-grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* C8 DT-D2.2: gap:8 confirmed from live Figma gate.
+     Date Picker Items (2397:2098) is VERTICAL with itemSpacing:8 between ALL children,
+     including week rows. The original comment was wrong — the 8px gap applies to rows,
+     not just header→weekdays stacking. Each week row is 40px; gap adds 8px between rows. */
+  gap: 8px;
+}
+
+.calendar-row {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  border-radius: var(--radius-8, 8px);
+  /* Note: itemSpacing:8 from Figma is between CELLS within the row,
+     but cells are fixed 40px and 7×40=280px < 328px. The gap is implicit in
+     the auto-layout FILL sizing. For the web: cells are flex items with FILL
+     → they expand to fill the 328px row (328/7 ≈ 46.86px each). However,
+     Figma shows lsh:FILL for cells → width resolves to 40px per cell in a 328px row
+     with itemSpacing:8 → 7×40 + 6×8 = 328px ✓. Replicate: use gap:8 on the row
+     and 40px flex-shrink:0 width on each cell. */
+  gap: 8px;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   DAY CELL (↳day-cells — 12 Figma variants)
+   Figma: 40×40 · cr:8 (hardcoded on COMPONENT masters — R14 open)
+   States: basic-default, hover, active, disabled, marked (today),
+           range-default, range-hover, range-active, range-disabled,
+           + marked combos
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.day-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  /* cr:8 hardcoded (R14 — no CSS token binding on master nodes) */
+  border-radius: var(--radius-8, 8px);
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  background: var(--date-picker-surface-bg);
+  color: var(--date-picker-text-default);
+  font-family: var(--text-style-body-medium-md-font-family);
+  font-weight: var(--text-style-body-medium-md-font-weight);
+  font-size:   var(--text-style-body-medium-md-font-size);
+  line-height: var(--text-style-body-medium-md-line-height);
+  transition:
+    background-color 0.15s ease,   /* matches Figma DISSOLVE EASE_OUT 0.20s (A3.8.3) */
+    color            0.15s ease;
+}
+
+/* Basic / Hover — Figma: Basic/Hover → surface/bg-hover, text/hover */
+.day-cell:hover:not(.day-cell--disabled):not(.day-cell--range-active):not(.day-cell--active) {
+  background: var(--date-picker-surface-bg-hover);
+  color: var(--date-picker-text-hover);
+}
+
+/* Basic / Active (selected) — Figma 2397:2050 · surface/bg-active, text/active */
+.day-cell--active {
+  background: var(--date-picker-surface-bg-active);
+  color: var(--date-picker-text-active);
+}
+
+/* Basic / Disabled (out-of-month, min/max, explicit) — Figma 2397:2052 */
+.day-cell--disabled {
+  cursor: default;
+  pointer-events: none;
+  color: var(--date-picker-text-disabled);
+  background: var(--date-picker-surface-bg);
+}
+
+/* Basic / Marked (today indicator) — Figma 2397:2054
+   Marked alone = same as Default visually, but with dot */
+.day-cell--marked {
+  /* No fill/text change from Default at this state */
+}
+
+/* Basic / Hover + Marked — Figma 2397:2057
+   F01 (preserved): text uses text/default (#7B7B7B) NOT text/hover — Figma anomaly, do not fix */
+.day-cell--marked:hover:not(.day-cell--disabled):not(.day-cell--active) {
+  background: var(--date-picker-surface-bg-hover);
+  color: var(--date-picker-text-default);  /* F01: intentionally NOT text/hover */
+}
+
+/* Basic / Active + Marked — Figma 2397:2061 */
+.day-cell--marked.day-cell--active {
+  background: var(--date-picker-surface-bg-active);
+  color: var(--date-picker-text-active);
+}
+
+/* Basic / Disabled + Marked — Figma 2397:2064 */
+.day-cell--marked.day-cell--disabled {
+  color: var(--date-picker-text-disabled);
+  background: var(--date-picker-surface-bg);
+}
+
+
+/* C2 DT-D2.2: Marked dot RESTORED from live Figma gate.
+   DT-D2.1 found no "today dot" in the first (Default) variant — that removal stands.
+   DT-D2.2 Figma gate inspected 4 Marked variants (2397:2056 Default+Marked,
+   2397:2059 Hover+Marked, 2397:2063 Active+Marked, 2397:2066 Disabled+Marked)
+   and confirmed a 3×3px ELLIPSE child at x=18.5, y=31 (bottom:6px, centered).
+   Restored as CSS ::after on .day-cell--marked with state-specific token fills.
+
+   Geometry: 3×3px, border-radius:50%, bottom:6px, horizontally centered.
+   Token bindings per state (DT-D2.2 Figma gate):
+     Default+Marked (2397:2056): date-picker/surface/bg-active → --date-picker-surface-bg-active
+     Hover+Marked   (2397:2059): same token as Default
+     Active+Marked  (2397:2063): date-picker/range/bg-selected → --date-picker-range-bg-selected
+     Disabled+Marked(2397:2066): date-picker/surface/disabled  → --date-picker-surface-disabled */
+
+/* Marked dot — Default + Hover states */
+.day-cell--marked::after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: var(--date-picker-surface-bg-active);
+  pointer-events: none;
+}
+
+/* Marked dot — Active+Marked: range/bg-selected token (Figma 2397:2063) */
+.day-cell--marked.day-cell--active::after,
+.day-cell--marked.day-cell--range-active::after {
+  background: var(--date-picker-range-bg-selected);
+}
+
+/* Marked dot — Disabled+Marked: surface/disabled token (Figma 2397:2066) */
+.day-cell--marked.day-cell--disabled::after {
+  background: var(--date-picker-surface-disabled);
+}
+
+
+/* ── Range cell states (Type=Range from Figma) ───────────────────────────────
+   Range/Default:  no fill bg; text = surface/bg-active (SM-06 — preserved from Figma)
+   Range/Hover:    surface/bg-hover bg; text/hover text
+   Range/Active:   surface/bg-active bg; text/active text (range endpoints)
+   Range/Disabled: white bg; text/disabled text
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Range interior (in-range, not endpoint) — Figma Range/Default 2397:2067
+   SM-06 preserved: text fill uses surface/bg-active token */
+.day-cell--range {
+  background: transparent;
+  color: var(--date-picker-surface-bg-active);  /* SM-06: surface token as text fill */
+}
+
+/* Range / Hover — Figma 2397:2069 */
+.day-cell--range:hover:not(.day-cell--range-disabled) {
+  background: var(--date-picker-surface-bg-hover);
+  color: var(--date-picker-text-hover);
+}
+
+/* Range / Active (start or end cap) — Figma 2397:2072 */
+.day-cell--range-active {
+  background: var(--date-picker-surface-bg-active);
+  color: var(--date-picker-text-active);
+}
+
+/* In-progress: first endpoint selected, mouse hovering a potential end date */
+.day-cell--range-preview {
+  background: var(--date-picker-surface-bg-hover);
+  color: var(--date-picker-text-hover);
+}
+
+/* Range / Disabled — Figma 2397:2074 */
+.day-cell--range-disabled {
+  cursor: default;
+  pointer-events: none;
+  color: var(--date-picker-text-disabled);
+  background: var(--date-picker-surface-bg);
+}
+
+/* Focus ring (DP-A2.2-DEC-02: absent from Figma — implemented via system convention)
+   Uses --color-brand-primary as focus color (consistent with other DS components).
+   Applied after all state rules to ensure correct specificity. */
+.day-cell:focus-visible {
+  outline: 2px solid var(--color-brand-primary, #402F97);
+  outline-offset: 2px;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   FOOTER ACTIONS
+   DP: 368×68 · pad:16 all sides · gap:16
+   RP: 736×68 · padT:16 padB:16 padL:24 padR:16 · gap:16 (O-05 asymmetric)
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.calendar-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+  height: 68px;
+  gap: 16px;
+  background: var(--date-picker-surface-bg);
+  /* DT-D2-A.1: border-top is the footer divider separator.
+     Moved from border-bottom on .calendar-panel / .range-picker__dual-calendar
+     so the separator disappears with the footer when showFooter=false
+     (CalendarFooter returns null → no element, no border). */
+  border-top: 1px solid var(--date-picker-border-default);
+}
+
+/* Date Picker footer: pad 16 all sides, 2 × 160px FILL buttons */
+.date-picker .calendar-footer {
+  padding: 16px;
+}
+
+.date-picker .calendar-footer .button {
+  flex: 1;
+  /* Figma: 160×36 FILL — resolved via flex:1 within 368-32=336px content width */
+}
+
+/* Range Picker footer: padL:24 (O-05), buttons 108px FIXED each */
+.range-picker .calendar-footer {
+  padding: 16px 16px 16px 24px;        /* O-05: padL=24 asymmetric */
+}
+
+.range-picker .calendar-footer .button {
+  flex: none;
+  /* Figma: 108×36 FIXED */
+}
+
+/* Range summary label — 448×20, FILL, two-segment text (A3.4.3, A3.6.2) */
+.calendar-footer__range-label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--text-style-body-medium-md-font-family);
+  font-size:   var(--text-style-body-medium-md-font-size);
+  line-height: var(--text-style-body-medium-md-line-height);
+  white-space: nowrap;
+}
+
+/* Segment 0: "Range: " — Regular 400 weight, text/range-label (#7B7B7B) */
+.calendar-footer__range-label-prefix {
+  font-weight: var(--text-style-body-regular-md-font-weight, 400);
+  color: var(--date-picker-text-range-label);
+}
+
+/* Segment 1: date value — SemiBold 600, text/range-value (#1C1C1C) */
+.calendar-footer__range-label-value {
+  font-weight: var(--text-style-body-medium-md-font-weight);
+  color: var(--date-picker-text-range-value);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   EMPTY / HIDDEN STATES
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* showFooter=false → CalendarFooter returns null (DT-D2-A.1: conditional rendering).
+   The .calendar-footer--hidden class is no longer used. */
+
+/* showTimeFilter=false hides the time filter sidebar */
+.time-filter--hidden {
+  display: none;
+}
+
+/* C3 DT-D2.1: .day-cell--empty REMOVED.
+   Figma renders overflow (prev/next month) dates as VISIBLE disabled cells, not hidden filler.
+   isOverflow=true cells now receive day-cell--disabled styling and render their day number.
+   The .day-cell--empty class is no longer used or generated by the component. */
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   FORCED COLORS (Windows High Contrast mode)
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+@media (forced-colors: active) {
+  .day-cell,
+  .period-range {
+    forced-color-adjust: none;
+  }
+
+  .day-cell--active,
+  .day-cell--range-active {
+    outline: 2px solid ButtonText;
+  }
+
+  .day-cell--disabled,
+  .day-cell--range-disabled {
+    color: GrayText;
+  }
+
+  .calendar-footer .button {
+    border: 1px solid ButtonText;
+  }
+}
